@@ -1,0 +1,350 @@
+See discussions, st ats, and author pr ofiles f or this public ation at : https://www .researchgate.ne t/public ation/3329270
+Low-noise MEMS vibration sensor for geophysical applications
+Article    in  Journal of Micr oelectr omechanic al Syst ems  · Januar y 2000
+DOI: 10.1109/84.809058  · Sour ce: IEEE Xplor e
+CITATIONS
+132READS
+701
+4 author s, including:
+Some o f the author s of this public ation ar e also w orking on these r elat ed pr ojects:
+DARP A N- Zero View pr oject
+Epo xy curing char acterization  View pr oject
+Jonathan Bernst ein
+Draper Labor atory
+66 PUBLICA TIONS    1,973  CITATIONS    
+SEE PROFILE
+Raanan Miller
+Massachuse tts Instit ute of T echnolog y
+66 PUBLICA TIONS    3,326  CITATIONS    
+SEE PROFILE
+All c ontent f ollo wing this p age was uplo aded b y Jonathan Bernst ein on 10 F ebruar y 2015.
+The user has r equest ed enhanc ement of the do wnlo aded file.JOURNAL OF MICROELECTROMECHANICAL SYSTEMS, VOL. 8, NO. 4, DECEMBER 1999 433
+Low-Noise MEMS Vibration Sensor
+for Geophysical Applications
+Jonathan Bernstein, Member, IEEE, Raanan Miller, William Kelley, and Paul Ward, Member, IEEE
+Abstract— The need exists for high-sensitivity, low-noise vibra-
+tion sensors for various applications, such as geophysical datacollection, tracking vehicles, intrusion detectors, and underwaterpressure gradient detection. In general, these sensors differ fromclassical accelerometers in that they require no direct currentresponse, but must have a very low noise ﬂoor over a requiredbandwidth. Theory indicates a capacitive micromachined sili-con vibration sensor can have a noise ﬂoor on the order of100 ng/
+/112
+/72/122over 1-kHz bandwidth, while reducing size and
+weight tenfold compared to existing magnetic geophones. Withearly prototypes, we have demonstrated Brownian-limited noise
+ﬂoor at 1.0
+/22g//112
+/72/122 /59orders of magnitude more sensitive than
+surface micromachined devices such as the industry standardADXL05. [376]
+Index Terms— Acceleration measurement, capacitance trans-
+ducers, geophysical measurements, microelectromechanical de-vices, micromachining.
+I. INTRODUCTION
+AVIBRATION sensor can be thought of as a very high-
+sensitivity accelerometer with no direct current (dc)
+output requirement. With no drift or bias stability speci-ﬁcations, the design can be optimized to give the lowest
+noise ﬂoor. Applications for these devices include geophysical
+sensing, machinery vibration and failure prediction, trackingand identiﬁcation of vehicles or personnel, and underwaterpressure gradient sensing.
+Traditional vibration sensors using permanent magnets and
+ﬁne wire coils are called geophones,
+1which measure veloc-
+ityabove the fundamental resonance. This is in contrast to
+capacitive accelerometers that measure acceleration below
+their fundamental resonance. Piezoelectric and ferroelectric
+accelerometers are also used for these applications. Micro-machined sensors can offer size and weight advantages overtraditional sensors.
+Previous efforts to make micromachined high-resolution
+vibration sensors or accelerometers have included capacitive[1]–[3], tunneling [4], [5], piezoresistive, optical, and piezo-
+electric sensors. Capacitive sensors have the advantage of no
+exotic materials, low noise, and compatibility with CMOSreadout electronics. Tunneling sensors have a low noise ﬂoor,
+Manuscript received August 8, 1998; revised June 14, 1999. This paper
+was presented in part at the Transducers Research Foundation Hilton Head
+Workshop on Solid-State Sensor and Actuators, Hilton Head, SC, 1998.
+Subject Editor, S. Tabata.
+The authors are with the Charles Stark Draper Laboratory, Cambridge, MA
+02139-3563 USA
+Publisher Item Identiﬁer S 1057-7157(99)09609-2.
+1Geospace, Inc., GS-14 geophone, Houston, TX 77040 USA.but due to the small allowable displacement at the tip require a
+very stiff feedback loop, which reduces the useful bandwidth
+and dynamic range.
+II. THEORY
+Thesensor ismodeledas aspring-mass-dampersystemwith
+capacitive pickoff. Because no dc output is required, it was
+decided forinitial teststo build a single-capacitor sensor ratherthan a differential capacitor design. Noise sources modeledinclude Brownian mechanical noise from air damping and
+electronic noise from the readout circuit [6].
+The Brownian force is
+Hz[6], which
+causes Brownian motion of the proof mass
+mHz (1)
+where is the damping coefﬁcient of the proof mass
+supported by spring constant Solving for the acceleration
+which generates the same motion and substituting
+and m/sgives for
+Brownian equivalent acceleration noise in g/ Hz
+gHz(2)
+From (2), we see that a large mass and high (low
+damping) are helpful to achieve a low noise ﬂoor. To achievea large mass in a micromachined sensor, one typically uses awafer-thick proof mass carved from the sensor chip.
+In order to use a sensor with a high
+, it must be force-
+rebalanced to prevent ringing at the resonant frequency. Inthe work presented here, the sensors are overdamped, with a
+of about 0.3. A vacuum package is typically necessary to
+achieve very high 10000).
+The sensitivity of the device is calculated for the simple
+case of a dc bias voltage with a high-input impedance bufferampliﬁer. A bias voltage of
+the snap-down voltage
+is assumed. The sensitivity at low frequency is the
+volts/meter in the sense gap times the meters/g of the proofmass well below resonance
+V/g (3)
+The snap-down voltage is where
+is the capacitor sense gap and is the capacitor area.
+1057–7157/99$10.00 1999 IEEE434 JOURNAL OF MICROELECTROMECHANICAL SYSTEMS, VOL. 8, NO. 4, DECEMBER 1999
+Fig. 1. Total noise in decibels referenced to 1 g//112
+Hz /59as a function of /81
+and front-end electrical noise.
+Substituting for the mass andgives for sensitivity
+V/g (4)
+whereis the proof mass thickness, and is the density
+of silicon. From this, we see that sensitivity is inverselyproportional to the fundamental resonant frequency.
+We consider also an electronic readout noise component,
+which has (in general) equivalent input current noise and
+voltagenoise components.Thetotalequivalentfront-endnoiseis called
+This voltage noise can be converted to an equiv-
+alent acceleration noise in ’s by dividing by the transducer
+sensitivity in volts per gram (V/g)
+gHz (5)
+The total noise is the rms combination of electrical and
+Brownian contributions
+g/Hz (6)
+Voltage noise for a low-noise CMOS front end is typically
+in the 5–10-nV/ Hz range above the corner. Lower
+noise can be obtained, but at the cost of increased currentconsumption.
+To achieve a noise level of 10 ng, a vacuum package must
+be used to reduce Brownian motion noise.
+Fig. 1 is a contour map of combined g-equivalent noise as
+a function of electrical noise (1 nV to 100 nV/
+Hzand(1
+to 10The decibel scale on the map is decibels referenced
+to 1 g/Hzhence g/Hz corresponds to 160 dB. To
+achieve a noise level of 10 ng/ Hz requires a of 3000
+and a front-end equivalent noise of under 2 nV/ HzFor this
+calculation, the silicon proof mass is assumed to be 4 mm
+4m m 0.38 mm with a resonant frequency of 1 kHz.
+Table I lists the design goals for the three resonant frequen-
+cies of the fabricated devices.
+III. ELECTRONICS DESIGN
+To evaluate the vibration sensor prototypes, two types of
+electronics were used: an open-gate JFET source followerand a custom CMOS application-speciﬁed integrated circuitTABLE I
+DESIGNGOALS FOR MICROMACHINED VIBRATION SENSOR
+Fig. 2. Open-gate JFET buffer circuit.
+(ASIC) fabricated at Orbit Semiconductor.2The JFET buffer
+allowed quick, reasonably low noise measurements to be
+made with a very compact circuit (inside the sensor package),
+although and current noise are high at low frequencies.
+The ASIC uses a carrier to reduce noise, resulting in
+better low-frequency performance.
+Fig. 2 shows the open-gate JFET buffer circuit used. This
+circuit has a dc input impedance of several teraohms, whichcombined with a typical sensor capacitance of 50 pF gives anRCtime constant of several minutes. To speed the approach
+to the stable bias point, it was sometimes necessary to shine
+light in the package. The light temporarily increases the JFETleakage current, thereby decreasing the impedance of the gatenode. This reset technique is sometimes used with nuclear
+particle counters to reset a critical node without adding stray
+capacitance and leakage current.
+A custom CMOS mixed signal ASIC was designed in-house
+and fabricated at Orbit Semiconductor. The design implements
+synchronous modulation/demodulation using square waves
+and a novel radio frequency (RF) rebalance technique. Theblock diagram of the system is shown in Fig. 3. The circuitrebalances the proof mass below the frequency range of
+interest, while allowing higher frequency vibrations to move
+the proof mass open-loop.
+Equal andopposite 100-kHz square wavesare appliedto the
+sensor and a reference capacitor. Vibrations cause a mismatch
+between the ﬁxed capacitor and the time-varying sensor. The
+charge ampliﬁer converts the capacitance mismatch into anoutput voltage which is then ampliﬁed by the alternatingcurrent (ac) gain stage.
+2Orbit Semiconductor, Inc., Sunnyvale, CA, USA.BERNSTEIN et al.: LOW-NOISE MEMS VIBRATION SENSOR 435
+Fig. 3. CMOS ASIC block diagram.
+The resulting vibration signal is amplitude modulated on a
+100-kHz square wave carrier. The ampliﬁer stages process thissignal at 100 kHz to avoid
+noise in the CMOS transistors.
+The vibration signal is demodulated after ac ampliﬁcation to
+recover the vibration signal. The output of the demodulator
+is an error signal representing an acceleration or capacitancemismatch between the sensor and the reference capacitor. Thehigh frequency part of this signal is passed to an external low-
+noise ampliﬁer. The low frequency part is integrated, inverted,
+and low-pass ﬁltered to create the low and high carrier rails.The difference between the low and high rails represents thelow-frequency feedback used to force the sensor capacitance
+back to the reference capacitor value. The modulator has three
+inputs, the low and high rails, and the clock signal. The outputof this modulator is switched between the high and low rails
+to create a variable amplitude square wave carrier, which is
+applied to the sense capacitor. The square wave is inverted todrive the reference capacitor.
+Application of ac voltage to the sensor applies a force pro-
+portional to the square of the applied voltage amplitude. The
+integral rebalance controller adjusts the carrier amplitude andtunes the time average sensor capacitance to match the ﬁxedreference capacitor. Under open loop operation, maximum g’s
+are determined when the proof mass moves about 10% of
+the sense gap. Closed-loop maximum g’s are determined bythe maximum available rebalance voltage, which is typicallylimited to some fraction of snap-down voltage.
+The bandwidth of the rebalance loop is adjustable and was
+selected to be low
+1 Hz). The rebalance loop nulls dc and
+sub 1-Hz accelerations maintaining signal null with changes intemperature and sensor orientation. This allows high gain for
+ac signals and avoids saturation of the 5-V CMOS electronics.
+Vibrations above 1 Hz are not rebalanced and are sensedopen-loop from the demodulator output.
+IV. S
+ENSORFABRICATION
+The sensors are fabricated on 0.38-mm-thick double-side
+polished wafers using the Bosch process in a surface tech-nology systems (STS) etcher. A recess 3-
+m deep is etched
+into the wafer to deﬁne anchors and create the sense gap. 30-
+m-deep damping-relief trenches are then etched to reduce
+squeeze-ﬁlm damping. A 10- m-thick boron diffusion is used
+to create an etch stop layer on both faces of the wafer. After
+electrostatic bonding to a glass wafer with readout electrodes,
+the STS etcher is used to trench through the wafer. A briefanisotropic etch then undercuts the springs.
+Fig. 4. Vibration sensor structure etched through the wafer (380 /22m), before
+anisotropic etch.
+Fig. 5. Corner of device showing electrodes and damping-reduction
+trenches.
+Fig. 6. Vibration sensor after anisotropic etching, leaving thin boron-dopedﬂexures supporting large proof mass.
+Figs. 4 and 5 show a sensor chip after the deep inductively
+coupled plasma etch and before the anisotropic etch. A centralproof mass is supported by springs attached to four anchors on
+a glass substrate. Damping-relief trenches are visible in Fig. 5
+facing the glass substrate. Fig. 6 shows a completed prototypesensor.436 JOURNAL OF MICROELECTROMECHANICAL SYSTEMS, VOL. 8, NO. 4, DECEMBER 1999
+TABLE II
+TESTRESULTS FROM CMOS ASIC/V IBRATION SENSORINTEGRATION
+Fig. 7.CVcurve. Capacitance varies 17 pF (22%) at 4-V bias.
+Fig. 8. Frequency response of 3 mm /23 mm device, design resonance at
+1 kHz, /81 /61/48 /58 /51 /58
+Devices were designed and fabricated with three proof
+mass sizes (3 mm 4m mand 5 mm ) and three resonant
+frequencies (500 Hz, 1 kHz, and 10 kHz) to cover various
+applications. Kovar ﬂat-packs were used to house the sensorswith internal (JFET) preamp or external (custom CMOSbuffer) readout circuit.
+V. T
+ESTRESULTS
+Chipleveltestingincludes capacitance–voltage(CV) curves
+(Fig. 7) and current–voltage curves to measure leakage resis-
+tance (typically greater than 1 T ). Frequency response with
+the open-gate JFET buffer is shown in Fig. 8. A sensitivity
+Fig. 9. Plot of acceleration noise in g//112
+Hz using source-follower buffer
+circuit. Device is same as Fig. 8.
+Fig. 10. Baseband versus synchronous modulation/demodulation noise with
+Orbit CMOS ASIC readout chip.
+of 42 mV/g was obtained at a bias voltage of 3.7 V. The
+noise ﬂoor (measured on a vibration isolated platform) was1.5
+g/Hz (Fig. 9), limited by Brownian noise for this over-
+damped device. A battery powered low-noise pre-amp using
+OP 37 op-amps was necessary to lift the signal level above
+the noise ﬂoor of the HP 3563A dynamic signal analyzer fornoise measurements.
+Fig. 10 shows the advantage of the RF carrier readout
+chip over a baseband CMOS readout. Orders of magnitude
+reduction in
+noise are achieved at low frequencies using
+this ASIC.BERNSTEIN et al.: LOW-NOISE MEMS VIBRATION SENSOR 437
+TABLE III
+VIBRATION SENSOR/ACCELEROMETER SURVEY
+Table II summarizes test results using the CMOS ASIC,
+including electrical noise, ac gain, theoretical noise, and mea-
+sured noise ﬂoor. A noise ﬂoor of 1.0 g/Hz was achieved
+with a 1-kHz nominal device, limited by Brownian noise.The predicted electrical noise ﬂoor was only 0.12
+g/Hz
+for this device. An electrical noise power spectral density of
+0.4g/Hz was measured with the bias voltage turned down
+to zero, which removes the Brownian motion component. Thehigher measured noise is due to higher than expected dampingand electrical voltage noise.
+VI. D
+ISCUSSION AND CONCLUSIONS
+Table III is a summary of commercial off-the-shelf (COTS)
+and research vibration sensors about which information was
+available. For each device, the bandwidth (BW), noise ﬂoor(NF), and aﬁgure of merit (FOM) aregiven (FOM
+BW/NF).
+This FOM is independent of the BW for a given family
+of capacitive sensors, given constant electrical noise and the
+relations between BW, sensitivity, and maximum bias voltage(which is a ﬁxed fraction of the snap-down voltage). One cansee from the table that the theoretical performance is 30 times
+better than that of the best experimental devices, which are in
+turn orders of magnitude better than current COTS devices.One can conclude that future devices will push down the
+noise ﬂoor to well under 0.1
+g/Hz with a 1-kHz sensing
+bandwidth. At this sensitivity, they could replace geophonesin some applications.
+In conclusion, a bulk micromachined vibration sensor has
+been fabricated and tested with a novel, custom CMOS ASIC,
+which removes
+noise while requiring only a single sense
+capacitor and one dummy capacitor. Vibration noise as low as1.5
+g/Hz was achieved with a JFET buffered sensor and
+1g/Hz using a custom CMOS ASIC. Theory indicates that
+orders of magnitude improvements can be made over industrystandard COTS sensor in both bandwidth and noise ﬂoor bythe use of wafer-thick bulk micromachining technology with
+3Centre Suisse d’Electronique et de Microtechnique SA (CSEM).optimized low-noise electronics. These sensors will be usefulfor geophysical work, machinery monitoring, and sensing ofvehicles and people.
+A
+CKNOWLEDGMENT
+The authors would like to thank the Charles Stark Draper
+Laboratory for supporting this work.
+REFERENCES
+[1] W.Henrion,L.DiSanza,M.Ip,S.Terry,andH.Jerman,“Widedynamic
+rangedirectdigitalaccelerometer,”in Tech.Dig.1990Solid-StateSensor
+and Actuator Workshop , Hilton Head Island, SC, June 4–7, 1990, pp.
+153–157.
+[2] K. Bult, A. Burstein, and D. Chang, “Wireless integrated microsensors,”
+inProc. 1996 Hilton Head Solid State Sensor and Actuator Conf. , 1996,
+pp. 205–210.
+[3] M. Lemkin etal., “A 3-axis force balanced accelerometer using a single
+proof mass,” in Proc. 9th Int. Conf. Solid-State Sensors and Actuators-
+Transducers ’97 , Chicago IL, June 1977, pp. 1185–1188.
+[4] C. H. Liu, J. D. Grade, A. M. Barzilai, K. K. Reynolds, A. Partridge,
+J. J. K. Rockstad, and T. W. Kenney, “Characterization of a highly
+sensitive tunneling accelerometer,” in Transducers’97Tech. Dig. , 1997,
+pp. 471–472, paper 2B3.07.
+[5] H. K. Rockalnd, T. W. Kenny, P. Kelley, and T. Gabrielson, “A micro-
+fabricated electron-tunneling accelerometer as a directional underwater
+acoustic sensor,” in Proc. Acoustic Particle Velocity Sensors: Design,
+Performance, and Applications , 1996, pp. 57–68.
+[6] T. B. Gabrielson, “Mechanical-thermal noise in micromachined acoustic
+and vibration sensors,” IEEE Trans. Electron Devices , vol. 40, pp.
+903–909.
+Jonathan Bernstein (S’80–M’82) received the
+B.S.E.E. degree with honors in engineering-physicsfrom Princeton University, Princeton, NJ, and the
+M.S.E.E. and Ph.D. degrees from the University
+of California at Berkeley. In addition, he received
+National Science Foundation and Hertz Foundation
+graduate fellowships.
+Currently, he is with the Charles Stark Draper
+Laboratory, Cambridge, MA, as the Task Leaderformicromechanicalacousticsensors(hydrophones,
+microphone, and vibration sensors), accelerometers,
+and advanced micromachined tuning-fork gyroscopes, in which capacity he
+has designed, analyzed, and fabricated these transducers. He is responsible
+for the process development for silicon monolithic sensors, including
+single crystal silicon, polysilicon, PZT-on-Si, and electroformed metal
+microstructures. He has also carried out process development to combine
+on-chip JFET circuitry with these micromechanical sensors and PZT-on-
+Silicon technology.
+Dr. Bernstein has received Draper’s Distinguished Performance Award,
+Best Invention Award (twice), and Best Publication Award.
+Raanan Miller received the Ph.D. degree in elec-
+trical engineering from the California Institute of
+Technology (Caltech), Pasadena, CA, in 1997
+Currently, he is with the Charles Stark Draper
+Laboratory, Cambridge, MA, as a Senior Mem-
+ber of the Technical Staff in the micromechanical
+group. He is involved in process development fornext-generation MEMS gyroscopes and accelerom-
+eters. In addition, he has designed, fabricated, and
+tested a micromachined ﬁeld asymmetric ion mobil-
+ity (FAIM) spectrometer for chemical warfare agent
+detection.438 JOURNAL OF MICROELECTROMECHANICAL SYSTEMS, VOL. 8, NO. 4, DECEMBER 1999
+William Kelley received the B.S.E.E. degree ( cum
+laude) from Northeastern University, Boston, MA,
+in 1991
+Currently, he is with the Charles Stark Draper
+Laboratory, Cambridge, MA, as a Senior Engineer
+in the microelectronics group. He is the co-creatoron two patents: RF Balanced Capacitive Vibra-
+tion Sensor System and Micromechanical Pressure
+Gauge having Extended Sensor Range.
+Mr. Kelley has received two Draper awards as
+a member of the ASIC design team for First-Pass
+Success. In addition, he has received an Outstanding Performance Award for
+contributions to the development of the micromechanical gyro.
+PaulWard (S’83–M’85)receivedtheB.S.andM.S.
+degrees in electrical engineering from Northeastern
+University, Boston, MA.
+In 1985, he joined the Charles Stark Draper
+Laboratory, Cambridge, MA, where he is currently
+a Principal Engineer and Microelectronics GroupLeader. He is the principal engineer for Draper’s
+micromachined gyroscope and accelerometer elec-
+tronics, including application-speciﬁc integrated cir-
+cuits (ASIC’s). He has been the principal electrical
+engineer for many challenging projects, including
+ppm-level radiation test systems, electron-spin and nuclear-magnetic reso-
+nance precision signal references, resonator and interferometer ﬁber-opticgyroscopes, and most recently, micromechanical instrument electronics. He
+holds 11 U.S. patents, has many patents pending, and has co-authored
+numerous papers.
+Mr. Ward is a member of Eta Kappa Nu and ARRL. He received the
+1994 Draper Distinguished Performance Award along with others for their
+work on the micromechanical gyroscope and electronics and the 1997 Draper
+Distinguished Performance Award for his work on a commercially viable
+yaw rate sensor instrument. In addition, he has received numerous Draper
+Recognition Awards, as well as the 1996, 1997, and 1998 Best TechnicalPatent Awards.
+View publication stats

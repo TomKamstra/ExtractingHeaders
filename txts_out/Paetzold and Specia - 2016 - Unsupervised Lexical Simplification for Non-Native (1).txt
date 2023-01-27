@@ -1,0 +1,440 @@
+Unsupervised Lexical Simpliﬁcation for Non-Native Speakers
+Gustavo H. Paetzold and Lucia Specia
+University of Shefﬁeld
+Western Bank, South Yorkshire S10 2TN
+Shefﬁeld, United Kingdom
+Abstract
+Lexical Simpliﬁcation is the task of replacing com-
+plex words with simpler alternatives. We propose a
+novel, unsupervised approach for the task. It relies ontwo resources: a corpus of subtitles and a new type of
+word embeddings model that accounts for the ambigu-
+ity of words. We compare the performance of our ap-proach and many others over a new evaluation dataset,
+which accounts for the simpliﬁcation needs of 400 non-
+native English speakers. The experiments show that ourapproach outperforms state-of-the-art work in Lexical
+Simpliﬁcation.
+1 Introduction
+V ocabulary acquisition is a process inherent to human lan-
+guage learning that determines the rate at which an individ-ual becomes familiarised with the lexicon of a given lan-guage. Word recognition, however, is described as a seriesof linguistic sub-processes that establishes one’s capabil-ity of identifying and comprehending individual words ina text. It has been shown that individuals with low-literacylevels or who suffer from certain clinical conditions, suchas Dyslexia (Ellis 2014), Aphasia (Devlin and Tait 1998)and some forms of Autism (Barbu et al. 2015), can face im-pairments in either or both processes, often hindering themincapable of recognising and/or understanding the meaningof texts. Impairments that cause the narrowing of one’s vo-cabulary can be severely crippling: the results obtained by(Hirsh, Nation, and others 1992) show that one must be fa-miliar with at least 95% of the vocabulary of a text in order
+to understand it, and 98% to read it for leisure.
+Lexical Simpliﬁcation (LS) aims to address this problem
+by replacing words that may challenge a certain target au-
+dience with simpler alternatives. It was ﬁrst introduced in
+the work of (Devlin and Tait 1998), who inspired further re-search. The biggest challenge in LS is performing replace-ments without compromising the grammaticality or chang-ing the meaning of the sentence being simpliﬁed.
+Most strategies in the literature take LS as the series of
+cognitive processes illustrated by the pipeline in Figure 1.By following this model, the performance of LS systems
+Copyright c/circlecopyrt2016, Association for the Advancement of Artiﬁcial
+Intelligence (www.aaai.org). All rights reserved.
+Figure 1: Lexical Simpliﬁcation Pipeline
+has considerably increased in recent years. The approach of(Horn, Manduca, and Kauchak 2014) offers an improvementof62.9% in accuracy over the earlier work of (Biran, Brody,
+and Elhadad 2011). However, most recent work is limited toexploiting linguistic resources that are scarce and/or expen-sive to produce, such as WordNets and Simple Wikipedia.In this paper, we describe an LS approach that focuses onthe simpliﬁcation needs of non-native English speakers. We
+propose an unsupervised strategy for Substitution Genera-
+tion, Selection and Ranking. Instead of relying on complexand expensive resources, our approach uses a new context-aware model for word embeddings, which can be easilytrained over large corpora, as well as n-gram frequencies ex-tracted from a corpus of movie subtitles. We also introduce anew domain-speciﬁc dataset for the task, which accounts forthe simpliﬁcation needs of non-native English speakers. Weevaluate the performance of our approaches for each step ofthe pipeline both individually and jointly, comparing them
+to several other approaches in the literature.
+2 Complex Word Identiﬁcation
+Complex Word Identiﬁcation (CWI) is the task of deter-
+mining which words in a text should be simpliﬁed, giventhe needs of a certain target audience. It is commonly per-formed before any simpliﬁcation occurs, and aims to pre-
+vent an LS system from making unnecessary substitutions.Most existing work, however, do not provide an explicit so-lution to CWI, and instead model it implicitly (Biran, Brody,and Elhadad 2011; Horn, Manduca, and Kauchak 2014;
+Glava ˇs and ˇStajner 2015). In order to address CWI and still
+be able to compare our LS approach to others, we have cho-Proceedings of the Thirtieth AAAI Conference on Artificial Intelligence (AAAI-16)
+3761sen to create a dataset that accounts for the simpliﬁcation
+needs of non-native English speakers.
+In previous work focusing on the evaluation of LS sys-
+tems, (De Belder and Moens 2012) and (Horn, Manduca,and Kauchak 2014) introduce the LSeval and LexMTurkdatasets. The instances in both datasets, 930total, are com-
+posed of a sentence, a target word, and candidate substi-tutions ranked by simplicity. Using different metrics, oneis able to evaluate each step of the LS pipeline over thesedatasets. There is, however, no way of knowing the proﬁleof the annotators who produced these datasets. In both ofthem, the candidate substitutions were suggested and rankedby English speakers from the U.S., who are unlikely to benon-native speakers of English in their majority. This lim-itation renders these datasets unsuitable for the evaluationof our approach because i) the target words used may notbe considered complex by non-native speakers ii) the can-didate substitutions suggested may be deemed complex bynon-native speakers. In order to reuse these resources andcreate a more reliable dataset, we have conducted a userstudy to learn more about word complexity for non-nativespeakers.
+2.1 A User Study on Word Complexity
+400 non-native speakers participated in the experiment,
+all university students or staff. They were asked to judgewhether or not they could understand the meaning of eachcontent word (nouns, verbs, adjectives and adverbs, astagged by Freeling (Padr and Stanilovsky 2012)) in a set ofsentences, each of which was judged independently. V olun-teers were instructed to annotate all words that they couldnot understand individually, even if they could comprehendthe meaning of the sentence as a whole.
+All sentences used were taken from Wikipedia, LSeval
+and LexMTurk. A total of 35,958distinct words from 9,200
+sentences were annotated (232, 481total), of which 3,854
+distinct words (6, 388total) were deemed as complex by at
+least one annotator.
+2.2 A Dataset for Lexical Simpliﬁcation
+Using the data produced in the user study, we ﬁrst assessedreliability of the LSeval and LexMTurk datasets in evaluat-ing LS systems for non-native speakers. We found that theproportion of target words deemed complex by at least one
+annotator was only 30.8% for LexMTurk, and 15% for LSe-
+val. As for the candidate substitutions, 21.7% of the ones in
+LSeval and 13.4% in LexMTurk were deemed complex by
+at least one annotator.
+These results show that, although they may not be used
+in their entirety, both datasets contain instances that are suit-
+able for our purposes. To create our dataset, we ﬁrst used the
+Text Adorning module of LEXenstein (Paetzold and Specia
+2015; Burns 2013) to inﬂect all candidate verbs and nounsin both datasets to the same tense as the target word. We
+then used the Spelling Correction module of LEXenstein to
+correct any misspelled words among the candidates of bothdatasets. Next, we removed all candidate substitutes whichwere deemed complex by at least one annotator in our userstudy. Finally, we discarded all instances in which the tar-
+get word was not deemed complex by any of our annotators.The resulting dataset, which we refer to as NNSeval, con-tains 239instances.
+3 Substitution Generation
+The goal of Substitution Generation (SG) is to generate can-didate substitutions for complex words. Most LS approachesin the literature do so by extracting synonyms, hyper-nyms and paraphrases from thesauri (Devlin and Tait 1998;De Belder and Moens 2010; Bott et al. 2012). The generatorsdescribed in (Paetzold and Specia 2013; Paetzold 2013) and(Horn, Manduca, and Kauchak 2014) do not use thesauri, butinstead extract candidate substitutions from aligned parallelsentences from Wikipedia in Simple Wikipedia. Althoughparallel corpora can be produced automatically, they still of-fer limited coverage of complex words, and can thus limitthe potential of a simpliﬁer.
+The recent work of (Glava ˇs and ˇStajner 2015) aims to ad-
+dress these limitations by exploiting word embedding mod-
+els (Mikolov et al. 2013), which require only large corpora tobe produced. Given a target word, they extract the 10words
+from the model for which the embedding vectors have the
+highest cosine similarity to the one of the complex word it-self. Traditional embedding models suffer, however, from avery severe limitation: they do not accommodate ambiguouswords’ meanings. In other words, all possible meanings of aword are represented by a single numerical vector. We pro-pose a new type of embeddings model that addresses this
+limitation.
+3.1 Context-Aware Word Embedding Models
+In order to learn context-aware word embeddings, we resortto annotating the training corpus from which the model islearned. If one is able to assign a sense label to all words inthe training corpus, then a distinct numerical vector wouldbe assigned to each sense of a word. But as shown by
+(Navigli 2009), state-of-the-art Word Sense Disambiguation
+(WSD) systems make mistakes more than 25% of the time,
+are language dependent and can be quite slow to run. Con-
+sidering that the training corpora used often contain billionsof words, this strategy becomes impractical.
+We instead compromise by using Part-Of-Speech (POS)
+tags as surrogates for sense labels. Although they do not con-vey the same degree of information, they account for someof the ambiguity inherent to words which can take multi-ple grammatical forms. Annotating the corpus with raw POStags in Treebank format (Marcus, Marcinkiewicz, and San-torini 1993), however, could introduce a lot of sparsity toour model, since it would generate a different tag for eachinﬂection of nouns and verbs, for example. To avoid spar-sity, we generalise all tags related to nouns, verbs, adjectivesand adverbs to N, V , J and R, respectively.
+Once the words in the training corpus are annotated with
+their generalised POS tags, the model can be trained withany tool available, such as word2vec
+1or GloVe2.
+1https://code.google.com/p/word2vec/
+2http://nlp.stanford.edu/projects/glove/
+37623.2 Candidate Generation Algorithm
+Given a target word in a sentence, its POS tag, and a context-
+aware embeddings model, our generator extracts as candi-dates the nwords in the model with the shortest cosine dis-
+tance from the target word that satisfy the following con-
+straints:
+1. The word must share the same POS tag as the target word.
+2. The word must not be a morphological variant of the tar-
+get word.
+These constraints are designed to ﬁlter ungrammatical and
+spurious candidate substitutions. In order to ﬁnd whether or
+not a candidate is a morphological variant of the target word,use extract their stem and lemma using the Text Adorningmodule of LEXenstein, and verify if any of them are identi-cal.
+4 Substitution Selection
+The step of Substitution Selection (SS) is responsible fordeciding which of the generated substitutions can replacea target word in a given context. While some of existing
+work employs WSD strategies to address this task explic-
+itly (Nunes et al. 2013; Baeza-Yates, Rello, and Dembowski2015), others choose to address it implicitly, by joint model-ing SS and Substitution Ranking (SR) (Horn, Manduca, and
+Kauchak 2014; Glava ˇs and ˇStajner 2015).
+As discussed in the previous Section, WSD systems of-
+ten suffer from low accuracy, and can hence compromise
+the performance of a simpliﬁer. Most of them also dependon the synonym relations of a thesauri to work, which canseverely compromise the potential of the substitution gener-ator being applicable. If the generator produces a candidatethat is not registered in the thesauri, it will not able to decidewhether or not it is a synonym of a target complex word,which would force the candidate to be discarded. Althoughthe results reported by (Horn, Manduca, and Kauchak 2014)
+and (Glava ˇs and ˇStajner 2015) show that joint modeling se-
+lection and ranking can be a viable solution, we believe that
+it can limit the performance of an LS approach.
+We hypothesize that a dedicated SS approach would more
+efﬁciently capture the intricacies of grammaticality andmeaning preservation, and consequently allow for the nextstep to model word simplicity more effectively. We hencetake SS as a ranking task itself, and assume that all candi-dates have a likelihood of ﬁtting the context in which a target
+word is placed. In order to propose an unsupervised setup forthe task, we ﬁrst introduce the technique of Boundary Rank-ing.
+4.1 Boundary Ranking
+The goal of a boundary ranker is to, given a set of exampleranking instances and a feature space, learn the direction inwhich the ranking property grows on the feature space pro-vided. To do so, a decision boundary must be learned from a
+binary classiﬁcation setup inferred from the ranking exam-
+ples. Consider Example 1, in which four words are rankedby simplicity.1:sat,2:rested, 3:roosted, 4:perched (1)
+A boundary ranker will produce binary classiﬁcation
+training instances from the example above based on a param-eterp, which determines the maximum positive ranking po-
+sition. If p=2, then satand rested will receive label 1, while
+the remaining words will receive label 0. Once this process
+is applied to all example rankings available, any linear ornon-linear model can be ﬁtted to the data in order to learn adecision boundary between positive and negative examples.Finally, an unseen set of words can be ranked according totheir distance from the boundary: the furthest they are fromthe negative portion of the data, the higher their ranking.
+But notice that Boundary Ranking is an inherently super-
+vised approach: it learns a model from ranking examples. Inorder to train a selector in an unsupervised fashion, we resortto the Robbins-Sturgeon hypothesis.
+4.2 The Robbins-Sturgeon Hypothesis
+In Jitterbug Perfume (Robbins 2003), author Tom Robbinsstates that “There are no such things as synonyms! He prac-tically shouted. Deluge is not the same as ﬂood”. A simi-lar statement was made by Theodore Sturgeon, another ac-claimed book author, during an interview: “Here’s the pointto be made - there are no synonyms. There are no two wordsthat mean exactly the same thing.”. As a summary of thesequotes, the Robbins-Sturgeon hypothesis states that a wordis irreplaceable.
+Although modern LS approaches (Horn, Manduca, and
+Kauchak 2014; Glava ˇs and ˇStajner 2015) show that explor-
+ing synonymy relations is very useful in making texts eas-
+ier to read, the Robbins-Sturgeon hypothesis can be used tolearn a boundary ranker over unannotated data. If we takethis hypothesis to be correct, we can assume that a giventarget complex word is the only word suitable to replace it-
+self. In the binary classiﬁcation setup of a boundary ranker,this would mean that the only candidate substitution whichwould receive label 1is the target word itself, while any
+other candidates would receive label 0. With these settings,
+we would not require annotated data: the candidates to re-
+ceive label 0could be automatically produced by a substitu-
+tion generator, allowing the training of the ranker over unan-
+notated data, and hence unsupervised SS.
+5 Substitution Ranking
+During Substitution Ranking (SR), the selected candidatesubstitutions are ranked according to their simplicity. Re-cently, sophisticated strategies have been introduced for thistask, ranging from Support Vector Machines (Jauhar andSpecia 2012; Horn, Manduca, and Kauchak 2014), hand-crafted metrics (Biran, Brody, and Elhadad 2011; Bott et
+al. 2012), and rank averaging (Glava ˇs and ˇStajner 2015).
+Nonetheless, the most popular SR strategy in the litera-
+ture is frequency ranking: the more frequently a word ap-pears in a corpus, the simpler it is (Devlin and Tait 1998;De Belder and Moens 2010; Leroy et al. 2013). Modern LSapproaches also go a step further and account for a word’s
+3763context by using not word but n-gram frequencies (Baeza-
+Yates, Rello, and Dembowski 2015), achieving state-of-the-
+art simpliﬁcation results.
+Most work assume that the quality of the word and n-
+gram frequencies produced depend more on the size of thecorpus used, rather than on the domain from which it wasextracted. Because of this assumption, the most frequentlyused corpus is the Google 1T, which is not freely avail-able and is composed of over 1trillion words. (Brysbaert
+and New 2009), however, has shown that the raw frequen-
+cies extracted from movie subtitles capture word familiar-ity more effectively than the ones extracted from other cor-pora. Their subtitle corpus was also evaluated on the LexicalSimpliﬁcation task of SemEval 2012 by (Shardlow 2014). It
+helped (Shardlow 2014) achieve scores comparable to those
+obtained by Google 1T, although it is more than four or-ders of magnitude smaller. These results are very encourag-ing for our purposes, since the gold-standard used was alsoproduced by non-native English speakers. Inspired by these
+observations, we have compiled a new corpus for SR.
+5.1 Compiling a Corpus of Subtitles
+We hypothesize that the type of content from which the sub-titles are extracted can also affect the quality of the wordfrequencies produced. We believe that movies targeting chil-dren or young adults, for an example, use a more accessiblelanguage than movies targeting older audiences.
+In order to test this hypothesis, we exploit the facilities
+provided by IMDb
+3and OpenSubtitles4. While IMDb offers
+an extensive database of ID-coded and categorised moviesand series, OpenSubtitles allows for one to use these IDs to
+query for subtitles in various languages. IMDb also allows
+users to create their own lists, and hence help other userswith similar taste to ﬁnd new movies and series to watch.
+We compiled our corpus by ﬁrst parsing 15lists of movies
+for children, as well as the pages of all movies and series un-der the “family” and “comedy” categories. A total of 12,037
+IMDb IDs were gathered. We then queried each ID found inOpenSubtitles, and downloaded one subtitle for each movie.For series, we have downloaded one subtitle for each episodeof every season available. All subtitles were parsed, and acorpus of 145, 350, 077words produced. We refer to it as
+SubIMDB.
+6 Experiments
+In the following Sections, we describe each of the exper-iments conducted with our LS approach, which we referhenceforth to as LS-NNS. All other approaches hereon men-tioned were replicated to the best of our ability.
+6.1 Substitution Generation
+We compare ours to ﬁve other SG systems:
+•Devlin (Devlin and Tait 1998): One of the most frequently
+used SG strategies in the literature, it generates candidates
+by extracting synonyms from WordNet.
+3http://www.imdb.com/
+4http://www.opensubtitles.org/•Biran (Biran, Brody, and Elhadad 2011): Extracts candi-
+dates from the Cartesian product pairs between the words
+in Wikipedia and Simple Wikipedia. Any pairs of words
+that are not registered as synonyms or hypernyms inWordNet are discarded.
+•Yamamoto (Kajiwara, Matsumoto, and Yamamoto
+2013): Queries dictionaries for target words, retrievingdeﬁnition sentences, and then extracts any words thatshare the same POS tag as the target word. For this ap-proach, we use the Merriam Dictionary
+5.
+•Horn (Horn, Manduca, and Kauchak 2014): Extracts
+word correspondences from aligned complex-to-simpleparallel corpora. For this system, we use the parallelWikipedia and Simple Wikipedia corpus provided by(Horn, Manduca, and Kauchak 2014).
+•Glavas (Glava ˇs and ˇStajner 2015): Extracts candidates us-
+ing a typical word embeddings model. For each targetcomplex word, they retrieve the 10words for which the
+embeddings vector has the highest cosine similarity withthe target word, except for their morphological variants.
+Like the Glavas generator, ours selects 10candidates for
+each target word. We use the word2vec toolkit to train our
+word embeddings model. The corpus used contains 7bil-
+lion words, and includes the SubIMDB corpus, UMBC web-base
+6, News Crawl7, SUBTLEX (Brysbaert and New 2009),
+Wikipedia and Simple Wikipedia (Kauchak 2013). To tagour corpus, we use the Stanford Parser (Klein and Man-ning 2003), which offers over 97% accuracy in consoli-
+dated datasets. For training, we use the bag-of-words model(CBOW), and 500dimensions for the embedding vectors.
+We use the same resources and parameters to train the model
+for the Glavas generator.
+For evaluation, we use the the following four metrics over
+the NNSeval dataset:
+•Potential: The proportion of instances for which at least
+one of the substitutions generated is present in the gold-
+standard.
+•Precision: The proportion of generated substitutions that
+are present in the gold-standard.
+•Recall: The proportion of gold-standard substitutions that
+are included in the generated substitutions.
+•F1:The harmonic mean between Precision and Recall.
+The results obtained, which are illustrated in Table 1,
+reveal that our generator is more effective than all otherapproaches evaluated. They also highlight the potential ofcontext-aware word embedding models: they offer a 2.4%
+F1 improvement over the traditional embeddings model usedby the Glavas generator.
+6.2 Substitution Selection
+A Substitution Selection system requires a set of candidatesubstitutions to select from. For that purpose, we use the
+5http://www.merriam-webster.com/
+6http://ebiquity.umbc.edu/resource/html/id/351
+7http://www.statmt.org/wmt11/translation-task.html
+3764Potential Precision Recall F1
+Yamamoto 0.314 0. 026 0. 061 0. 037
+Biran 0.414 0. 084 0. 079 0. 081
+Devlin 0.485 0. 092 0. 093 0. 092
+Horn 0.464 0. 134 0. 088 0. 106
+Glavas 0.661 0. 105 0. 141 0. 121
+LS-NNS 0.699 0.118 0.161 0.136
+Table 1: Substitution Generation evaluation results
+candidate substitutions produced by the highest performing
+generator from the previous experiment, which is LS-NNS.We compare ours to ﬁve other SS approaches:
+•No Selection: As a baseline, we consider the approach of
+not performing selection at all.
+•Lesk (Lesk 1986): Uses the Lesk algorithm to select the
+word sense in WordNet that best describes a given targetword with respect to its context.
+•Leacock (Leacock and Chodorow 1998): Uses a more so-
+phisticated interpretation of the Lesk algorithm. It takesinto account not only the overlap between a target words’context and sense examples in WordNet, but also their se-mantic distance.
+•Belder (De Belder and Moens 2010): Candidate substi-
+tutions are ﬁltered with respect to the classes learned bya latent-variable language model. For this approach, weuse the algorithm proposed by (Brown et al. 1992), whichlearns word clusters from large corpora. We learn a totalof2,000word clusters.
+•Biran (Biran, Brody, and Elhadad 2011): Filters candi-
+date substitutions with respect to the cosine distance be-tween the word co-occurrence vectors of a target wordand a candidate substitution. We use a lower-bound of 0.1
+and an upper-bound of 0.8. The corpus used to obtain the
+co-occurrence model is the same used in the training ofthe word embedding models used by our SG approach.
+As discussed in a previous Section, the boundary ranker
+used by our approach requires training instances with binary
+labels. Using the Robbins-Sturgeon hypothesis, we createtraining instances by assuming a maximum positive rankingposition p=1, i.e., we assign label 1to all target words in
+the NNSeval dataset, and 0to all the generated candidates.
+We use seven features to train the model:
+•Language model log-probabilities of the following
+ﬁve n-grams: s
+i−1c,csi+1,si−1csi+1,si−2si−1cand
+csi+1si+2, where cis a candidate substitution, and i
+the position of the target word in sentence s. We use
+a5-gram language model trained over SubIMDB with
+SRILM (Stolcke 2002).
+•The word embeddings cosine similarity between the tar-get complex word and a candidate. For this feature, we
+employ the same context-aware embeddings model used
+in the SG experiment.
+•The conditional probability of a candidate given the POStag of the target word. To calculate this feature, we learnthe probability distribution P(c|p
+t), described in Equa-
+tion 2, of all words in the corpus used to train our context-aware word embeddings model.
+P(c|p
+t)=C(c, p t)/summationtext
+p∈PC(c, p), (2)
+where cis a candidate, ptis the POS tag of the target
+word, C(c, p)the number of times creceived tag pin the
+training corpus, and Pthe set of all POS tags.
+For each instance of the evaluation dataset, we discard the
+50% lowest ranked candidate substitutions. We learn the de-cision boundary through Stochastic Gradient Descent with10-fold cross validation. For evaluation, we use the same
+dataset and metrics described in the previous experiment.
+The results (Table 2) show that our approach was the only
+one to obtain higher F1 scores than those achieved by not
+performing selection at all. This reveals that SS is a verychallenging task, and that using an unreliable approach canconsiderably decrease the effectiveness of the SG used.
+Potential Precision Recall F1
+No Selection 0.699 0. 118 0. 161 0. 136
+Lesk 0.176 0. 060 0. 026 0. 037
+Leacock 0.013 0. 011 0. 002 0. 003
+Belder 0.247 0.201 0.034 0. 058
+Biran 0.322 0. 122 0. 068 0. 087
+LS-NNS 0.644 0.192 0.131 0.156
+Table 2: Substitution Selection evaluation results
+6.3 Substitution Ranking
+In this experiment, we evaluate the potential of our corpus
+(SubIMDB) in SR alone. To do so, we ﬁrst train 5-gram lan-
+guage models over SubIMDB and four other corpora:
+•Wikipedia (Kauchak 2013): Composed of 97,912, 818
+words taken from Wikipedia.
+•Simple Wiki (Kauchak 2013): Composed of 9,175, 446
+words taken from Simple Wikipedia.
+•Brown (Francis and Kucera 1979): Composed of
+1,182, 211 words of edited English prose produced in
+1961.
+•SUBTLEX (Brysbaert and New 2009): Composed of
+62,504, 269words taken from assorted subtitles.
+We then rank candidates by their unigram probabilities
+in each language model. The evaluation dataset used is the
+one provided for the English Lexical Simpliﬁcation task ofSemEval 2012 (Specia, Jauhar, and Mihalcea 2012), com-
+posed of 300training and 1,710test instances. We choose
+this dataset as opposed to NNSeval because it has also beenannotated by non-native speakers and it allows a more mean-ingful comparison, given that 12systems have already been
+tested on this dataset as part of SemEval 2012. Each instance
+is composed of a sentence, a target word, and candidate sub-stitutions ranked in order of simplicity by non-native speak-ers. The evaluation metric used is TRank, which measures
+3765the ratio with which a given system has correctly ranked
+at least one of the highest ranked substitutions on the gold-
+standard. As discussed in (Paetzold 2015), this metric is the
+one which best represents the performance of a ranker inpractice.
+The results obtained are illustrated in Table 3. For com-
+pleteness, we also include in our comparison the best per-forming approach of SemEval 2012, as well as the baseline,
+in which candidates are ranked according to their raw fre-
+quencies in Google 1T.
+TRank
+Wikipedia 0.519
+Simple Wiki 0.570
+Brown 0.596
+SUBTLEX 0.618
+Google 1T 0.585
+Best SemEval 0.602
+SubIMDB 0.627
+Table 3: Substitution Ranking evaluation results
+Our ﬁndings show that frequencies from subtitles have
+a higher correlation with simplicity than the ones extracted
+from other sources. Our corpus outperformed all others, in-cluding the best approach in SemEval 2012, by a consider-
+able margin. We have also found evidence that domain ismore important than size: the Brown corpus, composed of1million words, outperformed the Google 1T corpus, com-
+posed of 1trillion words.
+6.4 Round-Trip Evaluation
+Finally, we assess the performance of our LS approach in itsentirety. We compare it to three modern LS systems:
+•Biran (Biran, Brody, and Elhadad 2011): Combines the
+SG and SS approaches described in Sections 6.1 and 6.2
+with a metric-based ranker. Their metric is illustrated inEquation 3, where F(c, C)is the frequency of candidate
+cin corpus C, and/bardblc/bardblthe length of candidate c.
+M(c)=F(c,Wikipedia)
+F(c,Simple Wikipedia)×/bardblc/bardbl (3)
+•Kauchak (Horn, Manduca, and Kauchak 2014): Com-
+bines the generator of Section 6.1 with an SVM ranker
+(Joachims 2002) that joint models SS and SR. They traintheir approach on the LexMTurk dataset, and use as fea-tures the translation probability between a candidate andthe target word, as determined by an alignment modellearned over a simple-complex parallel corpus, as well asn-gram frequencies from various corpora.
+•Glavas (Glava ˇs and ˇStajner 2015): Combines the genera-
+tor of Section 6.1 with a ranker that also joint models SS
+and SR. It ranks candidates by averaging the rankings ob-
+tained with several features. As features they use n-gramfrequencies, the cosine similarity between the target wordand a candidate, as determined by a typical word embed-dings model, as well as the average cosine similarity be-tween the candidate and all content words in the targetword’s sentence.
+For evaluation, we use the the following metrics over the
+NNSeval dataset:
+•Precision: The proportion of instances in which the tar-
+get word was replaced with any of the candidates in thedataset, including the target word itself.
+•Accuracy: The proportion of instances in which the tar-get word was replaced with any of the candidates in thedataset, except for the target word itself.
+•Changed Proportion : The proportion of times in which
+the target word was replaced with a different word.
+We train our generation and selection approaches with the
+same settings used in the previous experiments. For Sub-
+stitution Ranking we use 5-gram probabilities with two to-
+kens to the left and right of the candidate. This way, we ac-
+count for context during Substitution Ranking. The resultsobtained are illustrated in Table 4. They reveal that our ap-
+proach is the most effective Lexical Simpliﬁcation solutionfor non-native English speakers.
+Precision Accuracy Changed
+Biran 0.121 0. 121 1.000
+Kauchak 0.364 0. 172 0. 808
+Glavas 0.456 0. 197 0. 741
+LS-NNS 0.464 0.226 0.762
+Table 4: Round-trip evaluation results
+7 Conclusions
+We have proposed a new, unsupervised Lexical Simpliﬁca-tion approach. It relies in two resources: a context-awareword embeddings model and a corpus of subtitles, both ofwhich can be easily obtained for multiple languages. Wehave also introduced NNSeval, a new dataset for the eval-uation of LS systems which targets the simpliﬁcation needsof non-native English speakers. In our experiments, we com-pare our strategies to several others, and show that ours arethe most effective solutions available for Substitution Gen-eration, Selection and Ranking.
+In the future, we intend to create lexicon retroﬁtted
+context-aware embedding models, explore more sophisti-cated unsupervised SR solutions, conduct new user studieswith non-native English speakers, and investigate whetheror not the word frequencies from SubIMDB are capable ofcapturing elaborate psycholinguistic properties, such as Ageof Acquisition and Familiarity.
+All methods and resources used in this paper are available
+in the LEXenstein framework
+8.
+References
+Baeza-Yates, R.; Rello, L.; and Dembowski, J. 2015. Cassa:A context-aware synonym simpliﬁcation algorithm. In Pro-
+ceedings of the 14th NAACL, 1380–1385.
+8http://ghpaetzold.github.io/LEXenstein/
+3766Barbu, E.; Mart ´ın-Valdivia, M. T.; Mart ´ınez-C ´amara, E.; and
+Ure˜na-L ´opez, L. A. 2015. Language technologies applied to
+document simpliﬁcation for helping autistic people. Expert
+Systems with Applications 42:5076–5086.
+Biran, O.; Brody, S.; and Elhadad, N. 2011. Putting it sim-
+ply: A context-aware approach to lexical simpliﬁcation. InProceedings of the 49th ACL, 496–501.
+Bott, S.; Rello, L.; Drndarevic, B.; and Saggion, H. 2012.
+Can spanish be simpler? lexsis: Lexical simpliﬁcation forspanish. In Proceedings of the 2012 COLING, 357–374.
+Brown, P. F.; deSouza, P. V .; Mercer, R. L.; Pietra, V . J. D.;and Lai, J. C. 1992. Class-based n-gram models of naturallanguage. Computational Linguistics 18:467–479.
+Brysbaert, M., and New, B. 2009. Moving beyond ku ˇcera
+and francis: A critical evaluation of current word frequencynorms and the introduction of a new and improved word fre-quency measure for american english. Behavior Research
+Methods 41(7):977–990.
+Burns, P. R. 2013. Morphadorner v2: A java library for themorphological adornment of english language texts. North-
+western University, Evanston, IL.
+De Belder, J., and Moens, M.-F. 2010. Text simpliﬁcation
+for children. In Proceedings of the SIGIR Workshop on Ac-
+cessible Search Systems, 19–26.
+De Belder, J., and Moens, M.-F. 2012. A dataset for the
+evaluation of lexical simpliﬁcation. In Computational Lin-
+guistics and Intelligent Text Processing. Springer. 426–437.
+Devlin, S., and Tait, J. 1998. The use of a psycholinguis-
+tic database in the simpliﬁcation of text for aphasic readers.
+Linguistic Databases 161–173.
+Ellis, A. W. 2014. Reading, Writing and Dyslexia: A Cog-
+nitive Analysis. Psychology Press.
+Francis, W. N., and Kucera, H. 1979. Brown corpus manual.
+Brown University.
+Glava ˇs, G., and ˇStajner, S. 2015. Simplifying lexical sim-
+pliﬁcation: Do we need simpliﬁed corpora? In Proceedings
+of the 53rd ACL, 63–68.
+Hirsh, D.; Nation, P.; et al. 1992. What vocabulary size is
+needed to read unsimpliﬁed texts for pleasure? Reading in a
+F oreign Language 8:689–689.
+Horn, C.; Manduca, C.; and Kauchak, D. 2014. Learning aLexical Simpliﬁer Using Wikipedia. In Proceedings of the
+52nd ACL, 458–463.
+Jauhar, S. K., and Specia, L. 2012. Uow-shef: Simplex–
+lexical simplicity ranking based on contextual and psy-cholinguistic features. In Proceedings of the 6th SemEval,
+477–481.
+Joachims, T. 2002. Optimizing search engines using click-
+through data. In Proceedings of the 8th ACM, 133–142.
+Kajiwara, T.; Matsumoto, H.; and Yamamoto, K. 2013. Se-lecting Proper Lexical Paraphrase for Children. In Proceed-
+ings of the 25th ROCLING, 59–73.
+Kauchak, D. 2013. Improving text simpliﬁcation language
+modeling using unsimpliﬁed text data. In Proceedings of the
+51st ACL, 1537–1546.Klein, D., and Manning, C. D. 2003. Accurate unlexicalized
+parsing. In Proceedings of the 41st ACL , 423–430.
+Leacock,
+C., and Chodorow, M. 1998. Combining local
+context and wordnet similarity for word sense identiﬁcation.
+WordNet: An Electronic Lexical Database 49(2):265–283.
+Leroy, G.; Endicott, J. E.; Kauchak, D.; Mouradi, O.; andJust, M. 2013. User evaluation of the effects of a text sim-pliﬁcation algorithm using term familiarity on perception,understanding, learning, and information retention. Journal
+of Medical Internet Research 15.
+Lesk, M. 1986. Automatic sense disambiguation using ma-chine readable dictionaries: how to tell a pine cone from anice cream cone. In Proceedings of the 5th Conference on
+Systems Documentation, 24–26.
+Marcus, M. P.; Marcinkiewicz, M. A.; and Santorini, B.
+1993. Building a large annotated corpus of english: Thepenn treebank. Computational Linguistics 19:313–330.
+Mikolov, T.; Sutskever, I.; Chen, K.; Corrado, G. S.; and
+Dean, J. 2013. Distributed representations of words and
+phrases and their compositionality. In Advances in Neural
+Information Processing Systems 26. Curran Associates, Inc.3111–3119.
+Navigli, R. 2009. Word sense disambiguation: A survey.
+ACM Computing Surveys 41(2):10.
+Nunes, B. P.; Kawase, R.; Siehndel, P.; Casanova, M. A.; andDietze, S. 2013. As simple as it gets-a sentence simpliﬁerfor different learning levels and contexts. In Proceedings of
+the 13th ICALT, 128–132.
+Padr, L., and Stanilovsky, E. 2012. Freeling 3.0: Towards
+wider multilinguality. In Proceedings of the 8th LREC.
+Paetzold, G. H., and Specia, L. 2013. Text simpliﬁcation astree transduction. In Proceedings of the 9th STIL, 116–125.
+Paetzold, G. H., and Specia, L. 2015. Lexenstein: A frame-work for lexical simpliﬁcation. In Proceedings of the 53rd
+ACL, 85–90.
+Paetzold, G. H. 2013. Um Sistema de Simpliﬁcacao Auto-
+matica de Textos escritos em Ingles por meio de Transducaode Arvores. Western Parana State University.
+Paetzold, G. H. 2015. Reliable lexical simpliﬁcation for
+non-native speakers. In Proceedings of the 14th NAACL Stu-
+dent Research Workshop, 9–16.
+Robbins, T. 2003. Jitterbug Perfume. Random House Pub-
+lishing Group.Shardlow, M. 2014. A Survey of Automated Text Simpli-
+ﬁcation. International Journal of Advanced Computer Sci-
+ence and Applications.
+Specia, L.; Jauhar, S. K.; and Mihalcea, R. 2012. Semeval-
+2012 task 1: English lexical simpliﬁcation. In Proceedings
+of the 1st SemEval, 347–355.
+Stolcke, A. 2002. Srilm-an extensible language modeling
+toolkit. In Proceedings of the International Conference on
+Spoken Language Processing, 257–286.
+3767

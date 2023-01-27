@@ -1,0 +1,274 @@
+See discussions, st ats, and author pr ofiles f or this public ation at : https://www .researchgate.ne t/public ation/254762355
+Language Modeling With Dynamic Ba yesian Networks Using Conversation T ypes
+and Part of Speech Information
+Article  · Januar y 2010
+CITATIONS
+9READS
+125
+3 author s:
+Some o f the author s of this public ation ar e also w orking on these r elat ed pr ojects:
+CoreSAEP: Comput ational R easoning f or Socially Adaptiv e Electr onic P artner s View pr oject
+Interactiv e Collabor ativ e Inf ormation Syst ems View pr oject
+Yang yang Shi
+Micr osoft , Sunnyv ale, Unit es St ates
+66 PUBLICA TIONS    1,268  CITATIONS    
+SEE PROFILE
+Pascal Wigg ers
+Amst erdam Univ ersity of Applied Scienc es/Centr e for Applied R esearch on Educ ation
+17 PUBLICA TIONS    194 CITATIONS    
+SEE PROFILE
+Catholijn M. Jonk er
+Delft Univ ersity of T echnolog y and L eiden Univ ersity
+620 PUBLICA TIONS    9,239  CITATIONS    
+SEE PROFILE
+All c ontent f ollo wing this p age was uplo aded b y Catholijn M. Jonk er on 22 Dec ember 2014.
+The user has r equest ed enhanc ement of the do wnlo aded file.Language Modeling With Dynamic Bayesian
+Networks Using Conversation Types and Part of
+Speech Information
+Yangyang Shi Pascal Wiggers Catholijn M. Jonker
+Delft University of Technology, 2628 CD Delft
+Abstract
+In this paper we investigate whether more accurate modeling of differences in language in different types
+of conversations, e.g. formal presentations vs. spontaneous conversations can improve the quality of a
+language model. We also investigate whether the modeling of sentence lengths can improve a language
+model. A language model is an important component of statistical natural language processing systems,
+such as automatic speech recognizers and spelling checkers, that judges the plausibility of sentence hy-
+potheses. Standard language modeling approaches rely on statistics over word sequences. Our experi-
+ments show that modeling the conversation type and part-of-speech tags sequences improves the language
+models, while modeling sentence length does not.
+1 Introduction
+A recurring task in natural language processing is to judge whether a sequence of words constitutes a well-
+formed sentence in a given language or similarly, which of a number of sentence hypotheses is syntactically
+and semantically most plausible.
+An automatic speech recognizer for example, has to choose among sentence hypotheses based on acous-
+tic evidence, while optical character recognition and handwriting recognition hypothesize sentences based
+on visual information [5, 10]. In spelling correction one wants to identify misspelled words [7] using the
+context provided by the sentence and in statistical machine translation the ﬂuency of sentences in the target
+language is rated [1].
+Statistical language models fulﬁll this task by assigning a probability to every word sequence in a lan-
+guage. The idea is that some word sequences are much more likely than others because of syntactic, semantic
+and pragmatic constraints. There are multiple ways to deﬁne the probability of a sentence, but commonly
+the chain-rule of probability theory is applied to rephrase the task as assigning a conditional probability to
+every word in a sentence given the words preceding it:
+P(w1,t) =P(w1)P(w2|w1)P(w3|w1w2). . . P (wn|w1,t−1), (1)
+where wiis the i-th word in the sentence and w1,t=w1w2. . . w t. From this angle, language modeling can
+also be seen as predicting the next word in a sentence.
+The most common language models, n-grams, are based directly on this idea and predict the next word
+using a limited history of npreceding words, where nis usually two or three. The advantage of n-gram
+models is that their parameters can be estimated reliably from a sample corpus. Despite their simplicity
+these models are surprisingly powerful because their locality makes them robust while at the same time they
+capture many of the local syntactic and semantic constraints in language.
+However, much information that is potentially useful for language modeling gets lost in n-gram models.
+For example, the assumption that the relative frequency of a word combination is the same for all conver-
+sations is clearly incorrect. A word may be more likely in a particular conversation than on average (in a
+corpus) and far more likely in that conversation than in other conversations.(a) spontaneous
+ (b) news
+ (c) read
+Figure 1: Sentence length distributions for components of the CGN (Northern Dutch)
+A second potential problem with the n-gram approach is that, by deﬁnition, it prefers short sentences
+over longer sentences. For spontaneous spoken language this assumption is generally correct but for more
+formal, written language it does not hold. To illustrate this point, Figure 1 shows the distributions over
+sentence lengths in different components of the Corpus Spoken Dutch ( CGN) [11].
+In the research presented in this paper, we investigated whether more accurate modeling of differences
+in word use among conversation types and of sentence length distributions results can improve language
+models. We designed six new language models, which we will explain in the section 3. We formulated
+these models in terms of dynamic Bayesian networks as those provide a natural generalization of statistical
+language models of n-grams.
+Previous research [1, 4, 12] showed that language models can greatly beneﬁt from the inclusion of part-
+of-speech ( POS) information, i.e. information on word categories such as verbs, nouns and adjectives and
+their relative positions, e.g. the fact that a determiner is often followed by an adjective or a noun. The
+distributions over POS-tags differ for different conversation types [13], therefore we also include POStags in
+some of our models.
+We will present our new models in section 3 of this paper. Before that we will provide a brief background
+on Bayesian networks in the next section. Section 4 discusses the experiments we did to test the performance
+of the models.
+2 Dynamic Bayesian networks
+Bayesian networks originate in artiﬁcial intelligence as a method for reasoning with uncertainty based on
+the formal rules of probability theory [9]. A Bayesian network represents the joint probability distribution
+over a set of random variables X=X1, X2. . . XN. It consists of two parts:
+1. A directed acyclic graph ( DAG)G, i.e. a directed graph without any directed cycles. There exists a
+one to one mapping between the variables Xiin the domain and the nodes viofG. The directed arcs
+in the network represent the direct dependencies between variables. The absence of an arc between
+two nodes means that the variables corresponding to the nodes do not directly depend on each other.
+2. A set of conditional probability distributions ( CPDs). With each variable Xia conditional probability
+distribution P(Xi|Pa(Xi))is associated, that quantiﬁes how Xidepends on Pa(Xi), the set of
+variables represented by the parents of node viinGrepresenting Xi.
+The probabilities are obtained from domain experts, learned from data or a combination of both. Applying
+the chain rule of probability theory and the independence assumptions made by the network, we can write the
+joint probability distribution represented by the network in factored form as a product of the local probability
+distributions:
+P(X1, X2, . . . , XN) =N/productdisplay
+i=1P(Xi|Pa(Xi)). (2)
+Inference in Bayesian networks is the process of calculating the probability of one or more random variables
+given some evidence, i.e. computing P(XQ|XE=xE)whereXQis a set of query variables and XEis
+a set of evidence variables. A number of efﬁcient inference algorithms that exploit the independence of
+variables in a network exists.
+Dynamic Bayesian networks ( DBNs) [3, 8] offer a concise way to model processes that evolve over time
+for which the number of time steps is not known beforehand. A DBN can be deﬁned by two BayesianFigure 2: DBN representation of an interpolated trigram (i-trigram)
+networks: an a prior model P(X1)and a transition model that deﬁnes how the variables at a particular time
+depend on the nodes at the previous time steps:
+P(Xt|Xt−1) =N/productdisplay
+i=1P(Xi
+t|Pa(Xi
+t)) (3)
+wereXtis the set of variables at time tandXi
+tis the ith variable in time step t. The parents of a node can
+either be in the current or in a previous time slice. Typically, ﬁrst order Markov assumptions are made, i.e.
+the nodes in a time slice only depend on the nodes in the previous time slice. The advantage of DBNs for
+language modeling is that one can deﬁne rich models without having to worry about the details of special
+purpose inference algorithms [12].
+3 Models
+As our baseline in this research we use an interpolated trigram language model, which is a common choice
+in language modeling, particularly for speech recognition. This model is based on a trigram, i.e. an n-gram
+withn= 3.
+Even though the assumption that a word only depends on the previous two words is a crude approxima-
+tion of the dependencies in language, it is already difﬁcult to obtain reliable estimates for the parameters
+of the model. This is especially true since language has a rather skewed distribution. To overcome this
+problem, language models are typically smoothed. One way to achieve this is by interpolation with lower
+order n-grams such as bigrams ( n= 2) and unigrams ( n= 1):
+Pint(wi|wi−1wi−2) =λ1P(wi|wi−1wi−2) +λ2P(wi|wi−1) +λ3P(wi), (4)
+where λ1+λ2+λ3= 1.
+Figure 2 shows the DBN representation of the standard interpolated trigram. In every time slice, it
+consists of a word variable Wthat depends on the previous two words and on the interpolation variable Λ
+that takes the three interpolation weights as its values. Its CPDis thus given by equation 3.3. Exceptions are
+made for the ﬁrst two words of a sentence. The Nvariable is a counter that indicates the number of words
+preceding a word in a sentence. Wis conditioned on Nsuch that the current word does not depend on any
+preceding words if N= 0 and if N= 1 it only depends on the previous word. The binary Evariables
+model the end of a sentence, while EOS models the end of a complete text. This last node is necessary to
+ensure that the model is a proper probability model in the sense that the sum of the probabilities over all
+possible texts is 1.Figure 3: Interpolated trigram with conversation type (i-trigram-c)
+Figure 4: Interpolated trigram with sentence length (i-trigram-l)
+3.1 Conversation type
+The sentence structure and vocabulary varies greatly with different conversation types. For example, spon-
+taneous speech consist of short sentence with many interjections, adverbs, pronouns and incomplete, while
+in formal and read speech, longer, grammatically more complicated sentences are used which contain more
+nouns and determiners [13].
+To account for these effects, we added the conversation type as a variable in the model. In Figure 3 , the
+variable Cindicates the conversation type. By conditioning the word variable Won the conversation type,
+the model can dynamically adapt to the type of conversation. There are many ways in which the inﬂuence of
+the conversation type on the words can be modeled. After some experimenting, we chose to include a term
+P(wi|ci)in the interpolated word distribution:
+Pint(wi|wi−1wi−2ci) =λ1P(wi|wi−1wi−2) +λ2P(wi|wi−1) +λ3P(wi) +λ4P(wi|ci). (5)
+This formulation has the advantage that the probability of a conversation type is not reduced to zero as
+soon as the model encounters a word-conversation type combination that is not in the training data.
+∞/summationdisplay
+n=1exp−6∗6n
+n!
+3.2 Sentence length
+Asn-gram language models assign probabilities to sentences by multiplying word probabilities, they typi-
+cally prefer short sentences over long sentences. As was shown in Figure 1 this ﬁts well with the nature ofFigure 5: Interpolated trigram with conversation type and sentence length (i-trigram-l-c)
+Figure 6: Interpolated trigram with part of speech (i-trigram-p)
+spontaneous speech but not with more formal speech such a broadcast news or read speech.
+Figure 4 shows an interpolated trigram in which sentence length is explicitly modeled. In this model L
+is a counter variable that counts the word positions within a sentence. The end of sentence variable Eis
+conditioned on this variable to ensure that the model will learn the distribution over the sentence lengths.
+As mentioned above the distribution of sentence lengths varies greatly with different types of conversa-
+tions. Therefore we created a model in which the sentence length distribution depends on the conversation
+type (Figure 5).
+3.3 Part of speech tags
+Including part of speech tags in a language model usually makes the model better [2] as it requires less data
+to ﬁnd reliable statistics on the combinations of POStags that can occur than on the combinations of words.
+In addition, we can also relate the POStags to other variables in the model such as the end of the sentence
+and the conversation type, to make the prediction of the values of those variables more accurate.
+Figure 6 shows a model that includes part-of-speech tags. Every part-of-speech depends on the previous
+two POS-tags, this allows the model to encode simple grammatical constructions. Like the word distribution,
+thePOStag distribution should be an interpolated distribution to ensure that the model will assign a non-zero
+probability to every sentence. Every word Wis restricted by its own POStagP. Since the part-of-speechFigure 7: Interpolated trigram with part of speech and conversation type(i-trigram-p-c)
+is a property of a word, it is added a conditioning variable in each of the three components of the word
+distribution (Equation ).
+We created two other models. One is shown in Figure 7. It depicts a model with conversation types and
+part of speech. Each of these two factors affect the word respectively. The other model, which combines all
+three types information: conversation type, part of speech and sentence length. The inﬂuence between the
+three factors themselves and the inﬂuence of the three factors to other nodes in the model are the same in
+the models we discussed before.
+4 Experiments
+To ﬁnd out whether our models can improve over standard interpolated trigrams, we trained and tested the
+models on the Corpus Spoken Dutch ( CGN). A corpus of standard Dutch as spoken in the Netherlands
+and Flanders. The corpus is based on collected audio recordings. For those experiments we used the tran-
+scriptions of those audio fragments that are distributed with the corpus. The corpus is subdivided in 15
+components that contain different types of speech, ranging from spontaneous conversations to more formal
+speech. We used the following components:
+•comp-d spontaneous telephone dialogues,
+•comp-f broadcasted interviews, discussions and debates
+•comp-h lessons recorded in a classroom
+•comp-k broadcasted news
+•comp-l broadcasted commentaries, columns and reviews
+•comp-m ceremonial speeches and sermons
+•comp-n lectures and seminars
+The set contains a total of 2843655 words 80% of which we use for training, 10% for development
+testing and tuning and the remaining 10% for evaluation. We created a vocabulary of 21865 words and 293
+different parts-of-speech. The vocabulary contains all unique words that occur more than once in the training
+data. All words in the data that are not in the vocabulary were replaced by a out-of-vocabulary token. Each
+of the seven sets listed above represents a conversation type. This implies that a complete document always
+has a single conversation type.
+For training, the values of all variables were provided therefore we calculated all distributions using
+maximum likelihood estimation. The interpolation weights were trained on the development test set using
+the expectation-maximization algorithm.Table 1: Perplexity results on CGN components d,f,h,k,l,m,n
+models perplexity
+i-trigram 340.47
+i-trigram-l 344.32
+i-trigram-c 312.13
+i-trigram-l-c 317.34
+i-trigram-p 309.79
+i-trigram-p-c 304.37
+i-trigram-p-c-l 310.53
+We evaluated the models in terms of perplexity, a standard measure in language modeling which is based
+on the cross-entropy of the language model and a test data set (see for example [6]). The better the model
+ﬁts the data set, the lower the perplexity will be. Perplexity is calculated as:
+PP(w1,t) = 2−1
+tlogP(w1,t). (6)
+where P(w1,t)is the probability assigned by the model to the test data set. We assume independence of
+individual documents, therefore the probabilities of the documents are multiplied to obtain this result.
+We tested the performance of the all models discussed in the previous section on the held out evalua-
+tion set. During this test only the words, the word positions and the punctuation (i.e. sentence ends) were
+provided to the model, all other variables were treated as hidden variables. Table 1 shows the resulting
+perplexities.
+From these results we can see that explicitly modeling the conversation type does lower perplexity. As
+should be expected from similar research including POS-tags also improves the model. Combination of those
+factors results in the lowest perplexity we achieved, a reduction of slightly over 10%. Modeling sentence
+length on the other hand does not help. In all cases it actually slightly hurt performance.
+5 Conclusion
+The statistical language models play a important role in natural language processing systems by making
+a judgement of the probability of sentences. In this paper we presented six new language models which
+not only focused on the statistics on the word sequences, but also considered the conversation type, part
+of speech tags, and sentence length which are not used in standard language models. The part of speech
+provides syntactic information of the speech and the 7 conversation types are forms such as spontaneous
+conversation and formal presentation. We implemented these new models as Dynamic Bayesian Networks
+and compared them with the standard trigram language model. The perplexity results of the experiments
+show that the new language models with conversation type, with part of speech and with both of them
+improve upon the standard trigram by almost 8 %, 9%and 10 %, respectively. But the sentence length
+information did not contribute to improve the trigram language model. In fact, the results are not as good
+as those of the trigram language models. In the future we plan to investigate whether different interpolation
+schemes can further improve these models and introduce additional context information such as the topic of
+a conversation.
+References
+[1] Peter F. Brown, John Cocke, Stephen Della Pietra, Vincent J. Della Pietra, Frederick Jelinek, John D.
+Lafferty, Robert L. Mercer, and Paul S. Roossin. A statistical approach to machine translation. Com-
+putational Linguistics , 16(2):79–85, 1990.
+[2] Peter F. Brown, Vincent J. Della Pietra, Peter V. deSouza, Jennifer C. Lai, and Robert L. Mercer.
+Class-based n-gram models of natural language. Computational Linguistics , 18(4):467–479, 1992.
+[3] Thomas Dean and Keiji Kanazawa. A model for reasoning about persistence and causation. Compu-
+tational Intelligence , 5(3):142–150, 1989.[4] J. Goodman. A bit of progress in language modeling. Technical report, Microsoft Research, 56 Fuchun
+Peng, 2000.
+[5] Jianying Hu, Michael K. Brown, and William Turin. HMM based on-line handwriting recognition.
+IEEE Transactions on Pattern Analysis and Machine Intelligence , 18(10):1039–1045, October 1996.
+[6] Daniel Jurafsky and James H. Martin. Speech and Language Processing - Second Edition . Prentice
+Hall, 2009.
+[7] Eric Mays, Fred J. Damerau, and Robert L. Mercer. Context based spelling correction. Information
+Processing and Management , 27(5):517–522, 1991.
+[8] Kevin Murphy. Dynamic Bayesian Networks: Representation, Inference and Learning . PhD thesis,
+University of California, Berkeley, 2002.
+[9] Judea Pearl. Probabilistic Reasoning in Intelligent Systems - Networks of Plausible Inference . Morgan
+Kaufmann Publishers, Inc., 1988.
+[10] R Plamondon and S.N. Srihari. Online and off-line handwriting recognition: a comprehensive survey.
+IEEE Transactions on Pattern Analysis and Machine Intelligence , 22:63–84, 2000.
+[11] I. Schuurman, M. Schouppe, H. Hoekstra, and T. van der Wouden. CGN, an annotated corpus of
+spoken Dutch. In Proceedings of the 4th International Workshop on Linguistically Interpreted Corpora
+(LINC-03) , Budapest, Hungary, 14 April 2003.
+[12] Pascal Wiggers and Leon J. M. Rothkrantz. Topic-based language modeling with dynamic Bayesian
+networks. In the Ninth International Conference on Spoken Language Processing (Interspeech 2006 -
+ICSLP) , pages 1866–1869, Pittsburgh, Pennsylvania, September 2006.
+[13] Pascal Wiggers and Leon J. M. Rothkrantz. Exploratory analysis of word use and sentence length in
+the Spoken Dutch Corpus. In V ´aclav Matousek and Pavel Mautner, editors, Lecture notes in Artiﬁcial
+Intelligence 4629: Text, Speech and Dialogue 2007 , 2007.
+View publication stats

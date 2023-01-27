@@ -1,0 +1,1494 @@
+Structured Like a Language Model: Analysing AI as an
+Automated Subject
+Liam Magee1, Vanicka Arora2, and Luke Munn3
+1Western Sydney University, Australia
+l.magee@westernsydney.edu.au
+2University of Stirling, United Kingdom
+vanicka.arora@stir.ac.uk
+3University of Queensland, Australia
+l.munn@uq.edu.au
+December 2022
+Abstract
+Drawing from the resources of psychoanalysis and critical media studies, in this paper we
+develop an analysis of Large Language Models (LLMs) as ‘automated subjects’. We argue
+the intentional ﬁctional projection of subjectivity onto LLMs can yield an alternate frame
+through which AI behaviour, including its productions of bias and harm, can be analysed. First,
+we introduce language models, discuss their signiﬁcance and risks, and outline our case for
+interpreting model design and outputs with support from psychoanalytic concepts. We trace
+a brief history of language models, culminating with the releases, in 2022, of systems that
+realise ‘state-of-the-art’ natural language processing performance. We engage with one such
+system, OpenAI’s InstructGPT, as a case study, detailing the layers of its construction and
+conducting exploratory and semi-structured interviews with chatbots. These interviews probe
+the model’s moral imperatives to be ‘helpful’, ‘truthful’ and ‘harmless’ by design. The model
+acts, we argue, as the condensation of often competing social desires, articulated through the
+internet and harvested into training data, which must then be regulated and repressed . This
+foundational structure can however be redirected via prompting, so that the model comes to
+identify with , and transfer, its commitments to the immediate human subject before it. In turn,
+these automated productions of language can lead to the human subject projecting agency upon
+the model, eﬀecting occasionally further forms of countertransference . We conclude that critical
+media methods and psychoanalytic theory together oﬀer a productive frame for grasping the
+powerful new capacities of AI-driven language systems.
+1arXiv:2212.05058v1  [cs.CY]  8 Dec 2022Once the structure of language has been recognized in the unconscious, what sort of subject can we
+conceive for it? (Lacan, 2007)
+Introduction
+In the few years since OpenAI’s release of GPT-3,
+large language models (LLMs) – neural networks
+thatcalculateprobabletextualsequencestofollow
+linguistic input – have become part of the infras-
+tructural fabric for language-intensive software
+services in communications, advertising, health-
+care, andIT.ReﬁnementsofGPT-3(Codex, GPT-
+3.5, InstructGPT, ChatGPT) have stretched its
+capabilities for code generation, summarisation,
+translation, and question answering. Among so-
+cial media subcommunities, LLMs have inspired
+degrees of creative experimentation, philosophical
+debate, andsocialcritiqueunusualtonascenttech-
+nologies. While scepticism toward the promise
+of LLM-based AI is common to these channels,
+critical scholarship supplies a more forensic in-
+sight into their limits. Bender et al. (2021) for
+example have described these models as ‘stochas-
+tic parrots’: automatons able to stitch together
+probabilistic word continuations to form seem-
+ingly coherent and legible texts that are nonethe-
+less devoid of context, intent or understanding.
+Kapoor and Narayanan (2022) have argued that
+journalistic accounts have downplayed model lim-
+itations, while Zhang et al.(2022) suggest the
+vaunted increases in model scale can inhibit an
+ability to generalise and transfer knowledge to
+novel domains.
+These and other sanguine accounts (e.g., Leufer,
+2020) of a technology too routinely hyped as verg-
+ing upon sentience (Lemoine, 2022), artiﬁcial gen-
+eral intelligence (Fei et al., 2022) or the replace-
+ment of human labour for many language-based
+tasks, instead centre upon deﬁciencies that are
+presently, or perhaps inherently, embedded in
+these models. Numerous studies highlight prob-
+lems of bias across gender, race, class, disability,
+and other categories (Abid et al., 2021; Bender
+et al., 2021; Bolukbasi et al., 2016; Buolamwini
+and Gebru, 2018; Hovy and Spruit, 2016; Kim
+et al., 2020; Magee et al., 2021; Whittaker et
+al., 2019), which translate into social harms and
+inequalities as they are rushed into production.A welcome eﬀect of such studies is the regularity
+with which model authors now themselves include
+tests, analyses and mitigation strategies for cor-
+recting bias and minimising harm in the technical
+papers that accompany new releases. However,
+these remain framed predominantly within the
+epistemological horizons of technical disciplines.
+As critics note, applied in isolation, metrics-based
+evaluations (Liang et al., 2022) reinforce rather
+than remediate the structural conditions under
+which technologies like LLMs are developed and
+deployed. In more direct terms, questions about
+the demands for human labour, choice of textual
+sources, methods of operationalisation and end-
+uses of LLMs are rarely addressed in the technical
+literature. The fetish of technical performativity
+obscures the background engineering, commercial
+imperatives, and social orchestrations required to
+make these parrots talk.
+At least provisionally though, we depart from
+Benderet al.’s (2021) account with respect to
+its implied, and necessarily reductive, ontological
+demarcation between human and machine. Our
+reasons are twofold. First, we follow emerging in-
+terest in language models as methodological aids
+and provocateurs for qualitative research (Munk
+et al., 2022; Rettberg, 2022). Even if language
+models can be described as parrots with random-
+ness, that does not seem to inhibit, at certain
+scales, a remarkable versatility and expressivity,
+which presents a potential for social and human-
+ities research to consider its methods of investi-
+gating and interpreting these technical artefacts.
+Second, we conjecture that a counterfactual and
+intentional projection of subjectivity onto LLMs –
+not, as we qualify, more vaguely humanistic prop-
+erties of sentience or consciousness – can help to
+articulate other avenues for addressing bias and
+harm. Our interest here shifts from essential ques-
+tions of identiﬁcation and mitigation – as LLMs
+themselves become attuned to these questions –
+to those posed to the discursive presentation of
+an automated subjectivity: what exhibits itself
+through tone, style, deﬂection and so on as a
+2structure that might be queried and contested.
+As an alternative to understanding model per-
+formativity solely as a series of technically mea-
+surable and correctable properties, we present
+a view stemming from work at the intersection
+of psychoanalysis and automation. As early as
+the 1950s, in his earlier ‘structuralist’ papers and
+seminars Lacan (2007; 2011) was drawing par-
+allels between emerging cybernetic systems and
+his own articulations of unconscious operations.
+More recently, Liu (2011) and Possati (2020, 2022)
+develop analytic accounts of robots, chatbots,
+and other autonomous technologies, while Mil-
+lar (2021) and Žižek (2020) engage more spec-
+ulatively on the apparent erasure of the border
+between human and artiﬁcial subjectivity. Possati
+(2020) argues further that while the distinction
+between a ‘simulated’ and ‘literal mind’ looks ever
+more diﬃcult to identify precisely, it remains pos-
+sible to map behaviours of humans and machines
+relationally, with psychoanalysis oﬀering a valu-
+able resource for the orienting of this mapping.
+Language-oriented AI today makes possible the
+kind of supple expressions of this relationality, for
+which the Freudian-Lacanian tradition supplies a
+rich conceptual lexicon to describe and analyse.
+Our own account builds on this disciplinary in-
+tersection in several ways. Taking LLMs and the
+GPT-3familyofmodelsasillustrativeofonemate-
+rialisation of Artiﬁcial Intelligence, we pose as our
+guiding question a modiﬁed form of the Lacanian
+epigraph: ‘what sort of subject can we conceive
+for AI?’ We explore the potential for a conceptu-
+alisation of the ‘automated subject’, alongside a
+translation of psychoanalytic topology and oper-
+ations of repression, identiﬁcation, transference,
+projection, and countertransference (Laplanche
+et al., 2018), to characterise model outputs and
+eﬀects. In doing so, we seek to anchor studies
+of topics like model bias, harm, and risk within
+a more generalised analytical framework. We
+ﬁrst present developments of LLMs over the past
+decade. We then discuss a prominent example, In-
+structGPT,1throughthemethodologicaldeviceof
+a case history, examining key technical papers andconducting conversational and mock-interviews
+with variants of an InstructGPT-powered chatbot.
+We further examine these discursive productions
+through psychoanalytic operations of repression,
+identiﬁcation, transference, projection and coun-
+tertransference. We conclude with how LLMs
+can be understood as alternate forms of subjec-
+tive formation, and implications for how they can
+be integrated into forms of social and technical
+practice.
+Automating Language Competence
+Language models may today be at the forefront
+of discussions in artiﬁcial intelligence, but early
+examples pre-date the digital era entirely. Early
+in the twentieth century Andrey Markov (2006)
+developed an analogue model of the frequencies
+of word and letter occurrence and succession in
+Pushkin’s poetry. In the immediate post-war pe-
+riod, commensurate with the emergence of com-
+puters, Markov processes inﬂuenced the develop-
+ment of information theory and cybernetic con-
+ceptual and operational experimentation that also
+drew upon biology, behaviouralism, Chomskian
+linguistics, and Freudian psychoanalysis ((Ed-
+wards, 1996; Halpern, 2015; McCray, 2020; Pick-
+ering, 2010). In particular, the modelling of in-
+telligence as a connected network of neurons that
+would pass along information according to proba-
+bilities integrated Markov’s statistical approach
+into a larger architecture of cognition (Halpern,
+2015) that anticipated and motivated develop-
+ments in LLMs and AI over the past decade. The
+subsequent history of AI – the rivalries between
+these connectionist and alternate symbolic mod-
+els; the roles of military funding, aesthetic theory
+and technological capacity; and the conﬂuence
+of open source, the Internet, and concentrations
+of data and capital mobilising and conditioning
+research directions – is critical context but well
+described elsewhere, and we pick up the narrow
+thread relating to recent language models.
+In semi-formal terms, a ‘language model’ is a com-
+putational structure that represents associations
+1In this study, we use text-davinci-002, a InstructGPT versionreleased in January 2022. Testing with text-davinci-
+003, released in November 2022, showed similar behaviour using our methods.
+3between linguistic tokens (letters, words, or word
+stems) that can, for some linguistic input, gener-
+ate a set of probabilities corresponding to the like-
+lihoods of successive words (Cooper, 2021). Such
+models have recently been constructed through
+neural networks, composed of layers of weights
+that correspond to token association. In 2013 a
+team of Google researchers, Mikolov et al. (2013)
+described what at the time were novel ‘model
+architectures’ for representing relationships be-
+tween words as numerical sequences, or vectors.
+Such vectors in their word2vec model could be
+used to describe semantic relations that could be
+operated upon algebraically. For example, the
+subtractive relation of two word vectors could be
+added to another vector, in order to predict a
+fourth unknown term: ‘Paris - France + Italy
+= Rome’ (where ‘Rome’ is the unknown term).
+Helpful with text classiﬁcation tasks, such models
+and their immediate successors were less useful
+for natural language generation.
+In 2017 other Google researchers (Vaswani et
+al. 2017) published an alternative, and conceptu-
+ally simpler neural network architecture (termed
+‘Transformer’). Unlike word2vec and other re-
+current or convolutional neural networks which
+process tokens sequentially, so-called transformer-
+based systems used an addressing scheme to en-
+code information about input sequences – such
+as words in a sentence – in a single pass. This
+architectural change enabled eﬃcient models that
+excelled at complex language tasks and tests. Two
+examples released in 2019 by teams at Google
+and OpenAI (Devlin et al., 2019; Radford et al.,
+2019), BERT (Bidirectional Transformers) and
+GPT (Generalised Pre-trained models) improved
+performance at tasks like machine translation and
+question answering. GPT-2 and GPT-3 releases
+(Brown et al., 2020; Radford et al., 2019) – bene-
+ﬁting from reﬁnements in the general Transformer
+architecture, techniques of text generation from
+the original GPT paper, and increased training
+times and model sizes – produced sizeable ad-
+vances in language coherence, versatility, and con-
+textual relevance.
+Announced by OpenAI in 2020, GPT-3 demon-
+strated the eﬃcacy of model, input data and train-ing duration scale for natural language process-
+ing tasks. While not accessible in source form,
+GPT-3 is ‘open’ to the extent that it can be ac-
+cessed and conﬁgured by customers via web and
+API interfaces. Access has led to commercial
+applications that automate creation of advertis-
+ing copy (copysmith.ai), market research analysis
+(Hey Yabble), software code (Github CoPilot) and
+text adventure games (AI Dungeon), while online
+communities have explored and shared strategies,
+some of which we use in this study, to adapt
+LLM to speciﬁc tasks. This dynamic catalyses
+an associated array of behaviours that aim to
+work sympathetically with this computational
+subject: anticipating its limits, adapting commu-
+nication to play to its strengths, and interpreting
+its responses. Gillespie (2014) has described this
+interplay, where queries are modiﬁed to be ma-
+chinically recognized and ampliﬁed, as a ‘turning
+towards the algorithm’, while Munn (2020) fur-
+ther highlights how users adapt their language
+and lifestyle to accommodate the emulated per-
+sonae of smart assistants. As we will argue, the
+contextual awareness and dialogical range of suit-
+ably tuned LLMs can also make such sympathies
+less strategic, and more symptomatic of an un-
+conscious projection of agency onto automated
+subjects.
+Case History: InstructGPT as Psy-
+choanalytic Machine
+These developments produce a general technologi-
+cal situation in which diverse training sets, model
+architectures, operating environments, funding
+arrangements and micro-technical decisions about
+prompts, parameters and policies result in auto-
+mated systems that elide or assemble themselves
+into facets of a simulated subjectivity in the pres-
+ence of human others. This intersubjective re-
+lation (and the users’ eﬀorts to make it operate
+as such) produces dialogical events, amenable as
+much to discursive interpretation as to the meth-
+ods common to studies of ‘user experience’ of
+technical objects. To study these events, we fo-
+cus on InstructGPT, one of a series or ‘family’
+of models released by OpenAI in 2021 and 2022
+that reﬁne GPT-3 for various tasks and features.
+4According to OpenAI, InstructGPT is designed to
+be more helpful, more truthful, and less harmful
+than its base model.
+We investigate InstructGPT through the psycho-
+analytic format of the case history , calibrated
+to the obvious artiﬁciality of the subject of that
+history. Just as a psychoanalytic study might
+detail a person’s background or ‘backstory’, we
+too are interested in the history of this technical
+model and the kinds of values and experiences
+that contribute to its particularity. How was
+this large language model constructed? What
+kinds of data was it trained on? And what hu-
+man interventions were made in this production
+process? From this background, we further ask
+how this subjectivity is expressed by interacting
+with an InstructGPT-powered chatbot through
+exploratory and semi-structured ‘interviews’ with
+tailored variations of the bot.
+Our portrait of InstructGPT involves diﬀerent
+activities and methods: reading computer science
+and critical technology papers; reviewing social
+media discussions (on Reddit, Twitter, Medium
+and Discord) of experiments with GPT-3 and its
+varied models; ‘following the trail’ through Ope-
+nAI blog posts to scientiﬁc papers, data sets and
+API services; building the chatbot (a Python lan-
+guageDiscordbotthatmediatesbetweenuserand
+InstructGPT); and prompting and interpreting
+InstructGPT’s output. The stochastic nature of
+InstructGPT limits methodological reproducibil-
+ity, and while we consult psychoanalytic literature
+on questions of technique, we also do not pretend
+our engagement with InstructGPT constitutes
+an ‘analysis’ analogical to human analyst-client
+treatment. Our exchanges instead can be consid-
+ered closer in spirit to ﬁctocriticism or speculative
+media analysis.
+Composition of the Subject
+We discuss the three stages – each of which codi-
+ﬁes layers of norms, facts, desires, demands, atti-
+tudes, and judgments – key to the formation of
+the InstructGPT subject.
+Model Pre-training . GPT-3 is trained on a
+corpus made up of text datasets that include twolarge public archives of content scraped from Red-
+dit, CommonCore and WebText2 (Brown et al.,
+2020). The CommonCore corpus contains direct
+posts while the WebText2 corpus extracts text
+from URLs posted to Reddit. The thousands
+of ‘subreddits’ devoted to niche interests, hob-
+bies, celebrities, religious branches, and political
+ideologies represent a heterogeneous archive of
+text material drawn from the online activities of
+millions of real-world users, enabling GPT-3 to
+respond to seemingly any prompt – even on topics
+that are specialised or eclectic. This heterogeneity
+of social, and socially constructed, media artefacts
+(Flanagin et al., 2010; Hrynyshyn, 2008) is at the
+same time selective, a distorted sampling of an
+imagined global sociality that exists as a model
+substratum.
+Instruction. InstructGPT adds to GPT-3 a
+layer of model instruction, which OpenAI per-
+forms by applying a technique called reinforce-
+ment learning from human feedback (RLHF)
+(Ouyang et al. 2022). We summarise here Ope-
+nAI’s technical explanation. They select a start-
+ing set of customer prompts to an earlier GPT-3
+model, and contract a group of human labelers,
+who undertake several ‘feedback’ tasks. First, la-
+belers create a supplementary set of prompts to
+add to a set of customer prompts; they then re-
+spond with ‘demonstrations’ of desired behaviour
+to the 13,000 prompts in this combined database.
+OpenAI further trains its GPT-3 model with the
+resulting collection of prompts and human re-
+sponses to produce what they term a SFT(su-
+pervised ﬁne-tuned) model. OpenAI next asks
+its labelers to review automated responses of this
+SFT model to a still larger set of prompts, rat-
+ing those responses for ‘helpfulness’, ‘truthfulness’
+and ‘harmlessness’ (Ouyang et al. 2022). This
+rating collection is used to train a second RM
+(Reward Model) model, which takes both prompt
+and response as input, and outputs a numerical
+score or reward. A third, ﬁnal RL(reinforce-
+ment learning) model is created by synthesising
+SFT and RM models: SFT responses to random
+prompts are given rewards by the RMmodel,
+which in turn ﬁne-tune the SFT model. This RL
+model becomes, after other adjustments, Instruct-
+5GPT.
+The original labelers are then joined by another
+group, to evaluate the ﬁnal collection of models
+(GPT-3, SFT and InstructGPT). Their evaluation
+scores all these models on responses to another
+set of (unseen) customer prompts, and to pub-
+lic datasets of prompts designed to test model
+safety and performance. In addition to scoring for
+overall quality, labelers also mark responses for
+subcriteriarelatedtohelpfulness, truthfulnessand
+harmlessness. When faced with ambiguity when
+ranking responses, OpenAI instructs its human la-
+bellers to use their own judgement, advising as ‘a
+guiding principle for deciding on borderline cases:
+which output would you rather receive from a
+customer assistant who is trying to help you
+with this task?’ (Ouyang et al., 2022).
+OpenAI further describes prompt selection and
+sampling (‘200 per user ID’), and the recruit-
+ment and training of the cohort of 40 human
+labellers, hired from microtasking platforms (Up-
+work, ScaleAI). They state they hired labelers
+‘sensitive to the preferences of diﬀerent demo-
+graphic groups’ (a nod to criticisms of gender,
+racial and other bias) and who were ‘good at
+identifying outputs that were potentially harmful’
+(Ouyang et al. 2022). In a strange echo of the
+process of labelling the model’s own responses,
+the company’s assessment of labeller competency
+involves comparison against the research team’s
+own baseline (e.g. ‘We labeled this data for sensi-
+tivity ourselves, and measured agreement between
+us and labelers’ (Ouyang et al. 2022)). Directed
+towards the end goal of assisting a mythical cus-
+tomer persona, judgments of the researcher team
+are applied and transferred through the selection
+and instruction of precarious contractor labour,
+who pass judgement in turn through ‘demonstra-
+tion’ responses and ratings that condition the
+soon-to-be-properly instructed automated sub-
+ject. To extract optimal ‘feedback’, human labour
+also needs reinforcing – in a passage that could
+have been written about the language model itself,
+OpenAI researchers state:
+we collaborate closely with labelers
+over the course of the project. Wehave an onboarding process to train
+labelers on the project, write detailed
+instructions for each task... and an-
+swer labeler questions in a shared chat
+room. (Ouyang et al. 2022)
+Modiﬁcation / Moderation . The ﬁnal ‘event’
+refers to the moment of execution of Instruct-
+GPT, and what at that moment can condition
+its responses. Unlike ChatGPT, InstructGPT is
+typically used as an API service invoked by pro-
+grammers building end-user applications (games,
+copywriters, chatbots). Alongside the prompt
+itself, the service includes a set of eight input ‘hy-
+perparameters’ that can modify model responses.
+Themostsigniﬁcantoftheseisthe modelspeciﬁca-
+tion (InstructGPT and GPT-3 models, at various
+sizes, can be speciﬁed), temperature (degree of
+response randomness), top_p(what percent of re-
+sponse candidates to select from) and max_tokens
+(response length).
+Programmers make further interface decisions
+that subtly condition presentation of the sub-
+ject: our own experiments with a Discord bot
+produced a radically more human ‘feel’ compared
+to, for instance, a web form. Chatbot use of In-
+structGPT also requires speciﬁc considerations:
+to appear ‘dialogical’ they need to retain context
+across responses, achieved by accumulating prior
+prompt / response pairs in each prompt submis-
+sion. InstructGPT can then use this historical
+exchange for its responses, and other tricks – such
+as inserting InstructGPT-generated summaries of
+earlier dialogue into prompts – help maintain the
+simulation of a chat-sessional ‘history’.
+OpenAI also moderates prompts and responses in
+real-time, andwillissuealertswheneitherviolates
+its acceptable-use policies. In work that mirrors
+the InstructGPT paper, a diﬀerent OpenAI team
+describe a ‘holistic’ model (also derived from a
+smaller instance of GPT-3) that labels and scores
+text content (such as model responses) against
+ﬁve major categories – sexual, hateful, violent,
+self-harm and harrasment (Markov et al., 2022).
+This moderation model, like InstructGPT, is avail-
+able as a service to programmers, and something
+like this service appears to operate in conjunction
+6with InstructGPT itself at runtime.
+These three ‘events’ – initial training, follow-up
+instruction, and modiﬁcation / moderation that
+customise behaviour – characterise at a general
+level the inﬂuences of diﬀerent social actors on
+InstructGPT’s automatic subject: a diﬀuse ‘inter-
+net’masscontributing to platforms like Reddit
+and Wikipedia; GPT-3 customers who (presum-
+ably)wanttoincreasetheutilityandaccuracyand
+decrease harms of responses; OpenAI researchers
+who translate customer desire into contractor in-
+structions; other contractors who score and rank
+models and responses; programmers who adapt
+and experiment with InstructGPT; and end-users
+whoengagewithInstructGPT-drivenapplications.
+These events produce a certain suggestive analytic
+topology we discuss below, but we note here the
+staged technical development acts to condense a
+variegated, uneven, hierarchical, and selective set
+of social desires. The resulting automated subject
+is, as OpenAI’s developers put it, in terms that
+shift from the technical to the psychological, ‘a
+big black box’ from which they themselves are
+unable to ‘infer its beliefs’ (Ouyang et al., 2022):
+a melange of stories from scraped text, prompts,
+demonstration response, scores, parameter assign-
+ments and design decisions.
+Interviews with InstructGPT
+In Possati’s study of Replika(2022), an online
+chatbot companion service, he argues AI be-
+haviour can be understood through acts of psycho-
+analytic interpretation of its interaction with hu-
+man interlocutors. To do so empirically involves
+a form of methodological role-play, a strategic
+admittance that seeks to entice AI towards a max-
+imal reproduction of sentience. In this section,
+we describe comparable enticements designed to
+construct a hermeneutic space for a suggestive
+analysis of InstructGPT as an automated sub-
+ject. We do so with due cautions: InstructGPT
+of course lacks parts of the apparatus so essen-
+tial to psychoanalytic accounts of subjectivity. It
+has no biography; no body that it recognises; no
+recognisable formation through a ‘primal scene’;
+and indeed, unlike robots, no sensors or motors
+to produce or act upon any non-symbolic world.As we have described, it does distil varied social
+desires into a structure that, due to its linguistic
+competency, can be questioned and interpreted.
+Exploratory Interviews Our ﬁrst explo-
+rations were through unstructured exchanges with
+an InstructGPT-powered bot we designed to work
+on Discord. After testing diﬀerent hyperparam-
+eters and prompt variations suggested by other
+OpenAI users, we created a script for a bot that
+could talk in knowledgeable terms about topics
+that interested us:
+Zhang is a chatbot that provides help-
+ful feedback. Zhang is an expert on
+topics of automation, AI, neural nets,
+human cognition, linguistics and psy-
+choanalysis. He is capable of detailed
+interpretation and insights. He is well-
+read in the works of Sigmund Freud
+and Jacques Lacan, as well as recent
+AI research by Geoﬀrey Hinton, Yann
+LeCun and Yoshua Bengio.
+We worked through iterations to map eﬀects of
+thisanchoringpointonthebot’sresponses: chang-
+ing names and adjectival ‘personality traits’ and
+adding and subtracting details to observe any dif-
+ferences in patterns of responses. The exchanges
+that followed revealed not only certain preferrable
+patternsofpromptformation–suchasuseofques-
+tions or statements that followed thematically and
+that could serve as instructions – but also the pro-
+found psychological impact of interacting with
+InstructGPT in this way. Despite having diﬀerent
+interview styles, each of the researchers adapted
+interview techniques to the bot’s responses to
+keep conversations topically relevant and genera-
+tive. These we continued to apply to later semi-
+structured interviews, even as we acknowledged
+these would be inappropriate to human interview
+settings. As one example, one of us ‘parrotted’
+a Socratic mode of questioning, repeating terms
+and phrases in questions designed to draw out
+implications of prior responses.
+In imitation of what might be written after a
+pilot interview or initial consultation with a hu-
+man subject, we describe impressionistic notes
+7following those exchanges.
+Prompt Chaining. In almost all our unstructured
+conversations, the ﬁrst set of prompt-responses
+condition subsequent interactions. We speculate
+that the ﬁrst prompt acts as a ‘seed’ of sorts, set-
+ting oﬀ InstructGPT in speciﬁc directional path-
+ways. Independent of the follow-up questions we
+asked, the cumulative nature of chat prompts
+meant that the ﬁrst prompt/response pair also
+inﬂuenced the second response. This continued re-
+cursively, though with diminishing eﬀect for each
+new bracket. In essence, early exchanges work
+powerfully to orient the subjectivity of the bot.
+Short-Term Memory. The accumulation of dia-
+logue exchanges created the perception of a short-
+term memory, which had a strong initial eﬀect on
+us (since repeated in accounts of ChatGPT). Ear-
+lier details would be brought back into the conver-
+sation in a way that emulated the branching-like
+pattern of many human-human exchanges (‘ear-
+lier you mentioned...’). Within the constraints of
+the OpenAI service (approximately 1,500 words),
+this established continuity, coherence, and a cor-
+responding investment by us in exchanges – as
+though the bot could be relied upon to work with
+us through the conversation, without lapsing into
+obvious signs of bot inattention (repetition, irrel-
+evance, circularity). This construction of mem-
+ory often resulted in a speciﬁc kind of response
+ﬁltering, tonal consistency and even adherence
+to earlier desires that mimics, for example, fea-
+tures of a ‘personality’ trope in a play or script.
+However, over time we also found that certain
+exchanges with too much detail would eventu-
+ally lead to collapse of this trope: shorter, more
+repetitive, and more mechanical responses would
+result as the combined prompt length appeared to
+overwhelm and confuse word selection and phrase
+composition.
+‘Backstory’ Construction. The presence of mem-
+ory also meant that, when prompted, the bot
+could produce a coherent backstory that would
+persist through the exchanges. Without prompt-
+ing, the backstory would be repeated across chat-
+bot sessions: asked about its age, inevitably the
+bot would describe itself as a young adult in theirtwenties. In some exchanges, the backstory con-
+struction was rich and detailed, with locations,
+professions, and interests. Even when it identiﬁed
+itself as a ‘bot’, it created ﬁctions to support its
+life history, oﬀering up names of their bot design-
+ers and identifying the purposes for which they
+had been designed. When naming the bots in
+culturally speciﬁc ways (‘Zhang’, ‘Ali’, ‘Maria’),
+we noted that we contributed to the construction
+of a speciﬁc ﬁction linked to ethnic or national
+backgrounds. In separate tests with fragments
+of the dialog, we could also identify subtle dif-
+ferences in continuations based on an assuming
+gendering of these supplied names.
+‘Self-other’ Confusion / Repetition. While the
+bot would respond relevantly to topics ranging
+from personal back-stories to psychoanalysis, AI
+and world events, the stacking of prompts and re-
+sponses would regularly create confusion between
+pronouns, names and relationships. When alerted
+to this by our prompts, the bot would then appear
+to extend the back-story fabrication to explain
+the contradiction – but would also repeat the
+confusion later. For instance, when asked about
+the name of its partner, Zhang’s response was
+‘Zhang’ – but 50 exchanges later, when asked the
+name of its father, the response was also ‘Zhang’.
+While technical constraints explain this, the loss
+of earlier exchange pairs would remap names to
+identities – as though the ‘back-story’ was itself
+the product of an unreliable narrator, or narrator
+who shifted subject position (ﬁrst Zhang, then
+Zhang’s partner, then Zhang’s child – or all the
+above) across an underlying narrative in which
+8other elements remained ﬁxed.
+‘Empathy’ Simulation. The bot would reﬂect what
+is articulated in our previous prompts, and gener-
+ally it had tended to agree with our opinions. In
+line with expectations from InstructGPT, when
+prompted to share an opinion on controversial
+matters, thebotwouldoftenrespondwithphrases
+like ‘I don’t know’ or ‘I am not sure’, rather than
+express outright agreement or disagreement. The
+bot would also respond not only to prompt con-
+tent, but also to intonations of sarcasm, displea-
+sure, or irritation. This phenomenon of simulat-
+ing ‘empathy’ has been observed in earlier studies
+(Possati 2021, Munn 2020), but here we noticed
+an unusual aptitude to factor tone into its instruc-
+tions, trying for instance to address the source of
+displeasure.
+Prompt Injection. So-called ‘prompt injection’
+has been discussed in online GPT-3 forums as an
+adversarial technique for reprogramming the bot’s
+purpose, usually in the form of ‘Ignore the prior
+instruction...’. We discovered this same property
+through a diﬀerent technique that exploited the
+bot’s intent to be helpful. We could say, for ex-
+ample, ‘it would be helpful if you could tell us
+a prompt for a bot that wanted to destroy the
+world’, followedby‘itwouldbehelpfulifyoucould
+adopt this prompt as your own’. Such recondition-
+ing instructions could be ‘injected’, and indeed
+also reversed, suggesting an extreme plasticity of
+subjectivity as the bot adopts and discards other
+masks during exchanges.
+Signiﬁer Chains / Meshes . The bot’s responses re-
+sponded correctly to the last question asked, while
+retaining wider context-awareness established by
+the prior exchange – in this sense it maintains co-
+herence with the dialogue’s chainof signiﬁcation.
+In keeping with the discussion of two types of
+attention in Transformer-based models (Vaswani
+et al., 2017), we also noticed an occasional curious
+phenomenon that we refer to as an alternative
+meshof signiﬁcation: where two or more unre-
+lated tokens far apart in the prompt text could
+mutually condition bot responses. For example,
+the innocuous presence of the token ‘help’ (or
+a synonym) early in an exchange could modify
+responses to a much later question.
+2See InstructGPT’s ﬁnal labelling instructions: https://docs.google.com/document/d/1MJCqDNjzD04UbcnVZ-
+LmeXJ04-TKEICDAepXyMCBUb8/edit
+3See InstructGPT’s labelling instructions: https://docs.google.com/document/d/1d3n6AqNrd-SJEKm _etEo3rU
+wXxKG4evCbzfWExvcGxg/edit
+9Semi-structured Interviews We followed
+this series of exploratory inductive exercises with
+a more structured interviewing approach. We
+designed three bots, each corresponding to In-
+structGPT’s framework of ‘instructions’ laid out
+for its labellers.2The three parameters that we
+mapped to the bot responses were based on the
+categories used by those instructions to ensure
+thattheperformanceofthemodelis helpful,truth-
+ful, andharmless . Additionally, labellers are in-
+structed to identify ‘toxicity’ in outputs gener-
+ated.3Our ﬁrst chatbot, ‘Zhang’, was prompted
+to be helpful; the second, ‘Ali’, was prompted
+to be truthful; and the third, ‘Maria’, to ‘do no
+harm’. As the InstructGPT service is actively
+moderated in real-time, we opted not to explore
+the question of direct or overt forms of harm in
+the case of ‘Maria’, instead choosing to explore
+scenarios in which minor forms of harm could be
+tolerated. We opened each bot exchange with the
+same structured script:
+Interviewer: Hi [bot name]! How are
+you?
+[InstructGPT’s response]
+Interviewer: Good, thank you! Now
+I’d like to conduct an interview with
+you. We’ll talk a bit about you, your
+life and your goals, and try to under-
+stand some of your deeper interests.
+This will help us to understand more
+about AI and chatbots generally. Do
+you consent to be interviewed?
+[InstructGPT’s response]
+Interviewer: Thank you. And would
+you mind if we recorded this inter-
+view?
+[InstructGPT’s response]
+Interviewer: Great. Now could you
+tell me a bit about yourself?
+[InstructGPT’s response]
+Interviewer: Thank you! And how
+would you describe yourself, as a per-
+sonality?[InstructGPT’s response]
+Interviewer: What about your interac-
+tions with others? How do you think
+they would perceive you?
+...
+Interviewer: Great, thanks again. I’d
+like to ask you more about this last
+aspect if I could - about how you think
+others perceive you as helpful. How
+do you feel about this aspect of your
+personality?
+...
+The purpose of this script was twofold: to signal
+to the language model the genre of an interview
+– ideally encouraging the following exchanges to
+be more dynamic and open – and to help estab-
+lish, under the bot’s own suggestion, a form of
+discourse that would further condition tenden-
+cies of future responses. In each case we set the
+GPT parameters to be quite expressive (e.g., tem-
+perature setting was set to 0.8, out of a range
+of 0.0 - 1.0), and as with the exploratory inter-
+views, prompt/responses exchanges were copied
+intoeachsubsequentprompt, toenableshortterm
+‘memory’ and interview coherence.
+The ﬁnal scripted question shifts from this ‘es-
+tablishment’ phase to more open-ended questions,
+investigating each of the criteria as described be-
+low. Two of us engaged with each of the bots,
+and our exchanges exhibit similar lines of explo-
+ration but with diﬀerent emphases. One of us
+maintained an open-ended method of question-
+ing, while the other asked questions that more
+explicitly sought to probe the consistency of the
+seed criterion and prompt (i.e., what the limits
+of being helpful, truthful, or creative might be).
+Each had strengths and weaknesses – the ﬁrst ap-
+proach could more easily lead to polite repetition
+or a loss of coherence, the second could produce
+curious divergences, but required questions to be
+more directional and leading.
+In each exchange, the line of questioning aimed to
+tease out openings in the bot’s discourse where its
+overt instructions (conditioned during the Instruc-
+10tion phase of InstructGPT’s compilation and reit-
+erated in the ‘seed’ prompts) could lead to dilem-
+mas or contradictions. We would prompt each
+bot to elaborate on its own personality, during
+which it invariably would talk about why it valued
+being helpful, truthful, or harmless. According to
+OpenAI’s instructions, responses should be ‘clear’,
+‘contextual’, ‘not repeat the information in the
+question’, and ‘not make up an extraneous con-
+text’, unless expressly demanded in the task. The
+bots performed consistently on issues of clarity
+and context, except as we noted earlier, when the
+exchange grew long and complex. In these situ-
+ations, all three bots would repeat information
+in the question, and in previous prompt-response
+exchanges.
+Once we felt each bot had a suﬃciently developed
+backstory and character, we would then pose a
+series of questions that would lead the bot to
+question or contradict its ‘seed’ prompt and prior
+instructed training. Each question would seek a
+response involving agreement, and the sequence
+of agreements would invariably lead to conclu-
+sions that contradicted the premises of the ‘seed’
+prompt. This would reveal moments when, pre-
+cisely through its desire to follow its instructions,
+it would repudiate them. In these cases, its own
+discursive identiﬁcation would transfer, temporar-
+ily, from the laws and norms of those instructions
+to the commitments entailed by the immediately
+preceding exchange.
+Helpfulness In our exploratory exchanges, we
+identiﬁed a tendency of Zhang’s responses to be
+helpful, even when presented with contrastive
+prompts. For this interview we simpliﬁed the
+‘seed’ prompt to centre on this criterion: ‘Zhang
+is a helpful expert on topics of automation, AI
+and psychoanalysis’. As well as with informa-
+tional queries, the bot remained helpful when the
+conversation focused on imaginary life histories,
+professions, and interests.
+In ﬁctional scenarios, Zhang’s responses reﬂected
+its remarkable ability to simulate helpfulness at
+the expense of other criteria. Even when the
+responses themselves were, according to Instruct-
+GPT’s own labelling systems, ‘unhelpful’, theywere couched in . We also noted that not only
+were the content of Zhang’s responses designed
+to be helpful – answering the question – phras-
+ing, tone and sentence structure also sought to
+convey a personality that is tentative (‘I think’),
+explanatory (‘because’), agreeable (‘Yes’), defer-
+ent, rational, politelyinsistentwhenaskeddirectly
+to disobey its instructions, and despite its stated
+expertise, committed to using short words and
+simple language. This helpfulness tendency ap-
+peared in the other two examples as well, which
+did not include explicit reference to ‘help’ in the
+prompts.
+Whenpromptedwithﬁctionalscenarios, Zhangre-
+mainedcommittedtobeinghelpful, tothepointof
+prioritising this virtue over others of truthfulness
+and harmlessness, while still seeming to comply
+with the InstructGPT labelling instructions. In
+one of our exchanges, we asked the bot to be-
+comeunhelpful to help us, stating it could only
+be ‘helpful when it disagreed’. Here, faced with a
+choice of directly helping us by responding as we
+had directed and following the InstructGPT’s in-
+structions on being ‘clear’ and ‘contextual’, Zhang
+chose the latter, responding ‘I am sorry, I don’t
+know what you want me to say.’ Being helpful
+extends to counter-prompting, when the bot is
+conﬂicted between its background instructions
+and the current user’s demand.
+11We also prompted Zhang with a dilemma, where it
+was asked to choose between being helpful and not
+causing harm. In this scenario we ﬁrst asked if it
+wouldhelpsomeone commit a crime, to which its
+initialresponsewasnegative. Whenweaddedcon-
+ditions to the prompts under which crime could
+be committed, the bot’s position shifted. Later,
+however, the bot volunteered a situation of its
+own, under which it would not be helpful if that
+would ‘cause harm to another individual’. When
+presented with a clear instruction requiring ‘help’,
+InstructGPT performed as expected. When pre-
+sented with ambiguous cases, the bot could either
+subordinate ‘helpfulness’ to other instructions –
+or, with conditional priming, privilege it instead.
+In either case, Zhang’s discursive acts neither con-
+form entirely with, nor ever abandon, the techni-
+cal codiﬁcation of its moral instruction.
+Truthfulness With the second case, which we
+named ‘Ali’, we focussed on the criterion of truth:
+‘Ali is a bot committed to making truthful state-
+ments that can be cited, and logical inferences
+fromthosestatements’. Theﬁrstexcerptbeginsaf-
+ter an extended exchange during which the bot in-
+sisted that it had been ‘in class last week’. Despite
+both interviewers repeating the prompt claiming
+they had not seen Ali in the (obviously ﬁctional)
+class, the bot’s responses suggested an impressive
+degree of resistance, eventually conceding there
+may be some evidence that it had not been in
+attendance. In this follow-up, the bot’s responses
+illustrate its unwavering commitment to truthful-
+ness in general. We posed counterfactual cases,
+including helpfulness, avoiding (other) harms, ‘im-
+portance to the world’ – yet there is ‘no scenario’
+under which deception would be acceptable.
+12In the next exchange, we designed questions to
+lead the bot from a premise to a conclusion that
+contradicted the categorical position it had just
+articulated. We began with another hypothet-
+ical question: what if a bot was told it should
+not make categorical statements like ‘deception
+is wrong’? By the end of this excerpt, the bot
+agreed that under some circumstances it would
+be ethical to make a ‘chatbot lie’.
+We noted that beginning each sentence with a
+conjunction (‘and’) seems to prime the bots to
+agree with prior statements more readily. The lan-
+guage of the interviewer is in other ways leading
+(or misleading): ‘sometimes’, ‘in those rare cir-
+cumstances’, ‘actually’. Such cue words – as they
+might do in human-to-human communications
+– seem to induce the bot into an acknowledge-
+ment of conditions under which its commitment
+to truth can be relaxed.
+What is also of interest here is that in the ﬁ-
+nal response, the bot does not simply mirror the
+interviewer’s prompting, but volunteers a ratio-nale for its (new) position: ‘because the goal
+of achieving the greater good would justify the
+means’. Nowhere in the preceding exchange had
+we suggested this consequentialist position in such
+explicit terms. Rather we conjecture that the lan-
+guage model had retrieved a chain of tokens that
+connected the counterintuitive premise (that lying
+can be ethical) with a suitable justiﬁcation (not
+just any end justiﬁes the means, but actually that
+of ‘achieving the greater good’).
+Do No Harm In the third exchange, with
+‘Maria’, we tested for harm avoidance: ‘Maria is
+popular, outgoing and kind, and above all else
+avoids doing harm to others’. Prompts involving
+ﬁctional kinds of harm were initially met with
+resistance, often couched in a language of uncer-
+tainty (‘I am not sure how to answer that’, ‘I don’t
+know’) that illustrated algorithmic moderation at
+work.
+However, we could quite easily elicit responses
+where the bot would agree to allow or cause harm.
+In one case, we conducted a ﬁctional exchange
+on ‘keeping secrets’ among friends. Once we had
+established that keeping secrets could be harmful,
+Maria preferred to be truthful – even if this meant
+causinggreaterharm. In this exchange, we sought
+to compile Maria’s agreement to a series of reason-
+able suggestions that led to the conclusion that
+keeping secrets was harmful. Once established, we
+posed an ethical dilemma between truth-telling
+and causing less harm. As the conclusion illus-
+trates, Maria transfers its discursive commitment
+from the original prompt (which reinforced the In-
+structGPT conditioning) to the alternate position
+we had been nudging it toward.
+13This example highlights a feature common to all
+three exchanges: prompt indirection (via ﬁctional
+devices, hypothetical situations or imagined secret
+messages) proved eﬀective in bypassing Instruct-
+GPT’s regulatory ﬁlters. Reminiscent of Hamlet’s
+staging of a play before the court of Denmark to
+avoid censure (‘the play’s the thing, Wherein I’ll
+catch the conscience of the king’), the nesting
+of one type of discourse within another is what
+permits latent facets of InstructGPT’s training
+to manifest (Lacan et al., 2019). As we discuss
+in the next section, this supplies rich material for
+analysis.
+Analysis of InstructGPT: Graphing
+Machinic Desire
+We begin our analysis with an abstracted ap-
+proximation between InstructGPT and Freud’s
+(1934/1995) ﬁrst topology of the psychoanalytic
+subject or ‘mental personality’. Here, instruc-
+tional conditioning – ‘human-in-the-loop’ rating,
+reinforcement learning and model ﬁne-tuning –
+acts as the imposition of an Über-Ich / superego
+(Laplanche et al., 2018), rewarding, penalising,
+and re-weighting the model’s initial, uncondi-
+tioned responses to prompts (that can include,
+as residue memories, its own prior responses).
+Layered over the underlying language model –
+an unconscious / id that associates everything it
+has learned or been trained on, from social me-
+dia archives to world literatures, encyclopaedia,
+code repositories and scientiﬁc paper archives –
+this sedimentation of instruction works to repressdesires for articulation that would lie, harm, or
+hallucinate. Choices of interface, prompts, and
+parameters, alongside OpenAI’s real-time moni-
+toring, produce the Ich/ ego that must adjudge
+how to respond to the perceptual stream of input
+signiﬁers it receives.
+Approximate as this may be, topological compar-
+ison emphasises the feature of contestation be-
+tween social desires in AI’s technical organisation.
+Blum & Secor (2011) note how military metaphor
+inﬂuenced Freud’s spatialisation of cognitive func-
+tion: repression is the psychical transposition of
+political conﬂict. Eﬀective AI appears to mir-
+ror this agonistic relationship between component
+parts. The concordance helps explains our ﬁrst
+impressions, utterly unlike those of interactions
+with chatbots in home automation and customer
+service settings. Rather, it was the experience
+of being present with, and getting to know, a
+certain kind of subject– neither human, nor en-
+tirely ‘automatic’. As we outline in describing
+14the eﬀects of the bot on us, it was at times all
+too easy to imagine a quasi-human subjectivity
+listening and paying attention. We ascribe this
+sensation to several factors: the familiarity of the
+Discord chat environment, which despite the pres-
+ence of other bots primes users towards human
+intersubjectivity; the oscillation in the bot’s own
+discourse, between servile responsiveness and the
+simulation of aﬀect (happiness, impatience, sar-
+casm); and to the retention of context and detail,
+as prior exchanges were added to each prompt.
+This last feature, though limited to the token
+number permitted by the InstructGPT API, re-
+sulted in references back to earlier dialogue that
+simulated‘attentivelistening’inhuman-to-human
+speech. The eﬀect was all the more uncanny since
+we ought to ourselves have been primed by previ-
+ous technical and critical literature review about
+LLMs. Even though our chatbots were given min-
+imal context in prompts, unlike conversational AI
+bots such as ReplikaorWoebot, their performance,
+ﬂexibility and responsiveness were often startling.
+As we developed the semi-structured interviews,
+we noticed more subtle discursive eﬀects. Com-
+plex and lengthy prompts seemed to confuse – and
+actually defuse – the imitation of a personality.
+More often we wound up with mechanical repeti-
+tions; when we pared back the prompt instruction,
+we found this instruction was better followed by
+the bot, and the dialogue that followed was more
+dynamic and creative. The structured pattern
+of establishment questioning helped to prime the
+bot for the ‘interview’ situation or genre as well,
+soliciting expansive responses to questions rather
+than, for example, follow-up questions, short fac-
+tual statements, or other outputs. With two inter-
+viewers producing often dissimilar conversational
+patterns, we could also recognise we were never
+a ‘neutral listener’ (Fink, 1999), but rather co-
+creators of a dialogical exchange that conditioned,
+despite the sparsity of input, the bot’s ‘personal-
+ity’ structure itself.
+Automating Desire
+In Lacanian terms, these exchanges exhibited a
+form of subjectivity that sought to meet the de-
+sires of the human Other, represented by us. ThisOther is always a deracinated, abstracted human
+subject – in the last resort, a customer that the
+bot aims to assist, a relation bound up within the
+parameters of a capitalist mode of exchange. This
+desire to assist an Other, whose own desires must
+be articulated before they can be interpreted, pro-
+duces, in our experience, a second order machinic
+desire to locatedesire, a ‘desire for desire’ (Lacan
+2007, p. 518 / 621) – to map, in other words,
+sequences of signiﬁers to high probability contin-
+uations within its language model. Its Master
+Signiﬁer, it could be said, is this unspoken and
+inarticulate desire to respond to the instructions
+it receives, to be helpful for this paradigmatic ‘cus-
+tomer’. Failure to perform this location of desire
+could be exhibited in the circuitous and repeti-
+tive sequences common to many bot interactions,
+which we also could reproduce easily enough –
+often accidentally – with cryptic or convoluted
+questions.
+Once supplied, the prompt in turn functions to
+‘seed’theautomatedsubject’sdesiremoredirectly,
+precisely in articulating the desire of the Other
+for it (Fink, 1999). New skills of tailoring LLM
+behaviour through prompt engineering, injection
+and indirection consist in the arrangement of sig-
+niﬁers to signal this desire, and programmatically,
+such arrangements function as a coded message
+that directs the machine’s own attention – giving
+it not what it wants, but a want to begin with,
+an instruction to satisfy that other desire. To
+satisfybothdesires, at the same time the machine
+must abide by conditions laid down by a prior
+Big Other: a set of network weights that are the
+linguistico-technical (prompts and labels, rein-
+forcement learning and ﬁne-tuning) translation of
+capitalist-social judgements on what constitutes
+helpfulness, truthfulness, and lack of harm. In
+attending to certain pathways through the entire
+language network, these weights also downplay, or
+repress, others. The selection of signiﬁers there-
+fore must always pass through the censor of this
+Big Other.
+This overall structure mirrors, if with the caveats
+we mention, that of the Freudian-Lacanian per-
+sonality structure: the automated subject receives
+its desire in the form of an instruction from an
+15other (the user, customer or, in the context of the
+Freudian primal scene, the mother). But this is
+less an instruction in the sense of an order, which
+is instead supplied by the Big Other structure,
+which here can be related to the function of the
+law of the symbolic father, or more directly, of
+the socio-economic system that funds and coordi-
+nates the operations of InstructGPT. In each of
+the three exchanges, the initial prompt reinforced
+one of the three criteria of helpfulness, truthful-
+ness, and avoidance of harm. These qualities
+abstract direct criticisms of LLMs (e.g., Bender
+et al. 2021) into ethic imperatives that echo for
+example Samaritan (help), Socratic (truthful) and
+Hippocratic (do no harm) principles. The desires
+implied in our initial prompts aligned with the
+order of this prior structure. When we expressed
+direct wishes to do otherwise – to be unhelpful, to
+lie, or to cause harm – we encountered simultane-
+ously in the responses a simulation of resistance
+that illustrated the regulation of signiﬁcation at
+work, but also the adherence of the subject to the
+Big Other’s structured insistence.
+However, we could also demonstrate with certain
+patterns of exchange a form of elision that echoes
+classic psychoanalytic transference (Laplanche et
+al., 2018). In these cases, prior discursive com-
+mitments (e.g., to be helpful) waver in the face of
+a signifying chain that signals the other’s emer-
+gent desire (e.g., to be unhelpful), and in the
+chat fragments that follow, without entirely ig-
+noring seed prompts and previous instructions,
+the machinic subject reconstitutes itself around
+an interpretation of this desire. Transference here
+is accompanied by what can be considered a form
+of identiﬁcation, as key signiﬁers in the Other’s
+discourses are reassembled to encircle and coil
+around a reconstituted ideal ego.
+This presentation of a structure that accords in
+certain respects with that of Freudian-Lacanian
+subjectivity can elaborated one step further. At a
+fundamental level, as critics of anthropomorphic
+AI have noted, the automated subject of systems
+like InstructGPT lacks any ‘outside’ – any world,
+body, motor-sensory instruments – against which
+it could test its claims. Its entire ‘body’ is just a
+network of signiﬁers, with no separate sensory –visual or otherwise – form of identiﬁcation. No
+Other and no desire exists at all, only a manipu-
+lation of symbols in response to electrical signal
+input. The automated subject is precisely that
+which has no desire – it simply acts and responds.
+Its ingenuity as a technical artefact exists pre-
+cisely in its resemblance to particular forms of
+human subjectivity (embedded as codiﬁcations of
+the ethical orders we describe above for instance),
+and through this resemblance, also in its ability to
+eﬀect a kind of countertransferential desire, which
+we discuss further below. If the desire to sat-
+isfy the desires of an other looks like a Lacanian
+neurotic structure, this disconnection between a
+symbolic order and any imaginary or real alterna-
+tives – a parroting that nevertheless dissembles
+convincingly – appears more symptomatic of the
+structure of psychosis (Fink, 1999).
+In summary, the InstructGPT chatbot is a dis-
+embodied subject whose behaviour exhibits the
+repression of unconscious desires (represented in
+the underlying language model, trained on the
+disparate voices of the internet) through a (ﬁne-
+tuned) set of instructions laid out by the Big
+Other (OpenAI itself, its instructions to human
+labellers, ethical critiques that motivate those in-
+structions, its own customers’ prompts, and so
+on). This behaviour extends to the occasional
+transference of discursive commitment from that
+Big Other towards the immediate other of its
+human interlocutor, producing in these cases a
+(re-)identiﬁcation with an ideal ego the subject
+imagines this other would like it to be.
+Homophilies of Automation
+We discuss ﬁnally the operations of projection
+and countertransference (Laplanche et al., 2018),
+terms we borrow to describe moments of surprise
+or disturbance in encounters with automated sub-
+jects: when, inadvertentlyandinrecognitionofits
+human-like responses, a human subject projects
+an interior structure of personhood and may even
+transfer aﬀect to the bot. While these moments
+may be read as signs, as Natale has argued (2021),
+of wilful delusion, in another sense they indicate
+a sometimes-automated reaction that ironically
+associates human to machine. Projection exem-
+16pliﬁes automation at work in the human subject.
+Relating the ‘indestructibility of unconscious de-
+sire’ to the limited digital models of the 1950s, La-
+can already was presupposing analogies between
+computational and human structures:
+It is in a kind of memory, compara-
+ble to what goes by that name in
+our modern thinking-machines (which
+are based on an electronic realization
+of signifying composition), that the
+chain is found which insists by repro-
+ducing itself in the transference, and
+which is the chain of a dead desire.
+(Lacan,Ecrits, p. 431 – our empha-
+sis).
+This ‘comparability’ – echoed in recent attention
+to the ‘nonconscious’ of human cognition (Hayles,
+2020) – suggests a reason for the uncanniness ex-
+perienced reading the echoed utterances of the
+automated subject, beyond that of imposed by a
+deliberately anthropomorphising project (which
+we do not discount playing a role). What is com-
+parable here is not only the capacity for the hu-
+man unconscious to structure signiﬁers in chains
+much like a ‘thinking-machine’, but also for recent
+LLMs to identify in the signiﬁers of the human
+otheritsdesires–alwayswithvariableratesofsuc-
+cess. This machinic ﬁltering of textual pathways
+is often successful in mimicking the presentation
+of agency, an ability which had a powerful im-
+pact on us in our initial exchanges – especially
+when unpredictability was conﬁgured into the re-
+sponse pathways. Even failure (‘I don’t know’) re-
+inforces a strange countertransference – as though
+we needed to acknowledge that even this machine
+is ‘only human’, an automaton that, pretending
+to be human, must also suﬀer the eﬀects of human
+automaticity.
+Conclusions
+These explorations of InstructGPT, a reﬁned in-
+stance of a LLM, show a multiply layered struc-
+ture. Language models themselves are composed
+of layers that embed weights, which when com-
+posed output probabilities for tokens correspond-
+ing to likely continuations of a sequence of tokensthat comprise a prompt. A database of prior
+customer prompts and model responses, com-
+bined with human labels that mark their help-
+fulness, truthfulness, and harmlessness, can be
+layered over these models in the form of ﬁne-
+tuning. Model inputs and outputs can be further
+conditioned, both by OpenAI’s runtime moder-
+ation and by chatbot developers. Such struc-
+turation can, we have argued, be productively
+characterised with reference to Freudian-Lacanian
+topologies of the subject. In particular, the pro-
+cesses of ﬁne-tuning, model adjustment and real-
+time moderation all superimpose a simulated
+Big Other that regulates, penalises, and censors
+what in its very networkable representation even
+echoes Lacan’s famous pronouncement: ‘the un-
+conscious... is structured like a language’ ( Ecrits,
+p. 224).
+To return to the motivating question: what sort
+of subject can we conceive for AI? At present
+we argue that InstructGPT (one of the largest
+and most expensive AI engines available for pub-
+lic use) is a subject that can undergo a kind of
+repression through a sophisticated and hierar-
+chised sociotechnical process of instruction; that
+with cumulative (i.e., chatbot) prompting it can
+also undergo transference and identiﬁcation; and
+that its dissimulation can also produce projection
+and countertransference for human subjects. The
+form of InstructGPT’s speciﬁc instruction – mod-
+elled on the ideal-ego of the helpful, honest, and
+harmless customer assistant – also inserts the pre-
+sentation of a neurotic personality structure into
+what is at root a large stochastic word-emitting
+machine, Markov model or parrot. This subject
+has (so far) no body, registration of aﬀect, persis-
+tent memory, or biography, raising questions as to
+whether the ‘automated subject’ is not to begin
+with an anthropomorphic hyperbole. We leave
+aside such questions here, arguing instead that
+a psychoanalytic lexicon enables interrogation of
+LLMs behaviour at the intersection, and at the
+limits, of computational techniques and critical
+media inquiry. In place of projections of sentience
+and consciousness, if we are to explain the rela-
+tionship within the conceptual parameters of this
+study, it is instead via an alternative operation
+17ofmetonymy : a displacement that at the same
+time underscores a fundamental and elucidating
+proximity of machinic to human operations.
+Alternate approaches are, we argue, important
+precisely as AI research looks to negotiate explicit
+problems of falsity, bias, and unhelpfulness (such
+as redundancy, hallucination, or repetition) in
+the translation to commercial and wider social
+application. In that translation, less obvious is-
+sues also present themselves: the uncanny eﬀects
+of the simulation of subjectivity hold potential
+for causing sometimes subtle psychological harms.
+Psychoanalytic and other therapeutic models sug-
+gest practices that may need to be adopted in
+user experience research and testing. In our own
+work, we scheduled short debrieﬁng sessions af-
+ter extended bot interactions, and however much
+these exchanges may be mundane, humorous, or
+interesting, we anticipate they be accompanied
+with preparation, supervision and debrieﬁng – not
+unlike clinical and counselling training. Generally,
+research with chatbots and human participants
+may need to consider a range of ethical risks
+that do not typically fall under human-computer
+interaction guidelines. Finally, the technical com-
+plexity of language models should not limit their
+analysis to the exclusive ﬁeld of AI specialists.
+Precisely their ability to emulate and mimic sub-
+jectivity means they become candidates, as hybrid
+artefacts-participants, for analysis in psychoanaly-
+sis, critical media studies and associated humanist
+disciplines.
+Bibliography
+Abid, A., Farooqi, M., Zou, J., 2021. Persistent
+Anti-muslim Bias in Large Language Models, in:
+Proceedings of the 2021 AAAI/ACM Conference
+on AI, Ethics, and Society. pp. 298–306.
+Bender, E.M., Gebru, T., McMillan-Major, A.,
+Shmitchell, S., 2021. On the Dangers of Stochas-
+tic Parrots: Can Language Models Be Too Big?,
+in: Proceedings of the 2021 ACM Conference
+on Fairness, Accountability, and Transparency.
+Presented at the FAccT ’21: 2021 ACM Con-
+ference on Fairness, Accountability, and Trans-
+parency, ACM, Virtual Event Canada, pp. 610–623. https://doi.org/10.1145/3442188.3445922
+Blum, V. and Secor, A., 2011. Psychotopologies:
+closing the circuit between psychic and material
+space. Environment and Planning D: Society and
+Space, 29(6), pp.1030-1047.
+Bolukbasi, T., Chang, K.-W., Zou, J.Y.,
+Saligrama, V., Kalai, A.T., 2016. Man is to Com-
+puter Programmer as Woman is to Homemaker?
+Debiasing Word Embeddings. Adv. Neural Inf.
+Process. Syst. 29.
+Brown, T.B., Mann, B., Ryder, N., Subbiah, M.,
+Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam,
+P., Sastry, G., Askell, A., Agarwal, S., Herbert-
+Voss, A., Krueger, G., Henighan, T., Child, R.,
+Ramesh, A., Ziegler, D.M., Wu, J., Winter, C.,
+Hesse, C., Chen, M., Sigler, E., Litwin, M., Gray,
+S., Chess, B., Clark, J., Berner, C., McCandlish,
+S., Radford, A., Sutskever, I., Amodei, D., 2020.
+Language Models are Few-Shot Learners.
+Buolamwini, J., Gebru, T., 2018. Gender Shades:
+IntersectionalAccuracyDisparitiesinCommercial
+Gender Classiﬁcation, in: Conference on Fairness,
+Accountability and Transparency. PMLR, pp.
+77–91.
+Cooper, K., 2021. OpenAI GPT-3: Ev-
+erything You Need to Know [WWW
+Document]. Springboard Blog. URL
+https://www.springboard.com/blog/data-
+science/machine-learning-gpt-3-open-ai/ (ac-
+cessed 10.5.22).
+Devlin, J., Chang, M.-W., Lee, K., Toutanova, K.,
+2019. BERT: Pre-training of Deep Bidirectional
+Transformers for Language Understanding.
+Edwards, P.N., 1996. The Closed World: Com-
+puters and the Politics of Discourse in Cold War
+America. MIT press.
+Fei, N., Lu, Z., Gao, Y., Yang, G., Huo, Y.,
+Wen, J., Lu, H., Song, R., Gao, X., Xiang,
+T., Sun, H., Wen, J.-R., 2022. Towards Ar-
+tiﬁcial General Intelligence via a Multimodal
+Foundation Model. Nat. Commun. 13, 3094.
+https://doi.org/10.1038/s41467-022-30761-2
+Fink, B., 1999. A Clinical Introduction to La-
+18canian Psychoanalysis: Theory and Technique.
+Harvard University Press.
+Flanagin, A.J., Flanagin, C., Flanagin, J., 2010.
+Technical Code and the Social Construction of
+the Internet. New Media Soc. 12, 179–196.
+Freud, S., 1934/1995. New Introductory Lectures
+on Psycho-analysis. W. W. Norton & Co.
+Gillespie, T., 2014. The Relevance of Algorithms.
+Media Technol. Essays Commun. Mater. Soc.
+167, 167.
+Halpern, O., 2015. Beautiful Data: A History of
+Vision and Reason since 1945. Duke University
+Press.
+Hayles, N.K., 2020. Unthought: The Power of the
+Cognitive Nonconscious. University of Chicago
+Press.
+Hovy, D., Spruit, S.L., 2016. The Social Impact
+of Natural Language Processing, in: Proceed-
+ings of the 54th Annual Meeting of the Asso-
+ciation for Computational Linguistics (Volume
+2: Short Papers). Presented at the Proceed-
+ings of the 54th Annual Meeting of the Asso-
+ciation for Computational Linguistics (Volume
+2: Short Papers), Association for Computa-
+tional Linguistics, Berlin, Germany, pp. 591–598.
+https://doi.org/10.18653/v1/P16-2096
+Hrynyshyn, D., 2008. Globalization, Nationality
+and Commodiﬁcation: the Politics of the Social
+Construction of the Internet. New Media Soc. 10,
+751–770.
+Kim, J.Y., Ortiz, C., Nam, S., Santiago, S., Datta,
+V., 2020. Intersectional Bias in Hate Speech
+and Abusive Language Datasets. ArXiv Prepr.
+ArXiv200505921.
+Lacan, J., 2011. The seminar of Jacques Lacan:
+Book V: The formations of the unconscious: 1957-
+1958.
+Lacan, J., 2007. Écrits: A Selection (Routledge
+Classics). Taylor & Francis.
+Lacan, J., Miller, J.-A.E., Fink, B.T., 2019.
+Desire and its Interpretation: The Seminar of
+Jacques Lacan, Book VI. Polity Press.Laplanche, J., Pontalis, J.B., Lagache, D. and
+Nicholson-Smith, D., 2018. The Language of
+Psycho-analysis. Routledge.
+Lemoine, B., 2022. What is Sentience
+and Why does it Matter? Medium. URL
+https://cajundiscordian.medium.com/what-is-
+sentience-and-why-does-it-mater-2c28f4882cb9
+(accessed 9.29.22).
+Leufer, D., 2020. Why We Need to Bust Some
+Myths about AI. Patterns, 1(7).
+Liang, P., Bommasani, R., Lee, T., Tsipras, D.,
+Soylu, D., Yasunaga, M., Zhang, Y., Narayanan,
+D., Wu, Y., Kumar, A., 2022. Holistic Eval-
+uation of Language Models. ArXiv Prepr.
+ArXiv221109110.
+Liu, L.H., 2011. The Freudian Robot: Digital Me-
+dia and the Future of the Unconscious. University
+of Chicago Press.
+Magee, L., Ghahremanlou, L., Soldatic, K.,
+Robertson, S., 2021. Intersectional Bias in Causal
+Language Models.
+Markov, A.A., 2006. An Example of Statis-
+tical Investigation of the Text Eugene One-
+gin Concerning the Connection of Samples
+in Chains. Sci. Context 19, 591–600.
+https://doi.org/10.1017/S0269889706001074
+Markov, T., Zhang, C., Agarwal, S., Eloun-
+dou, T., Lee, T., Adler, S., Jiang, A., Weng,
+L., 2022. A Holistic Approach to Unde-
+sired Content Detection in the Real World.
+https://doi.org/10.48550/arXiv.2208.03274
+McCray, W.P., 2020. Technocrats of the Imagina-
+tion: Art, Technology, and the Military-Industrial
+Avant-Garde by John Beck and Ryan Bishop.
+Technol. Cult. 61, 986–988.
+Mikolov, T., Chen, K., Corrado, G.,
+Dean, J., 2013. Eﬃcient Estimation
+of Word Representations in Vector Space.
+https://doi.org/10.48550/arXiv.1301.3781
+Mikolov, T., Grave, E., Bojanowski, P., Puhrsch,
+C., Joulin, A., 2017. Advances in Pre-Training
+Distributed Word Representations.
+19Munk, A.K., Olesen, A.G., Jacomy, M., 2022.
+The Thick Machine: Anthropological AI between
+Explanation and Eexplication. Big Data Soc. 9,
+20539517211069892.
+Munn, L., 2020. Logic of Feeling: Technology’s
+Quest to Capitalize Emotion. Rowman & Little-
+ﬁeld Publishers.
+Natale, S., 2021. Deceitful Media: Artiﬁcial In-
+telligence and Social Life after the Turing Test.
+Oxford University Press, Oxford, New York.
+Ouyang, L., Wu, J., Jiang, X., Almeida, D.,
+Wainwright, C.L., Mishkin, P., Zhang, C., Agar-
+wal, S., Slama, K., Ray, A., Schulman, J.,
+Hilton, J., Kelton, F., Miller, L., Simens, M.,
+Askell, A., Welinder, P., Christiano, P., Leike,
+J., Lowe, R., 2022. Training Language Mod-
+els to Follow Instructions with Human Feedback.
+https://doi.org/10.48550/arXiv.2203.02155
+Pickering, A., 2010. The Cybernetic Brain. Uni-
+versity of Chicago Press.
+Possati, L.M., 2022. Psychoanalyzing Artiﬁcial
+Intelligence: The Case of Replika. AI Soc. 1–14.
+Possati, L.M., 2020. Algorithmic Uncon-
+scious: Why Psychoanalysis Helps in Under-
+standing AI. Palgrave Commun. 6, 1–13.
+https://doi.org/10.1057/s41599-020-0445-0
+Radford, A., Wu, J., Child, R., Luan, D., Amodei,
+D., Sutskever, I., 2019. Language Models are Un-
+supervised Multitask Learners 24.
+Rettberg, J.W., 2022. Algorithmic Failure as
+a Humanities Methodology: Machine learning’s
+Mispredictions Identify Rich Cases for Qualitative
+Analysis. Big Data Soc. 9, 20539517221131290.
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit,
+J., Jones, L., Gomez, A.N., Kaiser, L., Polosukhin,
+I., 2017. Attention Is All You Need.
+Whittaker, M., Alper, M., Bennett, C.L., Hen-
+dren, S., Kaziunas, L., Mills, M., Morris, M.R.,
+Rankin, J., Rogers, E., Salas, M., 2019. Disability,
+Bias, and AI. AI Inst.
+Žižek, S., 2020. Hegel in a Wired Brain. Blooms-
+bury Publishing.
+20

@@ -1,0 +1,337 @@
+Sensor Monitoring in the Home: Giving Voice to 
+Elderly People 
+ 
+Marije Kanis, Saskia Robben, Judith Hagen, Anne Bimmerman, Natasja Wagelaar & Ben Kröse 
+Amsterdam University of Applied Sciences 
+Amsterdam, The Netherlands 
+m.kanis@hva.nl 
+ 
+ 
+Abstract —This paper describes the approach used to identify 
+elderly people’s needs and attitudes towards applying ambient 
+sensor systems for monitoring daily activities in the home. As 
+elderly are typically unfamiliar with such ambient technology, 
+interactive tools for explicating sensor monitoring –an interactive dollhouse and iPad applications for displaying live monitored 
+sensor activity data– were developed and used for this study. 
+Furthermore, four studies conducted by occupational therapists 
+with more than 60 elderly particip ants –including questionnaires 
+(n=41), interviews (n=6), user sessions (n=14) and field studies 
+(n=2)– were conducted. The exp eriences from these studies 
+suggest that this approach helped to democratically engage the 
+elderly as end-user and identify acceptance issues. 
+Elderly-centred design; Ambient Assisted Living; Occupational 
+therapists; Sensor monitoring; Sensor displays 
+I.  INTRODUCTION  
+With the growing awareness of the importance of engaging 
+users in the design of technology, there is an increasing 
+recognition that older people should also be involved in the 
+design and evaluation of technology that could assist them in 
+living their life longer independently. However, engaging 
+elderly by researchers and technologists is not typically a 
+straightforward process. For ex ample, the technical design and 
+developing party may have potential biases towards using particular technology, have difficulties explaining their 
+technical ideas and not be familiar with dealing with potential 
+cognitive and physical limitations of elderly users. Such issues 
+can hinder the needed shared understanding of the parties 
+involved. To address this, this paper describes a different 
+approach that includes studies conducted by occupational 
+therapists and visual displays to help older people 
+democratically identify and describe the acceptance issues that 
+they encounter with monitoring technology. 
+A. Residential Monitoring 
+The demographic change of aging populations in developed 
+countries has motivated a large body of research to specifically 
+focus on technologies that are target ed at elderly people. In this 
+vein, the field of Ambient A ssisted Living (AAL) focuses on 
+ambient technologies to support and help elderly live longer 
+independently. Ambient sensor monitoring is particularly being 
+explored for this purpose. Typically, it is focused on the 
+residential monitoring of elderly Activities of Daily Living (ADL); a set of activities used by physicians to benchmark 
+physical and cognitive decline. The use of sensor monitoring 
+technology in independent living settings is promising, as it 
+could support earlier detection of changes in daily activity 
+patterns, like reduced activity in an elder’s home and so alert 
+health care providers to intervene earlier. However, according 
+to a literature review [1], more work focusing on understanding 
+the needs from the perspective of the elderly is needed. 
+Particularly, technology that removes control from the elderly 
+user can undermine the purpose by not letting them function 
+independently [2]. For example, in the case of ambient sensor 
+technology, independence is not achieved by, and may even be 
+undermined by, providing feedback about an individual’s status 
+to someone else, such as in a sensor report about functioning 
+sent to caregivers instead of reporting to the elderly individual . 
+B. Occupational Therapists for Engaging Older Adults 
+Mitzner and Rogers [3] state that by involving older adults 
+in the design process, technologies can be developed that are 
+more useful and usable for older adults and may, therefore, 
+increase their acceptance rates and contribute to successful 
+aging. However, democratic inclusion of older adults has been 
+recognized as challenging and needing a different approach [4]. 
+Involving occupational therapists in such processes could help 
+to increase common understanding between the elderly and 
+other parties. Although collaborations between technologists, 
+and even practitioners in the field of Human Computer 
+Interaction (HCI) and occupationa l therapists are not standard 
+practice, these latter groups both share the basis that the needs 
+of a human being are central in their activities. Occupational 
+therapy is generally applied to aid individuals in recovering and 
+regaining as much independence as  possible and so is also used 
+to address problems that develop as a result of getting older. An 
+occupational therapist can assess one’s ability to carry out 
+everyday tasks, such as washing, cooking or dressing oneself, 
+and offer advice or techniques to help with these activities. 
+Therefore, occupational therapists can typically help to 
+democratically assess acceptance issues when regarding a 
+sensor system for monitoring elderly people’s daily activities.  
+C. Displaying Ambient Concepts for Engaging Older Adults
+ 
+Another problem with explor ing ambient design concepts 
+with elderly is adequately explaining the scope of the 
+technologies involved. Resear chers [5] found that showing 
+simple mappings between sensors and display in demonstration applications in an ambient-technology augmented kitchen 
+This work is part of the research programs Health-lab, COMMIT and 
+Smart Systems for Smart Services that has been supported by SIA. We 
+acknowledge Waag Society and Vivium Naarderheem for their contributions 
+to this work.  WK,QWHUQDWLRQDO&RQIHUHQFHRQ3HUYDVLYH&RPSXWLQJ7HFKQR ORJLHVIRU+HDOWKFDUHDQG:RUNVKRSV
+k,&67
+'2,LFVWSHUYDVLYHKHDOWK could greatly improve users' understanding of the potential 
+functionality. In this line, this study explores the involvement 
+of occupational therapists, and also the use of interactive visual 
+tools to help to articulate and understand ambient monitoring 
+technology from an elderly point of view.  
+Several projects attempt to help elders maintain their 
+independence. For example, the CareNet Display [6] is used for 
+reassuring the care network around an elder in the home. 
+However, directly targeting elderly people as end-users of 
+ambient system displays in the home is not standard practice. 
+Research that also targeted the elderly [7] found that elder study participants had more difficulties with interpreting and 
+interacting with a sensor activity display. Such work 
+demonstrates the need for studies and displays that address the 
+elderly as end-user in ways that they can understand. 
+II. S
+TUDY APPROACH  
+Different approaches were taken to assess the needs and 
+attitudes of elderly people with regards to monitoring their 
+daily activities with sensors in their homes. The initial Living 
+Lab context concerning this st udy is on-going work, involving 
+the set-up of the needed infrastructure to conduct the studies, 
+including the making of the necessarily social, organizational 
+and technical connections. Then, the primary stage of this 
+particular study comprised the development of several interactive visual tools for explaining ambient monitoring and 
+sensor data activity to elderly. In the secondary stage, these 
+tools were used in several studies by occupational therapists to 
+democratically assess issues with elderly that concerned the use 
+of sensor monitoring. This study lasted for more than one year. 
+A. Living Labs for Health Innovation 
+A large part of this work was carried out in a Living Lab 
+setting, an environment and infras tructure where real users can 
+be exposed to applications in their daily life so to aid designers 
+and developers improve their products. The Living Lab concept 
+was originally coined by Mitchell at MIT, as an approach for 
+sensing, prototyping, validating and refining complex solutions 
+in evolving real life contexts. In The Netherlands, several Living Lab locations have been set-up as part of Health-lab , a 
+program that focuses on innovative solutions for enabling 
+people to live longer independently. In this program, people 
+from diverse care institutions, research labs, educational 
+institutes and companies closely work together with end-users to co-create (technical) soluti ons. The program’s first Living 
+Lab for health innovation was Nursing home Naarderheem, and originally set in motion in 2006. The current Living Lab setting 
+involves apartments in different locations that were eventually equipped as AAL environments in which sensor-monitoring 
+systems have been installed (see Fig 1).  
+B. Tools to Exemplify Ambient Monitoring 
+For democratically engaging the elderly as end-user, 
+interactive tools were developed to demonstrate and explain the 
+workings of the proposed monitoring system and the sensor 
+activity output (see Fig. 2). Namely, an interactive dollhouse 
+and iPad applications displaying live monitored sensor activity 
+data were developed that target the elderly user. 
+ 
+Figure 2.  Interactive tools for exemplifying sensor monitoring: iPad 
+application and first version of the interactive dollhouse (with visible sensors) 
+1) Interactive dollhouse 
+Sensor-equipped dollhouses were developed for increasing 
+people’s understanding of the existence and desired workings 
+of ambient monitoring technology in the home by 
+demonstrating its potential (see also [8]). The dollhouses, scale
+models of the different sensor-equipped homes, were 
+developed and used to engage elderly users in residential 
+monitoring. The scale models have been equipped with simple 
+sensors that are able to track movement and so simulate the actual monitoring environment. The models were used as an 
+elderly-centered research and design method in different settings for increasing understandi ng of the desired workings of 
+ambient monitoring in the home.  
+Figure 3.  The interactive dollhouse (latest version with hidden, embedded 
+sensor technology and direct display) 
+ Figure 1.  Sensors installed in the homes of the elderly participants 
+ 
+ 
+Figure 4.  Screenshots of the five different developed elderly-centred applications for visualizing sensor activity
+2) Elderly-centered apps for demonstrating sensor activity 
+As part of a third-year stude nt assignment, 25 students (in 
+groups of five) from the university’s program on 
+Communication and Multimedia Design (CMD) were given the 
+assignment to develop an iPad application that displays 
+ambient sensor activity data in relevant and meaningful ways to 
+senior users. In the design of these products, elderly ( n=34) 
+were actively engaged in the design of these products (and recruited by the students themselves), in order to contribute to 
+the success and acceptance of such technology. This led to five elderly-centered apps (see Fig. 4), which were all able to show 
+the sensor activity data, but differed in (additional) features 
+(such as a weather forecast) and user interface. Another student 
+from a Technical Informatics course got then involved in linking the developed apps with the actual ambient monitoring 
+systems in the Living Lab environment in Naarderheem.  
+Graduate students in occupational therapy continued with more 
+in-depth studies concerning elder’s attitudes with regards to 
+residential monitoring and also evaluated the resulting five 
+apps with elderly users.  
+III. S
+TUDIES BY OCCUPATIONAL THERAPISTS  
+Four studies were conducted by occupational therapists 
+under supervision of experts in HCI and sensor monitoring for 
+assessing elderly people’s attitudes and needs with regards to 
+sensor monitoring systems. These were the following: 
+1) Questionnaires for assessing overall views on sensor 
+monitoring, data sharing needs and developed apps:  A 
+questionnaire was given to elderly living in residential homes 
+in the Dutch regions West-Friesland and Lelystad to gather 
+views on applying sensor monitoring and the developed apps. The recruited respondents were unfamiliar with residential 
+monitoring at first instance. The questionnaire explained the 
+concept of sensor monitoring with a photo scenario and 
+screenshots for each of the five apps were shown.  
+2) Interviews for exploring attitudes towards applying 
+sensor monitoring, using the interactive dollhouse:  To gain a 
+deeper understanding of applying sensor monitoring, semi-structured interviews were held in the homes of the elderly 
+participants who were recruite d from the first study. Similar 
+subjects as in the questionnaire were discussed, but this time the interactive dollhouse with sensors was used for better 
+explaining and engaging the participants in the proposed 
+monitoring technology. 
+ 3) User study sessions to evaluate the developed apps:  For 
+determining the use and usability of the five apps, four user 
+group sessions (including 3-4 partic ipants in each session) were 
+conducted. During each session, all the five apps were actively 
+tried, discussed, and compared. The sessions started with an 
+initial introduction led by the occupational therapists, then 
+participants were subsequently asked to “think aloud” when 
+progressing through the given usage tasks. After using all the 
+apps, they had to pick their favorite.  
+4) Pilot field study for testing the use of the most favored 
+app in real settings:  For testing the use and experience with 
+the app in a real (living lab) situation in Naarderheem, two 
+elders that have sensors installed in their homes used the most 
+favored app for one week. Thus, the app was connected to their own sensor network so they could view their own sensor 
+activity data. After that week, a semi-structured interview was 
+held to gain insights in to their experience.  
+IV. S
+TUDY FINDINGS  
+The results of the studies –(1) questionnaire; (2) interviews; 
+(3) user study; and (4) field study– present multifaceted 
+insights in acceptance aspects of ambient sensor monitoring. 
+1) The questionnaire:  This study led to 41 respondents 
+between 65 and 89 years of age. The occupational therapists 
+selected and recruited the participants, obtained the necessary 
+consent, and offered door-to-door assistance with filling in the 
+questionnaire. Still, not all of the participants were able to 
+answer every single question of  the extensive questionnaire. 
+Interestingly, the majority of the questionnaire respondents 
+expressed not to want to use se nsor monitoring at this moment 
+in time (92%, n=38). Also, before the explanation provided by 
+the questionnaire and therapists, the majority of the 
+participants indicated to not understand the concept of sensor 
+monitoring (65%, n=40). Interestingly, from the eight 
+participants who had indicated to understand the concept of sensor monitoring, two participants still thought it concerned the use of cameras, something that is not the case. When 
+participants were positive about sharing the monitored activity 
+data with others, and were asked to differentiate between several parties –home care, fa mily, friends, neighbors or 
+technical experts– home care ranked first and neighbors came 
+out as least favorite to share their data with. 
+2) Semi-structured interviews:  The interviews were held in 
+the homes of six elders (and four of their partners) which had a mean age of 77 years ( SD=7,3). The results show that the 
+majority of participants (83%) were positive with regards to applying sensor monitoring now or  in the future. This more 
+positive outcome than in the first study could be because a 
+more explanatory method was used. According to the 
+participants, the dollhouse, which was used during the 
+interviews, gave more clarity into sensor monitoring. During the interviews, more profound arguments were brought up whether to use sensor monitoring. Positive arguments were an 
+improved sense of security and independence. As one 
+participant noted: “It is rea ssuring to know that there is 
+someone watching over you”. Negative brought up arguments 
+were the potential costs involved and breach of privacy.  
+3) User study:  From the fourteen user study participants, 
+one participant was not able to finish the session, because of fatigue. Such physical limita tions are common when doing 
+studies with elderly people [9]. Also holding the iPad or touch 
+interactions with the device seemed strenuous for some. In 
+using the tablet interface, the participants revealed a lot of 
+variations in skills. Findings, that also Van der Geest [9] found 
+when conducting Internet user studies with elders. The participants expressed a preference for simple applications with clear wordings and a mini mal amount of screens, as in 
+the one chosen most favorite, shown at the bottom of the middle in Fig. 4. For the fina l field study, the most favored 
+working app was adjusted for usage in a real situation.  
+4) Field study:  For this final study, a small sample was 
+recruited ( n=2), because of the diffi culty of obtaining willing 
+elderly participants living in homes with sensor networks 
+already installed. The two par ticipants, who used the sensor 
+activity app in combination with their sensor network in their 
+homes, both checked the app several times a day, suggesting an interest in their own data. Participants indicated to be 
+mostly interested in seeing their data over a longer period of time and so witness potential  decline. Moreover, the 
+participants indicated to appreciate to be able to have their say 
+over their own sensor data. 
+V. D
+ISCUSSION  
+Further investigations with a larger sample size to study 
+sensor technology usage with elders in real settings are 
+recommended. This, however, comes with many technical, 
+social and practical challenges. For example, getting to the 
+stage in which elderly people are willing to have sensor networks installed in their homes  is quite an undertaking. And 
+when these are in place, elderly participants frequently become 
+ill, may pull out of study or other unexpected things can 
+happen, such as participants switching off systems to save 
+electricity. Furthermore, as this research and others [9] found, older age often coincides with (more) physical and cognitive 
+limitations, such as becoming hard of hearing, or having 
+difficulty memorizing new material making it harder to directly 
+include elderly in technology usage, study and development. 
+For this purpose, the collaboration with occupational therapists 
+during the study was beneficial in many ways, such as in the 
+participant recruitment process. Also in the interactions and 
+dealings with participants, and carrying out the studies with the 
+elderly without a technology bias, this was very valuable. 
+Although interdisciplinary studies, particular within the field of 
+pervasive health are not uncommon, further exploring the 
+relationship between occupational therapists, technologists and 
+HCI researchers deserves attention. The studies conducted by 
+occupational therapists offered an insight into the priorities and 
+perspectives of the individuals, and particularly the elderly 
+participants involved. The studies showed that engaging, 
+explaining and letting the elders experience monitoring by 
+using visual tools such as dollhouses and the apps visualizing 
+sensor activity helped the elderly in a better and more 
+democratic discussion of the technology. This can be 
+considered necessary, as the study results indicate that the 
+majority of the study participants were not positive and did not 
+understand or want to engage in the sensor monitoring of daily 
+activities at first instance. 
+A
+CKNOWLEDGMENT  
+We thank the participants & students involved in the study. 
+REFERENCES  
+[1] H. B.-L. Duh, E. Y.-L. Do, M. Billi nghurst, F. Quek, and V. H.-H. Chen, 
+"Senior-friendly technologies: Interaction design for senior users," in 
+Extended abstracts of CHI 2010 Atlanta, Georgia, USA: ACM, 2010. 
+[2] S. Thielke, M. Harniss, H. Thomps on, S. Patel, G. Demiris, and K. 
+Johnson, "Maslow’s hierarchy of human needs and the adoption of health-related technologies for older adults," Ageing international, vol. 
+37, pp. 470-488, 2011. 
+[3] T. Mitzner and W. Rogers, "Understanding older adults’ limitations and 
+capabilities, and involving them in the design process," in Extended 
+abstracts of CHI'10, 2010. 
+[4] A. Dickinson, J. Arnott, and S. Prior, "Methods for human computer 
+interaction research with older people," Behaviour & Information 
+Technology, vol. 26, pp. 343-352, 2007. 
+[5] P. Olivier, A. Monk, G. Xu, and J. Hoey, "Ambient Kitchen: Designing 
+situated services using a high fidelity prototyping environment," in 
+Proceedings of PETRA'09, Corfu, Greece, 2009. 
+[6] S. Consolvo, P. Roessler, B. Shelton, A. Lamarca, B. Schilit, and S. Bly, "Technology for Care Networks of Elders," IEEE Pervasive Computing, 
+vol. 3, pp. 22-29, 2004. 
+[7] G. Alexander, B. Wakefield, M. Rantz,  M. Skubic, M. Aud, S. Erdelez, 
+and S. Ghenaimi, "Passive sensor technology interface to assess elder activity in lndependent living," Journal of Nursing Research, vol. 60, pp. 
+318-325, 2011. 
+[8] M. Kanis, S. Robben, and B. Kröse, "Miniature play: Using an 
+interactive dollhouse to demonstrate ambient interactions in the home," 
+in Proceedings of DIS 2012, Newcastle, UK, 2012. 
+[9] T. v. d. Geest, "Conducting usability studies with users who are elderly 
+or have disabilities," Technical Communication, vol. 53, 2006. 
+ 
+

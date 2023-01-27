@@ -1,0 +1,859 @@
+IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997 1059
+A Precorrected-FFT Method for Electrostatic
+Analysis of Complicated 3-D Structures
+Joel R. Phillips and Jacob K. White, Associate Member, IEEE
+Abstract— In this paper we present a new algorithm for ac-
+celerating the potential calculation which occurs in the innerloop of iterative algorithms for solving electromagnetic boundaryintegral equations. Such integral equations arise, for example,in the extraction of coupling capacitances in three-dimensional(3-D) geometries. We present extensive experimental compar-isons with the capacitance extraction code FASTCAP [1] anddemonstrate that, for a wide variety of geometries commonlyencountered in integrated circuit packaging, on-chip interconnectand micro-electro-mechanical systems, the new “precorrected-FFT” algorithm is superior to the fast multipole algorithm used
+in FASTCAP in terms of execution time and memory use. At
+engineering accuracies, in terms of a speed-memory product, thenewalgorithmcanbesuperiortothefastmultipolebasedschemesby more than an order of magnitude.
+Index Terms— Capacitance extraction, dense matrix algebra,
+electrostatic analysis, fast Fourier transform, integral equation.
+I. INTRODUCTION
+APPLICATIONS as diverse as analysis of signal integrity
+in integrated circuit interconnect, characterization of
+electrical packaging, and design of microelectromechanical
+systems [2] require accurate electrostatic analysis of com-plicated three-dimensional (3-D) structures. Recent work ontechniques for rapid electrostatic analysis for capacitance
+extraction have been based on random-walk methods [3],
+partitioning heuristics combined with techniques from matrixextension theory [4], [5], ﬁnite-difference [6], [7] or ﬁnite-element methods [8], [9], or method-of-moments [10]
+techniques.
+Algorithms using method of moments [10] or weighted
+residuals [11], [12] based discretizations of integral equa-tion formulations, also known as boundary-element methods
+[13], are commonly used to perform electrostatic analyzes,
+but such approaches generate dense matrix problems whichare computationally expensive to solve, and this limits thecomplexity of problems which can be analyzed. Multipole-
+accelerated iterative methods [1], [14]–[16] have recently been
+Manuscript received February 15, 1996; revised April 18, 1997. This
+work was supported by the Defense Advanced Research Project Agency
+Contract J-FBI-95-215 and Subgrant 536040-52223, by the National Science
+Foundation Contract MIP-8858764 A02, by an NDSEG Fellowship, and by
+grants from Digital Equipment Corporation, IBM, and the Consortium for
+Superconducting Electronics. This paper was recommended by Associate
+Editor K. Mayaram.
+J. R. Phillips was with the Research Laboratory of Electronics, Massachu-
+settsInstituteofTechnology,Cambridge,MA02139USA.HeisnowwithCa-dence Design Systems, San Jose, CA 95134 USA (e-mail: jrp@cadence.com).
+J. K. White is with the Research Laboratory of Electronics, Massachusetts
+Institute of Technology, Cambridge, MA 02139 USA.
+Publisher Item Identiﬁer S 0278-0070(97)09247-6.used to reduce the computational cost of boundary-element
+based methods, but these techniques are still computationallyexpensive and, of more immediate consequence, memoryexhausting.
+In [1], a fast algorithm for electrostatic analysis of
+3-D structures was presented. The computation time for thealgorithm was shown to grow nearly as
+, where is the
+number of panels used to discretize the conductor surfaces,and
+is the number of conductors. The algorithm of [1]
+was based on the hierarchical multipole algorithm [15], which
+can perform the dense matrix-vector product associated with
+discretized potential integral equations in order- ()
+time and memory. In this paper, we describe a precorrected-FFT approach which can replace the fast multipole algorithmfor accelerating the Coulomb potential calculation needed toperform the matrix-vector product. The central idea of thealgorithm is to represent the long-range part of the Coulomb
+potential by point charges lying on a uniform grid, rather
+than by series expansions as in fast multipole algorithms [15].This grid representation allows the fast Fourier transform(FFT) [17]–[19] to be used to efﬁciently perform potentialcomputations.Becauseonlythelong-rangepartofthepotentialis represented by the grid, the grid is not coupled to the
+underlying discretization of the structure. Decoupling the long
+and short range parts of the potentials allows the algorithm tosolve problems which may be discretized in a very irregularfashion in nearly optimal time.
+Numerous algorithms exist for the “n-body problem” of
+evaluating the potential of a set of charges at all the other
+charge points, such as the “particle-mesh” methods (see [20]
+for extensive references), the fast multipole method (FMM)[15],andmultigridmethods[21].Thevariousalgorithmsdifferin the way the long range potential is approximated and inthe way local interactions are treated. We have attemptedto develop an algorithm which, like particle-mesh methods,
+exploits the availability of efﬁcient discrete Fourier transform
+implementations while at the same time preserves the higheraccuracy of the multipole-based schemes, but is also (likemultigrid schemes) easily adapted to a broad class of kernels.In addition, the algorithm is, in the way local interactions aretreated, particularly adapted to boundary-integral solvers.
+The precorrected-FFT method, described below, is at best
+an
+algorithm. It is possible to construct geometries
+for which the performance of the precorrected-FFT algorithmis inferior to the fast multipole methods, but we demon-strate that for many structures associated with packaging,on-chip interconnect, and micro-electro-mechanical systems,
+0278–0070/97$10.00 1997 IEEE1060 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+precorrected-FFT methods are faster and use substantially less
+memory.
+The outline of the paper is as follows. The boundary-
+element formulation and a standard iterative algorithm for
+solving the generated matrix problem are brieﬂy reviewed
+in Section II. The precorrected-FFT method is described inSection III and some analysis of the algorithm performed inSection IV. Simple examples are examined in Section V to
+show various aspects of the algorithm. In Section VI, our
+precorrected-FFT method is compared to FASTCAP on avariety of realistic examples, and is shown to be faster and usesubstantially less memory. Finally, in Section VII, we discuss
+some possible extensions of the algorithm and strategies to
+reduce the computational complexity for very inhomogeneousproblems.
+II. P
+ROBLEM FORMULATION
+The capacitance of an -conductor geometry can then be
+summarized by an symmetric matrix , where the
+entry represents capacitive coupling between conductors
+and.Todeterminethe thcolumnofthecapacitancematrix,
+one need only solve for the surface charges on each conductor
+produced by raising conductor to one volt while grounding
+the rest. If the conductors are embedded in a homogeneousdielectric, these
+potential problems can be solved using
+an equivalent free space formulation in which the conductor-
+dielectric interfaces are replaced by a charge layer of density
+[22], [23]. The charge layer in the free space problem will
+be the induced charge in the original problem if satisﬁes the
+integral equation
+surfaces (1)
+where is the known conductor surface potential, is
+the differential conductor surface area, is the
+dielectric constant, and is the usual Euclidean length of
+. This approach may be extended to the case of piecewise-
+constant dielectrics [23].
+A standard approach [10] to numerically solving (1) for
+is to use a piecewise constant collocation scheme. That is,the conductor surfaces are broken into
+small panels, and it
+is assumed that on each panel , a charge, , is uniformly
+distributed, as in Fig. 1. Then for each panel, an equation iswritten which relates the known potential at the center of that
+th panel, denoted , to the sum of the contributions to that
+potential from the charge distributions on all panels [23].
+The result is a dense linear system
+(2)
+where , is the vector of panel charges,
+is the vector of known panel potentials, and
+(3)
+where the collocation point is the center of the th panel
+andis the area of the th panel. The dense linear system
+Fig. 1. Piecewise-constantcollocationdiscretizationoftwoconductors.Con-
+ductor surfaces are discretized into panels which support a constant charge
+density.
+of (2) can be solved to compute panel charges from a given
+set of panel potentials and the capacitances can be derived bysumming the panel charges.
+The direct approach of solving (2) via Gaussian elimination,
+which requires
+operations and storage, becomes
+computationally intractable if the number of panels exceedsseveral hundred.
+III. T
+HEPRECORRECTED -FFT A PPROACH
+If, instead of Gaussian elimination, an iterative algorithm
+such as GMRES [24] is used to solve (2), then each iterationof GMRES will cost
+operations. This is because the
+matrix in (2) is dense, and therefore evaluating candidate
+solution vectors involves a dense matrix-vector multiply. Sev-eral sparsiﬁcation techniques for
+are based on the idea of
+directly computing only those portions of associated with
+interactions between panels which are close to each other. The
+rest of is then somehow approximated to accelerate the
+computation [15], [5], [21].
+To develop a faster approach to computing the matrix-
+vector product, consider the parallelepiped which contains a
+3-D problem after it has been discretized into panels. The
+parallelepiped containing the problem could be subdividedinto an
+array of small cubes so that each small
+cube contains only a few panels. Fig. 2(a) shows a discretized
+sphere, with the associated space subdivided into a 3 3
+3 array of cubes. We refer to these small cubes as cells.
+A possible approach to computing distant interactions is to
+exploit the fact that potentials at evaluation points distant from
+a cell can be accurately computed by representing the givencell’s charge distribution using a small number of weightedpoint charges. If the point charges all lie on a uniform grid,
+for example at the cell vertices, then the computation of the
+potential at the grid points due to the grid charges is a discreteconvolution which can be performed using the FFT. Fig. 2(b)shows a possible set of grid charges for the cell subdivisions
+showninFig. 2(a).Thus,afourstepmethodforapproximating
+is:
+1) project the panel charges onto a uniform grid of point
+charges;
+2) compute the grid potentials due to grid charges using an
+FFT;PHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1061
+(a) (b)
+Fig. 2. (a) Side view of a sphere discretized into 320 panels, with spatial decomposition into a 3 /23 /23 array of cells. (b) Superimposed grid charges
+corresponding to the cell decomposition of (a), with /112 /61 /51. In each cell, a 3 /23 /23 array of grid charges is used to represent the long range potential of
+the charged panels in the cell. Some of the grid charges are shared among cells. Note that the grid is “coarser” than the triangular panels used to discre tize
+the sphere. The grid extends outside the problem domain because the number of grid points is required to be a factor of two.
+Fig. 3. A 2-D pictorial representation of the four steps of the precor-
+rected-FFT algorithm. Interactions with nearby panels (in the grey area) arecomputed directly, interactions between distant panels are computed using
+the grid.
+3) interpolate the grid potentials onto the panels;
+4) directly compute nearby interactions.
+This process is summarized in Fig. 3. We emphasize that the
+grid of point charges is introduced purely as a computationalaid, it is not related to the underlying discretization of theconductors.
+A. Notation
+Given a set of
+cells which contain the set of panels and
+deﬁne the grid points, we now describe how to compute the
+vector of potentials from the vector of panel charges
+. will denote the contribution of the grid
+charges to the potentials on the panel charges. denotes
+thenumberofpanelsinacell , therestrictionof
+the charge vector to the indices whose corresponding panels
+lie in cell and denotes the similar restriction
+of the potential vector. The variable denotes the order of grid
+approximation. is the vector of grid charges, thevector of grid potentials, and , denote
+the restriction of and, respectively, to grid points of cell
+. We deﬁne to be the indexes of the set of cells which
+are “near” cell . , yet to be deﬁned, will
+refer to linear operators which project uniformly distributed
+panel charges to the grid points, and the linear operator
+gives grid potentials in terms of grid charges,
+i.e., . is the nonzero part of
+corresponding to charge in cell, ; is
+the similar part of , and is the block of
+which maps grid charges of cellto grid potentials of
+cell, . A subscript indicates an index into
+a matrix or vector, e.g., is theth entry of vector .
+B. Projecting Onto a Grid
+The ﬁrst step in the description of the algorithm is to de-
+scribe the construction of the grid projection operator . For
+panel charges contained within a given cell, the potentials atevaluation points distant from the given cell can be accurately
+computed by representing the given cell’s charge distribution
+with a small number of appropriately weighted point chargesonauniformgridthroughoutthegivencell’svolume.Fig. 2(b)shows the grid imposed on the cell structure of Fig. 2(a) when
+a3
+33arrayofgridchargesisusedtorepresentthecharge
+ineachcell.Notethatbecausethegridisonlyusedtorepresentthe long range part of the panel potentials, the grid may besigniﬁcantly coarser than the actual problem discretization.
+To motivate a scheme for representing panel charges with
+weighted point charges lying on a grid, consider a chargedistribution
+contained entirely within some small volume
+B. The potential outside due to can be determined from
+the knowledge of the potential on a surface surrounding
+[25]. For example, suppose is contained within a sphere
+of radius , as in Fig. 4. For all ) with , the1062 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+Fig. 4. Potentials /32 /40 /114/60 /114 /99 /59/18 /59/30 /41or /32 /40/126 /114/62 /114 /99 /59 /126/18/59 /126/30 /41for /114/59 /126/114/62 /97may be
+obtained from the potential at /114 /61 /114 /99.
+potential can be written as a multipole expansion series
+(4)
+wherethe aresphericalharmonicsandthe coefﬁcients
+of expansion [25]. Since the spherical harmonics are orthogo-
+nal on a sphere, if the potential is known on any sphere of
+radius , the multipole moments can be computed as
+(5)
+The above observation suggests a scheme for computing
+the grid charges used to represent charge in a given cell .
+Suppose a array of grid charges is used to represent
+the charge in a cell. First, test points are selected on the
+surface of a sphere of radius whose center is coincident
+with the center of the given cell. Then, potentials due to the
+grid charges are forced to match the potential due to the
+cell’s actual charge distribution (say panel charges) at the
+test points, i.e.,
+(6)
+where is the mapping between grid charges
+and test point potentials, given by
+(7)
+Here andare the positions of the th test point and
+theth grid point, respectively. By construction, the relative
+positions of the grid charges and the test points are identicalfor each cell
+, and therefore is the same for each cell.
+Fig. 5. Two-dimensional pictorial representation of the grid projection
+scheme. The black points (at /94/120) represent the grid charges ( /94/113) being used to
+represent the triangular panel’s charge density /27. The white points are the
+points /120/116where the potential due to the black point charges and the potential
+due to the triangular panel’s charge density are forced to match. The grid
+charges approximate the panel potential outside the gray region.
+is the mapping between panel charges and test
+point potentials and is given by
+(8)
+Since the collocation (6) is linear in the panel and grid charge
+distributions, the contribution of the th panel in cell to
+can be represented by a column vector . is
+given by
+(9)
+where denotes the th column of and
+indicates the generalized Moore–Penrose (or pseudo-) inverse
+[26] of . The computation of is done using the
+singular value decomposition. Since this matrix is small and
+is the same for each cell, the relative computational cost ofperforming the singular value decomposition is insigniﬁcant.
+For any panel charge
+in cell, this projection operation
+generates a subset of the grid charges . The contribution
+tofrom the charges in cell is generated by summing
+over all the charges in the cell. Note that panel charges outsidecell
+may contribute to some of the elements of in the
+case of shared grid charges. The grid projection scheme is
+summarized in Fig. 5. For an alternative approach, based onmatching multipole expansion coefﬁcients directly, see [27].A simpler approach based on polynomial interpolation may
+be found in [28].
+The accuracy of the above projection scheme hinges on the
+proper selection of the test points
+. From (5), we expect
+high accuracy if the test points are chosen to be abscissas of a
+high-order quadrature rule [29]. It can be shown that the error
+in potential due to the grid-charge approximation of a chargedistribution contained within a sphere of radius
+, at a distancePHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1063
+from the center of the distribution, is of order
+if the test points are chosen to be the nodes of a quadrature
+rule accurate to order [30].
+C. Computing Grid Potentials
+Once the charge has been projected to a grid, the operation
+, computing the potentials at the grid points due to the grid
+charges, is a 3-D convolution. We denote this as
+(10)
+where and are triplets specifying the grid points
+and is the inverse distance between
+grid points and . As will be made clear below,
+(0, 0, 0) can be arbitrarily deﬁned, and is set to zero. The
+above convolution can be rapidly computed by using the FFT.
+In practice, each convolution requires one forward and one
+inverse 3-D FFT. The discrete Fourier transform of the kernelmatrix
+, denoted , need be computed only once.
+An efﬁcient FFT implementation is central to the perfor-
+mance of the precorrected-FFT algorithm. The FFT is a very
+well-studied algorithm and many possible implementationsexist. Most FFT implementations have a fairly regular nature,thus very efﬁcient optimized code can be developed. Also, the
+structure of the data in a multidimensional convolution can
+be exploited for additional performance gains. For example,the use of the FFT to perform a linear multidimensionalconvolution involvesembedding thedata(
+)to betransformed
+into a larger data space, much of which is zero. The fact that
+much of the transformed data is zero can be exploited to yielda more efﬁcient transform. In comparison, achieving optimalmachine performance with fast multipole algorithms is more
+difﬁcult, due to the less regular nature of the algorithms.
+D. Interpolating Grid Potentials
+Once the grid potentials have been computed, they must
+be interpolated to the panels in each cell. This process is
+essentially the same as the problem of representing charge
+on the grid, as can be seen from the following result [28].
+Theorem 1: Given
+is an operator which
+projects charge onto a grid of points, then may be
+interpreted as an operator which interpolates potential at grid
+pointsontochargecoordinates;conversely,given
+is an operator which interpolates potential at grid points
+onto charge coordinates, may be interpreted as an operator
+which projects charge onto the grid coordinates. In either case,
+andhave comparable accuracy.
+Proof:Let be the Green function for a source at
+, evaluated at . Suppose that a unit charge at the point is
+represented by the vector of grid charges . The approximate
+potential at a point is given by
+where is the position of the th grid charge and ,
+. Conversely, suppose there is a unit chargeatand the potential atis to be computed by
+interpolating potentials produced by this unit charge at thegrid points
+. Then, if is the interpolation operator
+For a symmetric Green function,
+and
+so that
+Now suppose is assigned the value in order to represent
+the unit point charge at . Then
+When a collocation scheme is used to discretize the integralequation, the operator which interpolates potential at gridpoints in cell
+to a charge also in cell is not
+deﬁned in (9). Instead, the projection operator for
+a point charge located at the collocation point is computedwhich gives the interpolation operator
+. However,
+if a Galerkin scheme is used in the discretization then the
+interpolation operator is .
+Thus, projection, followed by convolution, followed by
+interpolation gives the grid-charge approximation to the
+potentials which can be represented as
+(11)
+If Galerkin methods are used, (11) becomes
+(12)
+and therefore the precorrected-FFT method preserves the sym-
+metry of the Galerkin discretization for free space problems.
+E. Precorrecting
+The difﬁculty with the above three steps is that the calcula-
+tions using the FFT on the grid do not accurately approximate
+the nearby interactions. In of (11), the portions of
+associated with neighboring cell interactions have already
+been computed, though this close interaction has been poorly
+approximated in the projection/interpolation. A more accurate
+calculation of interactions between nearby panels is needed,but it is also necessary to remove or avoid the inaccuratecontribution from the use of the grid. This is a general
+difﬁculty with grid-based potential calculation methods and a
+variety of correction methods have been proposed [20], [28],[31] the details of which usually depend on the problem beingsolved, the interpolation scheme, and the nature of the grid
+solver.
+Because our algorithm works directly with the Green func-
+tion, and because the iterative solver requires that many1064 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+(a) (b)
+Fig. 6. (a) A sphere discretized into 960 panels. The discretization is reﬁned by subdividing the spherical triangle deﬁned by the panel vertices into
+four triangular panels, whose vertices are the midpoints of the edges of the original spherical triangle. (b) Lines show integrated charge error for t he
+sphere with Dirichlet condition of (17). Solid line shows errors for grid code, (x) /112 /612 (*) /112 /613 (+) /112 /614. Dashed line connecting (o) shows
+error for /108 /612 multipole scheme.
+potential evaluations are performed for a given panel conﬁgu-
+ration, it is possible to treat nearby panel interactions exactly,
+without sacriﬁcing algorithmic efﬁciency. We accurately treat
+interactions between panels close together by modifying theway nearby interactions are computed, a step we refer to asprecorrection.
+In particular, denote as
+the portion of associated
+with the interaction between neighboring cells and,
+and the matrices formed from the columns and
+, respectively, and denote as the panel potentials
+in cell due to the charges in cell. Then
+(13)
+is the grid-approximation to , which is inaccurate. Sub-
+tracting this approximation and then adding the correct con-tribution
+(14)
+produces the accurate result .
+This may be efﬁciently accomplished by deﬁning
+(15)
+to be the “precorrected” direct interaction operator. When
+used in conjunction with the grid charge representation
+results in exact calculation of the interactions of panels which
+are close. Assuming that the product will be computed
+many times in the inner loop of an iterative algorithm, will
+be expensive to initially compute, but will cost no more to
+subsequently apply than .
+F. Complete Algorithm
+Combining the above steps leads to the precorrected-FFT
+algorithm, which rapidly computes the dense matrix-
+vector product. Using the above notation, the algorithm can
+be described as two steps. The ﬁrst step is to compute
+(16)
+andare sparse interpolation operators and can be
+represented in a sparse manner via the FFT. The second stepistoaddin thecorrecteddirectinteractions, toobtainthe panel
+potentials for each cell
+(17)
+Becauseforeach ,isasmallsetandeachmatrix
+is also small, this second step is also a sparse operation. The
+complete algorithm follows in pseudocode form:
+Precorrected-FFT Algorithm to Compute
+/* Projection Step */
+Set 0
+For each cell 1t o
+For each panelin cell,1t o
+Add
+/* Convolution Step */
+Compute FFT()
+Compute
+Compute FFT()
+/* Interpolation Step */
+Set 0
+For each cell 1t o
+For each panelin cell,1t o
+Add
+/* Nearby Interactions */
+For each cell 1t o
+For each cellin
+Thus, the effect of this algorithm is to replace the operation
+where is a dense matrix, with the operationPHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1065
+(a) (b)
+(c) (d)
+Fig. 7. The cube example. (a) Discretization of the cube. (b) CPU time, in seconds, needed for the fast multipole (dashed line connecting “ /2”) and
+precorrected-FFT algorithms (“*”) to compute a matrix-vector product. For the precorrected-FFT algorithm, different results are possible depend ing on
+whether speed or memory usage is to be optimized. The solid line connects runs with grid sizes chosen to minimize memory use. Note the speed-memory
+product is fairly independent of grid size. (c) Memory, in Mb, needed by the fast multipole and precorrected-FFT algorithms. (d) Product of (b) and (c) .
+where all the matrices andpossess sparse repre-
+sentations.
+G. Grid Selection
+Before the algorithm has been completely speciﬁed, it
+necessary to specify how panels are selected for inclusion indirect interaction regions and how the grid size is selected.That is, for each cell
+the set must be speciﬁed.
+To insure that interactions between panels which are close
+together are treated accurately, at a minimum it is necessaryto compute interactions between panels in cells which arenear-neighbors of each other via direct products. The near-
+neighbors of a cell
+are deﬁned to be all the cells which have
+a vertex in common with cell (thus a cell is a near-neighbor
+of itself). We have included only near-neighbor interactions inthe computational experiments of Sections V and VI.
+The worst case accuracy of the grid representation is a
+function of the ratio of thecell radiusto the radiusof the directinteractionregion[30].Thus,oncethedirect-interactionregionhas been speciﬁed to be near-neighbor cells, the selection of
+the cell size, and hence the grid spacing is purely a matter of
+computational efﬁciency. The cost of direct interactions willdecrease monotonically as the cells are made smaller, but thenumber of grid points will increase, so the cost of the FFT
+will increase monotonically. This implies that the total cost ofthe algorithm will have an easily determined global minimumfor some grid spacing. For a given grid spacing and panelconﬁguration, the memory and computation time needed bythe precorrected-FFT algorithm can be estimated cheaply, sothe optimal grid spacing can be obtained by starting with asmall number of grid points and increasing the number until aminimumCPUormemoryestimate,asappropriate,isreached.In addition,we have generallyrequired that the number of gridpoints be a factor of two, in order to exploit the most efﬁcientFFT implementations.
+It is interesting that the optimal grid size may occasionally
+be such that the number of grid charges,
+,i slargerthan the
+original number of panel charges . This may be the case even
+when thegrid spacing is larger than the underlying panel sizes,that is, when the grid is “coarser” than the panel discretization.Such a case may occur, for example, for a ﬁnely discretizedcube surface, where the grid must ﬁll the 3-D space of thecube’s interior. However, the overall algorithm may still bequite effective, since the cost of the FFT is
+, with
+a constant factor of . Thus if andis large, the
+cost of the FFT is less than that of the direct product by afactor of nearly
+, and so the algorithm may have1066 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+(a) (b)
+(c) (d)
+Fig. 8. The bus crossing example. (a) Larger problems are generated by adding more bus lines. (b) CPU time, in seconds, needed for the fast multipole
+(dashed line connecting “ /2”) and precorrected-FFT algorithms (solid line connecting “*”) to compute a matrix-vector product. (c) Memory, in Mb, needed
+by the fast multipole and precorrected-FFT algorithms. (d) Product of (b) and (c).
+by a fairly signiﬁcant factor and still possess an advantage
+over the direct computation.
+IV. ANALYSIS OF THE PRECORRECTED -FFT A LGORITHM
+In this section, we analyze the complexity of the
+precorrected-FFT algorithm and give some comparisonswith other approaches.
+A. Comparison to Fast Multipole Algorithms
+First we compare the efﬁciency of the grid representation
+used in the precorrected-FFT algorithm to the multipole ex-pansions used in the fast multipole method. Both the fast
+multipolealgorithmandtheprecorrected-FFTalgorithmobtain
+efﬁciency by representing the long-range part of the potentialof a group of charges by an expression which can be used atmultiple evaluation points, but the algorithms differ in the way
+theyclustersetsofchargestogethertoformsingleexpressions.
+Again consider subdividing the parallelepiped containing
+the entire 3-D problem domain into a
+array of
+cells. Then, the collocation approach above can be used to
+generate point charge approximations for charge distributions
+in every cell, effectively projecting the charge density onto a3-D grid. For example, if the representative point charges areplaced at the cell vertices, then the panel charge distribution
+will be projected to a
+uniform grid.
+Fastmultipolealgorithmsalsoeffectivelycreateauniformgridby constructing multipole expansions at the center of eachcell, but due to sharing, the point charge approach can be
+more efﬁcient. For example, when representing the potential
+of a panel by charges at the cell vertices, there are eight
+free coefﬁcients which may be varied to obtain an optimalrepresentation, and there will be
+terms
+in the entire domain. On average, there is only one grid-charge
+per cubic cell, since a point charge at a cell vertex is used to
+represent charge in the eight cells which share that vertex. Bycontrast, as no sharing occurs in the multipole representation,if there are
+coefﬁcients in the multipole expansion which
+represents the potential of the charges in the cell, the total
+number of terms in the domain will be .
+For an equivalent number of total terms in the domain, weexpectthegridrepresentationtobemoreaccurate.Conversely,
+for roughly equivalent accuracy, we may choose
+, but
+then the total number of multipole terms will be signiﬁcantlyhigher than for the grid representation.
+B. Performance for Homogeneous Problems
+From the analysis of the preceding section, we expect the
+grid representation to be locally more efﬁcient than the use of
+multipoleexpansions. However,ourcurrentimplementation of
+the precorrected-FFT algorithm may be globally less efﬁcient,as the grid representation is introduced throughout space, evenwhere no panels are present. Thus, whereas for a problem
+containing
+panels, the fast multipole algorithm can perform
+a potential evaluation for all of the panels in operations,
+regardless of the panel distribution [32], no such guaranteePHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1067
+(a) (b)
+(c) (d)
+Fig. 9. Several realistic capacitance extraction problems. (a) The woven bus example (woven 5 /25). (b) The comb drive example (comb). (c) The
+via example (via). (d) The SRAM example (SRAM).
+is available for the precorrected-FFT algorithm. However, it
+is possible to establish a weaker complexity result for theprecorrected-FFT method.
+Theorem 2: For a homogeneous distribution of
+panels
+and a given prescribed accuracy, the precorrected-FFT methodrequires
+operations to perform a potential calcula-
+tion.
+Proof:Given that the computational domain is a paral-
+lelepiped containing panels, again assume space has been
+divided into an array of cells, and that the panel
+distribution is homogeneous on the scale of the cell size. Thatis, the number of panels per cell,
+, is bounded independent
+of, with of order- . Finally, assume that the grid in
+each cell is a array. There are three components in
+the cost of the precorrected-FFT algorithm: the cost of direct
+interactions, the cost of grid projection and interpolation, and
+the cost of the FFT. The cost of the direct interactions willbe
+. The cost of the grid
+projection will be . Finally, the cost of the
+FFT will be . Summing
+these costs results in the ﬁnal complexity of .
+Since the grid spacing is typically less ﬁne than the
+underlying surface discretization, for a typical problem theprecorrected-FFT algorithm has
+complexity for
+problems with considerable inhomogeneity in the ﬁne surface
+discretization,aslongasthepaneldistributionishomogeneousat a very coarse level. As will be seen in Section VI,many structures arising in practice satisfy this “coarsely
+homogeneous” condition.
+C. Comparison to Other Grid-Based Methods
+In order to solve the underlying potential-theoretic prob-
+lem, the precorrected-FFT algorithm introduces a uniformgrid which covers the problem domain volume and so it is
+instructive to compare the precorrected-FFT algorithm with
+other methods that introduce volumetric grids.
+First, most other methods which use a grid to represent the
+solution throughout space, such as ﬁnite-difference methods,
+ﬁnite-element methods, or integral equation methods which
+directly exploit the convolutional properties of the kernel viathe FFT [33]–[35], introducing a space-ﬁlling grid which mustalso accurately represent the complicated problem geometry.
+These two conﬂicting requirements generally result in either
+restricted geometries or a very large number of unknowns thatin turn limits the size of the problem that can be effectivelysolved.
+In contrast, as shown in Fig. 2, the grid introduced by the
+precorrected-FFT algorithm is geometrically unrelated to theunderlying surface discretization of the geometry. In generalthe number of panels in a surface discretization is much
+smaller than the number of elements in a volume representa-
+tion, so we expect the precorrected-FFT algorithm to be moreefﬁcient, than, for example, ﬁnite-difference approaches.1068 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+TABLE I
+STATISTICS FOR FASTCAP O RDER-2, GRID-2,3 CODES FOR /49 /61/114GREENFUNCTION.SETUP,SOLVE,ANDCPU T IMESARE INSECONDS ON DEC AXP 3000/900,
+MEMORY IN MEGABYTES . /109ISNUMBER OF CONDUCTORS IN PROBLEM,EACHCONDUCTOR REQUIRES A SEPARATELINEARSYSTEMSOLUTION
+Additionally, most other 3-D grid-based approaches neces-
+sarily have a complexity of ,i fis the number of basis
+elements along a side. The precorrected-FFT method analyzedhere uses
+basis elements in the underlying surface
+discretization, and the complexity is
+(see Sections IV-B and V-B, and [30]).
+At50 basis elements per dimension, corresponding only
+to a 15000 panel problem, exceeds by more than a
+factor of 20.
+In short, because of the decoupling of short range interac-
+tions from the long range interactions treated by the grid, the
+precorrected-FFT method can efﬁciently utilize fast potential
+solvers without sacriﬁcing the ability to represent complicatedsurface geometries in a compact manner.
+V. R
+EFERENCE EXAMPLES
+In this section, we examine a variety of simple examples to
+evaluate the performance of the precorrected-FFT algorithm.
+We start by examining the errors introduced by the gridprojection method and then we examine the efﬁciency of the
+overall precorrected method.
+A. Empirical Error Analysis
+As described above, in the precorrected-FFT algorithm, the
+interaction between panels in neighboring cells is computedexactly, but more distant interactions are approximated by
+extrapolation, convolution, and then interpolation using thegrid. To demonstrate that the errors due to using the grid are
+well controlled, we present an empirical error study based on
+ananalyticallysolvablepotentialproblem borrowedfrom[32].If (1) is solved on a sphere with given potential
+(18)
+the analytically computable charge distribution is
+(19)
+To estimate the error introduced by the grid approximations
+in the precorrected-FFT method, the sphere can be discretized,
+as in Fig. 6, and the charges on each panel computed.
+The approximations introduced by the grid-charge approxi-mation to long-range interactions will become evident as thediscretization is reﬁned, since eventually these errors will
+dominate over the discretization error. One relative measure
+of the error is
+(20)
+where the sum runs over all panels ,is the centroid of
+panel,the area of that panel, the charge on the panel,PHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1069
+andthe exact total charge on the sphere. Fig. 6(b) shows
+that for the low-order piecewise-constant collocation scheme,as the discretization of the sphere is reﬁned [see Fig. 6(a)], theintegrated error
+decreasesproportional to . The multipole
+or precorrected-FFT approximation errors are evident when
+ceases to decrease as is increased. For example, for the 2
+22 grid-charge representation is used in each cell ( 2),
+ceases to decrease below about 0.05. This indicates that the
+2 grid charge scheme introduces errors into the integrated
+charge calculation of about 5%. Similarly, we expect the
+3 scheme to be accurate to almost a tenth of a percent. Wehave also shown results for the
+2 multipole approximation,
+which from this experiment we expect to be intermediate in
+accuracy between the grid 3 and 2 approximations.
+B. Effects of Inhomogeneity
+The fast multipole algorithms used in the FASTCAP pro-
+gram compute matrix-vector products in operations
+regardless of the distribution of panels on the discretized
+surfaces [32], but this is not true of the precorrected-FFTmethod. As described, the use of the FFT implies that the al-gorithm computes matrix-vector products in at best
+operations, and attains this optimum only for fairly homoge-neous distributions of panels (see Section IV-B). That is, forproblemswherethepanelsaredistributedinaroughly uniformmannerthroughoutspace,theprecorrected-FFTmethodshould
+be efﬁcient. In contrast, for inhomogeneous problems which
+consist of clusters of panels separated by large areas ofopen space, inefﬁciency may be expected. Therefore it isimportant to quantify the performance penalty induced in the
+precorrected-FFT method by problem inhomogeneity.
+A simple approach to generating an example which is inho-
+mogeneous is to reﬁne the discretization of a cube. The cubeexample is intended to serve as a model for typical boundary-
+element discretizations of surfaces. As the discretization is
+reﬁned, problems with increasing numbers of panels will begenerated. The precorrected-FFT algorithm must place gridcharges in the empty interior of the cube, which causes the
+CPU time and memory required by the algorithm to increase
+faster than
+.A sincreases, relatively more panels
+are near the surfaces of the cube relative to the interior,i.e., the problem inhomogeneity increases. Thus, at some
+large
+, the fast multipole methods will be superior to the
+precorrected-FFTmethod.Wewishtodeterminehoweffectivethe precorrected-FFT method is for reasonable size problems,and at what
+it would become advantageous to use the
+fast-multipole methods.
+Fig. 7 shows the comparison of the precorrected-FFT
+method at 3 to the fast-multipole based code FASTCAP,
+at2, for the cube example. The discretization of the cube
+is reﬁned to generate more panels, and the performance of
+the two codes compared as the problem size increases. Threeﬁgures are shown. Fig. 7(b) shows the time required for eachcode to compute a matrix-vector product, Fig. 7(c) shows the
+amount of memory needed by each code, and Fig. 7(d) shows
+a ﬁgure of merit which is the product of required memoryand the time needed for a potential calculation. The productTABLE II
+COMPARISON OF FASTCAP ANDGRIDCODES.FIGURESARERATIOS OF
+REQUIREDRESOURCES .“ PRODUCT”ISPRODUCT OF CPUANDMEMORYFIGURE
+is important to consider when analyzing the precorrected-FFT
+method because, as is clear from the ﬁgure, speed can be
+traded for memory by manipulating the size of the regionthe grid-charge approximation covers. The CPU and memory
+ﬁgures for the precorrected-FFT method are observed to grow
+irregularly with problem size. This is because our speciﬁcimplementation of the method requires the number of grid-charges along one side of the computational domain to be
+a power of two. The solid line in the ﬁgures shows results
+when the number of grid charges along a side was selectedto optimize (see Section III-G) the speed-memory product,which is observed to grow smoothly. Two cases in Fig. 7(a)
+are evident where the code would have been considerably
+faster had a different number of grid-charges been used.However, as Fig. 7(b) shows, the memory required would
+have been greater in each case.
+Analysis of the trend of Fig. 7(a) reveals that the CPU time
+needed to solve the cube problem grows as about
+,
+whereisthenumberofpanels,fasterthanthe expected
+asymptotically for the fast multipole method. However, for
+all the problems analyzed, the precorrected-FFT method wassuperior in terms of CPU time and memory required. We mayobtain the approximate point at which the algorithms cross
+over by extrapolating the data in Fig. 7(c). Assuming that
+the CPU time and memory of the multipole method grow as
+, and that the CPU time and memory required by the
+precorrected-FFTmethodgrowsas [30],theninterms
+of the speed-memory product the precorrected-FFT methodwill be superior to the fast-multipole method until
+is, at
+least, several million panels. We estimate over 30 gigabytes of
+memory would be needed to solve such a problem.
+The cube example demonstrates that problems exist for
+which the precorrected-FFT algorithm is inferior to the fast-
+multipole methods. This example, however, is somewhat ar-
+tiﬁcial, as very large capacitance extraction problems are not1070 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+TABLE III
+COMPARISON OF CAPACITANCE EXTRACTION ALGORITHMS .FIGURES IN PARENTHESES AREESTIMATES
+usually due to very ﬁne discretizations of a few surfaces, but
+rather by ﬁxing a discretization level, and solving problems
+which involve increasingly more complicated structures. For asituation which better models problems from VLSI intercon-nect analysis, consider a bus crossing example, as in Fig. 8. In
+this example, a series of stacked bus problems are solved. The
+faces of each bus line are broken into quadrilateral sections,and the quadrilaterals discretized by division into a centralpanel and ﬁve edge panels. In order to generate larger and
+larger problems, we consider
+levels of bus wires, each level
+having wires.
+From Fig. 8 it is clear that the computational cost of
+the algorithm grows nearly linearly with problem size, as
+predicted in Section IV-B. For the size problems considered,
+the precorrected-FFT method with 3 enjoys an advantage
+of more than a factor of three in terms of computationalcost and roughly a factor of four in memory utilization over
+the fast multipole method using order-2 expansions. With
+these parameter values, however, from Fig. 6 we expect theprecorrected-FFT method to be considerably more accurate.
+VI. R
+EALISTIC EXAMPLES
+In this section, we present results comparing the FASTCAP
+program to the precorrected-FFT method for computing ca-
+pacitances of several 3-D geometries. As a preconditioner has
+not yet been implemented in the precorrected-FFT algorithm,all comparisons were performed without FASTCAP’s precon-ditioner. Fig. 9 shows four realistic 3-D structures: a woven
+bus structure, a bus crossing structure, a via structure, and part
+of an SRAM memory cell. We have compared the multipole-based code FASTCAP, using multipole expansion order
+2,
+to the grid based methods with 2 and 3. To estimate
+the accuracy of the computed capacitances, we have compared
+the results to the grid-code run using 6, which we expect
+to introduce errors into the calculation which are very smallcompared to the
+2,3 grid codes or the multipole
+2 code. As a check on this assumption we also performed thecalculations using the fast multipole algorithm and sixth ordermultipole expansions. Taking the
+6 capacitances to be
+exact, we have calculated both the maximum relative errors in
+thecomputedcapacitancecoefﬁcients,aswellasthemaximum
+over all rows of the capacitance matrix of the largest errorin the row as a fraction of that row’s diagonal capacitance.Table I shows the computation times, memory required, and
+error estimates for each problem. All experiments were run
+on a DEC AXP3000/900, with 256 megabytes of physicalmemory.The table indicates that multipole expansions of order 2
+are usually enough to give relative accuracy of one percent
+or so in the calculated capacitances. In terms of relativeerrors in the computed capacitances, the
+2 grid code
+appears to be comparable to the 2 multipole code, and
+somewhat inferior when the error is measured as a percentageof the diagonal capacitance. The
+3 grid code clearly has
+uniformly superior error properties. These results are in accordwith the sphere example considered previously in Fig. 6.
+Table II shows explicit performance comparisons of the
+2multipolecode tothe 2grid code,whichhas comparable
+accuracy, as well as to the more-accurate 3 grid codes.
+At3, the precorrected-FFT method can be as much as
+four times faster and can use as little as one ﬁfth the memoryof FASTCAP. In terms of the speed-memory product, thegrid-based code at
+3 was superior by a factor ranging
+from four to 20. At 2, the performance advantage of the
+grid-code was even more signiﬁcant. The CPU advantage of
+the method ranged from nearly four to more than eight, thememory advantage from four to six, and the product from 12to 52.
+ThetwoﬁnalentriesinTable Iareworthyofnote.Usingthe
+2 grid representation, from which we expect about 2–4%
+accuracy, it was possible to analyze two very large problems.The ﬁrst is a 15
+15 wire woven bus crossing, shown in
+Fig. 10, which has over 80000 panels in the discretization.
+The second is the cube, discretized into about 125000 panels.The precorrected-FFT method was able to perform a singlesolution (one row in the capacitance matrix) in only about3 min. More importantly, both problems could be solved inthe available physical memory, which was not possible usingFASTCAP.
+We note that all the examples considered here generate
+fairly well conditioned linear systems, so no preconditioner
+was necessary to secure convergence in a reasonable time.However, use of a preconditioner could further reduce thecomputation times required for the linear system solution, andenable solution of less well conditioned problems.
+Finally, we wish to emphasize that, regardless of whether
+the precorrected-FFT or fast-multipole based approaches areused, the advantage of the accelerated schemes over tra-
+ditional algorithms is tremendous. Table III compares the
+computation time and memory needed by algorithms based onLU-factorization via Gaussian elimination, iterative solutionusing direct (explicit) matrix-vector products, and iterativesolution usingaccelerated matrix-vector products, as describedin this paper. The statistics for the direct algorithms werePHILLIPS AND WHITE: PRECORRECTED-FFT METHOD 1071
+Fig. 10. The large woven bus structure. The 30 conductor structure is formed from ﬁfteen conductors woven around ﬁfteen straight conductors. The actu al
+discretization is ﬁner than shown in the above ﬁgure. There are 82080 panels in the actual discretization.
+estimated by extrapolating timings of computations performed
+by MATLAB, and by assuming that storage is in doubleprecision ﬂoating point words. For the largest problems, thespeedups can be two orders of magnitude over iterative solu-
+tion with direct products, and nearly sixorders of magnitude
+over Gaussian-elimination, with memory savings of a factorof 500.
+VII. C
+ONCLUSION
+In this paper, we presented a precorrected-FFT approach
+to reducing the CPU time required to compute accurate cou-
+pling capacitances of complicated 3-D structures. As theexamples above demonstrate, the precorrected-FFT methodis well tuned to the problems associated with integrated
+circuit packaging, on-chip interconnect, and micro-electro-
+mechanical systems. In particular, the CPU time-memoryproduct for the precorrected-FFT algorithm can be more thanan order of magnitude smaller than that of the FASTCAP
+program.
+A major advantage of this method is that it is based on
+the FFT and local interpolation operators, rather than onspherical-harmonics based shifting operators as in the fast
+multipole method. Thus, a range of kernels can be treated in
+the method while still preserving the high order of accuracyof multipole-based representations. For example, the approachcan be combined with modiﬁed Green function techniques for
+handling ground planes, symmetry planes, or ﬂat dielectric
+interfaces, with only minimal modiﬁcation to the algorithm[36]. The algorithm is also capable of handling the Helmholtzkernelassociatedwithfull-waveelectromagneticanalysis[30].
+The major drawback of our algorithm is its poor perfor-
+mance on very inhomogeneous problems. The use of the FFTto evaluate the grid potentials is very inefﬁcient in this case,since most of the data in the transform is zero. Future work
+will focus on more efﬁcient algorithms to evaluate the grid
+potentials in the very inhomogeneous case, such as applyingthe algorithm of Section III recursively to obtain a multigrid-like algorithm. Such an algorithm would, in principle, inherit
+the efﬁciency of the grid-based representation discussed inthis paper, while at the same time achieving the near
+complexity of the fast multipole methods.
+ACKNOWLEDGMENT
+The authors are grateful to Dr. K. Nabors for making his
+FASTCAP program available. Many of the experiments were
+conducted by using substantial portions of the FASTCAPprogram. In addition, they would like to thank C. L. Bermanand C. Anderson of IBM, Yorktown Heights, NY, and L.
+Greengard of the Courant Institute for useful discussions.
+R
+EFERENCES
+[1] K. Nabors and J. White, “FASTCAP: A multipole accelerated 3-D
+capacitance extraction program,” IEEE Trans. Computer-Aided Design ,
+vol. 10, pp. 1447–1459, Nov. 1991.
+[2] S. D. Senturia, R. M. Harris, B. P. Johnson, S. Kim, K. Nabors,
+M. A. Shulman, and J. K. White, “A computer-aided design system
+for microelectromechanical systems (MEMCAD),” IEEE J. Microelec-
+tromech. Syst. , vol. 1, pp. 3–13, Mar. 1992.
+[3] Y. L. Le Coz and R. B. Iverson, “A stochastic algorithm for high speed
+capacitance extraction in integrated circuits,” Solid State Electron. , vol.
+35, no. 7, pp. 1005–1012, 1992.
+[4] P. Dewilde and Z. Q. Ning, Models for Large Integrated Circuits.
+Boston, MA: Kluwer, 1990.
+[5] A. J. van Genderen and N. P. VanDer Meijs, “Hierarchical extraction
+of 3-D interconnect capacitances in large regular VLSI structures,” inProc. Int. Conf. Computer-Aided Design , Nov. 1993.
+[6] A. H. Zemanian, R. P. Tewarson, C. P. Ju, and J. F. Jen, “Three-
+dimensional capacitance computations for VLSI/ULSI interconnec-
+tions,”IEEE Trans. Computer-Aided Design , vol. 8, pp. 1319–1326,
+Dec. 1989.
+[7] A. Seidl, H. Klose, M. Svoboda, J. Oberndorfer, and W. R¨ osner,
+“CAPCAL—A 3-D capacitance solver for support of CAD systems,”
+IEEE Trans. Computer-Aided Design vol. 7, pp. 549–556, May
+1988.
+[8] P. E. Cottrell and E. M. Buturla, “VLSI wiring capacitance,” IBM J.
+Res. Develop. , vol. 29, pp. 277–287, May 1985.
+[9] T. Chou and Z. J. Cendes, “Capacitance calculation of IC packages
+using the ﬁnite element method and planes of symmetry,” IEEE Trans.
+Computer-Aided Design, vol. 13, pp. 1159–1166, Sept. 1994.
+[10] R. F. Harrington, Field Computation by Moment Methods. New York:
+MacMillan, 1968.1072 IEEE TRANSACTIONS ON COMPUTER-AIDED DESIGN OF INTEGRATED CIRCUITS AND SYSTEMS, VOL. 16, NO. 10, OCTOBER 1997
+[11] S. H. Crandall, Engineering Analysis. New York: McGraw-Hill, 1956.
+[12] L. Collatz, The Numerical Treatment of Differential Equations ,3rd ed.
+New York: Springer-Verlag, 1966.
+[13] C. A. Brebbia, J. C. F. Telles, and L. C. Wrobel, Boundary Element
+Techniques. Berlin, Germany: Springer-Verlag, 1984.
+[14] V. Rokhlin, “Rapid solution of integral equations of classical potential
+theory,”J. Comput. Phys. , vol. 60, pp. 187–207, Sept. 15, 1985.
+[15] L. Greengard, The Rapid Evaluation of Potential Fields in Particle
+Systems. Cambridge, MA: MIT Press, 1988.
+[16] V. Jandhyala, E. Michielssen, and R. Mittra, “Multipole-accelerated
+capacitance computation for 3-D structures in a stratiﬁed dielectric
+medium using a closed form Green’s function,” Int. J. Microwave
+Millimeter-Wave Computer-Aided Eng. , vol. 5, no. 2, pp. 68–78,
+1995.
+[17] E. O. Brigham, The Fast Fourier Transform and Its Applications.
+Englewood Cliffs, NJ: Prentice-Hall, 1988.
+[18] C. F. van Loan, Computational Frameworks for the Fast Fourier
+Transform. Philadelphia, PA: SIAM, 1992.
+[19] J. W. Cooley and J. W. Tukey, “An algorithm for the machine compu-
+tation of complex Fourier series,” Math. Comp. , vol. 19, pp. 297–301,
+1965.
+[20] R. W. Hockney and J. W. Eastwood, Computer Simulation Using
+Particles. New York: Adam Hilger, 1988.
+[21] A.BrandtandA.A.Lubrecht,“Multilevel matrixmultiplicationand fast
+solution of integral equations,” J. Comput. Phys. , vol. 90, pp. 348–370,
+1990.
+[22] A. E. Ruehli and P. A. Brennan, “Efﬁcient capacitance calculations
+for three-dimensional multiconductor systems,” IEEE Trans.Microwave
+Theory Tech. , vol. MTT-21, pp. 76–82, Feb. 1973.
+[23] S. M. Rao, T. K. Sarkar, and R. F. Harrington, “The electrostatic ﬁeld of
+conductingbodies in multipledielectricmedia,” IEEETrans.Microwave
+Theory Tech. , vol. MTT-32, pp. 1441–1448, Nov. 1984.
+[24] Y. Saad and M. Schultz, “GMRES: A generalized minimal residual
+algorithm for solving nonsymmetric linear systems,” SIAM J. Sci. Stat.
+Comput., vol. 7, pp. 856–869, July 1986.
+[25] J. D. Jackson, Classical Electrodynamics. New York: Wiley, 1975.
+[26] R. A. Horn and C. R. Johnson, Matrix Analysis. Cambridge, MA:
+Cambridge Univ. Press, 1985.
+[27] L. Berman, “Grid-multipole calculations,” SIAM J. Sci. Stat. Comput. ,
+vol. 16, pp. 1082–1091, Sept. 1995.
+[28] A. Brandt, “Multilevel computations of integral transforms and particle
+interactions with oscillatory kernals,” Comput. Phys. Commun. vol. 65,
+pp. 24–38, 1991.
+[29] A. D. McLaren, “Optimal numerical integration on a sphere,” Math.
+Comput., vol. 17, pp. 361–383, 1963.
+[30] J. R. Phillips, “Error and complexity analysis for a collocation-grid-
+projection plus precorrected-FFT algorithm for solving potential integralequations with Laplace or Helmholtz kernels,” in Proc. 1995 Copper
+Mountain Conf. Multigrid Methods , Apr. 1995.
+[31] C. R. Anderson, “A method of local corrections for computing the
+velocity ﬁeld due to a distribution of vortex blobs,” J. Comput. Phys. ,
+vol. 62, pp. 111–123, 1986.[32] K. Nabors, F. T. Korsmeyer, F. T. Leighton, and J. White, “Multipole
+accelerated preconditioned iterative methods for three-dimensional po-tential integral equations of the ﬁrst kind,” SIAM J. Sci. Stat. Comput. ,
+vol. AP-15, pp. 713–735, May 1994.
+[33] D. T. Borup and O. P. Gandhi, “Calculation of high-resolution SAR
+distributions in biological bodies using the FFT algorithm and conjugate
+gradient method,” IEEE Trans. Microwave Theory Tech. , vol. MTT-33,
+pp. 417–419, 1985.
+[34] T. K. Sarkar, E. Arvas, and S. M. Rao, “Application of FFT and the
+conjugate gradient method for the solution of electromagnetic radiation
+from electrically large and small conducting bodies,” IEEE Trans.
+Antennas Propagat. , vol. AP-34, pp. 635–640, 1986.
+[35] J. R. Phillips, M. Kamon, and J. White, “An FFT-based approach to
+including nonideal ground planes in a fast 3-D inductance extraction
+program,” in Proc. Custom Int. Circuits Conf. , May 1993.
+[36] J. R. Phillips and J. K. White, “Efﬁcient capacitance extraction of 3D
+structures using generalized pre-corrected FFT methods,” in Proc.IEEE
+3rdTopicalMeetingonElectricalPerformanceofElectronicPackaging ,
+Nov. 1994.
+Joel R. Phillips received B.S. degrees in physics
+and electrical engineering, the M.S. degree in elec-trical engineering, and the Ph.D. degree in electrical
+engineering and computer science, all from the
+Massachusetts Institute of Technology, Cambridge,
+in 1991, 1993, and 1997, respectively.
+In 1997, he joined Cadence Design Systems, San
+Jose, CA. His research interests include compu-
+tational electromagnetics, algorithms for analysis,simulationandmodelingofRFcircuitsandsystems,
+nonlinear dynamics, and numerical methods for
+solution of integral equations.
+Jacob K. White (S’80–M’83–A’88) received the B.S. degree in electri-
+cal engineering and computer science from the Massachusetts Institute of
+Technology (MIT), Cambridge, and the S.M. and Ph.D. degrees in electrical
+engineeringand computersciencefromtheUniversityof California,Berkeley.
+He worked at the IBM T. J. Watson Research Center, Yorktown Heights,
+NY, from 1985 to 1987, was the Analog Devices Career Development
+Assistant Professor at MIT from 1987 to 1989. He is currently a Professor at
+MIT, and his research interests are in serial and parallel numerical algorithms
+for problems in circuit, interconnect, device, and microelectromechanical
+system design.
+Dr. White was a 1988 Presidential Young Investigator, and an associate
+editor of the IEEE T
+RANSACTIONS ON COMPUTER-AIDEDDESIGN OF CIRCUITS
+ANDSYSTEMSfrom 1992 until 1996.

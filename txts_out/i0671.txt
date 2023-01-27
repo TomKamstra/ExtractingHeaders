@@ -1,0 +1,1010 @@
+High-Performance Rotation Invariant
+Multiview Face Detection
+Chang Huang, Student Member ,IEEE , Haizhou Ai, Member ,IEEE ,
+Yuan Li, and Shihong Lao, Member ,IEEE
+Abstract —Rotation invariant multiview face detection (MVFD) aims to detect faces with arbitrary rotation-in-plane (RIP) and rotation-
+off-plane (ROP) angles in still images or video sequences. MVFD is crucial as the first step in automatic face processing for general
+applications since face images are seldom upright and frontal unless they are taken cooperatively. In this paper, we propose a series of
+innovative methods to construct a high-performance rotation invariant multiview face detector, including the Width-First-Search (WFS)
+tree detector structure, the Vector Boosting algorithm for learning vector-output strong classifiers, the domain-partition-based weak
+learning method, the sparse feature in granular space , and the heuristic search for sparse feature selection. As a result of that, our
+multiview face detector achieves low computational complexity, broad detection scope, and high detection accuracy on both standard
+testing sets and real-life images.
+Index Terms —Pattern classification, AdaBoost, vector boosting, granular feature, rotation invariant, face detection.
+Ç
+1I NTRODUCTION
+INthe past several decades, we have witnessed a burst of
+activities in applying robust computer vision systems for
+Human-Computer-Interaction (HCI). The face, which con-
+tains very important biological information of human being,
+is a very interesting object in images and videos. Naturally,face detection, which locates face regions at the very
+beginning, is considered as a fundamental part of any
+automatic face processing system. Also, it is a challengingwork since the difficulties of developing a robust face detectorarise from not only the diversities in the natureof human faces
+(e.g., the variability in size, location, pose, orientation, and
+expression) but also the changes of environment conditions(e.g., illumination, exposure, occlusion, etc.) [1].
+Generally speaking, there are mainly two methodologies
+for face detection task: one is knowledge-based and the otheris learning-based. The knowledge-based methodology at-tempts to depict our prior knowledge about the face patternwith some explicit rules, such as the intensity of faces, ellipticface contour, and equilateral triangle relation between eyes
+and mouth [2], [3]. Unfortunately, it is impossible to translate
+allhumanknowledgeexactlyintothoserequiredexplicitrulesthat could be accurately comprehended by computers. As aresult, methods of this type often perform poorly when therules mismatch unusual faces or match too many backgroundpatches. On the other hand, the learning-based methodology,
+of which the representatives include Osuna et al.’s SVMmethod [4], Rowley et al.’s ANN method [5] and Schneider-
+man and Kanade’s Bayesian-rule method [6], tries to model
+the face pattern with distribution functions or discriminant
+functions under the probabilistic framework. Methods ofthis kind are not limited by our describable knowledge on
+faces but determined by the capability of learning model and
+training samples, hence being able to deal with more complexcases compared with the knowledge-based approach. Speci-fically, the breakthrough of learning-based methodology
+happened in 2001 when Viola and Jones proposed a novel
+boosted cascade framework [7]. This work showed amazingreal-time speed and high detection accuracy. People usually
+attribute the achievements of this work to the fast calculated
+Haar-like features via the integral image and the cascadestructure of classifiers learned by AdaBoost. Here, for furtheranalysis,we decompose theirframeworkinto four levelsfrom
+top to bottom as shown in Table 1.
+Based on the premise that a significant disparity of
+occurrence rate between faces and background region in
+common images exists, Viola and Jones adopted an asym-metric cascade model that connected a series of strong
+classifiers with AND logic operators and each classifier made
+unbalanced decisions for face and nonface categories. Conse-quently, most of the background region could be rejectedrapidly by the first several classifiers with very little computa-
+tion. To learn such strong classifiers, they employed the
+AdaBoost algorithm [8], which could efficiently combinemany weak classifiers, acting as a feature selection mechan-
+ism, and guarantee a strong generalization bound for final
+classification. Finally, on the bottom level, they enumerated alargenumberofHaar-likefeaturesbasedontheintegralimageand associated them with corresponding stump functions to
+form a redundant weak classifier pool, which provided
+fundamental discriminability for the AdaBoost algorithm.AlltheseactivefactorswereorganizedeffectivelybyViolaand
+Jones to yield their distinguished work on face detection [7].
+Although the frontal face detection seems to be mature so
+far, it is often inadequate to meet the rigorous requirements ofIEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007 671
+.C. Huang, H. Ai, and Y. Li are with the Department of Computer Science
+and Technology, Tsinghua University, Beijing 100084, China.E-mail: {huangc99, yuan-li}@mails.tsinghua.edu.cn,ahz@mail.tsinghua.edu.cn.
+.S. Lao is with Sensing and Control Technology Laboratory, OMRON
+Corporation, Kyoto 619-0283, Japan. E-mail: lao@ari.ncl.omron.co.jp.
+Manuscript received 19 Jan. 2006; revised 5 June 2006; accepted 12 June 2006;
+published online 18 Jan. 2007.Recommended for acceptance by S. Prabhakar, J. Kittler, D. Maltoni,
+L. O’Gorman, and T. Tan.
+For information on obtaining reprints of this article, please send e-mail to:tpami@computer.organd reference IEEECSLog Number TPAMISI-0029-0106.Digital Object Identifier no. 10.1109/TPAMI.2007.1011.
+0162-8828/07/$25.00 /C2232007 IEEE Published by the IEEE Computer Societygeneral applications (e.g., visual surveillance system, digital
+equipments that need autofocus on faces, etc.) as human facesin real-life images are seldom upright and frontal. Naturally,multiview face detection and rotation invariant face detectionare defined to handle faces with ROP and RIP angles,
+respectively, (Fig. 1). However, both are more formidable
+problems because of the extension of detectable face range. Inparticular, the multiview face detection is more complicatedthan rotation invariant one since compared with frontal faces,profile faces tend to be less informative, more diverse, andmore sensitive to noise. Moreover, as shown in Fig. 1, theubiquitous concomitance of ROP and RIP of faces furthercompounds the difficulties to learn a face detector.
+In recent years, there have been many works that
+developed new methods to enhance Viola and Jones’ frame-
+work in some aspect. For instance, the detector structure has
+been extended to Li et al.’s pyramid model [9], Jones andViola’s decision tree [10], and Huang et al.’s Width-First-Search (WFS) tree [11] in order to cater to the multiview face
+detection,whileXiaoetal.’sboostingchain[12]andWuetal.’s
+nesting cascade model [13] transformed Viola and Jones’loose cascade model [7] into a more compact one. On the levelof strong classifier learning, the original AdaBoost algorithm,
+which adopts binary-output predictors, was replaced by the
+superior Real AdaBoost [14] and Gentle Boost [15] thatemploy confidence-rated predictors. Moreover, a finer parti-tionofthefeaturespacewasadoptedtoalleviatetheweakness
+of stump function, e.g., Liu and Shum’s histogram method
+[16], Wu et al.’s piece-wise function [13], and Mita et al.’s jointbinarizations of Haar-like feature [17]. As for the level offeature space, there have been works of Lienhart and Maydt’s
+extended Haar-like feature set [18], Liu and Shum’s Kullback-
+Leibler features [16], Baluja’s pair-wise points [19], Wang andJi’s RNDA algorithm [20], and Abramson and Steux’s controlpoint [21]. More details about these works can be found in the
+following sections, where comparisons are made.
+In this paper, we aim at constructing a fast and accurate
+rotation invariant multiview face detector, which is capable of
+detecting faces with pose changes of /C0=þ90
+/C14ROP (Yaw) and
+360/C14RIP (Roll). Besides, the tolerance to /C0=þ30/C14up-down
+(Pitch) change is combined t oc o n f o r mt os u r v e i l l a n c e
+environment. Our main contributions include the Width-
+First-Search (WFS) tree structure, the Vector Boosting
+algorithm, the sparse features in granular space, and theweak learner based on the heuristic search method. Theremainder of this paper is organized as follows: Section 2
+focuses on the comparison of existed detector structures and
+then introduces the WFS tree structure, Section 3 describes theVector Boosting algorithm preceded by a brief review of theclassical AdaBoost algorithm, Section 4 first discusses the
+effects of different types of features, then proposes sparse
+features in granular space and finally embodies the weaklearner that adopts heuristic search method to train weak
+hypotheses for Vector Boosting, Section 5 shows related
+experiment results, and Section 6 gives the conclusion.
+2W IDTH-FIRST-SEARCH TREESTRUCTURE
+2.1 Related Works
+Viola and Jones’ cascade structure [7], as shown in Fig. 2a, hasbeen proven very efficient for dealing with rare event
+detection problems such as face detection because of its
+asymmetric decision-making process. However, such a
+succinct structure does not have enough capacity to handlemultiview or rotation invariant face detection, both of which
+involve two distinct tasks: face detection and pose estimation.
+Face detection aims to distinguish faces from nonfaces, so it is
+inclined to utilize similarities between faces of different poses
+for rapid rejection of nonfaces; on the contrary, poseestimation is to identify the probable pose of a pattern no
+matter whether it is a face or not, so it seeks for diversities
+between different face poses but ignores the nonfaces.
+Unifying orseparatingthesetwotasks willleadtodifferent
+approaches. Osadchy et al.’s manifold method [22] could betaken as an example of the unified framework. A convolu-
+tional network was trained to map the face patterns to points
+on a face manifold, whose parameters indicated the pose
+variation, while nonface points were kept far away from the
+manifold. In this way, minimizing the energy function
+defined on the manifold was essentially a synchronous
+procedure to handle both tasks of multiview face detection.On the other hand, for the separated framework, the entire
+face range is usually divided into several individual cate-
+gories according to their RIP or ROP angles. Such separated
+framework is also known as the view-based approach since
+each category usually refers to some certain view of faces.
+The most straightforward way to implement a view-based
+approach was Wu et al.’s work [13], which trained different
+cascades individually for each view and used them in parallel
+as a whole like Fig. 2b. Though such a simple parallel-cascade
+strategy could achieve rather good performance in multiviewface detection, the unexploited correlation between faces of
+different views suggested a large capacity of improvement
+through a better designed detector structure.
+One way for improvement is the coarse-to-fine strategy. In
+[23], Fleuret and Geman employed a scalar tree detector(Fig. 2c) to adapt to large variation of location and scale of
+faces, while Li et al. [9] used pyramid to handle the great672 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+TABLE 1
+Hierarchy of Viola and Jones’ Detector
+Fig. 1. Faces of RIP, ROP, respectively, and concomitance of both RIP
+and ROP. In this paper, multiview means yaw varies from /C090/C14toþ90/C14,
+including composite pitch varying from /C030/C14toþ30/C14, while rotation
+invariant denotes 360/C14rolling. Pitch change is omitted in the right figure.change of appearance in MVFD (Fig. 2d). Though their
+structures were of a little difference, they both divided thecomplicated entire face space into finer and finer subspaces.In higher levels of their structure, neighboring views wereassigned to a single node and, thus, corresponding faces were
+treated as one ensemble positive class so as to be separated
+from the nonfaces. This convenient combination did help toimprove the efficiency and reusability of extracted featuresdue to the similarities exist in faces of neighboring views,whereas neglected the inherent diversities between them(though they were neighboring views). As a result, a samplethat had been identified as a face by a node would have to be
+processed by its every child-node, since it had no discrimina-
+tion in corresponding views. In other words, the decision wasuniform for child-nodes: either all active or all inactive. Suchan all-pass route selection strategy considerably delayed theentire face identification procedure of input pattern.
+On the contrary, another way for improvement, the
+decision tree method [10], put emphasis upon the diversities
+between different views. A decision tree was trained as a poseestimator to tell which view the input pattern belonged to,which was followed by individually learned cascade detec-tors for each view, respectively (Fig. 2e). A similar “poseestimation + detection” approach can be found in [29], whichemployed the support vector machine rather than thedecision tree. With the imperative judgments made by the
+pose estimator, original complicated MVFD problem was
+reduced to several simple individual-views. Nevertheless,the pose estimation results were somewhat unstable, whichweakened the generalization ability of the whole system. The
+instability should partly be attributed to the fact that face pose
+change was a continuous process rather than a discrete one. In
+fact, there must be a large number of face samples lying closeto those artificially defined category boundaries, and,
+intuitively, the training of classifier with these “hard”
+boundaries often suffered from these ambiguous samples.From another point of view, fast and robust pose estimation
+applied before face detection is probably a problem that is
+even more difficult than the face detection itself.
+To sum up, as mentioned at the beginning of this section,
+pose estimation focuses on the diversities of different viewswhereas face detection requires finding the similarities of
+different views to reject nonfaces as quickly as possible. Such
+conflict eventually leads to the dilemma that at the beginningof view-based approach, either treating all faces as a single
+class (the pyramid approach) or different individual classes
+(the decision tree approach) is unsatisfactory for the MVFDproblem. Fortunately, a moderate approach, the Width-First-
+Search (WFS) tree, could be employed to harmonize the two
+tasks (pose estimation and face detection), balancing bothaspects between different views (diversity and similarity).
+2.2 WFS Tree-Structured Detector
+In our approach to the rotation invariant multiview face
+detector described in Section 1, first a multiview face detector
+is constructed which covers the upright quarter of Roll andfull Yaw, and then three more detectors are obtained by
+rotating the upright one by 90
+/C14, 180/C14, and 270/C14(Fig. 3). Such
+reduction from one rotation invariant detector to fourHUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 673
+Fig. 2. Illustrations of different detector structures. (a) is Viola and Jones’ original cascade structure for frontal face detection. Adopting vie w-based
+strategy to cope with the MVFD problem, several detector structures are developed, including (b) Wu et al.’s parallel cascade [13], (c) Fleuret andGeman’s scalar tree [23], (d) Li et al.’s pyramid [9], (e) Jones and Viola’s decision tree [10], and (f) Huang et al.’s Width-First-Search (WFS) tree [1 1].
+Each leaf node in (d), (e), and (f) is actually an individual cascade as (a). Special attention should be paid to the difference among (c) scalar tree,
+(e) decision tree, and (f) WFS tree. Although they have got the similar tree-structures, their decision-making processes are distinct. Take the rootnode that splits into three child-nodes for example, the selection of pass route is uniform in scalar tree, exclusive in decision tree, and nonexclusi ve in
+WFS tree. Moreover, the scalar tree and WFS tree are able to make rejection decision at not only the leaf nodes but also the nonleaf ones. More
+details can be found in the following section.quartered ones makes our system highly scalable (e.g., in
+applications where inverted faces are rarely encountered, the
+rotated detectors can be shut down easily). We further divide
+the upright quartered face space into 15 basic views
+according to Yaw and Roll variance (Fig. 4), and then
+empirically organize them as a tree illustrated in Fig. 5. The
+root node comprises all 15 views, which covers the entire
+quartered face space. In the coming two layers, according to
+Yaw angle, the root branching node is gradually partitioned
+into five disjointed ones. At last, in the bottom layer, these
+five branching nodes are split into 15 leaves according to
+Roll, attaining the finest 15 views. In such a tree-structured
+detector, an input pattern is identified as a face if and only if
+it passes at least one route from the root node to some certain
+leaf node. Therefore, the Width-First-Search (WFS) strategy
+is the right way to access every promising node of pass
+routes, whose pseudocode is shown as Fig. 6. Notice that for
+patterns that correlate with more than one view, the post
+pose estimation judges the final result according to the
+confidence of each view.
+An extraordinary characteristic of the WFS strategy in
+Fig. 6 is the determinative vector GðxÞ, each component of
+which decides whether the input pattern should be sent to thecorresponding child-node or not. Compared with other
+related works listed in the last section, this determinative
+vector is much more versatile, neither restricted to beexclusive as Jones and Viola’s decision tree [10] nor to beuniform as Fleuret and Geman’s scalar tree [23] and Li et al.’spyramid [9]. For instance, in the root branching node of Fig. 5,
+an input pattern making GðxÞ¼ð 1;1;0Þindicates that it may
+be a left profile face or a frontal one but cannot be a rightprofile one, so in the following layer, it will be sent only to theleft node and the middle one. Another pattern that hasGðxÞ¼ð 0;0;0Þis classified as outlying from any view of faces
+and, thus, will be rejected immediately. In fact, faces of
+different views are still considered as dissimilar categories inbranching nodes of the WFS tree. However, these categories
+are not exclusive (e.g., as in the decision tree) but compatiblewith each other, meanwhile taking nonfaces as their collectivenegative class. In this way, the WFS tree not only utilizes thesimilarities between faces of different views to recognize
+nonfaces, but also reserves their diversities for further
+separation. Again take the root branching node in Fig. 5 forexample, Table 2 compares different approaches at the aspectof pass route selection. The pose estimation made by thedecision tree [10] is equivalent to a 3D determinative vectorwith only one nonzero component, and the pyramid structure
+[9], as well as the tree structure with scalar outputs [23], can
+only give a determinative vector with either all-zerocomponents or all-one components. As for the WFS tree, ithas the most diverse selections among all these approaches.674 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 3. Reduction of the rotation invariant multiview face detection. In
+fact, sparse features in the original multiview face detector are rotatedby 90
+/C14, 180/C14, and 270/C14, which is equivalent to rotating the input image
+but more efficient to compute during detection.
+Fig. 4. View definition in the upright multiview face detector. The
+detector covers the face range of Roll from /C045/C14/C24þ 45/C14and Yaw from
+/C090/C14/C24þ 90/C14, which is partitioned into 3/C25nonoverlapped views as
+shown above. Additional tolerance to Pitch variance from /C030/C14/C24þ 30/C14
+is embedded into each view.
+Fig. 5. Coarse-to-fine partition of face range in the tree-structured
+detector. The node with a red circle is a branching node, whose face
+range is the union of its child-nodes’. Among them, the root nodecontains all 15 views that are figured in the leaf nodes, of which the tilted10 views are not displayed for clarity. The similar omissions are adoptedfor other branching nodes.
+Fig. 6. Width-First-Search process in the tree-structured detector to
+identify an input pattern whether it is a face or not.In conclusion, with the help of determinative vectors and
+nonexclusive pass route selection mechanism, the WFS treestructured detector is able to make moderate decision forthe unidentified input pattern: neither too aggressive asdecision tree nor excessively cautious as pyramid or scalartree. Capabilities of different approaches in branching node(Table 2) explain the advantage of WFS tree in the flexibilityof decision-making process.
+3V ECTOR BOOSTING ALGORITHM
+The Vector Boosting algorithm is developed to learn strongclassifiers which can output the determinative vector GðxÞ
+of the WFS tree structure. Before elaborating on this novelmethod, we give a brief review on its origin—AdaBoost.
+3.1 AdaBoost Algorithm
+Boosting algorithm [24], which linearly combines a series ofweak hypotheses to yield a superior classifier, has beenregarded as one of the most significant developments in thepattern classification field during the past decade. Itessentially employs an additive model to minimize the lossfunction of classification in a regressive manner. Conse-quently, different loss functions lead to different boostingalgorithms. For example, AdaBoost [14], [24] and GentleBoost [15] take exponential loss function as the optimizationcriterion, while LogitBoost [15] uses Bernoulli log-likelihoodfunction. Moreover, BrownBoost [25] adopts a much moresophisticated loss function to enhance the robustness againstoutliers (noises) of training data. The classical AdaBoostalgorithm can be formalized as shown in Fig. 7.
+It is easy to verify that in the Adaboost algorithm, the
+weight of a sample satisfies
+w
+t
+i¼w0
+iexp/C0yiFtðxiÞ ðÞYt
+k¼1Zk;,
+ð1Þ
+where yiFtðxiÞis usually defined as the margin of sample
+ðxi;yiÞw:r:tFtðxÞ. This weight-updating mechanism for
+samples is the kernel of AdaBoost, which makes theoptimization procedure always emphasize those incorrectlyclassified samples by increasing their weights. By this means,AdaBoost manages to minimize the expectation of exponen-tial loss of training samples
+Loss F ðxÞðÞ ¼X
+n
+i¼1w0
+iexp/C0yiFðxiÞ ðÞ ¼ Ee/C0yFðxÞ/C16/C17
+:ð2ÞEssentially, (2) has a close relationship with the training
+error of the final classifier HðxÞ. It has been proved that the
+upper bound of training error is held by the loss defined in(2), which is equal to the product of every normalizationfactor [14]:
+1
+nXn
+i¼1yi6¼HðxiÞ ½/C138½/C138 /C20Xn
+i¼1w0
+iexp/C0yiFðxiÞ ðÞ ¼YT
+t¼1Zt:ð3Þ
+Therefore, AdaBoost is actually an iterative procedure to
+greedily reduce the upper bound of training error. Althoughthe generalization bound given in [14] is often too loose tomake sense in practice, this algorithm has shown satisfactory
+performance in many practical problems.
+3.2 Vector Boosting Algorithm
+As extensions of the AdaBoost algorithm, AdaBoost.MH,
+AdaBoost.MO, and AdaBoost.MR [14] deal with multiclassproblems with different definitions of loss functions. Ada-Boost.MH assigns a label set for each sample and adopts theexponential loss of symmetric difference between the label set
+and the output of the strong classifier, and AdaBoost.MO
+makes use of the output code technique to generalizeAdaBoost.MH. On the other hand, AdaBoost.MR treats themulticlass problem as a ranking problem and uses rankingloss in expectation that the correct labels could receive the
+highest ranks. Although these multiclass boosting algorithms
+have been successfully applied in many problems, they arestill not directly applicable to the problem corresponding tobranching nodes of the WFS tree, in which faces of differentviews are neither coherent nor disperse but nonexclusive.
+Therefore, the Vector Boosting algorithm, as a unified
+boosting framework, is deve loped for the learning of
+branching nodes, which manipulates different kinds ofmulticlass problems by means of the vectorization ofHUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 675
+TABLE 2
+Comparison of Different Approaches on
+Determinative Vectors for Pass Route Selection
+Fig. 7. A generalized version of the AdaBoost algorithm for two-class
+problems.hypothesis output space and the flexible loss function defined
+by intrinsic projection vectors.
+3.2.1 Convex Objective Region and Exponential Loss
+Function
+The Vector Boosting algorithm originates from the motiva-
+tion of decomposing a complicated multiclass problem into
+a set of simple ones, making them share the same features
+and calculating their respective outputs. For this purpose, it
+assigns different categories with different convex objective
+regions in the vector hypothesis output space IRkso as to
+make them distinguishable. These convex objective regions
+are defined as the intersection of one or more half spaces in
+homogeneous coordinates
+C¼~z:8ev2V;~z/C1ev/C210 fg
+~z¼ðz;1Þ;ev¼ðv;bÞ;z2IRk;V¼fev1;...;evmg:ð4Þ
+The extended vector ev, composed of normal vector vand
+offset b, specifies a half space that supports the convex
+objective region C. We name it intrinsic projection vector as it
+plays an important role in the loss function introduced later.
+The first column of Fig. 8 gives a naive example to show the
+usage of intrinsic projection vectors and the consequent
+convex objective regions. Note that it is unnecessary to
+require different objective regions to be nonoverlapped or
+have their union cover the entire hypothesis output space.
+Apparently, a hypothesis output FðxÞlies in the half space
+specified by an intrinsic projection vector evif their inner
+product is nonnegative. So, the margin of a hypothesis outputwith regard to an intrinsic projection vector is defined as
+margin FðxÞ;ev ðÞ ¼ eFðxÞ/C1ev; ð5Þwhere eFðxÞ¼ðFðxÞ;1Þis the extended hypothesis output in
+homogeneous coordinate. Furthermore, a hypothesis outputlies in a convex objective region if and only if its margin withregard to every intrinsic projection vector is nonnegative.Ideally, a perfectly learned hypothesis maps every inputpattern onto its corresponding objective region. Therefore,enlightened by the exponential loss adopted in AdaBoost
+algorithm, to penalize input patterns who have not been
+mapped onto the correct objective regions, the loss function inthe Vector Boosting algorithm is defined as follows:
+Loss FðxÞðÞ ¼ EX
+e
+vj2VðxÞexp/C0margin FðxÞ;evj/C0/C1 /C0/C10
+@1
+A
+¼EX
+evj2VðxÞexp/C0eFðxÞ/C1evj/C16/C170
+@1
+A;ð6Þ
+where VðxÞis the intrinsic projection vector set of pattern x.
+The second and the third columns in Fig. 8 draw the lossfunction of each class individually. In the training process,
+the expectation in (6) becomes the sum of losses absorbed
+from training samples as follows:
+LossðFðxÞÞ ¼1
+nXn
+i¼1X
+evj2VðxiÞexp/C0evj/C1eFðxiÞhi8
+<
+:9
+=
+;;ð7Þ
+where nis the number of training samples. It is easy to find
+that a training sample with qintrinsic projection vectors is
+equivalent to qtraining samples each with one intrinsic
+projection vector: ðxi;fev1;...;evqgÞ Ðeq
+fðxi;ev1Þ;...;ðxi;evqÞg.676 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 8. A naive example of a three-class problem. Three rows correspond to three classes, respectively. The first column shows their different
+objective regions, which are convex sets and defined by intrinsic projection vectors (white arrows). According to (4), CA¼f ðx; yÞ;x/C210g,
+CB¼f ðx; yÞ;y/C210g, and CC¼f ðx; yÞ:x/C200;y/C200g. The second and the third columns draw their losses in 2D output space for each category by
+surface and contour, which are expð/C0xÞfor Class A, expð/C0yÞfor Class B, and expðxÞþexpðyÞfor Class C. The fourth and the fifth columns draw their
+posterior probabilities also by surface and contour, which are employed to explicitly calculate the decision boundaries in Section 3.2.4.Based on this observation, in practice a training sample with
+more than one intrinsic projection vector will be expanded
+into a set of samples each with only one intrinsic projection
+vector. Without loss of generality, throughout the formaliza-
+tion of optimization procedure in the next section, we employ
+a minified loss function based on the expanded training
+samples as
+dLossðFðxÞÞ ¼1
+mXm
+i¼1exp/C0evi/C1eFðxiÞ/C16/C17
+¼
+n
+m/C21
+nXm
+i¼1exp/C0evi/C1eFðxiÞ/C16/C17
+¼n
+mLossðFðxÞÞ;n /C20m;ð8Þ
+where nis the number of original training samples while m
+is the number of expanded ones. As soon as the training
+samples and their intrinsic projection vectors are given, the
+minification n=m is determined. Therefore, using the
+minified loss function in (8) instead of the original one in
+(7) will make no difference on the final optimization results.
+3.2.2 Optimization Procedure
+Like other boosting algorithms, the Vector Boosting em-
+ploys an additive model to minimize the loss functiondefined in the previous section. Suppose a strong hypothesisFðxÞhas been obtained in the additive model, the next step
+is to learn an optimal weak hypothesis fðxÞto add in.
+According to the minified loss function in (8), the overalltraining loss turns into
+dLoss FðxÞþfðxÞ ðÞ ¼
+1
+mXm
+i¼1exp/C0evi/C1eFðxiÞþvi/C1fðxiÞ/C16/C17hi
+¼Xm
+i¼1e/C0evi/C1eFðxiÞ
+mexp/C0vi/C1fðxiÞ ½/C138 /Xm
+i¼1wiexp/C0vi/C1fðxiÞ ½/C138 ;
+ð9Þ
+where evj¼ðvj;bjÞand wi/e/C0evi/C1eFðxiÞ=m (wiis the
+precalculated weight for xi). This equation indicates that
+the loss absorbed from xibyFðxÞactually works as a
+prior weight of the sample during the optimization of
+the new weak hypothesis fðxÞ. Thus, the optimal weak
+hypothesis should be
+f/C3ðxÞ¼arg min
+fðxÞLoss FðxÞþfðxÞ ðÞ ðÞ
+¼arg min
+fðxÞXm
+i¼1wiexp/C0vi/C1fðxiÞ ðÞ()
+:ð10Þ
+This is indeed a weight-updating mechanism similar to other
+boosting algorithms. In this way, the Vector Boosting can beformalized as shown in Fig. 9. Notice that weights of training
+samples are always normalized to be a probability, even for
+w
+0initialized at the very beginning before any weak
+hypothesis is adopted. As the initial hypothesis output
+F0ðxÞis zero, for any sample ðxi;eviÞ, its prior probability at
+the first round is determined only by the offset bias
+w0
+i/exp/C0evi/C1eF0ðxiÞ/C16/C17
+¼e/C0ðvi;biÞ/C1ð0;...;0;1Þ¼e/C0bi; ð11Þ
+which is distinct from the classical AdaBoost algorithm [14].3.2.3 Bound of Training Error
+From the view of the defined objective regions, a training
+sample ðxi;!iÞis correctly classified by FðxÞif and only if
+FðxiÞ2Cð!iÞ,w h e r e Cð!iÞis the objective region of
+category !i. Here, we adopt a characteristic function
+Bðxi;!iÞ¼0;if8evij2Vð!iÞ;eFðxiÞ/C1evij/C210
+1;else;/C26
+ð12Þ
+where Vð!iÞis the projection vector set that defines Cð!iÞ.
+Then, the training error of FðxÞis
+Perror¼1
+nXn
+i¼1FðxiÞ62Cð!iÞ ½/C138½/C138 ¼1
+nXn
+i¼1Bðxi;!iÞ: ð13Þ
+Since Bðxi;!iÞ/C20P
+evij2Vð!iÞexpð/C0eFðxiÞ/C1evijÞ, the training
+error in (13) has an upper bound that
+Perror/C201
+nXn
+i¼1X
+evij2Vð!iÞexp/C0eFðxiÞ/C1evij/C16/C178
+<
+:9
+=
+;¼Loss FðxÞðÞ :
+ð14Þ
+The equation on the right side holds due to the definition of
+training loss in (7).HUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 677
+Fig. 9. k-dimensional Vector Boosting algorithm.On the other hand, after the Tthround of boosting
+procedure, sample weights should satisfy
+1¼Xm
+i¼1wT
+i¼Xm
+i¼1wT/C01
+iexp/C0vi/C1fTðxiÞ ðÞ
+ZT
+¼Xm
+i¼1w0
+iYT
+j¼1exp/C0vi/C1fjðxiÞ/C0/C1
+Zj¼Pm
+i¼1exp/C0evi/C1eFTðxiÞ/C16/C17
+QT
+j¼0Zj:
+ð15Þ
+Associating it with (8), we have
+YT
+j¼0Zj¼Xm
+i¼1exp/C0evi/C1eFTðxiÞ/C16/C17
+¼m/C2dLoss FTðxÞ ðÞ ¼ n/C2Loss FTðxÞ ðÞ :ð16Þ
+Using (16) to replace the right part of (14), we have:
+Perror/C201
+nYT
+j¼0Zj: ð17Þ
+Hence, the training error of Vector Boosting is bounded
+by the product of every normalization factor. Like otherboosting algorithms, the Vector Boosting algorithm can
+train a strong classifier with low training error by greedily
+minimizing the normalization factor Z
+tof each round.
+3.2.4 Decision Boundary
+Fig. 10 illustrates the power of a strong hypothesis FðxÞ,
+which is learned with Vector Boosting under the configura-tions depicted in Fig. 8 to solve the naive 3-class problem.
+According to the distributi ons of samples, these three
+categories are fairly well separated in the 2D hypothesisoutput space. But, for classification task, one more thing mustbe clarified: What are the optimal decision boundaries for
+different categories in the hypothesis output space. Directly
+adopting objective regions as the decision boundaries makessense in the analysis of training error bound, but thisstraightforward criterion might be unsuitable to practical
+cases. For example, the objective regions may have nonempty
+intersection (e.g., Class A and Class B in Fig. 8) and there may
+be some area in the output space corresponding to none of theobjective regions. In fact, analytical decision boundaries in
+Vector Boosting are nontrivial due to the flexibility of intrinsic
+projection vectors and the complexity of the consequent loss
+function. However, with a sustainable assumption, an
+approximate optimal decision boundary is achievable.
+Derived from the deduction in [15], the loss function in
+(6) can be considered as the expectation over the jointdistribution of input pattern xand class label !.I ti s
+sufficient for optimization procedure in Fig. 9 to minimize
+the criterion conditionally on variable xas
+EX
+e
+vj2VðxÞexpð/C0eFðxÞ/C1evjÞ/C12/C12/C12x0
+@1
+A¼ZX
+evj2VðxÞexpð/C0eFðxÞ/C1evjÞ0
+@1
+A
+pð!jxÞd!¼Xc
+i¼1Pð!ijxÞX
+evj2Vð!iÞexpð/C0eFðxÞ/C1evjÞ8
+<
+:9
+=
+;;
+ð18Þ
+where cis the number of categories. Notice that this
+conditional expectation has been rewritten as the sum
+weighted by the posterior probabilities of each category.
+During the optimization procedure in the Vector Boostingalgorithm, the derivative of the conditional loss function with
+respect to FðxÞapproaches zero as more and more weak
+hypotheses are adopted into the strong hypothesis. Thus,the derivative can be assumed as 0 if the hypothesis is
+adequately optimized.
+@EP
+evj2VðxÞexpð/C0eFðxÞ/C1evjÞ/C12/C12/C12x0
+@1
+A
+@FðxÞ
+¼Xc
+i¼1Pð!ijxÞX
+evj2Vð!iÞ/C0e/C0eFðxÞ/C1evjvj/C18/C198
+<
+:9
+=
+;¼/C0AP¼0;ð19Þ
+where
+A¼P
+evj2eVð!1Þe/C0eFðxÞ/C1evjvj/C1/C1/C1P
+evj2Vð!cÞe/C0eFðxÞ/C1evjvj"#
+and the column vector
+P¼Pð!1jxÞ
+...
+Pð!cjxÞ2
+643
+75:
+In addition, since the sum of all posterior probabilities is
+1, one more equation could be added into (19) as an
+additional constraint, resulting in a linear equation set with
+cunknowns as
+A
+1T/C20/C21
+P¼A0P¼0/C1/C1/C1 01 ½/C138T; ð20Þ
+where matrix A0haskþ1rows and ccolumns ( kis the
+dimension of the hypothesis output space and cis the
+number of categories). If c¼kþ1andA0is nonsingular,678 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 10. The results of strong hypothesis learned by Vector Boosting for
+the naive three-class problem depicted in Fig. 8. In this experiment,
+Class A and Class B are left and right profile face categories, whileClass C is the nonface category. The size of training sample is 24/C224
+andFðxÞ:I R
+576!IR2.the solution of P in (20) is unique. Take the naive
+configuration in Fig. 8 for example, we have:
+P¼Pð!AjxÞ
+Pð!BjxÞ
+Pð!CjxÞ2
+43
+5andA0¼e/C0FxðxÞ0 /C0eFxðxÞ
+0 e/C0FyðxÞ/C0eFyðxÞ
+1112
+43
+5;
+ð21Þ
+where FxðxÞis the output of FðxÞon x-axis and FyðxÞis that
+on y-axis. The solution is:
+Pð!CjxÞ¼1
+1þexp 2 FxðxÞÞ þ expð2FyðxÞ/C0/C1 ;
+Pð!AjxÞ¼exp 2 FxðxÞ ðÞ Pð!CjxÞ;
+Pð!BjxÞ¼exp 2 FyðxÞ/C0/C1
+Pð!CjxÞ;ð22Þ
+which are illustrated in the fourth and the fifth columns of
+Fig. 8. Accordingly, optimal decision boundaries are curves
+shown in the contour map of each posterior probabilityrather than borderlines of objective regions.
+3.3 Brief Summary
+Essentially, the Vector Boosting algorithm is a generalizedframework for multiclass problems with additive regressionm o d e l .I t sl o s sf u n c t i o ni sd e f i n e db a s e do ni n t r i n s i c
+projection vectors of differe nt categories. With proper
+configuration of those vectors, the Vector Boosting could betransformed into many other existing boosting algorithmsdue to their consistent loss functions. For instance, if the
+output space is one-dimensional, and intrinsic projection
+vectors for two classes are (1, 0) and ( /C01, 0), respectively, the
+loss function of Vector Boosting becomes that of the classicalAdaBoost. Similarly, the Vector Boosting can be transformed
+into AdaBoost.MH, AdaBoost.MO, and AdaBoost.MR [14].
+Moreover, if configuring an objective region as a closedconvex set rather than an open one, the global minimum ofloss function for its corresponding category will transfer frominfinite to an inner point of the close convex set (Fig. 11), and
+the loss function in (7) will be equivalent to that of ExpLev
+algorithm introduced by Duffy and Helmbold [26]. Thisimplies that Vector Boosting algorithm is not only aclassification framework, but also of high potential to deal
+with regression problems upon the widely-adopted expo-
+nential loss criterion.
+Practically, to learn branching nodes of the WFS tree,
+similar configurations as Fig. 8 are adopted, in which
+different face categories are assigned with orthogonalintrinsic projection vectors and the nonface category withopposite ones. As an example, Table 3 shows the setting for
+the root node. In this way, different face categories are
+irrelevant in the loss function of Vector Boosting but share a
+common opposite, the nonface category, which accordswith the nonexclusive pass route selection criterion pro-posed in the WFS tree. Differently, as long as face views are
+allocated with different label sets, AdaBoost.MH, Ada-
+Boost.MO, and AdaBoost.MR will have to pay much effortto separate them, which is absolutely unnecessary in theWFS tree. A comparative experiment between the Vector
+Boosting and AdaBoost.MH is given in Section 5.
+After the transformation from the hypothesis outputs to
+the posterior probabilities as (22), optimal thresholds can befound according to the required detection rate or false
+alarm rate. In this way, a strong classifier that outputs
+determinative vectors for branching nodes can be learned,and the transformed posterior probabilities can be treatedas the output confidences for the selection of correspondingpass route in Fig. 6.
+4L EARNING SPARSE GRANULAR FEATURES FOR
+DOMAIN -PARTITION WEAKHYPOTHESES
+Conventional feature extraction methods in face detection,such as Rowley et al.’s ANN [5], are directly based on high-dimensional input patterns. Although discriminative low-dimensional feature space could be obtained by means ofPCA, LDA, or RNDA [20], they usually involve full scale
+vector inner product that is computational intensive. One of
+the key issues in Viola and Jones’ system [7] which leads totheir success is the integral image, which helps to computeHaar-like features much more efficiently. However, their
+Haar-like features are often deficient in distinguishing
+complicated and irregular patterns such as profile faces dueto their rigorous structural constraints. To alleviate thisdifficulty, Li et al. [9] and Lienhart and Maydt [18] employ
+extended Haar-like features that include relatively shiftable
+and rotated ones, respectively. Further more, Baluja et al. [19]and Abramson and Steux [21] adopt pixel-based features toachieve more flexible form and sparser presentation com-
+pared with Haar-like features. Both of them use logic
+operators (i.e., whether or not pixel A is brighter than pixelB) to discriminate input patterns, avoiding normalization ofmean and standard deviation of samples which is necessaryfor Haar-like features. As a result, these pixel-based features
+are extremely fast to compute but unfortunately not dis-
+criminativeandrobustenough.Inourface detectionsystem, aset of novel features are sparsely represented in the granularspace of the input image, and an efficient weak learning
+algorithm is introduced which adopts heuristic search
+method in pursuit of discriminative sparse granular features.HUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 679
+Fig. 11. Global minimum of loss function for a category that has closed
+objective region. White arrows are its intrinsic projection vectors andblack point is at the global minimum.TABLE 3
+Configuration for the Training of Root Node in the WFS Tree
+4.1 Sparse Features Represented in Granular Space
+The granular space as shown in Fig. 12 is made up of four
+bitmaps: I0,I1,I2, and I3. Denote the scale variable as
+sðs¼f0;1;2;3gÞ, each granular bitmap Isis the result of
+smooth filtering in way of averaging over 2s/C22spatches of
+the original image. Therefore, a granule Isðx; yÞcan be
+specified by the x-offset, y-offset, and the scale s. In such a
+granular space, a sparse feature is represented as the linear
+combination of several granules as
+/C18¼X
+i/C11iIsiðxi;yiÞ;/C11i2f /C0 1;þ1g;si2f0;1;2;3g;ð23Þ
+where the combining coefficient aiis restricted to be binary
+value for the sake of computational efficiency (Fig. 13). Oncethe granular space is constructed, calculating a granule needsto access memory only once rather than four times for arectangle of Haar-like features. Therefore, compared with theHaar-like features [7] as well as their extended versions in [9],[18], the sparse granular features are highly scalable: they canbe more versatile while keeping the same computation load,or more economic to compute if keeping similar structuralcomplexity. Moreover, in order to increase robustness anddiscriminability of sparse granular features, the integralimage is retained to apply the normalization of mean and
+standard deviation like Haar-like features. Based on such
+normalized features, stronger weak classifiers could belearned instead of logic-operator approaches with thoseunnormalized features in [19], [21].
+4.2 Domain-Partition-Based Weak Learner for
+Vector Boosting Algorithm
+Weak learner in boosting algorithms aims to train a proper
+weak hypothesis to reduce the training loss of strongclassifier as it holds the upper bound of training error. Inour approach, a weak hypothesis could be decoupled intotwo parts: the first part is extracting a sparse granularfeature from input pattern; the second part is calculating theprediction result through a piece-wise function. In thefollowing parts, a weak hypothesis fðx;/C18; /C22Þwith input
+pattern x is characterized by two parameters: /C18for sparse
+feature and /C22for piece-wise function.4.2.1 Learning Piece-Wise Functions for Selected
+1D Features in Vector Boosting Algorithm
+The piece-wise function /C22, illustrated in Fig. 14b, divides the
+1D feature space into a set of disjoint bins with equal widths,
+and outputs a constant value (scalar or vector) for samples
+falling into the same bin. Actually, it is a straightforward
+implementation of domain partition based hypothesis in [14],
+which is superior to stump function (shown in Fig. 14a)
+adopted in [7] since it is capable to fit likelihoods more
+precisely through finer partition granularity. Three para-
+meters are necessary to determine the partition of a chosen
+1D feature space: the lower bound, the upper bound, and the
+granularity. The first two are estimated through distributions
+of training samples on the chosen feature, and the last one,
+granularity, is predefined by experience.
+Denote the samples that are grouped into the jthbin as
+Sj¼f ðxi;eviÞj/C18ðxiÞ2binjg; ð24Þ
+where /C18ðxiÞis the extracted feature value of xiand binjis
+thejthbin after domain partition.
+Letcjbe the constant output for binjand recall (9), we
+have the minified loss function as
+dLossðFðxÞþfðxÞÞ /Xm
+i¼1wiexp/C0vi/C1fðxiÞ ðÞ
+¼X
+jX
+ðxi;~viÞ2Sjwiexpð/C0vi/C1cjÞ;ð25Þ
+where FðxÞis the previously learned strong hypothesis,
+fðxÞis the newly adopted weak hypothesis, and wiis the
+weight of sample xiw:r:tFðxÞ. In particular, the loss
+received for binjis
+loss jðcjÞ/X
+ðxi;~viÞ2Sjwiexpð/C0vi/C1cjÞð 26Þ
+which is a convex function with regard to cj. Hence, the
+optimal constant outputs for each bin can be calculated with
+some proper optimization algorithm such as Newton-stepmethod. Besides, the newly received loss given in (25) tellsthe fitness of the new weak hypothesis fðxÞif added into
+the original strong hypothesis FðxÞ, which guides the
+heuristic search method for the selection of discriminative
+features in the next section.680 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 12. Granular space of a gray image ( sdenotes the scale of
+granules).
+Fig. 13. Two examples of sparse features. White blocks are positive
+granules while black ones are negative. Calculating each granule needsto access memory only once.
+Fig. 14. Stump function versus piece-wise function. The stump function
+only divides the 1D feature space into two parts with an adjustablethreshold, giving binary outputs, while the piece-wise function partitions
+the feature space in finer granularity and outputs various values for each
+bin. (a) Stump function. (b) Piece-wise function.4.2.2 Heuristic Search for Sparse Granular Features
+Although the loose constraint in (23) endows sparse granular
+features with great versatility, it also brings in a serious
+problem in practice: the astronomical figure of all possiblefeatures. To address this issue, a heuristic-search-based
+feature selection mechanism is developed to efficiently
+construct a compact and effective sparse granular featureset as follows.
+The heuristic search is a classical optimization algorithm
+in artificial intelligence theory [28]. Two lists are maintained
+during its search process: A closed list for expanded
+elements to avoid duplicated expansions and an open listfor unexpanded elements for further expansion. Roughly, it
+is formalized as shown in Fig. 15, in which elements in two
+lists are various sparse granular features defined in (23).
+The fitness evaluation of a sparse granular feature, which
+reflects the heuristic knowledge integrated into the search
+process, essentially guides the expansion of elements in open
+set and thus dominates the whole search process. Reasonably,to improve the previously learned strong hypothesis inVector Boosting algorithm, features that achieve low training
+losses with the optimal piece-wise functions are more
+favorable. Besides, sparseness of features should also betaken into consideration since it determines the computa-
+tional complexity, and is closely related to the structural risk
+which affects the generalization ability. In addition, intui-tively, a sparse granular feature with fewer granules is morelikely to evolve into a better one by adding new granules.
+Therefore, the heuristic search method should prefer sparse
+granular features with smaller training losses and lowercomplexities.
+Denote the incremental logarithmic loss reduction of
+fðxÞw:r:tFðxÞas
+JfðxÞ;FðxÞ ðÞ ¼ /C0 logLoss FðxÞþfðxÞ ðÞ ðÞ þ logLoss FðxÞðÞ ðÞ
+ð27Þ
+and then the fitness function of sparse granular feature /C18is
+empirically defined as:
+Fitness ð/C18Þ¼Jfðx;/C18; /C22
+/C3Þ;FðxÞ ðÞ /C0 /C12k/C18k1; ð28Þ
+where /C22/C3is the optimal piece-wise function learned for /C18
+(see Section 4.2.1), k/C18k1is the number of granules in /C18, and /C12
+is a small penalty coefficient that is set as 0.001 in
+experiments. With this fitness function, a promising sparse
+feature /C18/C3can be selected from the open list. To expand itinto a new feature set /C2/C3, we employ three different
+operators, add(29), delete (30), and replace (31), which are
+loading in a new granule ,deleting an existed one and replacing
+an existed one with a new one , respectively. These operators
+generate lots of features with small variations from theoriginal sparse granular feature, and better features are
+likely to be found in those generated ones. Denote the
+granule set of /C18
+/C3asP, a granule in Pand its corresponding
+coefficient as pinand /C11in, another granule that does not
+belong to Pand its corresponding coefficient as poutand
+/C11out, and the neighboring granule set of pinasNbðpinÞ,add,
+delete , and replace operators can be formalized as follows:
+/C2a¼/C18aj/C18a¼/C18/C3þ/C11outpout fg ;pout=2P; /C11 out¼f/C0 1;þ1g;
+ð29Þ
+/C2d¼/C18dj/C18d¼/C18/C3/C0/C11inpin fg ;pin2P; ð30Þ
+/C2r¼/C18rj/C18r¼/C18/C3/C0/C11inpinþ/C11outpout fg ;
+pin2P;p out2NbðpinÞ;/C11out¼/C11in:ð31Þ
+Due to the large number of generated features, it is
+infeasible to take all of them as the new feature set /C2/C3
+inserted into the open list. Practically, an alternative way is
+to select only the best one of each set to make up this
+expanded feature set
+/C2/C3¼/C18/C3
+i/C12/C12/C12/C18/C3
+i¼arg max
+/C182/C2iFitness ð/C18Þ ðÞ ;i¼a; d; r()
+:ð32Þ
+In this way, in each round of the heuristic search three
+new promising features can be generated and after a certain
+number of rounds a discriminative feature set is obtained.
+4.3 Brief Summary
+For a weak hypothesis fðx;/C18; /C22Þ, Section 4.2.1 describes how
+to optimize a piece-wise function /C22for a selected sparse
+granular feature /C18, and Section 4.2.2 introduces the heuristic
+search method that is capable to construct a compact and
+effective feature set for the Vector Boosting algorithm. One
+thing that has not been clarified in the heuristic search
+(Fig. 15) is the initialization of the open list OL. Experi-
+mentally, we enumerate many Haar-like features in the
+granular space, and select a small part of them to constitute
+the open list (Fig. 16). The fitness function defined in (28) is
+employed again to filter out unpromising Haar-like features
+as the first-round selection. In summary, the entire process
+of weak learner in granular space for the Vector Boosting
+algorithm can be formalized as shown in Fig. 17.HUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 681
+Fig. 15. Heuristic search method for sparse granular features.
+Fig. 16. Some Haar-like features in granular space for the initialization of
+open list in heuristic search method. Notice that each granule is a square
+rather than a rectangle, so the total number of enumerated Haar-likefeatures in granular space is much less than that in integral image [7].5E XPERIMENTS
+5.1 WFS Tree Structure and Vector Boosting
+Algorithm
+In order to demonstrate that the WFS tree structure is able to
+make moderate decisions for an input pattern in branchingnodes with the nonexclusive-vector strong classifiers learned
+by the Vector Boosting algorithm as claimed in Section 2 and
+Section 3, a comparison is made among four approaches,including the WFS tree, the pyramid [9], the parallel cascades[13], and the AdaBoost.MH algorithm [14]. The task is tolearn a strong hypothesis that computes a 3D determinative
+vector as the first layer of the face detector. All patterns are
+divided into four categories: three face classes (left profile,frontal, and right profile) and a nonface class. Everyapproach makes use of the same Haar-like feature set and
+the same domain-partition-based weak hypothesis (piece-
+wise function). To reject nonfaces as quickly as possible whilepreserving most of the faces, we reimplement the fourapproaches and fix the detection rate at 0.98 during the
+boosting procedure, illustrating their asymptotic false alarm
+rates on the testing set in Fig. 18.
+According to this comparative experiment, among the four
+approaches, the WFS tree achieves the best performance sinceit requires the fewest weak classifiers to reach the same falsealarm rate. In fact, such gain should be mainly attributed to
+the Vector Boosting algorithm. By means of assigning the
+three face views with orthogonal intrinsic projection vectorsas shown in Table 3, which makes their objective regionsoverlapped and their targets compatible, the Vector Boosting
+algorithm manages to exploit similarities between faces of
+different views for the sake of fast background rejection,meanwhile keeping back their diversities for further identi-fication. Contrastively, the pyramid approach treats all the
+three face views as one ensemble positive class, and therefore
+employs the classical 2-class AdaBoost algorithm to learn abinary strong classifier, which suffers from the diversitiesbetween different views. Differently, the parallel-cascade
+approach learns three binary classifiers to distinguish three
+face views from nonfaces individually, which ignores the
+valuable similarities between different face views. As for the
+AdaBoost.MH algorithm, since it regards three face classes
+and the nonface class as four mutually distinct ones, it putsconsiderable emphasis on the differentiation of the three face
+views. However, separating face views is indeed unnecessary
+here as the main task in the first layer is to reject nonfaces as
+quickly as possible, which inevitably slowdowns the con-
+vergence speed of false alarm rate.
+5.2 Sparse Granular Features
+Practically, two more constraints on sparse granular
+features are employed during the heuristic search proce-
+dure: one is requiring the sum of combining coefficients in
+(23) to be 0, and the other is restricting the number ofgranules in a feature up to a maximum. The first constraint
+makes the features “balanced” so that no zero-mean
+normalization is needed, and the second one controls thescale and complexity of the whole sparse granular feature
+set. Essentially, varying the maximum number of granules
+trades off between the structural risk, empirical risk andcomputational efficiency of resulted sparse granular fea-
+tures. So, finding a proper maximum granule number is an
+important issue in heuristic search process. In this experi-ment, five strong classifiers are learned with classical
+AdaBoost algorithm to distinguish faces of a certain view
+(e.g., frontal faces) from backgrounds. Each adopts adifferent type of feature to construct the weak hypothesis:sparse features of maximum granule number 4, 6, 8, and 10,
+as well as Haar-like features applied in [7]. Similar with the
+previous experiment, we set the detection rate at 0.98 andcompare the asymptotical testing false alarm rates of each
+type of features on different classification problems. The
+results are illustrated in Fig. 19.
+Compared to Haar-like features applied in [7], our sparse
+granular features achieve higher classification accuracy. Dueto the flexible combination rules of sparse granular features,
+even the simplest form of the maximum granule number 4
+outperforms the rigid Haar-like features. However, increas-ing the maximum granule number to enlarge the possible
+feature set cannot always improve the learned weak
+classifiers (compare maximum granule numbers 8 and 10).682 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 17. Weak learner with sparse granular features and piece-wise
+functions for the Vector Boosting algorithm.
+Fig. 18. Comparison of false alarm rates on testing set. The detection
+rate of testing face samples is adjusted to 0.98 for each approach.On one hand, as a result of rising maximum granule number,
+the combination explosion of all possible features makes theheuristic search algorithm become inadequate to find optimalones. On the other hand, more complex sparse granularfeatures indicate higher structural risks and possibly lower
+generalization ability in classification. Taking the computa-
+tional efficiency (Fig. 20) into consideration, in practice, wechoose 8 as the maximum granule number in learning of ourmultiview face detector described in the following section.
+5.3 Multiview Face Detection
+For the training of MVFD, we collect and manually label
+30,000 frontal faces, 25,000 half-profile ones, and 20,000 full-
+profile ones, which are taken in various conditions
+(different poses, illuminations, and expressions). Many
+faces involve up/down rotation up to 30/C14so that the
+learned detector can tolerate enough Pitch variance of facesto cater to surveillance applications. These faces are rotated,
+flipped, and resized into 24/C224patches to obtain training
+samples of all 15 views. With these samples, we train a
+quartered upright multiview face detector with the WFS
+tree structure in Fig. 5, and the training procedure isformalized in Fig. 21. The first four sparse grnular features
+in the root node learned by the Vector Boosting algorithm
+and the heuristic search method are shown in Fig. 22. Toachieve the required extremely low false alarm rate F,i n
+fact, each leaf node in Fig. 5 is extended to a cascade. Hence,
+the exact number of nodes is larger than that shown in
+Fig. 5. Experimentally, there are 234 nodes in 18 layers as awhole that constituting this multiview face detector.
+With this powerful WFS tree structured detector, an
+exhaustive search procedure is applied to detect faces in an
+image. After that, positive responses are clustered accord-
+ing to their positions, sizes, and poses. With some simplecriterions such as nonoverlapping, these clusters are
+merged as the final results of face detection as shown in
+Fig. 24. It is assured that every successful detection properlydescribes the corresponding face: the size is not too small ortoo large, the difference of RIP angle is no more than
+15 degrees, and the difference of ROP angle is no more than
+one view. To compare with the previous works which gaveHUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 683
+Fig. 19. Asymptotic testing false alarm rates of different types of features with the detection rate at 0.98. From left to right, the binary classifica tion
+problems are frontal upright faces versus backgrounds, frontal tilted by 30/C14faces versus backgrounds, and full profile upright faces versus
+backgrounds. They are three typical views of all 15 ones defined in Fig. 1, corresponding to original form, RIP, and ROP, respectively.
+Fig. 20. Computational efficiency of different types of features. The
+processing time is the average time spent on each frame of a QVGA
+(320/C2240) video sequence. Each frame is scaled from its origin down to
+40/C230with scale ratio 1.26 (cubic root of 2) for sparse granular
+features. As for the Haar-like features, their templates are scaled withthe same ratio instead of scaling the image.
+Fig. 21. Training algorithm of WFS tree structured detector.full testing results (e.g., Schneiderman and Kanade’s
+Bayesian-rule approach [6], Wu et al.’s parallel cascade
+structure [13], and Huang et al.’s WFS tree + Haar-likefeature [11]), we test our multiview face detector on theCMU profile testing set. Some other related works such asJones and Viola’s decision tree method [10] and Li et al.’spyramid method [9] are not under consideration due to lackof their full testing results on this standard testing set. Totrade off between detection rate and false alarm to give awhole ROC curve, we adopt a control parameter thatcorrespondingly adjusts the threshold of strong classifier ineach node. The testing results are drawn in Fig. 23a as ROCcurves, in which our sparse feature + WFS tree-basedMVFD system achieves the best performance. Some detec-tion results are shown in Fig. 24b.
+5.4 Rotation Invariant Multiview Face Detection
+Since the upright detector covers the range of RIP from
+/C045/C14toþ45/C14and ROP from /C090/C14toþ90/C14, to deal with the
+face space, three more detectors are generated by means ofrotating the upright one by 90
+/C14, 180/C14, and 270/C14, respectively
+(Fig. 3). The four detectors, working in parallel as a whole,
+constitute a rotation invariant multiview face detector. Sinceso far there is no standard testing set for this problem, we
+only show some detection results in Fig. 24a.
+In the root node of WFS tree (Fig. 5), disabling the first and
+the third branches (i.e., left profile and right profile faces) willlead to a rotation invariant frontal face detector. To comparewith Rowley’s ANN method [5] and Jones’s decision treemethod [10], we tested this detector on the CMU rotate testingset. The results are shown in Fig. 23b, in which our sparsefeature + WFS tree approach again outperforms other works.Some detection results are shown in Figs. 24c and 24d.5.5 Discussion on Time Complexity of the
+Algorithm
+Similar with previous related works, our face detection
+framework includes two parts: offline learning and online
+detecting. Understandably, the offline learning process is
+time-consuming. In particular, searching for appropriatesparse granular features in the vast feature space is still time-
+consuming although the heuristic search method is adopted.
+Fortunately, we can use the incremental feature selection
+technique [27] to significantly improve the efficiency of
+feature selection procedure. Approximately, training a singlecascade detector for frontal faces requires only two days on a
+P4-3.0GHz PC. As for the WFS tree-based multiview face
+detector, since classifiers after branching nodes could be
+trained in parallel, the entire training procedure of the WFS
+tree spends about two weeks if three PCs are employed.
+When detecting faces, instead ofscaling templates(aswhat
+is done with Haar-like features), we scale the image itself to
+seek faces of different sizes. Experimentally, as the preproces-
+sing stage before applying sparse granular features, it costs
+only10mstoscaleanimageofQVGAsize( 320/C2240)downto
+the size 40/C230with step scale ratio 1.26 (cubic root of 2),
+including the computation of integral image in each scale.
+Compared with the scale template approach that spends
+4/C245ms in preprocessing, the scale image approach is a little
+slowerbut can extract more accurate sparse granular features.In fact, as shown in Fig. 20, although the sparse granular
+features require more preprocessing time (shown as the
+processing time at zero weak classifier), the running time per
+sparse granular feature is less than that per Haar-like feature.
+Therefore, as the number of weak classifiers increases, thesparsegranularfeaturesquicklyexceedtheHaar-likefeatures
+in computational efficiency. According to the experiments,
+on common video sequences of QVGA size ( 320/C2240), our
+MVFD achieves a speed of about 10 fps and the rotation
+invariant MVFD runs at a speed of about 3/C244fps.
+6C ONCLUSION
+In this paper, to address the problem of detecting rotation
+invariant multiview faces with high speed and accuracy, wedevelop the WFS tree structure for the construction of face
+detector, which partitions the complicated detection task
+into individual-view-based ones in terms of coarse-to-fine684 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007
+Fig. 22. The first four sparse granular features in the root node learned
+by the Vector Boosting algorithm and heuristic search method. They areillustrated as linear features: white blocks indicate positive granuleswhile black ones denote negative granules. As each granule is, in fact,the average of pixels in the corresponding patch, granules of different
+sizes are drawn in different gray levels.
+Fig. 23. ROC curves for comparison on standard testing sets. (a) is the ROC curves on CMU profile testing set [6] (441 multiview faces in
+208 images). (b) is the ROC curves on CMU rotate testing set [5] (223 frontal faces with different RIP angles in 50 images).strategy and organizes them moderately compared with the
+decision tree approach [10] and the pyramid approach [9].The experiments on several standard testing sets have
+shown that our approach achieves significant improve-
+ments in both speed and accuracy over previous publishedmethods for face detection.
+Two innovative methods are proposed for the learning of
+each node of the tree: the Vector Boosting algorithm and thesparse granular feature concept. The Vector Boosting algo-
+rithm is a general framework to handle various multiclass
+problems with the additive regression model in [15]. Intrinsicprojection vectors are employed to define the objective
+regions of each category and thus determine the exponential
+loss function. It is an extension for classical AdaBoostalgorithm from which both AdaBoost.MH and AdaBoost.MRcan be derived. The flexibility originating from intrinsic
+projection vectors enables the Vector Boosting algorithm to
+deal with many complicated classification, even regressionproblems. Sparse granular features are defined in thegranular space of an image. They are more capable to match
+complex and irregular patterns than original Haar-like
+features in [7] while maintaining similar computational load.To seek enough discriminative sparse granular features in
+such a tremendous space for a weak learner, a heuristic search
+method is proposed for the construction of a compact and
+effective feature set. Besides, with the adaptive mapping of
+piece-wise functions, the weak learner succeeds in training
+very efficient weak hypotheses, which strongly supports theVector Boosting algorithm on the learning of strong classi-
+fiers. Based on the flexibility of the Vector Boosting algorithm
+and the scalability of sparse granular features observed in the
+challenging face detection task, we argue that both of them
+are of high potential in other fields of pattern recognition and
+computer vision.
+ACKNOWLEDGMENTS
+The authors would like to thank the anonymous reviewers for
+their constructive comments on the manuscript. This work
+is supported in part by the National Science Foundationof China under grants No. 60332010, No. 60673107, theNational Basic Research Program of China under Grant
+No. 2006CB303100, and it is also supported by a grant from
+Omron Corporation.HUANG ET AL.: HIGH-PERFORMANCE ROTATION INVARIANT MULTIVIEW FACE DETECTION 685
+Fig. 24. Detection results. (a) Rotation invariant multiview face detection. (b) Result on CMU profile testing set. (c) Result on CMU rotate testing s et.
+(d) Result on CMU frontal testing set.REFERENCES
+[1] M.-H. Yang, D.J. Kriegman, and N. Ahuja, “Detecting Faces in
+Images: A Survey,” IEEE Trans. Pattern Analysis and Machine
+Intelligence, vol. 24, no. 1, Jan. 2002.
+[2] T. Kanade, “Picture Processing by Computer Complex and
+Recognition of Human Faces,” PhD thesis, Kyoto Univ., 1973.
+[3] C. Kotropoulos and I. Pitas, “Rule-Based Face Detection in Frontal
+Views,” Proc. Int’l Conf. Acoustics, Speech, and Signal Processing,
+vol. 4, pp. 2537-2540, 1997.
+[4] E. Osuna, R. Freund, and F. Girosi, “Training Support Vector
+Machines: An Application to Face Detection,” Proc. IEEE Conf.
+Computer Vision and Pattern Recognition, pp. 130-136, 1997.
+[5] H. Rowley, S. Baluja, and T. Kanade, “Rotation Invariant Neural
+Network-Based Face Detection,” Proc. IEEE Conf. Computer Vision
+and Pattern Recognition, pp. 38-44, 1998.
+[6] H. Schneiderman and T. Kanade, “A Statistical Method for 3D
+Object Detection Applied to Faces and Cars,” Proc. IEEE Conf.
+Computer Vision and Pattern Recognition, vol. 1, pp. 746-751, 2000.
+[7] P. Viola and M. Jones, “Rapid Object Detection Using a Boosted
+Cascade of Simple Features,” Proc. IEEE Conf. Computer Vision and
+Pattern Recognition, 2001.
+[8] R.E. Schapire, Y. Freund, P. Bartlett, and W.S. Lee, “Boosting the
+Margin: A New Explanation for the Effectiveness of Voting
+Methods,” Proc. Fourth Int’l Conf. Machine Learning, 1997.
+[9] S.Z. Li et al., “Statistical Learning of Multi-View Face Detection,”
+Proc. Seventh European Conf. Computer Vision, pp. 67-81, 2002.
+[10] M. Jones and P. Viola, “Fast Multi-View Face Detection,” MERL-
+TR2003-96, July 2003.
+[11] C. Huang, H.Z. Ai, Y. Li, and S.H. Lao, “Vector Boosting for
+Rotation Invariant Multi-View Face Detection,” Proc. 10th IEEE
+Int’l Conf. Computer Vision, 2005.
+[12] R. Xiao, L. Zhu, and H. Zhang, “Boosting Chain Learning for
+Object Detection,” Proc. Ninth IEEE Int’l Conf. Computer Vision,
+2003.
+[13] B. Wu, H. Ai, C. Huang, and S. Lao, “Fast Rotation Invariant
+Multi-View Face Detection Based on Real AdaBoost,” Proc. Sixth
+Int’l Conf. Automatic Face and Gesture Recognition, pp. 79-84, 2004.
+[14] R.E. Schapire and Y. Singer, “Improved Boosting Algorithms
+Using Confidence-Rated Predictions,” Machine Learning, vol. 37,
+pp. 297-336, 1999.
+[15] J. Friedman, T. Hastie, and R. Tibshirani, “Additive Logistic
+Regression: A Statistical View of Boosting,” Annals of Statistics,
+vol. 28, pp. 337-374, 2000.
+[16] C. Liu and H.Y. Shum, “Kullback-Leibler Boosting,” Proc. IEEE
+Conf. Computer Vision and Pattern Recognition, pp. 587-594, 2003.
+[17] T. Mita, T. Kaneko, and O. Hori, “Joint Haar-Like Features for
+Face Detection,” Proc. 10th IEEE Int’l Conf. Computer Vision, 2005.
+[18] R. Lienhart and J. Maydt, “An Extended Set of Haar-Like Features
+for Rapid Object Detection,” Proc. IEEE Int’l Conf. Image Processing,
+2002.
+[19] S. Baluja, M. Sahami, and H.A. Rowley, “Efficient Face Orientation
+Discrimination,” Proc. IEEE Int’l Conf. Image Processing, 2004.
+[20] P. Wang and Q. Ji, “Learning Discriminant Features for Multi-
+View Face and Eye Detection,” Proc. IEEE Conf. Computer Vision
+and Pattern Recognition, 2005.
+[21] Y. Abramson and B. Steux, “YEF* Real-Time Object Detection,”
+Proc. Int’l Workshop Automatic Learning and Real-Time, 2005.
+[22] M. Osadchy, M.L. Miller, and Y. LeCun, “Synergistic Face
+Detection and Pose Estimation with Energy Based Models,” Proc.
+Neural Information Processing Systems (NIPS), 2004.
+[23] F. Fleuret and D. Geman, “Coarse-to-Fine Face Detection,” Int’l J.
+Computer Vision, vol. 41, nos. 1/2, pp. 85-107, 2001.
+[24] Y. Freund and R.E. Schapire, “A Decision-Theoretic General-
+ization of On-Line Learning and an Application to Boosting,”J. Computer and System Sciences, vol. 55, no. 1, pp. 119-139, 1997.
+[25] Y. Freund, “Boosting a Weak Learning Algorithm by Majority
+Algorithm,” Machine Leaning, vol. 43, no. 3, pp. 293-318, 2001.
+[26] N. Duffy and D.P. Helmbold, “Boosting Methods for Regression,”
+Machine Leaning, vol. 47, nos. 2-3, pp. 153-200, 2002.
+[27] C. Huang, H. Ai, Y. Li, and S. Lao, “Learning Sparse Features in
+Granular Space for Multi-View Face Detection,” Proc. Seventh Int’l
+Conf. Automatic Face and Gesture Recognition, pp. 401-406, 2006.
+[28] N.J. Nilsson, Artificial Intelligence, A New Synthesis, Morgan
+Kaufmann, pp. 140-161, 1998.
+[29] Y. Li, S. Gong, J. Sherrah, and H. Liddell, “Support Vector
+Machine Based Multi-View Face Detection and Recognition,”Image and Vision Computing, vol. 22, pp. 413-427, 2004.Chang Huang received the BS degree in
+computer science and technology from Tsin-ghua University, China, in 2003. He is currentlya PhD candidate at Tsinghua University. Hehas won Excellent Student Scholarships at
+Tsinghua University in 2001, 2002, 2004, and
+1999. His research interests include computervision, machine learning, and pattern recogni-tion, with special attention to face detection.He has published 13 papers in peer-reviewed
+domestic journals and international conferences. He is a student
+member of the IEEE.
+Haizhou Ai received the BS, MS, and PhD
+degrees all from Tsinghua University, China in
+1985, 1988, and 1991, respectively. He spentthe period 1994-1996 in the Flexible ProductionSystem Laboratory at the University of Brussels,Belgium, as a postdoctoral researcher. He iscurrently a professor in the Computer Science
+and Technology Department at Tsinghua Uni-
+versity. His current research interests are facialimage processing, biometrics, and visual sur-
+veillance. He has published more than 50 papers in peer-revieweddomestic journals and international conferences. He is a member of theIEEE and the IEEE Computer Society.
+Yuan Li received the BS degree in computer
+science and technology with the honor of Out-standing Graduating Student from Tsinghua
+University, China, in 2005. She has also won
+Excellent Student Scholarships at TsinghuaUniversity in 2001, 2002, and 2004, and IBMScholarship for Outstanding Students in China,in 2003. She is currently pursuing a MS degreeat Tsinghua University. Her research interests
+are computer vision and machine learning, with
+a current specific focus on face detection and head tracking.
+Shihong Lao received the BS degree in
+electrical engineering from Zhejiang Universityin 1984 and the MS degree in electricalengineering from Kyoto University, Japan, in1988. He has worked in the Sensing and ControlTechnology Laboratory at Omron Corporation
+since 1992 and currently is the chief technologist
+of the facial image processing project. He is amember of the IEEE.
+.For more information on this or any other computing topic,
+please visit our Digital Library at www.computer.org/publications/dlib.686 IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 29, NO. 4, APRIL 2007

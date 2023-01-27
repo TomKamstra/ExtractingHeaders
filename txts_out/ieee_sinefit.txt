@@ -1,0 +1,290 @@
+See discussions, st ats, and author pr ofiles f or this public ation at : https://www .researchgate.ne t/public ation/3089069
+Sinewa ve ﬁt algorithm based on total least-squares method with application to
+ADC effective bits measu rement
+Article    in  IEEE T ransactions on Instrument ation and Me asur ement  · Sept ember 1997
+DOI: 10.1109/19.650821  · Sour ce: IEEE Xplor e
+CITATIONS
+48READS
+2,803
+4 author s, including:
+Jian Qiu Zhang
+Fudan Univ ersity
+144 PUBLICA TIONS    1,548  CITATIONS    
+SEE PROFILE
+Sun Jinw ei
+Tsinghua Univ ersity
+4 PUBLICA TIONS    69 CITATIONS    
+SEE PROFILE
+All c ontent f ollo wing this p age was uplo aded b y Jian Qiu Zhang  on 05 Dec ember 2014.
+The user has r equest ed enhanc ement of the do wnlo aded file.1026 IEEE TRANSACTIONS ON INSTRUMENTATION AND MEASUREMENT, VOL. 46, NO. 4, AUGUST 1997
+Sinewave Fit Algorithm Based on Total
+Least-Squares Method with Application
+to ADC Effective Bits Measurement
+Jian Qiu Zhang, Zhao Xinmin, Hu Xiao, and Sun Jinwei
+Abstract— Sinewave ﬁt is a fundamental task in many test and
+measurement systems. The characterizations of analog–digitalconverters and digital oscilloscopes are two examples. In thispaper, we present a high-performance (i.e., high-precision andhigh-speed) algorithm to estimate the four parameters of a
+sinewave from a sample data record. By the use of trigonometric
+identity, we propose a frequency estimator that turns the non-linear estimation problem into a linear one. Thus, the difﬁcultyof the traditional nonlinear least-squares sinewave ﬁt method isattenuated. The total least-squares method is used to estimatefourparametersofasinewaveinordertominimizetheestimationerrors in the sense of
+/108 /50norm. Simulation results exhibit that
+the proposed method gives superior performance over traditionalones and achieves excellent estimation of the true resolution ofthe simulated ideal ADC. This new algorithm is noniterative andgives swift and consistent results.
+I. INTRODUCTION
+SINE-FIT routines are used extensively during the char-
+acterization of analog-to-digital converters (ADC’s) and
+digitaloscilloscopes[1]–[4].Thesesine-ﬁtalgorithmsestimate
+the four parameters (amplitude, frequency, phase, and offset)
+of the sinewave that best ﬁts a given ﬁnite length recordof discrete samples, which are assumed to be samples of asinewave, possibly corrupted by noise and distortion. These
+approaches are basically a gradient search method which op-
+erates iteratively. Two common problems which this iterativeapproach has are that the convergence is not guaranteed andthat the results from different runs may not be consistent due
+to possible trapping at a local minimum. If one wishes to
+guarantee the convergence by choosing a small step size inthe iteration, experience indicates that it usually takes a longtime to converge [6].
+In order to reduce these difﬁculties, Jenq et al. proposed a
+method which used the weighted least-square and windowingtechnique to estimate sinewave parameters in [5]–[6]. Toimplement their method in a real life situation is, how-
+ever, problematic because it is difﬁcult how to maintain the
+monotonicity of the
+(where
+are sampling data of a sinewave. More details
+aboutthisequationcanbefoundin[5]).Inthesimulatedmode,
+oneknowspreciselythefourparametersoftheinputsinewave;
+while in practice one has only the “digitized sinewave record”
+Manuscript received June 3, 1996. This work was supported by the Chinese
+Natural Science Fund under Grant 59577019.
+The authors are with the Department of Electrical Engineering, Harbin
+Institute of Technology, Harbin, China.
+Publisher Item Identiﬁer S 0018-9456(97)06510-8.and does not know at which quadrant of the sinewave these
+data are located due to and
+. Especially, one
+is unaware at which quadrant of the sinwave the originalsampling point
+of the digitized sinewave record is
+located.
+Inviewofthesedifﬁcultiesandproblems,weproposeanew
+method, which is based on the trigonometric identity of sam-pling data of a sinewave function and the total least-squares
+method, to estimate the four parameters of a sinewave. First,
+the algorithm presented in this paper attenuates the difﬁcultiesof traditional nonlinear least-squares sine-ﬁt algorithm aboutfrequency estimation. Next, the proposed algorithm is optimal
+in the sense of
+norm because using total least-squares (TLS)
+are used to estimate four parameters of the sinewave.
+This paper is organized as follows. In Section II, the princi-
+pleoftheTLSisbrieﬂyreviewed.Thederivationofestimation
+algorithmofafourparameterssinewaveisgiveninSection III.
+Simulation results and comparison between proposed andtraditional algorithm are discussed in Section IV. Section Vconcludes the report.
+II. T
+HETOTALLEASTSQUARESMETHOD
+In this section we will brieﬂy review the principle of TLS
+method. Major results will be stated without proofs. Moredetails about this method can be found in [7]–[9].
+Given an overdetermined set of
+linear equation in
+unknowns
+(1)
+A good way to motivate the TLS method is to formulate
+the ordinary least-squares (LS) problem as follows. The LSproblem involves ﬁnding a solution vector
+such that
+minimum (2)
+and
+range
+whereis avector which represents the observation noise
+record; is the norm given by
+(3)
+0018–9456/97$10.00 1997 IEEEZHANG et al.: ALGORITHM BASED ON TOTAL LEAST-SQUARES METHOD 1027
+Thus, the LS problem amounts to perturbing the observation
+by a minimum amount so that can be estimated by
+and under minimum norm.
+Now, simply put, the idea behind TLS is to consider
+perturbation of both and, i.e.,
+(4)
+or (4) can be put into the following form:
+or
+(5)
+where
+The TLS solution to the above homogeneous equation (5)
+can be formulated as seeking a solution vector such that
+minimum (6)
+and
+range
+where denotes the Frobenius norm given by
+(7)
+The TLS method minimizes the noise perturbation of effect
+from both and. Equation (5) shows that the TLS problem
+involves ﬁnding a perturbation matrix having
+the minimum norm so that is rank deﬁcient. The
+singular value decomposition (SVD) can be used for thispurpose. The solution to (5) is obtained from a right singularvector
+corresponding to the smallest singular value of the
+concatenated matrix . The TLS estimate is [7]–[9]
+...
+provided (8)
+where are elements of the th singular vec-
+tor. For methods of picking a total least-squares solution when
+the smallest singular value is repeated or when is
+zero,thereaderisreferredto[8].Since isnoterror-free,
+thetotalleast-squaressolutionispreferabletotheleast-squaressolution.
+In Fig. 1, the LS and the TLS measures of goodness of
+ﬁt are shown for a simple case when
+. In the LS
+problem, it is the vertical distances that are important, whereasin the TLS problem, it is the perpendicular distances that are
+critical. So from this geometric interpretation, it follows that
+the TLS method is better than the LS method with respect tothe residual error in the curve ﬁtting.
+Fig. 1. Least-squared versus total squares.
+III. THEESTIMATION ALGORITHM
+OF THESINEWAVE PARAMETERS
+Suppose a sine function is
+sampled at equal interval , then the sampled data can
+be written as
+(9)
+where is the digital frequency corresponding to
+is the additive noise due to the sampling process (which
+includes the quantization noise of ADC’s).
+A. The Sine-Wave Frequency Estimator
+According to (9), we deﬁne
+(10)
+where denotes “deﬁnition.” By means of trigonometric
+identity, we can deduce
+(11)
+When (10) is substituted into (11), we get
+(12)
+and
+(13)
+Equation (13) minus (12) is
+(14)
+In (14) let respectively, we can formulate
+overdetermined equation as (1) where
+(for transpose)1028 IEEE TRANSACTIONS ON INSTRUMENTATION AND MEASUREMENT, VOL. 46, NO. 4, AUGUST 1997
+Fig. 2. The percentage errors of offset, amplitude, phase, and frequency estimation, of the new algorithm.
+Obviously, when are replaced by
+sampling data
+which from (10), both andare perturbed by noise .
+Thus, the total least-squares method, which is discussed inSection II, can be utilized to obtain the optimal estimation
+of vector in the sense of norm. Once has been
+estimated from (8), the estimation of sinewave frequency
+can be written as1
+(15)
+B. Amplitude, Phase, and Offset Estimator
+When the frequency is replaced by the estimation ,
+and let in (9), we can also formulate the
+1When the sampling rate is higher than Nyquist rate, the estimation result
+of frequency is unique.overdetermined equation as follows:
+............(16)
+Similar to the frequency estimator discussed above, both
+andin (16) are perturbed by noise. Again, the TLS method
+can be used to solve (16). Consequently, we can obtain the
+estimation of vector . Finally, the amplitude, phase, and
+offset estimation can be obtained, respectively, as follows:
+(17)
+whereZHANG et al.: ALGORITHM BASED ON TOTAL LEAST-SQUARES METHOD 1029
+IV. COMPUTER SIMULATION
+Consider an example whose digitizer output is
+(18)
+where
+simulated digitizer input;
+simulated harmonic distor-
+tion;
+simulated offset;
+simulated normal random noise;
+simulated quantization error.
+A. Sinewave Fit
+The digitizer has eight bits. The sinewave frequency is
+nearly one-third of the sampling rate of the digitizer. The totaldata points used are 100. The operation of quantizing was to
+roundthesumof
+and tothenearestinteger.
+In simulation, the four situations are considered as follows:
+1) . Fifty esti-
+mations are performed with of the input sinewave
+uniformly distributed on, , then the curves of
+percentage errors of four parameters estimation of
+andare shown in Fig. 2. and the percentage error is
+deﬁned as
+percentage error % (19)
+whereis the no error parameter, is the estimation of
+.inFig. 2denotescurvesofthepercentageerrors
+of phase, offset, amplitude and frequency respectivelyin this situation.
+2)
+,thatis,thereisharmonic
+distortion in the digitizer data records. in Fig. 2
+denotes the percentage errors curves of phase, offset,amplitude, and frequency, respectively, in this situation.
+3)
+, that is, digitizer data
+records are perturbed by random noise of the
+Gaussian distribution with mean 0 and variance 0.01,which are produced by means of Monte Carlo method.
+In this situation the percentage errors curves of phase,
+offset, amplitude, and frequency, which are denoted as
+, respectively, are shown in Fig. 2.
+4) In (18) all the interference has been considered. In
+this situation, denotes the percentage errors of
+phase, offset, amplitude, and frequency estimation, re-spectively, in Fig. 2.
+B. Comparison Between TLS and Traditional Methods [1]
+Making use of the same digitizing data record, we compare
+the performance between algorithm proposed in this paperand the traditional one in [1]. The speciﬁed comparisonenvironment is
+in (18); in addition, the traditional algorithm
+hasarequirementforareasonablyaccurateinitialguessforthesoughtparameters.ThecomparisonresultshavebeenshowninTABLE I
+COMPARATIVE RESULTSBETWEEN THE TLS M ETHOD AND TRADITIONAL METHOD
+TABLE II
+SIMULATED AND IDEALEFFECTIVE BITS
+Table I. From Table I one can ﬁnd that the estimation errors of
+the frequency, phase and amplitude of the algorithm describedin this paper are at least 10
+less than those of the algorithm
+in [1], whereas the estimation errors of the offset is a little
+better than one of the algorithm in [1]. Furthermore, because
+this new algorithm is noniterative, it gives consistent resultsfor various runs. It is also swift: for a 203-point data record, itonly takes a couple of seconds to estimate the four parameters
+of a sinewave, whereas the traditional one [1] needs to take
+1.5 h to obtain the results in Table I.
+C. ADC Effective Bits Measurement
+Acommonlyusedformulaforan
+-bitADCisgivenby[2]
+(20)
+If one assumes that the quantization noise is uniformly dis-
+tribution and that the quantization errors from sample tosample are statistically independent, then,
+,
+where is the ideal code bin width. We use the sinewave
+ﬁt algorithm described in this paper to estimate the four
+parameters of the input sinewave, and then use the estimated
+sinewave as if it were the actual sinewave to compute theeffective bits of the ADC by using (20). The critical questionis “How good is it?” A simulation to implement this proposal
+has been done. The results are shown in Table II. It is seen
+that this approach gives excellent results with resolution notless than three bits.1030 IEEE TRANSACTIONS ON INSTRUMENTATION AND MEASUREMENT, VOL. 46, NO. 4, AUGUST 1997
+V. CONCLUSION
+In this paper, we have presented a high-performance
+sinewave parameters estimation algorithm, which gives highly
+accurate and speedy estimations. The total least-squaresmethod is utilized to estimate the four parameters of asinewave in order to make the estimation errors be minimized
+in the sense of
+norm. Simulation results exhibit that the
+proposed method gives superior performance over traditionalones and produces excellent estimation of the true resolutionof the simulated ideal ADC.
+R
+EFERENCES
+[1] “IEEE trial-use standard for digitizing wave-form recorders,” IEEE Std.
+1057, July 1989.
+[2] B. E. Peetz, “Dynamic testing of wave-form recorder,” IEEE Trans.
+Instrum. Meas. , vol. IM-32, pp. 12–17, Mar. 1983.
+[3] J. Kuffel, T. R. McComb, and R. Malewski, “Comparative evaluation
+of computer methods for calculating the best-ﬁt sinusoid to the digital
+record of a high-purity sine wave,” IEEE Trans. Instrum. Meas. , vol.
+IM-36, pp. 418–422, June 1987.
+[4] T. R. Mccomb, J. Kuffel,and B. C. Le Roux, “Acomparative evaluation
+of some practical algorithm used in the effective bits test of wave-form
+record,”IEEE Trans. Instrum. Meas. , vol. 38, pp. 37–42, Feb. 1989.
+[5] Y. C. Jenq, “High-precision sinusoidal frequency estimator based on
+weightedleast-square method,” IEEETrans.Instrum.Meas. , vol.IM-36,
+pp. 124–127, Mar. 1987.
+[6] Y. C. Jenq and P. B. Crosby, “Sinewave parameter estimation algorithm
+with application to wave-form digitizer effective bits measurement,”
+IEEE Trans. Instrum. Meas. , vol. 37, pp. 529–532, Dec. 1988.
+[7] G. H. Golub and C. F. Van Loan, “An analysis of the total least-squares
+problem,” SIAM J. Numer. Anal. , vol. 17, pp. 883–893, Dec. 1980.
+[8] S. Van Huffel and J. Vandewalle, “Analysis and solution of the non-
+generic total least-squares problem,” SIAM J. Numer. Anal. , vol. 9, pp.
+360–372, July 1988.
+[9] G. H. Golub and C. F. Van Loan, Matrix Computation , Baltimore, MD:
+Johns Hopins Univ. Press, 1989.Jian Qiu Zhang for a photograph and biography, see this issue, p. 940.
+Zhao Xinmin for a photograph and biography, see this issue, p. 940.
+Hu Xiao was born in Sichuan, China, in 1972. She received the B.S.
+degree in electrical engineering from the Huazhong University of Science
+and Technology, Wuhan, China, in 1994 and the M.S. degree in electrical
+engineering from the Harbin Institute of Technology, Harbin, China, in 1996.
+She is now an Engineer at the Shenzhen Huawei Tech. Co., Ltd. Her
+research interests are communication testing systems and digital signal pro-
+cessing and its application in measurement.
+Sun Jinwei was born was born in Harbin, China,
+in 1964. He received the B.S. degree and the M.S.
+degrees from the Harbin Institute of Technology(HIT) in electrical engineering, in 1987 and 1990,
+respectively.
+Currently, he is a Lecturer in the Department
+of Electrical Engineering, HIT. He is interested in
+sensor information fusion, ADC testing, DSP, and
+artiﬁcial intelligence in electrical instrumentation.
+View publication stats

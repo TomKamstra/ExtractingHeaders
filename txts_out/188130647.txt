@@ -1,0 +1,386 @@
+Universit y of N ebraska - L incoln
+DigitalComm ons@U niversit y of N ebraska - L incoln
+Library Philosophy and P ractice (e-journal) Libraries at University of N ebraska-Lincoln
+Winter 2-1-2018
+Artificial Intelligence( AI) applic ation in Li brary
+Systems in I ran: A t axonom y study
+Asefeh A semi
+University of I sfahan, asemi@e du.ui.ac.ir
+Adeleh A semi
+Higher Ed ucation Institute of Saf ahan
+Follow thi s and a dditional w orks at:https://d igitalcommon s.unl.edu/l ibphilprac
+Part of the Comput er Engineering Common s, and the Library and I nfor mation S cience
+Common s
+Asemi, Asefeh and A semi, Ade leh, "Artificial Intelligence(AI) application in L ibrary Systems in I ran: A t axonom y study " (2018).
+Library Ph ilosophy and Practice (e-journal). 1840.
+https://d igitalcommon s.unl.edu/l ibphilprac/1840
+brought to you by CORE View metadata, citation and similar papers at core.ac.uk
+provided by UNL | Libraries 
+  
+ 
+Page- 1 - Artificial Intelligence (AI) application  
+in Library Systems in Iran: A taxonomy study  
+ 
+1ASEFEH ASEMI , 2ADELEH ASEMI  
+ 
+1 Associate professor, Department of Knowledge  & Information Science, Faculty of Education & Psychology , University of 
+Isfahan , Isfahan, Iran. asemi@edu.ui.ac.ir  
+2 Assistant Professor, Depa rtment  of Artificial Intelligence, Higher Education Institute of Safahan, Isfahan, Iran. 
+ad_asemi@yahoo.com  (Corresponding  Author)
+ 
+Abstract : With introducing and developing AI logic, this science as a branch of computer science could impact 
+and improve all sciences which used computer systems. LIS also could get benefit from AI in many areas. This 
+paper survey applications of AI in library and information science and introduce the potential of library system 
+to apply AI techniques.  Intelligent systems have contributed for many librarian purposes like cataloging, 
+indexing, information retrieval, reference, and other purposes.  We applied Explorato ry Factor Analysis (EFA)  as 
+a primer method for identification of the most applicable AI techniques categories in LIS.  ESs are the most 
+usable intelligent system in LIS which mimic librarian expert’s behaviors to support decision and management. 
+AI also c an utilize in many areas such as speech recognition, machine translation and librarian robots.  In this 
+study four criteria for the application of AI in the library systems in Iran was considered and it is determined in 
+three area included public services, technical services, and management services. Then, degree of development 
+these services was studied using taxonomy method.  The results showed that m ost developed Recommender 
+Systems (RM) in library systems in Iran and Natural Language Processing (NLP) is the most undeveloped 
+criterion .  
+ 
+Index  terms:  Artificial Intelligence  (AI), Expert System  (ES), Recommender Systems (RM), Natural Language 
+Processing (NLP),  Data Mining (DM), Library System, Exploratory Factor Analysis (EFA) .  
+ 
+ 
+I. INTRODUCTION  
+ AI is the area of computer science focusing on creating machines that can engage on behaviors that 
+humans consider intelligent. AI involves following areas of researches: (1) expert system, (2) fuzzy logic, 
+(3) artificial neural network, (4) evolutionary a lgorithms, (5) case base reasoning, (6) image processing, 
+(7) natural language processing, (8) speech recognition and (9) robotic. These areas are not separate and 
+in many intelligent systems at the same time two or more AI techniques are contributed to so lve problem. 
+AI techniques or tools has utilized in many areas such business, management, medicine, military and etc. 
+Also has developed in using intelligent systems. The Ideas of utilization intelligent system instead of 
+classic system in libraries started from 1990. Intelligent library systems utilize AI technologies to provide 
+knowledge -based services to library patrons  and staff AI is a broad, complex area of study, which can be 
+difficult for non -specialists to understand. Yet, its ultimate promise is to create computer systems that 
+rival human intelligence, and this clearly has major implications for librarianship. Different studies are  Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ about AI  applications  in library system such as : descriptive cataloging, technical services, collection 
+development, subject indexing, reference services, database searching, and document delivery. Some  
+papers deal with the underlying de sign issues of knowledge representation and natural language 
+processing. Many authors have previously provided in -depth overviews of AI technologies. There have 
+also been several reviews of research and development efforts relevant to librarianship based o n a review 
+of major models of human intelligence . It is  conclude d that the following ten factors are most pertinent to 
+ES research:  acquisition , automatization , comprehension , memory management , met control , numeric 
+ability , reasoning , social competence , verbal perception , and v isual perception  [1]. 
+Today with the advent of the computer and 50 years of research into AI programming techniques, the 
+dream of smart libraries is becoming a reality. Researchers are creating systems which can mimic 
+librarian thought and behavior which never before was possible.  The Basic problem in this research was 
+the state of library development in the use of AI in the field of public services, technical services, and 
+management services in Iran. Therefore, the qualitative development of these three activities in use of AI 
+were studied  based on four criteria . The practical criteria or factors are identified throu gh factor analysis 
+method. The practical criteria  include d the use of expert systems / knowledge  systems , intelligent 
+decision support systems / recommender  systems , intelligent data mining,  and intelligent natural language 
+processing systems is a library  system . Accordingly, the development of these facilities were studied with 
+using taxonomy method in th ree areas of public service,  technical services, and management  services  
+according to experts  views in Iran.  
+ 
+II. ARTIFICIAL INTELLIGENCE  (AI) 
+ AI is the science and engineering of making intelligent machines, especially intelligent computer 
+programs. It is Concerned with the study and creation of computer systems that exhibit some form of 
+intelligence: system that learn new concepts and tasks, systems that  can reason and draw useful 
+conclusions about the world around us, systems that can understand a natural language or perceive and 
+comprehend a visual scene, and systems that perform other types of feat that require human types of 
+Intelligence  [2]. 
+It is th e Application of Computer and utilization of computer based products and services in the 
+performance of different library operations and functions or in the prevision of various services and 
+production of output products.  Automation implies degree of mecha nization where the routines and 
+receptive jobs or operation are left to be performed by machines with little or no intervention by human 
+beings. Lesser the degree of human intervention, greater the degree of automation this does not mean that 
+automation do es away with human beings. On the contrary human being sari relieved of routine chores 
+giving them more time for task which require their intelligence.   
+ 
+III. INTELLIGENT SYSTEM  (IS) 
+Any Computer -based that helps in the task of subject indexing can be thought o f as an ES at least in 
+the loosest sense of that term, especially if it helps  ales experienced person to approximate the work of an 
+expert indexer and systems that suggest term to indexers,  or correct certain indexer errors, can be  Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ considered to offer at least a modicum of ''intelligence"  [4]. One of the clearest statement relating to the 
+scope of AI  is the following :  
+ 
+… Computer programs have been developed which exhibit human - like reasoning, which may be able to learn from their 
+mistakes, and which quickly and cleverly perform tasks normally done by scarce and expensive human experts [4].  
+ 
+IV. EXPERT SYTEMS (ESs)  
+ESs are computer based systems witch simulate human decision makings. In general they ask question 
+from user and take user’s answer as input then explain rational for decision result.  
+Building an ES first involves extracting the relevant knowledge from the human expert such 
+knowledge is often heuristic in nature. ESs have been used to solve a wide range of problems in domains 
+such as medicine, mathematics, engineering, geology, computer science, business, law, defiance, 
+education, etc [2]. Some of the requir ements to development of an ESs are included: Expert on the 
+problem exist; Experts have the time to dedicate to the project Export system development is possible; 
+Experts can articulate their methods; Problem is not too difficult; Problem is not poorly und erstood; 
+Problem requires Cognitive Skills only; and results are measurable and can be agreed upon by the experts 
+[4]. 
+ 
+V. APPLICATION IS / AI / ES IN THE LIBRARY SYSTEM   
+ESs consist of two main elements: knowledge base and inference engine. Knowledge base is 
+involving all information needed which human/librarian experts are using them to make decision. This 
+information present in knowledge base as fact and rules. ESs can m ake much better decision than 
+librarian decision makers because their knowledge base can involve experiences of team of best experts. 
+To design rules of knowledge base, the manner of librarian experts to make decision is emulated. The 
+rules are consisting two main phases: If phase and then phase. If phase is consisting conditions and then 
+phase is consisting results. The only thing which distinguishes ESs from other computer systems is 
+inference engine. The inference engine simulates human decision makings based on knowledge base and 
+rule base.     
+An obvious potential application of ES within libraries is for the selection of book sellers or other 
+vendor of library materials carried to its logical conclusion, a system might be developed to select a 
+vendor a utomate ethical based on past performance in the supply of publications of a particular type such 
+a capability would be especially valuable in the acquisition of material that are less routine -conference 
+proceeding. Certain technical report, publications i n certain languages, publications from certain 
+countries, and soon  [3]. 
+      Other ESs, designed to help library user satisfy their own needs, have also include document - orders 
+aid. Systems have also been designed within the library community to aid in t he selection process, 
+systems of this type have been discussed by some of the researchers.  
+The term "referral system", as used here, relates to systems that & are designed to refer library users 
+to information sources likely to provide the answer to a particular question of the factual of "information"  Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ type within the library community more work  has been done on system of this kind than on any other ES. 
+The objective of such systems is obvious: to guide library users to a reference suitable source when a 
+librarians not available to help them form reference referral system cover knowledge as a who le in  the 
+coverage of a general reference library while other are restricted to highly specialized domain  [3]. The 
+librarian robot consists of a manipulator, which can recognize and manipulate books, and a mobile 
+platform, which can localize itself and na vigate using ambient RFID tags embedded in a floor. AI 
+techniques such genetic algorithm, artificial neural network, fuzzy logic or hybrid methods can improve 
+librarian robots.  For example JT2FIS is a Java Class Library for Interval Type -2 Fuzzy Inference Systems 
+that can be used to build intelligent object -oriented applications. The architecture of the system is 
+presented and its object -oriented design is described [11] . It is mentioned that AI is a branch of Science, 
+which deals with helping machines, fin ds solutions to complex problems in a more human -like fashion, 
+this generally involves borrowing characteristics from human intelligence and applying them as 
+algorithms in a computer friendly way. It can use for NLP  and help to search relevant information from 
+databases, indexing and to reduce language barrier. In information retrieval process the user can state his 
+information requirement in natural language making the searching more easily and fruitful this allows 
+users to state complex retrieval language s [2].  
+Many activities in the provision of library and information services involve expertise, and thus provide 
+application where ES techniques and technology to improve performance. We are using integrated MCDM 
+techniques  in different applications [13]. Analysis of the literature on the applications of ESs in LIS yields the 
+application areas: Knowledge base indexing [5]; NLP and abstracting [6]; Reference work [7]; 
+Cataloguing [7]; Online information retrieval [8] and [2]; Intelligent interface, in partic ular interfaces for 
+online information retrieval systems; Subject analysis and representation, including classification, 
+indexing and abstracting service; Reference and referral systems; Hypertext and hypermedia; and 
+Collection development [2]. In view of the various features of a modern computer system we find that it 
+has been applied in several areas: acquisition, cataloguing, serials control and circulation, information 
+retrieval, and dissemination, inter library loan, cooperative acquisition and catalog uing have been 
+automated in library [3]. For example OSCAL is an online library that helps students trying to learn 
+operating system concepts and AICAL is a similar online library with Artificial Intelligence concepts. 
+Both these libraries offer graphical animations of operating system and artificial intelligence concepts [9].  
+Also, the concept of digital library is utilizing science ES in the process of cataloging and searching 
+digital collections. By using this digital library based of ES, users can searc h the collection, reading 
+collection, and download the desired collection by online system [10].  We can use system of intelligent 
+library retrieval based on data mining. Also DM can use in on -line library system and help to find user's 
+information needs. T oday, RM have extend applications in the library systems. They help to end user to 
+select suitable keyword/ phrase in information retrieval. Different studies are on the user -centered design 
+of a recommender system for library catalogue and other divisions  of the library system.  
+ 
+VI. METHODOLOGY   Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ In general, numerical taxonomy analysis is a great method to grading, classification, and comparison 
+of different activities according to the benefit and enjoyment of the activities based on the considered 
+criteria . The ability of this method, it is able to do the two works together. The first, it can divided the 
+evaluated sets based on the criteria  presented into homogeneous subsets. The second, it can to grade the 
+elements and members of each homogeneous subset.   
+In this research we used of Taxonomy Method to examine amount of development the library systems in 
+Iran in three area: 1. Public Services (PS), 2. Technical Services (TS), and 3. Management Services (MS). 
+Previous studies mentioned various AI techniques t o address the above areas. Some of the mentioned 
+techniques in literature had different names with the same application in LISs. Therefore, we applied 
+Exploratory  Factor A nalysis (EFA) ( Osborne and Costello, 2009 ) to group the techniques with same 
+applicat ion. EFA is a statistical method that shows the variability of observed, correlated variables in 
+terms of potential groups of variables called factors. For example, it is possible that variations in four 
+observed variables mainly reflect the variations in two groups of variables. EFA searches for such relate 
+variations to join them as group of variables. Here EFA  is used to identify complex interrelationships 
+among AI techniques  and group them  that are part of unified application s in LIS. Finaly four groups of AI 
+techniques were identified as criteria for assessment in numerical taxonomy analysis method. The criteria  
+(identified AI technique groups)  included: A1. Expert systems / knowledge systems  (ES), A2. Intelligent 
+decision sup port systems / recommender systems  (RS) , A3. Intelligent data mining  (DM) , and A4. 
+Intelligent natural language processing systems  (NLP) . Figure 3 show the Asemi's model  for library system 
+development assessment in using AI.  
+ 
+ 
+Figure 3. Asemi's Library System Development Assessment Model in using AI  
+ 
+The researchers used of nine degree scale to receive experts view.  
+ 
+During a web -survey, collected experts' viewpoints about their agreements amount with development 
+of use of AI in the three areas mentioned based on four  criteria . In the following are presented the 
+findings based on the taxonomy steps.  
+ 
+VII. FINDING  
+ Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ a. Data matrix  
+The options matrix in rows and columns are criteria. Table 1 and 2 respectively show the type of metrics 
+and data matrix.  
+ 
+ 
+b. The standard matrix (synchronize data using formula Z - Score)  
+The quantities given in the table is measured by different units. In this case, each of the above matrix 
+elements change by the following equation and data matrix convert to standard matrix. Thus different 
+units remove and replace with the scale unit.  Table 3 show the standard matrix.  
+        i= option                    j= criterion  
+= criterion  average j     =Standard Deviation j  
+ 
+Table 3 . Standard Matrix 
+ PS TS MS 
+ES -1.477 1.201 0.739 
+RS 0.369 0.24 0.369 
+DM 0.739 -1.201 0.369 
+NLP 0.369 -0.24 -1.477 
+ 
+c. Calculate and determine the compound distances between places  
+Compound distances between places within a symmetric matrix obtained by the following formula:  
+ 
+a represents first choice option b Represents the second choice option to calculate the distance. Based on 
+the above formula, between the pair options should calculate combined distance. For example, we would 
+calculate combined distance between option 1 and  option 2. For this purpose, the criterion  value for 
+option 1 subtract from the criterion  value for option 2 then the answer to be power of 2.  For the other 
+criteria  do the same thing and in the end, sum the collected values for all criteria . Next, we tak e the square 
+root from the answers obtained  (Table 4) . 
+Table 4. Commercial intervals  
+ ES RS DM NLP 
+ Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ ES - 2.114 3.289 3.224 
+RS 2.114 - 1.488 1.908 
+DM 3.289 1.488 - 2.114 
+NLP 3.224 1.908 2.114 - 
+ 
+d. The determination of shortest distances (dr) in each row of matrix symmetrical  
+At this stage based on the distances matrix, in each row, obtain the shortest distances. Table 5 show dr 
+values.  
+ 
+Table 5. dr values  
+ shortest distance 
+ES 2.114 
+RS 1.488 
+DM 1.488 
+NLP 1.908 
+ 
+e. Calculate distances upper (+ O)  and lower ( -O) to clear homogeneous places  
+Options that indicate within the upper limit and lower limit are called homogeneous options. All of the 
+options up and down under consideration are eliminated. The interval can be obtained from the following 
+equa tion: 
+           = Standard Deviation  dr 
+ = Average dr            = Standard Deviation dr  
+The value of distance is:  Lower: 1.122   Upper: 2.376  
+Accordingly, all options that are in this range are homogeneous and present calculations and other options 
+will be removed. Homogeneous d ata Matrix is given in Table 6.  
+ 
+Table 6. Homogeneous data matrix1 
+ PS TS MS 
+ES 3 9 9 
+RS 8 7 8 
+DM 9 4 8 
+NLP 8 6 3 
+ 
+f. Standard matrix of homogeneous options  
+                                                           
+1 Note: If this matrix with initial data matrix are the same, it means that all options are 
+homogeneous . 
+ Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ In this stage, we standardize (normalize) data matrix (table 7).  
+Table 7. The data matrix matched standard  
+  PS TS MS 
+ES -1.477 1.201 0.739 
+RS 0.369 0.24 0.369 
+DM 0.739 -1.201 0.369 
+NLP 0.369 -0.24 -1.477 
+ 
+g. Determine the ideal values ( ) of the   homogeneous data standard matrix  
+The ideal values are derived from homogeneous data standard matrix.  
+If the criterion  is positive: the ideal value is the largest value of that criterion  in homogeneous data 
+standard matrix. If the criterion  is negative: The ideal value is the smallest value of that criterion  in 
+homogeneous data standard matrix. The following table (8) show the ideal values.  
+ 
+Table 8. The ideal values  
+PS TS MS 
+0.739 1.201 0.739 
+ 
+h. Calculation of the model of development  () 
+Development model is obtained of the following equation.  Table 9 show development model in this 
+research.  
+ 
+   = Homogeneous data matrix      = Ideal values  
+ 
+Table 9. Development  Model  
+  
+ES 2.216 
+RS 1.094 
+DM 2.43 
+NLP 2.669 
+ 
+i. Calculate the degree of development ( ) 
+At this stage of development degree of each option is calculated according to the following equation:  
+             
+ Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ The following table show degree of development of each option and  ranking of them. There is an inverse 
+relationship between the degree of development and status of the options. It means that if value of the 
+development is less, it is a better option.  
+ 
+Table 10. Ranking  of Development  
+  fi Ranking 
+ES 0.634 2 
+RS 0.313 1 
+DM 0.695 3 
+NLP 0.763 4 
+ 
+Figure 4 show the values table 10.  
+ 
+Figure 4. Degree  of Development  
+ 
+ 
+CONCLUSION  
+In this paper, by determining the degree of underdevelopment, the AI application development were 
+evaluated in varying sizes. In this study, the concepts of "development degree" and "underdevelopment 
+rank" of an activity reflects the amount of use AI criteria / facilities. These criteria  called criteria  of library 
+systems development in use of AI. Thus, the activity (PS, TS, and MS) which had more use of the AI 
+facilities (included ES, RS, DM, and NLP), in comparison than others, called "Developed Service". Also 
+the activity that had lower among of these  criteria  and had more distance than to desirable activity, called 
+"Undeveloped Service". Based on taxonomy method, the results showed that most developed 
+Recommender Systems (RM) in library systems in Iran and Natural Language Processing (NLP) facility 
+is the most undeveloped criterion . 
+ 
+REFERENCES  
+[1] Charles W. Bailey. Intelligent Library Systems:  Artificial Intelligence Technology and  Library 
+Automation Systems ؛.Greenwich, CT: JAI Press, 1991.  
+[2] M. Bavakutty, Muhammed Salih T.K, Mohamed Haneefa K. Research on library computerization . 
+New Delhi : Ess Ess , 2006 . 
+ Artificial intelligence (AI) application  in Library and Information  Science (LIS) 
+ 
+ [3] Lakshimikant Mishra and Vishnu Srivastva. Automation and networking of libraries:   A manual of 
+library management software and Application of computer Technology in libraries . New D ehli: New 
+age international,  2008.  
+[4] F.W. Lancaster and Amy Warner. Intelligent Technologies in Library and Information Service 
+Applications. USA: American Society for Information Science Silver Springs, MD,2001.  
+[5] F. Gibb . Knowledge -based indexing in SIMPR: Integration of natural language processing and 
+principles of subject analysis in an automated indexing system. Journal of Document and Text 
+Management .1993.  1(2): 131 -153. 
+[6] A. Morris . The application of expert systems in libraries and information  centres, De Gruyter , 1992.  
+[7] R. A. Davies . A. G. Smith, et al. .Expert systems in reference work : The applications of expert 
+systems in libraries & information centre: 92 -132. 1992.  
+[8] G..Tseng, A. Poulter, et al.  The library and information profession al's guide to the Internet, Library 
+Association Publishing , 1996.  
+[9] S. S. Kote ; R. Buckley ; and D. Zhang . Additions to the operating system concepts animations library 
+and artificial intelligence concepts animations library. Project (M.S., Computer Science) --California 
+State University, Sacramento, 2015.  
+[10]  D.G.H. Divayana; I.P.W. Ariawan; I. M. Sugiarta; and I.W. Artanayasa. Digital Library of Expert 
+System Based at Indonesia Technology University. International Journal of Advanced Research in 
+Artificial Intelligence, v4 n3 (20150301): 1 -8. 2015.  
+[11] M. Casta ñón-Puga;  J. R. Castr o; J.M.F.lores -Parra;  C.G. Gaxiola -Pacheco; L.G. Mart ínez-Méndez; 
+and L.E. Palafox -Maestre . JT2FISA Java Type -2 Fuzzy Inference Systems Class Library for Building 
+Object -Oriented Intelligent Applications. Pre sented in 12th Mexican International Conference on 
+Artificial Intelligence, MICAI 2013, Mexico City, Mexico, November 24 -30, 2013, Proceedings, Part 
+II; 204 -215; Berlin, Heidelberg : Springer Berlin Heidelberg : Springer.  
+[12] Osborne, J. W., & Costello, A . B. (2009). Best practices in exploratory factor analysis: Four 
+recommendations for getting the most from your analysis. Pan -Pacific Management Review, 12(2), 
+131-146. 
+[13] Asemi , A, Baba , M.S., Asemi, A.  (2013). Intelligent Multi -Criteria Decision Making system for 
+Supplier Evaluation . Research Notes in Information Science (RNIS) . 14, June. 
+doi:10.4156/rnis.vol14.86  
+  
+ 

@@ -1,0 +1,493 @@
+IEEJ TRANSACTIONS ON ELECTRIC AL AND ELECTRONIC ENGINEERING
+IEEJ Trans 2011; 6(S1): S89–S93
+Published online in Wiley Online Library (w ileyonlinelibrary.com). DOI:10.1002/tee.20625
+Special Issue Paper
+Statistical Analysis on the Effect of Capacitance Mismatch
+in a High-Resolution Successive-Approximation ADC
+Tsutomu Wakimotoa,Non-member
+Hongxing Li, Non-member
+Keita Murase, Non-member
+This paper describes the statistical analysis of the effect of capacitance mismatch on the accuracy of a high-resolution
+successive-approximation analog-to-digita l converter (ADC), which employs a split cap acitor array to achieve high resolution.
+An analysis has been made for the following two types of capacito r digital-to-analog converters (DACs). One is the capacitor
+DAC with binary-weighted capacitor array. The other is that whic h uses the segmented capacitor a rray for the upper bits to relax
+the matching requirement. The analysis was veriﬁed using the Monte-Carlo simulation with capacitance mismatch. This analysis
+clariﬁes the required capacitance matching for a given ADC re solution and provides with a guideline for the optimum design.
+2010 Institute of Electrical Engineers of Japan. Published by John Wiley & Sons, Inc.
+Keywords: SAR ADC, capacitor DAC, capacitor array, capacitor mismatch
+Received 14 April 2010; Revised 20 June 2010
+1. Introduction
+The resolution of a successive-approximation (SAR) analog-
+to-digital converter (ADC) that employs a capacitor digital-to-analog converter (DAC) is limite d by a capacitance mismatch. The
+effect of the capacitance mismatch on the SAR ADC accuracy isanalyzed in Ref. [1]. However, it seems to be a little complexand is based on the maximum capacitance mismatch instead ofthe standard deviation. The required capacitance accuracy in theworst case is analyzed in Ref. [2] for the SAR ADC using a binary-weighted capacitor array. In this analysis, it is assumed that all theunit capacitors used for the most signiﬁcant bit (MSB) capacitorhave the maximum error in the same direction and the rest of theunit capacitors have the maximum error in the opposite direction.This assumption seems to be too tight. The data of the capacitancemismatch, which depend on the integrated circuit (IC) fabricationprocess, its structure and dimens ions, are usually available as a
+statistical data, such as standard de viation [3, 4]. Therefore, it is
+more practical to clarify the relationship between the standard
+deviation of the capacitance mismatch and the achievable ADC
+accuracy. In this paper, a statistical analysis has been made on theeffect of capacitance mismatch on the SAR ADC accuracy.
+A SAR ADC basic conﬁguration is reviewed in Section 2 and
+the statistical analysis is described in Section 3. The analyticalresults are compared with the Monte-Carlo simulation in Section 4and the results are summarized in Section 5.
+2. SAR ADC Basic Conﬁguration
+A block diagram of the SAR ADC employing a DAC capacitor
+array is shown in Fig. 1. The input signal is sampled on thecapacitor array and then the DAC code that produces the samevoltage as the sampled input voltage is searched using the SARcontrol logic to complete the conversion.
+aCorrespondence to: Tsutomu Wakimoto.
+E-mail: tsutomu.wakimoto@analog.com
+Analog Devices K.K., 1-16-1 Kaigan Minato-ku, Tokyo 105-6891, JapanAn example of the DAC capacitor array for a high-resolution
+SAR ADC is shown in Fig. 2(a). The capacitor array is split intotheM-bit main DAC array and the L-bit sub-DAC array to keep
+the total capacitance in an achievable value to be integrated [2].These two arrays are connected with an attenuation capacitor to
+form the N-bit ( N=M+L) capacitor DAC. A unit capacitance
+(C)is used for the attenuation capacitor in order to keep good
+capacitance matching. For a high-resolution ADC, a poly-polycapacitor or an metal-insulator-metal (MIM) capacitor is usuallyused to have better capacitance matching and better linearity. Thecapacitance mismatch decreases as the capacitor size increases.The capacitor size is determined based on the required matchingto achieve the ADC resolution. The parasitic capacitance on bothside of the attenuation capacitor a lso causes a conversion error.
+Employing a poly-poly capacitor or an MIM capacitor with smallerparasitic capacitance than other types of capacitors helps reducethe conversion error although a special care must be paid for
+the layout. D
+M,iandDS,iare the digital codes for the main and
+sub-DACs. VINandVRare the input and reference voltages. The
+input voltage is sampled on the main DAC capacitors during thesampling phase and the DAC code that produces the same voltageas the sampled one is searched using both the main and sub-DACsduring the bit trial phase.
+The sub-DAC side capacitance seen from node A ( C
+S)is given
+by
+CS=(2L−1)C2
+(2L−1)C+C=(1–2−L)C (1)
+When all capacitors in the sub-DAC are connected to ground,
+the voltage at node A ( VA)is given by
+M−1/summationdisplay
+i=02iC(VA−DM,iVR)+CSVA=0( 2 )
+From (1) and (2),
+VA=VR
+2M(1–2−N)M−1/summationdisplay
+i=02iDM,i (3)
+2010 Institute of Electrical Engineers of Jap an. Published by John Wiley & Sons, Inc.T. WAKIMOTO, H. LI AND K. MURASE
+VIN
+VR
+GNDDAC Capacitor array
+SAR Control logic
+MSB LSBClockComparator
+Fig. 1. Block diagram of the SAR ADC
+Main DAC (M bits)CSub DAC (L bits)
+C 2L-1C 2C 4C C 2M-1C 2C 4CA B
+VINVR
+GNDDM,0DM,1DM,(M-1) DM,2 DS,0DS,1DS,(L-1) DS,2CSCM
+(a)
+Main DACC
+(2M-1)CVBVA
+ 
+(b)
+Fig. 2. DAC capacitor array. (a) DAC capacitor array and (b)
+voltage attenuation
+Similarly, the main DAC side capacitance seen from node B
+(CM)is given by
+CM=(2M−1)C2
+(2M−1)C+C=(1–2−M)C (4)
+When all capacitors in the main DAC are connected to the
+ground, the voltage at node B ( VB)is given by
+L−1/summationdisplay
+i=02iC(VB−DS,iVR)+CMVB=0( 5 )
+From (4) and (5),
+VB=VR
+2L(1–2−N)L−1/summationdisplay
+i=02iDS,i (6)
+Then, referring to the equivalent circuit shown in Fig. 2(b), this
+voltage is attenuated to V/prime
+Aat node A which is given by
+V/prime
+A=C
+(2M−1)C+CVB=VB
+2M(7)
+Because the weight of each bit in the sub-DAC is scaled to
+1/2Mat node A, the DAC output voltage ( VO)at node A is given
+by
+VO=VR
+2M(1–2−N)M−1/summationdisplay
+i=02iDM,i+VR
+2M2L(1–2−N)L−1/summationdisplay
+i=02iDS,i
+=VR
+2M(1–2−N)/parenleftBiggM−1/summationdisplay
+i=02iDM,i+1
+2LL−1/summationdisplay
+i=02iDS,i/parenrightBigg
+(8)The term (1–2−N)in the denominator shows the gain error
+that can be calibrated in a digital domain. As the effect of thecapacitance mismatch in the sub-DAC is reduced to 1 /2
+M,t h e
+one in the main DAC dominates. In Section 3, the capacitancemismatch effect in the main DAC is analyzed.
+3. Statistical Analysis on the Effect of Capacitance
+Mismatch upon the SAR ADC Accuracy
+In this section, the effect of the capacitance mismatch on the
+ADC accuracy is analyzed for the following two cases. One is thecase where the main DAC consists of a binary-weighted capacitorarray. The other is the case where the segmented capacitor array isused for several upper bits of the main DAC to relax the matchingrequirement.
+3.1. Case I: Binary-weighted capacitor array First,
+the capacitance mismatch effect in the main DAC shown in Fig. 3is analyzed. This is the case where the binary-weighted capacitorarray is used. For simplicity, it is assumed that all sub-DACcapacitors are connected to the ground and the initial chargeis zero. The maximum error occurs during the code transitionfrom ‘011 ...1’ to ‘100 ...0’ at the midpoint where the number of
+capacitors that change their state is maximal as shown in Fig. 3(a).To meet the ADC accuracy, this error must be smaller than a halfleast signiﬁcant bit (LSB) (V
+R/2(N+1)). The capacitor arrangement
+for this code transition is shown in Fig. 3(b) and (c).
+VXis the voltage at node A before the code transition and VX/prime
+is that after the transition. Before the code transition, the MSB
+capacitor in the main DAC and all capacitors in the sub-DAC areconnected to the ground, and all other capacitors are connected tothe reference as shown in Fig. 3(b). Using (1), V
+Xis given by
+VX≈(2M−1−1)C
+2M(1–2−N)CVR≈(2M−1−1)C
+2MCVR (9)
+After the code transition, the MSB capacitor in the main DAC is
+connected to the reference, and all other capacitors are connectedto the ground as shown in the ﬁgure. Due to the code transition,the charge on node A is redistributed to each capacitor and theresulting voltage ( V
+/prime
+X)at node A is given by
+V/prime
+X=2M−1C
+2MCVR (10)
+C 2M-2C 2M-1CMain DAC (M bits)
+2C 4CC
+11 1 1 0
+00 0 0 1Sub DACCS
+Code transitionA
+(a)
+CS(2M-1-1)C 2M-1CVX
+VR VRCS (2M-1-1)C 2M-1C
+Main DAC code:  “011…1” Main DAC code:  “100…0”
+(b)  (c)VX
+Fig. 3. Binary-weighted capacitor array. (a) Code transition, (b)
+before the code transition and (c) after the code transition
+S90 IEEJ Trans 6(S1): S89–S93 (2011)STATISTICAL ANALYSIS ON THE EFFECT OF CAPACITANCE MISMATCH
+In an ideal case, ( V/prime
+X−VX) is equal to one LSB ( VR/2M)o ft h e
+M-bit main DAC as shown below:
+(V/prime
+X−VX)IDEAL =2M−1CU−(2M−1−1)CU
+2MCUVR=VR
+2M(11)
+However, the mismatch in the capacitor array causes an error.
+It is assumed that a unit capacitor ( C)is given by
+C=CU+/Delta1CU (12)
+where CUis the average unit capacitance, and /Delta1CUis the standard
+deviation. Each capacitor in the array consists of unit capacitors
+connected in parallel. When the number of unit capacitor connectedin parallel is N
+C, the average of the total capacitance is NCCU,
+whereas the standard deviation is√NC/Delta1CU, assuming that they
+are not correlated. From (9), (10) and (12), the standard deviation
+of (V/prime
+X−VX)with capacitance mismatch is given by
+(V/prime
+X−VX)STD
+=2M−1C−(2M−1−1)C
+2MCVR
+=2M−1CU+√
+2M−1/Delta1CU−(2M−1−1)CU−√
+2M−1−1/Delta1CU
+2MCU+√
+2M/Delta1CUVR
+≈CU+√
+2M−1/Delta1CU−√
+2M−1−1/Delta1CU
+2MCUVR (13)
+as 2MC/greatermuch√
+2M/Delta1CU. From (11) and (13), the standard deviation
+of the differential nonlinearity error voltage, VDNL,STD , during the
+code transition is given by
+VDNL,STD =(V/prime
+X−VX)STD−(V/prime
+X−VX)IDEAL
+=√
+2M−1/Delta1CU−√
+2M−1−1/Delta1CU
+2MCUVR
+≈√
+2M−1
+2M/Delta1CU
+CUVR (14)
+since the terms in the numerator are statistical data. To achieve
+the ADC accuracy, αtimes VDNL,STD must be smaller than a half
+LSB of the N-bit ADC ( VR/2N+1). This results in
+/Delta1CU
+CU<1
+α2(N+1−M)√
+2M−1(15)
+As a practical value, α=3.3 is often used [5]. When the ADC
+resolution is 14 bits (N =14) and the main DAC resolution is 7
+bits (M =7), the standard deviation o f the capacitance mismatch
+must be smaller than 0.011% with α=3.3.
+The relationship between the standard deviation of the accept-
+able capacitance mismatch and the main DAC resolution (M) isshown in Fig. 4, for the ADC resolution of 14 bits ( N=14).
+Accordingly, the sub-sub DAC has L(=14−M)bits. This graph
+is based on (15). The total capac itance including the main and
+sub-sub DACs is (2
+M−1)C+214−MCin the case where the
+binary-weighted capacitor array is used in both main and sub-subDACs. The total capacitance normalized by the unit capacitanceis also shown in Fig. 4. The main DAC capacitance dominateswith large M, whereas the sub-sub DAC capacitance dominates
+with small M. As can be seen in the ﬁgure, the acceptable mis-
+match increases with Mand becomes maximal with M=14.As
+the practical unit capacitance is often around 100 fF; however,the total capacitance becomes 1600 pF with M=14.This capaci-
+tance is too large to be integrated. There is a trade-off between therequired accuracy and the total capacitance. When the main DAC
+resolution is reduced to 7 bits ( M=7), the total capacitance is
+reduced to about 26 pF, which is a practical value to be integratedat the expense of tighter matching requirement.0200400600800100012001400160018002000
+0.000.020.040.060.080.100.12
+1 2 3 4 5 6 7 8 9 1 01 11 21 31 4
+Main DAC resolution, M (bits)
+Normalized total capacitanceStandard deviation of cap. mismatch (%)
+Fig. 4. Required capacitance matching and the total capacitance
+normalized by the unit capacitance versus the main DAC resolution
+(N=14,α=3.3)
+Since sometimes the required accuracy of the MSB capacitance
+(CMSB)is argued, it would be worthwhile to show how it is related
+to the mismatch in a unit capacitance. The percentage of themismatch of this capacitance i s much smaller than that of the
+unit capacitance as shown below because it consists of 2
+M−1unit
+capacitors connected in parallel.
+CMSB=2M−1C=CMSBO+/Delta1CMSB (16)
+CMSBO=2M−1CU,/Delta1CMSB=√
+2M−1/Delta1CU (17)
+/Delta1CMSB
+CMSBO=√
+2M−1/Delta1CU
+2M−1CU=1√
+2M−1/Delta1CU
+CU(18)
+In the case of M=7, the mismatch of the MSB capacitance
+is eight times smaller than that o f the unit capacitance. Although
+this requirement seems to be ver y tight, it is equivalent to the
+requirement given by (15) as shown here.
+Next, the integral nonlinearity (INL) is analyzed. The INL is
+deﬁned as a departure from the line that goes through two end
+points where the codes are all 0s and all 1s. Although the capac-itance mismatch is accumulated, the voltage at node A is equal to
+(1–2
+−M)VRwhen the code is all 1 because all capacitors are con-
+nected to the reference. This results in the ideal voltage of VR/2 at
+the midpoint. The INL becomes maximal at the midpoint due to theaccumulation of the capacitance mismatch. Referring to (10), thestandard deviation of t he INL error voltage, V
+INL,STD ,i sg i v e nb y
+VINL,STD =/parenleftbigg2M−1C
+2MC−1
+2/parenrightbigg
+VR
+≈/parenleftBigg
+2M−1CU+√
+2M−1/Delta1CU
+2MCU−1
+2/parenrightBigg
+VR≈√
+2M−1
+2M/Delta1CU
+CUVR
+(19)
+In comparison with (14), the INL is about√
+2 times smaller
+than the differential nonlinearity (DNL) in this case. Even with
+the segmented capacitor array or the mixture of the segmented
+and binary-weighted capacitor arrays which is described later, theINL becomes maximal at the midpoint because the departure fromthe ideal line due to the accumulation of the mismatch becomes
+maximal at that point. Therefore, the INL in these cases is also
+given by (19). The DNL is usually required to be less than a half
+LSB and at least one LSB to avoid a missing code. In contrast, theINL requirement could be less critical than the DNL depending on
+the application. To keep the INL error small, the focus must also be
+on the layout to reduce the effect of oxide thickness gradient [2].The DNL for the other type of capacitor array is analyzed in thefollowing section.
+3.2. Case II: Segmented capacitor array for upper
+bits The required capacitance mis match can be relaxed using
+S91 IEEJ Trans 6(S1): S89–S93 (2011)T. WAKIMOTO, H. LI AND K. MURASE
+a segmented capacitor array as shown in Fig. 5(a) as the number
+of capacitors to be switched at the same time is reduced. In this
+case, the segmented capacitor array is used for the upper 5 bits and
+the binary-weighted capacitor array is used for the lower 2 bits.
+In this conﬁguration, the maximum error occurs during the code
+transition from ‘00 ...0011’ to ‘00 ...0100’ because the number of
+capacitors that change their state is maximal during this transition.
+The capacitor array before and after the code transition is shown
+in Fig. 5(b) and (c).
+In Fig. 5(b), 2 binary-weighted capacitors are connected to the
+reference and all other capacitors are connected to the ground. In
+Fig. 5(c), one of the 31 segmented capacitors are connected to the
+reference, and all other capacitors are connected to the ground.
+Similar to the previous case, the voltages at node A ( VX)before
+the code transition and after the transition ( V/prime
+X)are given by
+VX=3C
+27CVR (20)
+V/prime
+X=4C
+27CVR (21)
+Then, the standard deviation of t he differential nonlinearity error
+voltage, VDNL,STD , due to capacitance mismatch is given by
+VDNL,STD =(V/prime
+X−VX)STD−(V/prime
+X−VX)IDEAL
+≈√
+4/Delta1CU−√
+3/Delta1CU
+27CUVR
+≈√
+7
+27/Delta1CU
+CUVR (22)
+To achieve the ADC accuracy, αtimes VDNL,STD must be smaller
+than a half LSB ( VR/214+1). With α=3.3, this results in
+/Delta1CU
+CU<1
+3.3×28√
+7=0.045% (23)
+The required standard deviatio n of the capacitance mismatch is
+0.045%. Compared to the binary-weighted capacitor array case,
+the required matching is 4.1 times relaxed. However, a segmented
+capacitor array requires much mor e digital control signals than a
+binary-weighted one, although the t otal capacitance is the same.
+For example, a 7-bit segmented capacitor array requires 127
+(=27−1) control signals, whereas a 7 -bit binary-weighted array
+C 4C 4CMain DAC ( 7 bits)
+2C 4CC
+11 00 0
+00 1 0 05-bit segmented 2-bit binarySub DACCS
+Code transitionA
+(a)
+3C 4C 120CVX
+VRCS
+Main DAC code:  “00…0011”3C 4C 120C
+VRCSVX
+Main DAC code:  “00…0100”
+(b) (c)
+Fig. 5. Binary-weighted and segment capacitor array. (a) Code
+transition, (b) before the code transition and (c) after the code
+transitionC 2M-KCMain DAC (M bits)
+2C 2M-K-1CC
+Sub DAC
+1 1 1 0 0 0K-bit segmented (M-K)-bit binary2M-KC 2M-KC
+0 0 0 1 0 0CS
+Code transitionA
+(a)
+(2K-2)2M-KCVX
+VRCS
+Main DAC code:  “00…0011”VX
+Main DAC code:  “00…0100”(2M-K-1)C 2M-KC (2K-2)2M-KC
+VRCS(2M-K-1)C 2M-KC
+(b) (c)
+Fig. 6. More general case: binary-weighted and segmented capac-
+itor array. (a) Code transition, (b) before the code transition and
+(c) after the code transition
+requires only 7. Therefore, the combination of these capacitor
+arrays is usually used to reduc e the number of control signals
+based on the trade-offs between the required capacitance matchingand the complexity of signal routing in the IC layout. In the
+case in Fig. 5(a), the number of t he required control signals is
+33 (=2+2
+5−1).
+A more generalized case of the capacitor array in Fig. 5(a)
+is shown in Fig. 6(a). Here, the upper Kbits consist of a
+segmented capacitor array, whereas the lower ( M−K)bits consist
+of a binary-weighted capacitor array. In this conﬁguration, the
+maximum error occurs during the code transition where the binary
+capacitor array changes its state from all 1s to all 0s becausethe number of capacitors that change the state is maximal. Thecapacitor array before and after the code transition is shown in
+Fig. 6(b) and (c). Similar to the previous case, the voltage at node
+A(V
+X)before the code transition, the one after the transition ( V/prime
+X)
+and the standard deviation of the INL error voltage are given by
+VX=(2M−K−1)C
+2MCVR (24)
+V/prime
+X=2M−KC
+2MCVR (25)
+VDNL,STD =(V/prime
+X−VX)STD−(V/prime
+X−VX)IDEAL
+≈√
+2M−K/Delta1CU−√
+2M−K−1/Delta1CU
+2MCUVR
+≈√
+2M−K+1−1
+2M/Delta1CU
+CUVR (26)
+Since αtimes VDNL,STD must be smaller than a half LSB
+(VR/2N+1),
+/Delta1CU
+CU<1
+α2N−M+1√
+2M−K+1−1(27)
+This is a more generalized expression of the case in Fig. 5.
+When N=14,M=7a n d K=5, the standard deviation of the
+capacitance mismatch must be s maller than 0.045%. This is the
+same result as with the case shown in Fig. 5 as expected because
+the condition is the same.
+4. Simulation Results
+To verify the analysis of the capacitance mismatch effect on the
+SAR ADC accuracy, the analyzed value was compared with the
+S92 IEEJ Trans 6(S1): S89–S93 (2011)STATISTICAL ANALYSIS ON THE EFFECT OF CAPACITANCE MISMATCH
+Monte-Carlo simulation results. In simulation it was assumed that
+the unit capacitance has a Gaussian distribution and 1000 trials
+were carried out. The results for the binary-weighted capacitor
+array in Fig. 3 are shown in Fig. 7. This shows the relationship
+between the required capacitance matching and the main DACresolution for each ADC resolution. The solid lines show the value
+calculated using (15) and the dots show the values obtained from
+the Monte-Carlo simulation. The simulation results agree withthe analytical results fairly well. As the main DAC resolution
+increases, the required capacitance accuracy is relaxed at the
+expense of increased total capacitance. When the ADC resolution
+is 14 bits and the main DAC resolution is 7 bits, the acceptable
+capacitance mismatch is 0.011% with α=3.3.
+The simulation results for the case where the main DAC
+resolution is 7 bits and the segmented capacitor array was used
+for the upper Kbits are shown in Fig. 8. The solid line shows the
+value calculated using (27) and the dots show the value obtained
+from Monte-Carlo simulation. Simulation results agree with the
+analyzed value as shown in the ﬁgure. As the number of segmented
+capacitors increases, the required capacitance matching is relaxed
+because the number of capacitors whose states change reduces.As mentioned in the previous section, this results in increased
+control signals. Therefore, the optimum segmented capacitor array
+needs to be determined based on this trade-off. In the case wherethe ADC resolution is 14 bits, the main DAC resolution is 7 bits
+and the upper 5 bits are segmented, the standard deviation of the
+acceptable capacitance mismatch is 0.045% with α=3.3.
+The discussion so far is for the single-ended case. In the case
+of the differential conﬁguration with two sets of capacitor arrays,the capacitance matching requirement is√
+2 times relaxed because
+0.000.010.020.030.040.050.06
+456789 1 0N=12 bits
+N=14 bits
+N=16 bits
+Main DAC resolution, M (bits)Standard deviation of cap. mismatch (%)
+Fig. 7. Required capacitance matching versus the main DAC
+resolution ( α=3.3)
+0.00
+12345670.020.040.060.080.100.120.14
+Main DAC segment resolution, K (bits)N=12 bits
+N=14 bits
+N=16 bitsStandard deviation of cap. mismatch (%)
+Fig. 8. Required capacitance matching versus the main DAC
+resolution ( M=7,α=3.3)the signal amplitude becomes twice while the voltage error due to
+capacitance mismatch increases√
+2 times.
+5. Conclusions
+The required capacitance matching to achieve a high-resolution
+SAR ADC was analyzed. Statistical analysis was made for theinternal DACs with the binary-weighted capacitor array and amixture of the segmented and binary-weighted capacitor arrays.
+The latter case relaxes the capacitance matching requirement for
+the DNL at the expense of the increased complexity of signalrouting in the layout. The analytical results were veriﬁed bycomparing with the Monte-Carlo simulation results, and providewith a clear trade-off between the standard deviation of the
+capacitance mismatch and an achievable ADC resolution.
+References
+(1) Lin Z, Yang H, Zhong L, Sun J, Xia S. Modeling of capacitor array
+mismatch effect in embedded CMOS CR SAR ADC. ASICON 6 th
+International Conference , Vol. 2, October 2005; 979–982.
+(2) Baker RJ, Li HW, Boyce DE. CMOS Circuit Design, Layout, and
+Simulation. IEEE Press: New York; 1998.
+(3) Tuinhout HP, Elzinga H, Brugman JT, Postma F. Accurate capacitor
+matching measurements using ﬂoating gate test structures. Proceedings
+of IEEE International Conference on Microelectronic Test Structures ,
+V ol. 8, March 1995.
+(4) Verma A, Razavi B. Frequency-based measurement of mismatches
+between small capacitors. IEEE Custom Integrated Circuits Confer-
+ence, 2006; 481–484.
+(5) Analog Devices Application note AN-615, Peak-to-Peak Resolution
+Versus Effective Resolution.
+Tsutomu Wakimoto (Non-member) received the B.S. and M.S.
+degrees in physical electronics from the Tokyo
+Institute of Technology, Tokyo, Japan, in 1978
+and 1980, respectively. He received the Ph.D.degree from the same university in 1992. He
+joined the Nippon Telegraph and Telephone
+Public Corporation (NTT), Tokyo, Japan, in1980, where he was engaged in the research
+on wide-band ampliﬁer ICs, high-speed A-to-D and D-to-A
+conversion LSIs, high-speed, high-resolution sample and hold ICs
+and RFICs. He is a co-recipient of the IEEE Journal of Solid-
+State Circuits’ Best Paper Award in 1987. He served as an ISSCCAnalog Sub-Committee member from 1996 to 2000. Since he
+joined Analog Devices K.K., Tokyo, Japan, in 2000, he has been
+involved in the development of ana log ICs for several applications
+including the medical area.
+Hongxing Li (Non-member) received B.S. and M.S. degrees in
+electronic engineering from Shanghai Jiaotong
+University, China, in 2001 and 2004, respec-
+tively. From 2004 to 2005, he worked in SONYCorp., Tokyo, as a system engineer for digital
+still camera. Since 2005, he has been working
+in Japan Design Center, Analog Devices. Hewas involved in designing camera-related prod-
+ucts such as AFE, power management IC and health-care-related
+products.
+Keita Murase (Non-member) received the B.S. and M.S. degrees
+in physical electronics from Tokyo Institute ofTechnology, Tokyo, Japan, in 2005 and 2007,
+respectively. He joined Analog Devices, Japan,
+in 2007. He has been involved in medicaland automatic test equipment projects since he
+joined.
+S93 IEEJ Trans 6(S1): S89–S93 (2011)

@@ -1,0 +1,195 @@
+PDF hosted at the Radboud Repository of the Radboud University
+Nijmegen 
+ 
+ 
+ 
+ 
+The following full text is a preprint version which may differ from the publisher's version.
+ 
+ 
+For additional information about this publication click this link.
+http://hdl.handle.net/2066/104030
+ 
+ 
+ 
+Please be advised that this information was generated on 2022-12-23 and may be subject to
+change.3D Shap eRepresen tation:
+Transforming Polygons intoVoxels⋆
+Stijn Oomes12,Peter Sno eren1,and Tjeerd Dijkstra2
+1Nijmegen Institute forCognition and Information, Nijmegen, The Netherlands
+2Vision Lab oratories, Ohio State Univ ersit y,Colum bus, USA
+Abstract. Wedevelop edametho dthat transforms apolygonal represen tation of
+anobject intoavoxel represen tation ona3Dregular grid. Byapplying scale-space
+theory wederiv edexpressions for ananti-aliased voxel represen tation ofpoints,
+lines, and triangles. The algorithm ‘pain ts’the triangles onthe voxelgrid and ‘ﬁlls’
+the resulting surface. The metho dcan beapplied in3D (medical) imaging and
+shap eanalysis in3+1dimensional scale-space.
+1Introduction
+Objects incomputer graphics are usually polyhedra; the surface ofashap eis
+represen ted asapolygon mesh. The polygons are the graphics primitiv esthat
+are rendered with shading algorithms. Another common represen tation isone
+inwhic hthe object isavolumetric densit ydeﬁned ona3Dregular grid. The
+pointsonthe grid haveascalar value that corresp onds tothe measuremen t
+value offor instance aMRI orPET scan used inmedical imaging. Metho ds
+havebeen develop edtoextract apolygonal represen tation from the volumet-
+ricdata inorder tovisualize the boundary ofthe object, with the mar ching
+cubesalgorithm ofLorensen and Cline (1987) asthe most common technique.
+Inthis pap erwewill describ eametho dforthe reverse transformation: from
+apolyhedral surface toavolumetric densit yrepresen tation, also referred to
+asvoxelization .Wehavedevelop edour technique asaﬁrst step inobtaining
+adynamic shap ehierarc hy(Ko enderink &vanDoorn 1986). The result of
+our algorithm isarepresen tation where the voxels havevalues 1deep inside
+the object and 0faroutside, with atransitional region inbetween.
+2Polygons and Voxels
+Polyhedral objects are usually represen ted asalist ofvertices with their x,
+yand zcoordinates, completed byalist ofindices that pointtothe vertices
+that form one polygon. Let aorthogonal grid ofN×N×Nvoxels with
+spacing dbedeﬁned inthe same space asthe vertex coordinates and letxijk
+beanarbitrary pointofthe grid. Inthis pap ervoxels are not considered as
+⋆This work wassupp orted bythe Netherlands Organization forScien tiﬁc Researc h.
+Wethank Flip Phillips, Del Lindsey ,and Jim Toddforcriticism and discussion.gridp oints,nor ascub oids but asspherical blobs with aGaussian sensitivit y
+proﬁle with their centers located atthe gridp oints(Figure 1).One can think
+ofthe voxels asintegrating the contribution from graphics primitiv esintheir
+neigh borho od.The densit yatgridp ointxijkcontributed byapointsource
+atxisgivenbythe Gaussian:
+Γσ(x−xijk)=1
+√
+2π3σ3exp/bracketleftbigg
+−(x−xijk)2
+2σ2/bracketrightbigg
+(1)
+where σisthe smallest spatial scale. The spatial resolution dand metrical
+resolution Rofthe voxel represen tation determine σ.Byassuming that the
+frequency distribution ofvoxel values isGaussian inthe Fourier domain, one
+can deriv ethat σ=d√
+2R
+π[Ko enderink (1984)]. Forvoxel values with an
+accuracy of8bits (R=8ln2)the smallest spatial scale isclose tod.
+3Voxelization
+The scene issetforrepresen ting ideal geometrical entities aspoints,lines, and
+triangles onaregular grid. The format will betotakeagraphics primitiv eina
+parameterized form v(s,t,...)and giveanexpression forthe voxelvalues. The
+general trickistotakethe Dirac delta function δ[x−v(s,t,...)]and integrate
+overthe entire parameter space. The integrated delta function isconvolved
+with aGaussian and normalized bydividing bythe maxim um value
+I(xijk)=Γσ⊗/integraltext/integraltext
+δdsdt...
+max[ Γσ⊗/integraltext
+δ]=/integraltext/integraltext
+exp/bracketleftBig
+−(xijk−v(s,t,... ))2
+2σ2/bracketrightBig
+dsdt...
+√
+2π3σ3max[ Γσ⊗/integraltext
+δ](2)
+By changing the order ofintegration, asimple expression emerges that in-
+tegrates a‘Gauss delta function’ overthe parameter space and divides itby
+itsmaxim um value. The maxim um value isreac hed forthe pointthat isthe
+‘cen troid’ ofthe geometrical entity.The voxel values I(xijk)are dimension-
+less and the expression isindep enden tofthe dimensionalit yofthe vector
+space. The metho disnot limited tothe examples givenbelowand can be
+applied toanyparameterized curv e,surface orvolume.
+Point. The simplest case isapointpand givesvoxel values
+I(xijk)=exp[ −(xijk−p)2
+2σ2]. (3)
+Note that pdoesnot havetocoincide with agridp ointbecause the represen-
+tation isrobust under shifts. Thusapointisrepresen ted byseveral non-zero
+voxels; this loss inresolution iscomp ensated byagain inrobustness.Line. Aline l(s)isdeﬁned byitsendp ointspand qasl(s)=p+s(q−p)
+with 0≤s≤1.Forconvenience, wedeﬁne some new variables that have
+the form ofaninner product oftwodiﬀerences ofvectors: A=(x−p)2,
+B=(x−p)·(q−p),and C=(q−p)2.The voxel values are
+I(xijk)=exp(B2−AC
+2σ2C)/bracketleftBig
+erf(B
+σ√
+2C)−erf(B−C
+σ√
+2C)/bracketrightBig
+2erf(√
+C
+σ2√
+2)(4)
+where the denominator iscalculated for x=(p+q)/2.This expression re-
+sults inananti-aliased line that isrobust forsmall shifts. Inﬁgure 2weshow
+aline oflength 16onagrid oflength 32with σ=1.06=√
+2∗8∗ln2/π.By
+thresholding atlevelI=0.5weget backthe original line exactly .
+Triangle. The most imp ortan tcase inthe context ofthis pap eristhe
+triangular polygon /triangle(s,t)with vertices p,qand r,that isdeﬁned as/triangle(s,t)=
+p+s(q−p)+t(r−p)with 0≤s≤1and 0≤t≤1−s.Again wedeﬁne some
+new variables: A=(x−p)2,B=(x−p)·(q−p),C=(x−p)·(r−p),
+D=(q−p)·(r−p),E=(q−p)2,and F=(r−p)2and use them toget
+the expression
+I(xijk)=/integraltext1
+0/integraltext1−s
+0exp/parenleftBig
+−A+2sB+2tC−2stD−s2E−t2F
+2σ2/parenrightBig
+dtds
+max/bracketleftBig/integraltext1
+0/integraltext1−s
+0exp/parenleftbig−A+2sB+2tC−2stD−s2E−t2F
+2σ2/parenrightbig
+dtds/bracketrightBig (5)
+=/integraltext1
+0exp(C2−AF+2s(BF−CD)+s2(D2−EF)
+σ2F)/bracketleftBig
+erf(−C+sD
+σ√
+2F)−erf(F−C+s(D−F)
+σ√
+2F)/bracketrightBig
+ds
+/integraltext1
+0exp((D2−EF)(3s−1)2
+18σ2F)/bracketleftBig
+erf(2F−D+3s(D−F)
+3σ√
+2F)−erf(−D−F+3sD
+3σ√
+2F)/bracketrightBig
+ds
+The denominator iscalculated for the centroid x=(p+q+r)/3ofthe
+triangle. Because ofthe crossed term −2stDthe double integral can not be
+separated and weare left with anexpression with noanalytical solution.
+4Painting and Filling
+Inour implemen tation, the triangular polygons are ‘pain ted’ separately on
+the grid byapplying equation (5). Represen ting apolyhedral surface can
+beconsidered asthe set theoretic union ofvoxelized polygons that overlap
+inorder toget their edges aligned and their vertices totouc h.Ifdiﬀeren t
+polygons contribute tothe value ofone voxel, wechoose the largest value
+(Ko enderink &vanDoorn 1986).
+Nowthat the surface ofthe object isrepresen ted ona3Dgrid, wehave
+to‘ﬁll’ the shap etoget arepresen tation with value 1inside the shap e,value
+0outside and with smo othly varying values near the boundary .Weuse a
+boundary ﬁlling algorithm (Foley etal.1990) that starts ataseed gridp oint
+within the surface.0 16 3200.51
+Fig. 1Voxel grid with Gaussian
+densit yproﬁlesFig. 2Example ofthe voxel values
+foraline (parallel cross-section).
+5Discussion
+The metho dgivesacomputationally exp ensiv eanti-aliased voxelization of
+ideal geometrical entities. Inour implemen tation wehavemade noattempt
+tooptimize. This can easily bedone byprecomputing the analytic expres-
+sions foravariet yofgraphics primitiv esand interp olating. Wang (1994) has
+prop osed ananti-aliased voxelization algorithm based onacone ﬁlter that
+implemen tsthe precomputing idea and heobtains volume sampling times
+ofafew seconds onaSilicon Graphics Indigo2,the same workstation that
+weuse. Our algorithm isrelated tohis, only his ﬁlter can lead tospurious
+structure and isnot dep enden tonthe metrical resolution.
+The voxelization metho dprop osed here can beapplied in3D (medical)
+imaging ifone wantstogobackand forth between the diﬀeren trepresen-
+tations, using amarc hing cub es-lik ealgorithm togointhe one direction.
+Finally ,this metho dcan beused toacquire the input format forananalysis
+ofthe shap eofanobject in3+1dimensional scale-space.
+References
+Foley ,J.D., vanDam, A., Feiner, S.K. &Hughes, J.H.: Computer Graphics (Second
+Edition) Addison Wesley Publishing Compan y(1990)
+Koenderink, J.J.: “The structure ofimages”. Biol. Cyb ern. ,50,363-370 (1984)
+Koenderink, J.J. &vanDoorn, A.J.: “Dynamic shap e”.Biol. Cyb ern. ,53,383-396
+(1986)
+Lorensen, W.E. &Cline, H.E.: “Marc hing cub es: Ahigh resolution 3D surface
+construction algorithm”. Computer Graphics ,21,163-168 (1987)
+Wang, S.W. &Kaufman, A.E.: “Volume-sampled 3D modeling”. IEEE Computer
+Graphics and Applic ations ,14,26-32 (1994)

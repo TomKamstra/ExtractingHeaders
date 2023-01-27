@@ -1,0 +1,1225 @@
+International  Journal  of 
+Environmental Research
+and Public Health
+Article
+An Agile Digital Platform to Support Population
+Health—A Case Study of a Digital Platform to Support Patients
+with Delirium Using IoT, NLP , and AI
+Mohan R. Tanniru1,*, Nimit Agarwal2, Amanda Sokan1and Salim Hariri3
+/gid00030/gid00035/gid00032/gid00030/gid00038/gid00001/gid00033/gid00042/gid00045 /gid00001
+/gid00048/gid00043/gid00031/gid00028/gid00047/gid00032/gid00046
+Citation: Tanniru, M.R.; Agarwal, N.;
+Sokan, A.; Hariri, S. An Agile Digital
+Platform to Support Population
+Health—A Case Study of a Digital
+Platform to Support Patients with
+Delirium Using IoT, NLP , and AI. Int.
+J. Environ. Res. Public Health 2021 ,18,
+5686. https://doi.org/10.3390/
+ijerph18115686
+Academic Editor: Paul B. Tchounwou
+Received: 7 April 2021
+Accepted: 21 May 2021
+Published: 26 May 2021
+Publisher’s Note: MDPI stays neutral
+with regard to jurisdictional claims in
+published maps and institutional afﬁl-
+iations.
+Copyright: © 2021 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license (https://
+creativecommons.org/licenses/by/
+4.0/).1Mel and Enid Zuckerman College of Public Health, University of Arizona, Phoenix, AZ 85004, USA;
+aesokan@arizona.edu
+2Department of Internal Medicine, Banner University Medical Center, University of Arizona,
+Phoenix, AZ 85004, USA; NimitAgarwal@arizona.edu or Nimit.Agarwal@bannerhealth.com
+3College of Electrical and Computer Engineering, University of Arizona, Tucson, AZ 85721, USA;
+hariri@arizona.edu
+*Correspondence: mtanniru@arizona.edu
+Abstract: For an organization to be customer centric and service oriented requires that it use each
+encounter with a customer to create value, leverage advanced technologies to design digital services
+to fulﬁll the value, and assess perceived value-in-use to continue to revise the value as customer
+expectations evolve. The adaptation of value cycles to address the rapid changes in customer
+expectations requires agile digital platforms with dynamic software ecosystems interacting with
+multiple actors. For public health agencies focused on population health, these agile digital platforms
+should provide tailored care to address the distinct needs of select population groups. Using prior
+research on aging and dynamic software ecosystems, this paper develops a template for the design
+of an agile digital platform to support value cycle activities among clinical and non-clinical actors,
+including population groups. It illustrates the design of an agile digital platform to support clients
+that suffer from delirium, using digital services that leverage Internet of Things, natural language
+processing, and AI that uses real-time data for learning and care adaption. We conclude the paper
+with directions for future research.
+Keywords: population health; value cycles; digital health; dynamic software ecosystems; delirium
+patient care; agile digital platform
+1. Introduction
+Businesses have recognized the importance of understanding the customer journey
+and reacting quickly to address customers’ changing expectations in an evolving technology
+landscape [ 1]. Such a customer-centric and service orientation means businesses have to
+use each encounter with a customer or service exchange to create value propositions and
+assess their perceived value-in-use or value-in-context to revise these value propositions
+as the customer expectations change [ 2]. By using such a value lens to create, fulﬁll, and
+assess value-in-use, often using digital services (i.e., services that create value supported
+by advanced technologies), businesses can create differentiated value in a competitive
+marketplace. More importantly, such a market dynamic calls on businesses to use agile
+organizational models to innovate and explore new value propositions [ 3]. Depending on
+the customer value cycle (time between two purchases of the same product/service) and
+product life cycle (time to create a new product/service to fulﬁll value), this also means
+that businesses may need to use multiple value cycles to keep customers engaged and
+empowered [4].
+This market dynamic is blurring the difference between business and IT strategies. In
+fact, it is interweaving or fusing these two strategies under the framework of the digital
+business strategy [ 5], depending on where value is created (e.g., productivity within the
+Int. J. Environ. Res. Public Health 2021 ,18, 5686. https://doi.org/10.3390/ijerph18115686 https://www.mdpi.com/journal/ijerphInt. J. Environ. Res. Public Health 2021 ,18, 5686 2 of 22
+business or value creation to support customer needs). When value creation is driven by
+the changes in customers’ needs, the digital business strategy has to develop innovative
+digital services that create, fulﬁll, and assess value-in-use. Analyzing feedback to improve
+clinical diagnosis (i.e., clinical informatics), business performance (i.e., business analytics),
+or system performance (i.e., analytics in general) is necessary when there are changes in the
+inputs, or models used to process these inputs. When such changes are driven by evolving
+needs of the external consumer, feedback to improve value created by an organization
+comes from a consumer’s perception of such value (value-in-use).
+Independent of where the feedback comes from, a software ecosystem designed to
+improve performance has to be agile to support the faster design of these new digital
+services, or the reconﬁguration and/or redesign of the current digital services to meet
+evolving customer expectations. Just as businesses are leveraging multiple partners to
+fulﬁll value, today’s software ecosystems also have to leverage the expertise and resources
+of multiple software developers and technology partners as they design digital services to
+create and fulﬁll value [ 6]. In fact, the digital platforms used to support the communication
+of information and the coordination of value cycle activities across business and customer
+ecosystems need an agile software ecosystem that leverages a mix of technologies and
+application environments (e.g., mobile apps, web browsers, IoT sensors, cloud base services,
+etc.) to create and sustain value [7].
+Designing an agile digital platform to address customer needs is an even bigger
+challenge for healthcare organizations such as hospitals. In a business ecosystem, value
+cycles that leverage external partners are often under the control and coordination of the
+business. The business can therefore direct value creation and value fulﬁllment, and it has
+some inﬂuence on gathering feedback on value-in-use. However, health systems, even
+if they are inherently service driven, must operate two different value cycles. The ﬁrst
+value cycle is within a provider ecosystem (e.g., hospital) where the initial value is created
+(e.g., a health condition diagnosis) and some value is fulﬁlled (e.g., testing of patients and
+treatment plan design when they are in-patients). The second and often much longer value
+cycle is within the patient ecosystem (e.g., a patient’s home or at a temporary facility such as
+a skilled nursing or rehab facility). The value fulﬁllment, value-in-use tracking for feedback,
+and even new value creation (e.g., changes to treatment plans) are supported by multiple
+external clinical and non-clinical partners, including patients and health care providers.
+While digital platforms used to support the ﬁrst value cycle can be designed for agility with
+healthcare provider oversight, even when they use several external software partners [ 8],
+building an agile digital platform for the second value cycle is much more complex.
+With increased access to technologies such as wearables and mobile apps to monitor
+health conditions and track physical activities, and with the growing use of telehealth,
+portals and social media tools to seek and share information, the patient demand for digital
+services to create and fulﬁll value in healthcare is growing. At the same time, healthcare
+providers are looking to use patient interest in self-managing their care at home to shift
+a signiﬁcant part of the value fulﬁllment and successive value cycles into the patient
+ecosystem to reduce readmission costs and improve patient satisfaction. For public health
+agencies with a focus on prevention, most of the value cycle activities to tailor practices to
+create value, fulﬁll value, and assess value-in-use have to be done within the population
+or patient ecosystem using a number of external actors, both clinical and non-clinical.
+Hence, the following research question: How can we build an agile digital platform to
+support health care delivery in a client ecosystem? The client here refers to both the patients
+seeking care transition services and the population groups looking to adhere to preventive
+healthcare practices.
+We will try to answer this question in the paper using the following three steps:
+(1) design innovative care delivery models that create value for a speciﬁc client population;
+(2) develop an agile digital platform that uses conﬁgurable digital services to communicate
+information and coordinate activities in support of value cycle activities; and (3) illustrate
+how such an agile digital platform using artiﬁcial intelligence (AI) and Internet of ThingsInt. J. Environ. Res. Public Health 2021 ,18, 5686 3 of 22
+(IoT) technologies can be developed to support a particular client group, being patients
+who suffer with delirium conditions in this case. The paper is organized as follows to
+discuss each of these three steps:
+Section 2 focuses on the ﬁrst step. With a growing proportion of an aging population
+needing to address multiple chronic care conditions, and with healthcare systems looking to
+design care delivery models to reduce costs by shifting chronic care management to clients’
+homes using technologies, the challenge becomes one of tailoring care to such a population
+effectively. The individuals in this age bracket have varying social, technological, and
+educational capabilities to self-manage their care at home, and they need a mix of clinical
+and non-clinical care providers to support their care. Using research on aging, this section
+develops a set of services that can be used to create value that is tailored to the speciﬁc
+client’s health condition and ecosystem needs;
+Section 3 focuses on the second step. For the services identiﬁed in Section 2, we will
+discuss the strategies used to design a digital platform to support value cycle activities.
+With technologies helping clients monitor their health conditions and communicate with
+healthcare providers, connecting the clients with various clinical actors (labs, pharmacies,
+etc.) for treatment adherence, and non-clinical actors for social and emotional support,
+the digital platform must work with conﬁgurable digital services that evolve as the client
+needs and actors supporting these needs evolve. Using research on agile digital platforms,
+this section develops a template for the design of an agile digital platform to support value
+cycle activities;
+Section 4 focuses on the third step. It illustrates the design of an agile digital platform
+to support clients that suffer from delirium. With the growing use of the IoT to monitor a
+client’s health condition in real time, and with the availability of AI technologies to analyze
+a large volume of real-time data for learning and adaption [ 9], the digital platform will
+address the client needs in a hospital. While its use is discussed within a provider context,
+it can be used in a home care environment as well with adaptations;
+Section 5 provides some concluding comments and Section 6 provides some directions
+for future research.
+2. Research on Aging and Services to Create Value
+The term “aging” generally refers to our understanding of how we as human beings
+progressively deteriorate in our health during our adult period of life [ 10]. When measured
+on the life calendar, it often becomes a discrete number, and societies worldwide use such a
+number to make assumptions about people’s ability to contribute to economic productivity
+(e.g., setting an age for retirement), determine eligibility for government assistance (e.g.,
+health insurance), and use statistical models to classify disease conditions such as chronic
+care conditions (e.g., how a certain percentage of the older population contributes to
+healthcare costs). Even health systems design care delivery models to provide care at home,
+with the assumption that the digital services needed to deliver care have to support a
+population with lower levels of visual and mobility capabilities, technological literacy, and
+healthcare knowledge. This often induces bias in the way the systems are designed and
+services are identiﬁed to create value. Therefore, stereotyping all adults over a certain age
+as a single monolithic group for designing health services to deliver care at home leads to
+missed opportunities [11].
+Aging is a process, and innovations in medical science for clinical diagnosis and drug-
+based therapies have been extending human life, thus transforming the older population
+into a mix of sub-population groups with varying capabilities to manage their health con-
+ditions. The concept of active aging, deﬁned by the World Health Organization [ 12], uses
+eight classes of determinants to gather information for the possible clustering of services
+for such populations. These include the physical environment, access to health and social
+services, individual behaviors (healthy behaviors, addictions, medications), personal char-
+acteristics (biology, genetics, psychology), support ecosystem (social support, violence and
+abuse, education and literacy), economic factors (income, social protection, work), gender,Int. J. Environ. Res. Public Health 2021 ,18, 5686 4 of 22
+and culture. Overlying these determinants are other factors often considered in social
+diagnosis [ 13], such as the roles people play (within their ecosystem), the relationships they
+have (with others in their network), their reactions to ecosystem conditions (fear, stigma,
+stress, etc.), and the resources they have (physical, economic, emotional). All of these can
+inﬂuence the clients’ abilities to manage their health conditions as some of these factors
+change. This means that healthcare value delivery is a dynamic process, and the services
+used to create value must continue to evolve based on the feedback from value-in-use.
+For the purposes of this discussion, we will use prior research to classify services
+that create value into the following four types: self-health management, civic engagement,
+caregiver engagement, and community engagement. While certain older population groups
+today have limited literacy on health and technical knowledge, more baby boomers are
+entering this age bracket and are increasingly conversant with and interested in using
+technology to self-manage their health conditions. With a greater capacity to contribute,
+these older populations can engage in many civic activities that beneﬁt both the community
+and the health and wellbeing of the older adults. As health conditions deteriorate, some
+begin to rely on services provided by professional or informal caregivers, such as family
+members. Lastly, some older populations continue to face health inequities by virtue of
+economic, social, and geographical disparities, and need the support of social services to
+overcome barriers for access to quality care. We will look at each in detail below.
+2.1. Self-Health Management Services
+Several digital services to support population engagement at home are designed
+to allow people to self-manage their health conditions. This includes sharing health
+information, asking speciﬁc questions, seeking consultation, scheduling appointments, etc.
+The technologies used to support these services can include patient portals, websites, and
+digital health infomediaries [ 14]. The recent health emergency (COVID-19), in fact, has
+made many of these digital services important for care delivery at home (e.g., telehealth
+technologies). The effectiveness of such digital services depends on how engaged both
+the patient and health care providers are in frequent communication and follow-ups in
+the area of mental health [ 15]. Remote monitoring services are used, from tracking blood
+sugar levels to other complex chronic care [ 16]. Social media technologies, such as digital
+infomediaries, are used for consultation and seeking answers to medical questions [17].
+In summary, there are important opportunities to create value for older clients who
+want to self-manage their health conditions.
+2.2. Civic Engagement Services
+Even with medical advances and economic prosperity increasing longevity and well-
+being, and moving more people into the broad category of the older population, ageism
+continues to stigmatize this population in the labor market [ 18] and marginalize their role
+in productive social engagement [ 19]. Active aging strategies include promoting physical
+activity through volunteering and socializing [ 20]. These strategies can allow cities to
+use multiple agencies to make public places health friendly [ 21,22] and engage the older
+population in community-based voluntary activities [ 23]. Such an engagement in social,
+economic, cultural, spiritual, and civic affairs can help reduce isolation and keep the older
+population both physically and mentally active [ 24]. It can also lead to lower risks of
+morbidities, disability, and cognitive decline, and their civic engagement can lead to better
+physical and mental health, higher cognitive function, decreased loneliness, etc. [ 25]. In
+summary, the engagement of the older population in voluntary services (e.g., social care,
+and recreational and local community work) not only beneﬁts society, but also improves
+the social and emotional health of the older population [26–28].
+In summary, such a holistic and life-course approach means that the services used to
+create value need to use a temporal lens, as the shorter and longer term needs of the older
+population change over time. While health systems cannot be responsible for providing a
+broader range of services and varying them over time, they need to leverage a network ofInt. J. Environ. Res. Public Health 2021 ,18, 5686 5 of 22
+actors, including private and government sectors and social entrepreneurs that focus on
+providing social beneﬁts [29–31].
+2.3. Caregiver Engagement Services
+Even as the demand for home-based care for older adults is rising across many
+high-income countries [ 32], the nature of this care is becoming multifaceted. The care is
+sometimes designed to support both older adults and their informal caregivers, especially
+when adults living at home start to lose mental capacities and the ability to care for
+themselves. In other words, digital services have to meet the needs of both the patient
+client and the caregiver client. The client services have to be time sensitive as the health
+conditions continue to deteriorate by using services that test their physical and cognitive
+capabilities to create value, such as reducing client falls or engaging in activities that
+improve cognition [ 33,34]. The role of caregivers, informal as well as specialized, is
+growing, and the challenge is to create cohesion between the services provided by the
+healthcare provider and other actors while addressing risks [ 35–37]. Providing reliable
+information and supporting trust building opportunities are key to engender the trust of
+clients in seeking such services.
+In summary, caregivers are unpaid family members, and they provide an important
+means to reach and support this patient client population [ 38,39]. The services provided
+should include services that will help caregivers manage their own health while caring
+for others. Such caregiver services are even more important when the caregiver lives with
+the person they are caring for [ 33]. With the availability of informal caregivers expected
+to decrease as many families are not engaging in co-residency, the communication and
+coordination of the caregiver and patient services requires a mix of value fulﬁllment
+activities from multiple actors [40–42].
+2.4. Community Engagement Services
+While medical advances are increasing the life span, they are not necessarily inﬂuenc-
+ing the economic status of many older adult citizens living under or near poverty [ 43,44].
+Many hospitals are using community providers to address the social determinants that con-
+tribute to health inequities (e.g., supporting transportation, nutrition assistance, childcare,
+or education). Community health workers, peer navigators, etc., are often used to assist
+clients with mental health problems, sexually transmitted diseases, and diabetes [ 45,46].
+Some social agencies leverage the support of other social agencies, particularly when deliv-
+ering care-related services is complex, as in supporting homeless populations [ 47]. With
+many social factors determining a client’s ability to manage their health condition, the chal-
+lenge is to look upstream for prevention and downstream for care transition post-hospital
+discharge in order to identify the services needed and actors to engage with [48].
+In summary, older adults with health inequities have limited resources and technolo-
+gies, such as limited wireless access and/or smart phones. As seen during the COVID-19
+health emergency, these clients are at a greater risk for infection and mortality [ 49], and
+their self-isolation for safety led to psychological and social challenges [ 50,51]. There-
+fore, innovative ways to deliver care to such populations has become critical during the
+COVID-19 lockdowns [ 52], including the use of a mix of digital and non-digital services
+(e.g., telephone, local community workers, etc.) to maintain social connections considered
+essential [53] despite the technology barriers [54,55].
+While this classiﬁcation is not exhaustive, it does provide a range of services to older
+clients that span from self-health management to continual health monitoring in both
+supportive and less than supportive ecosystems [ 46]. Using these four different service
+types, Figure 1 below identiﬁes a list of services needed to support these clients. As
+discussed earlier, the goal here is not to build a point-to-point solution that supports one
+group by one provider and its partners, but to develop a platform that is agile to address
+client needs as they evolve or change. The value fulﬁllment services that will become a
+part of a digital platform are discussed in the next section.Int. J. Environ. Res. Public Health 2021 ,18, 5686 6 of 22
+Int. J. Environ. Res. Public Health 2021 , 18, x  6 of 22 
+ 
+ While this classification is not exhaustive, it  does provide a range of services to older 
+clients that span from self-health management to continual health monitoring in both sup-
+portive and less than supportive ecosystems [46] . Using these four different service types, 
+Figure 1 below identifies a list of services needed to support these clients. As discussed 
+earlier, the goal here is not to build a poin t-to-point solution that supports one group by 
+one provider and its partners, but to develop a platform that is agile to address client 
+needs as they evolve or change. The value fulf illment services that will become a part of a 
+digital platform are discu ssed in the next section. 
+ 
+Figure 1. A template of services to suppo rt select popu lation groups. 
+3. Designing a Digital Platform to Support Agility 
+A client-centric and value-driven service model to address care delivery outside a 
+health system is a different paradigm for health care systems [56]. It represents a shift from 
+the provider-centric view of “the doctor kn ows best” to a “patient-centric” view where 
+care delivered at home is best for the pati ent and the provider. Healthcare organizations 
+that have longer value cycles and multiple ac tors outside their ecos ystem fulfilling many 
+value cycle activities, must tr ansform their care delivery models using advances in tech-
+nologies. This is especially critical as chronic care conditions continue to predominate in older populations. 
+Figure 1. A template of services to support select population groups.
+3. Designing a Digital Platform to Support Agility
+A client-centric and value-driven service model to address care delivery outside a
+health system is a different paradigm for healthcare systems [ 56]. It represents a shift from
+the provider-centric view of “the doctor knows best” to a “patient-centric” view where
+care delivered at home is best for the patient and the provider. Healthcare organizations
+that have longer value cycles and multiple actors outside their ecosystem fulﬁlling many
+value cycle activities, must transform their care delivery models using advances in tech-
+nologies. This is especially critical as chronic care conditions continue to predominate in
+older populations.
+In the drive to use technologies, one cannot ignore the human element when it comes
+to digital service use. For example, digital services that leverage sensors in wearables to
+drive behavioral change such as reducing obesity, will not be effective if the clients do not
+know how to use these digital services. Web-based interventions or remote monitoring
+services designed to measure hemoglobin A1c or blood pressure have limited impact on
+client behavior without adequate training [ 57–59]. When digital services are supported
+by social and community health workers that provide education and answer questions,
+it improves their use [ 46,60]. When patient portals used to disseminate information are
+contextualized to lead clients to ask questions and seek clariﬁcation, they can prove to be
+of greater value [ 61]. Even with intuitive interfaces, such as videos to support physicalInt. J. Environ. Res. Public Health 2021 ,18, 5686 7 of 22
+or mental exercises and calming music to reduce pain, digital services will have a limited
+impact when the patients have mobility challenges. Alternative technologies, such as
+virtual reality (VR) goggles with animated games or travel to distant places, are shown to
+be effective in reducing clients’ pain [62,63].
+The examples discussed above highlight the importance of understanding the client
+context or ecosystem where the value is perceived, so that care delivery models can be
+effective. However, context is not static and client capabilities and expectations continue
+to change. As clients become more experienced in using digital services and build their
+capacity to self-manage their health condition by asking questions, seeking clariﬁcation
+and second opinions, etc., the digital services have to adapt to address the changes in
+client capabilities and expectations. In addition, the social ecosystem around a client may
+change as well, such as their roles, relationships, reactions to their health condition, and
+resources [ 13]. This makes client context dynamic, and continual value-in-use feedback is
+needed to adapt the digital services to this evolving context. Implicitly, the mental model
+or the “lens”, within which a client interprets the value created, evolves over time [ 64].
+This is especially the case when a client condition deteriorates and the role of others (e.g.,
+caregivers) increases, or when a client moves from a supportive ecosystem to a less than
+supportive ecosystem. This has been seen during the COVID-19 pandemic, with many
+clients moving from preventive care services to address food and economic insecurities.
+Without claiming exhaustiveness, we will discuss the following three ways to make
+digital services adapt to a changing client context: increase value cycle frequency, broaden
+the scope of value-in-use assessment, and broaden the scale of value-in-use assessment.
+3.1. Increase Value Cycle Frequency
+The goal here is to make digital services adaptive by gathering feedback frequently
+to track changing client expectations. The increased frequency of information gathering
+has been shown to improve behavioral changes among clients. For example, the real-
+time monitoring of glucose levels with education has been shown to improve individual
+adherence [ 46], frequent feedback on sleep quality has shown improvement for clients
+with apnea [ 65], and research is ongoing on how adaptive feedback control systems with
+real-time feedback can improve smoking cessation behavior [66].
+Remote and continual monitoring of clients generates large volumes of data, and tools
+such as AI have become useful in identifying changing customer needs and redesigning
+digital services accordingly. For example, an AI-assisted alert system was shown to be
+effective in monitoring patients in an intensive care unit or emergency rooms [ 67]. Data
+from a patient’s vital signs are analyzed to modify early warning scores that can lead
+to predicting a cardiac arrest [ 9]. Even routinely available data analyzed by providers
+can lead to decisions on how to alter external actor engagement in supporting clients
+(e.g., emergency management technicians visiting clients at home, specialists consulting
+nursing home patients, and staff changes in patient rooms) [ 46,68,69]. In summary, frequent
+feedback from clients during value-in-use may lead to not only a reconﬁguration of digital
+services, but also broaden the scope of actors used in value-in-use assessment. This is
+discussed next.
+3.2. Broaden the Scope of Value-in-Use Assessment
+All innovative value propositions used to create value need the engagement of all the
+actors, including clients, in value fulﬁllment. When these value propositions change to meet
+customer expectations, it can lead to changes in the actors involved. The strategies used to
+support the adoption and diffusion of an innovation (i.e., value-in-use of a digital service)
+focus on client and digital service complexity [ 70]. In other words, value cycles have a
+predictable frequency (i.e., how quickly feedback is used to redesign digital services to
+create new value). However, changing the value cycle frequency to quickly monitor client
+behavior means altering the value fulﬁllment frequency, and this may alter the behavior
+of other actors. For example, consider a nurse calling system designed to use multipleInt. J. Environ. Res. Public Health 2021 ,18, 5686 8 of 22
+buttons for the following different types of services: bathroom visits, pain management,
+and general information. When the speed to respond to a nurse call is altered to improve
+patient satisfaction, using text alerts and escalation protocols that transfer calls to others
+when response time is slow, this alters the value fulﬁllment activities of the nursing staff. If
+there is a difference in the perceived value-in-use of the patients (e.g., immediate response
+to a call made to nursing staff) and the perceived value-in-use of the nursing staff (e.g.,
+staff’s perception of the “urgency of the call” depending of the call source, for example
+surgical or cardiac patients vs. oncology or neurology patients) when the frequency of
+the value cycle is changed, it can lead to not meeting patient expectations [ 69,71]. In
+other words, increasing the value cycle frequency to address the context changes in the
+clients may have a negative impact, or be misaligned with the actors who are fulﬁlling the
+value created.
+Such misalignment can be signiﬁcant when some value fulﬁllment activities use
+machine actors (e.g., systems that send alerts when calls are made, escalate to others,
+etc.) and others use human actors such as nursing staff, whose activities cannot change
+quickly (e.g., process changes, policy implications, etc., take time to change). This is often
+reﬂected in model or algorithmic bias or fairness when these biases get embedded in digital
+services [ 72]. For example, the algorithms used to make predictions on heart conditions may
+be biased if they undercount women and especially women of color, impacting diagnoses
+and treatment plans [ 73]. When machine learning algorithms are used to make predictions
+based on large volumes of data, they can minimize the inﬂuence of a few outliers, leading to
+the misapplication of forecasted outcomes [ 74,75]. Research on the design for diffusion [ 76],
+and being aware of the situation as a whole [ 77], calls for viewing the client context more
+broadly as value fulﬁllment and value-in-use is occurring within a complex ecosystem with
+many actors besides the clients. Therefore, when the value cycle frequency is increased
+using machine actors to address the changes in context from client feedback, feedback is
+also needed from other actors inﬂuencing value fulﬁllment. Such broadening of the scope
+of value assessment (actors providing the feedback) means potentially broadening the scale
+of value assessment as well, which is discussed next.
+3.3. Broaden the Scale of Value-in-Use Assessment
+Technology-induced change has been studied in decision support systems [ 78], and
+clients using digital services to self-manage their care condition may seek different types
+of information not supported by any of the digital service modules or components. For
+example, as older peoples’ cognitive functions change over time, digital services used to
+support caregivers must evolve as the patients deteriorate in their health conditions. Even
+with limited access to mobile technology to care for their health conditions [ 79], vulnerable
+populations saw their service needs dramatically change during COVID-19 (from preven-
+tion to address food and economic insecurities). Those who used apps to manage their
+glucose levels have started to want to use the apps to apply for health insurance [ 46]. Given
+that many social determinants contribute to health inequities, addressing some of them
+using digital services may lead to clients seeking other services, thus implicitly calling for
+broadening the sources used to provide feedback, i.e., the scale of value assessment. As
+one uses a digital service (e.g., mobile health unit (MHU) calling or texting each client to
+provide information on COVID-19), it may lead to other services for which assistance is
+needed (food, transportation, etc.). This can lead to gathering feedback on these to create
+new services and altering current services given their interdependency.
+In summary, digital services need to increase the frequency of value cycles to show less
+bias in fulﬁlling value and greater agility to meet evolving client expectations. They also
+need to assess any change in the scope (or depth) of all those involved in fulﬁlling the value,
+and change in the scale (or breadth) of the services needed to address the clients’ value
+expectations. The design of a digital platform to support such agility is discussed next.Int. J. Environ. Res. Public Health 2021 ,18, 5686 9 of 22
+3.4. Building an Agile Digital Platform
+As organizations use agile models of structure and governance to support the explo-
+ration and evaluation of new services to create and fulﬁll value and leverage technologies
+to design digital services, they similarly need an agile software ecosystem that uses a
+number of digital service modules or components that can be easily conﬁgured to adapt to
+the evolving client needs. Figure 2 shows some of the service modules designed to support
+the select senior population segments discussed in the previous section. The software
+modules interact with each other, potentially across partner and client ecosystems, using a
+distributed digital platform. This platform supports the communication of information and
+the coordination of value cycle activities among all the actors involved. Each service mod-
+ule supports a distinct value proposition (e.g., searching for an external caregiver, tracking
+health conditions using a glucose monitor, ﬁnding a physician to get a second opinion).
+They can be conﬁgured to work together to create value for a client, such as a caregiver
+servicing a dementia patient or an older client looking to monitor their blood pressure.
+Int. J. Environ. Res. Public Health 2021 , 18, x  9 of 22 
+ 
+ ing for broadening the sources used to prov ide feedback, i.e., the scale of value assess-
+ment. As one uses a digital service (e.g., mobile health unit (MHU) calling or texting each 
+client to provide information on COVID-19), it may lead to other services for which assis-
+tance is needed (food, transportation, etc.). Th is can lead to gathering feedback on these 
+to create new services and altering current services given their interdependency. 
+In summary, digital services need to increase the frequency of value cycles to show 
+less bias in fulfilling value and greater agility to meet evolving client expectations. They 
+also need to assess any change in the scope (or depth) of all those involved in fulfilling the 
+value, and change in the scale (or breadth) of the services needed to address the clients’ value expectations. The design of a digital platform to support such agility is discussed next. 
+3.4. Building an Agile Digital Platform 
+As organizations use agile models of structure and governance to support the explo-
+ration and evaluation of new services to crea te and fulfill value and leverage technologies 
+to design digital services, they similarly need an agile software ecos ystem that uses a num-
+ber of digital service modules or components that can be easily configured to adapt to the 
+evolving client needs. Figure 2 shows some of the service modules designed to support 
+the select senior population segments discu ssed in the previous section. The software 
+modules interact with each other, potentially across partner and client ecosystems, using 
+a distributed digital platform. This platform  supports the communication of information 
+and the coordination of value cycle activities  among all the actors involved. Each service 
+module supports a distinct value proposition (e.g., searching for an external caregiver, 
+tracking health conditions using a glucose monitor, finding a physician to get a second opinion). They can be configured to work together to create value for a client, such as a 
+caregiver servicing a dementia patient or an older client looking to monitor their blood 
+pressure. 
+ 
+Figure 2. Digital platform to support digital service configuration. 
+A recent institute of electrical and electr onics engineers (IEEE) special Issue on man-
+aging software ecosystems has recognized th e need for agile ecosystems to support com-
+plex and dynamic environments such as the one discussed here [80]. There can be a mix 
+Figure 2. Digital platform to support digital service conﬁguration.
+A recent institute of electrical and electronics engineers (IEEE) special Issue on manag-
+ing software ecosystems has recognized the need for agile ecosystems to support complex
+and dynamic environments such as the one discussed here [ 80]. There can be a mix of
+autonomous and automated systems tracking rapid changes in the external environment,
+and a mix of machine actors (software systems). Human actors (in the clinical and non-
+clinical ecosystem), including technology developers, need a digital platform to support
+their collaboration [ 81] and interactions to share data and collaborate their activities in
+real time [ 82]. Such a dynamic orchestration of digital services has shown success in
+multi-tenant business networks during run-time as actors join and leave [ 83], and among
+innovation ecosystems where ideas are generated and evaluated [84].
+A dynamic software ecosystem for rapidly evolving client expectations, as shown in
+Figure 2, needs not only increased frequency of value assessment for reconﬁguration, but
+an ability to address potential changes in the scope and scale of such an assessment. For
+example, if the run-time feedback on deﬁned parameters (e.g., pain medication requests
+from a nurse call system or smart bed alerts for bathroom support) is lower than expected,
+what conclusions follow? Did it address a value proposition (i.e., patient satisfaction
+attributed to staff response)? Should it lead to broadening of the scale by seeking feedback
+on other services (e.g., food catering services, discharge services, etc.)? Should it lead to aInt. J. Environ. Res. Public Health 2021 ,18, 5686 10 of 22
+deepening of the scope by seeking feedback from other actors in the network (e.g., nursing
+staff on changing patient conditions, improved care processes such as hourly rounding,
+etc.)? Such an insight on the scope and scale needed in value assessment requires an
+understanding of the client or actor intent and should be explicitly considered in the design
+of the digital services.
+In summary, gathering client intent if other value-in-use feedback is not sufﬁcient to
+autonomously reconﬁgure digital services is needed if agile digital platforms and software
+ecosystems are to support a health system that is seeking to support client needs quickly
+using value cycle activities. One pilot application that combines client intent and a dynamic
+software ecosystem is discussed in the next section.
+4. Digital Platform to Support Patients with Delirium
+A fear of falling is often a contributor to fall injuries inside and outside hospitals [ 85].
+Such a fear is a pervasive psychological problem in older people and not only contributes
+to falls [ 86], but also makes them avoid activities that can keep them healthy, i.e., less
+dependent on society and medications [ 87–89]. We will focus on one particular symptom
+of this, delirium, which contributes to the fear of falling. The digital platform that uses
+advanced technologies and digital services to create, fulﬁll, and assess value-in-use to
+support delirium patients is summarized in Figure 3, and is elaborated on in this section.
+Int. J. Environ. Res. Public Health 2021 , 18, x  10 of 22 
+ 
+ of autonomous and automated systems tracking rapid changes in the external environ-
+ment, and a mix of machine actors (software systems). Human actors (in the clinical and 
+non-clinical ecosystem), including technology  developers, need a digital platform to sup-
+port their collaboration [81] and interactions to share data and collaborate their activities in real time [82]. Such a dynamic orchestration of digital services has shown success in 
+multi-tenant business networks during run-time as actors join and leave [83], and among 
+innovation ecosystems where ideas are generated and evaluated [84]. 
+A dynamic software ecosystem for rapidly ev olving client expectations, as shown in 
+Figure 2, needs not only increased frequency of value assessment for reconfiguration, but an ability to address potential changes in the scope and scale of such an assessment. For 
+example, if the run-time feedback on defined pa rameters (e.g., pain medication requests 
+from a nurse call system or smart bed alerts for bathroom support) is lower than expected, 
+what conclusions follow? Did it address a valu e proposition (i.e., patient satisfaction at-
+tributed to staff response)? Should it lead to  broadening of the scale by seeking feedback 
+on other services (e.g., food catering services, discharge services, etc.)? Should it lead to a 
+deepening of the scope by seeking feedback from other actors in the network (e.g., nursing 
+staff on changing patient conditions, improv ed care processes such as hourly rounding, 
+etc.)? Such an insight on the scope and scale needed in value assessment requires an un-
+derstanding of the client or actor intent and should be explicitly considered in the design 
+of the digital services.  
+In summary, gathering client intent if other value-in-use feedback is not sufficient to 
+autonomously reconfigure digital services is  needed if agile digital platforms and soft-
+ware ecosystems are to support a health syst em that is seeking to support client needs 
+quickly using value cycle activities. One pilot application that combines client intent and 
+a dynamic software ecosystem is discussed in the next section. 
+4.
+ Digital Platform to Support  Patients with Delirium 
+A fear of falling is often a contributor to fall injuries inside and outside hospitals [85]. 
+Such a fear is a pervasive psychological problem in older people and not only contributes 
+to falls [86], but also makes them avoid activi ties that can keep them healthy, i.e., less 
+dependent on society and medications [87–89]. We will focus on one particular symptom 
+of this, delirium, which contribu tes to the fear of falling. The digital platform that uses 
+advanced technologies and digital services to create, fulfill, and assess value-in-use to 
+support delirium patients is summarized in Figure  3, and is elaborated on in this section. 
+ 
+Figure 3. Digital platform to support delirium patients. 
+Figure 3. Digital platform to support delirium patients.
+4.1. Clients
+Delirium is considered a syndrome due to its multicomplex nature and is dangerous-
+ness. It is common in older hospitalized adults, with a prevalence of about 30–50%, and
+affects around seven million patients annually. A big challenge for healthcare systems is
+that this syndrome can go undiagnosed by healthcare team members, including nurses
+and physicians. This leads to a longer length of hospital stay, loss of physical function,
+which can lead to institutionalization at long-term care facilities, progression to dementia,
+and even death. The major challenges of the effective management of delirium include
+the need for a multidisciplinary approach, difﬁculties with risk modiﬁcation, and a lack
+of effective low-risk pharmacological treatments. Thus, a system that can assist in early
+identiﬁcation, by means of timely screening and assessment, is needed so that precipitating
+factors can be identiﬁed and removed for improvement in patient care. Clients with cogni-
+tive impairment can fall during “unexpected care windows”, and no amount of nursing
+resources can prevent these falls. However, such falls contribute to hospital admissions,Int. J. Environ. Res. Public Health 2021 ,18, 5686 11 of 22
+medical treatments, and high insurance costs, not to mention the personal physical and
+psychological pain to the patients.
+4.2. Technologies
+Remote monitoring of such patients can be done using wearable-based, non-wearable-
+based, and fusion-based systems [ 90]. The wearable-based system uses sensors tied to
+various body parts, but are relatively inﬂexible and uncomfortable. The non-wearable-
+based systems, such as smartphone-based solutions, could be a very competitive alternative
+to the conventional wearable systems for fall detection [ 91]. However, as discussed earlier,
+when the value cycle frequency increases due to remote monitoring, multiple sources of
+information are needed to be analyzed, and fusion-based systems can help leverage diverse
+information sources. In the proposed system, information from visual clues are combined
+with audio responses to questions posed by the system to understand patient intent in
+creating and assessing value-in-use for patients.
+In the digital platform proposed, called SeVa, the frontend used to create value is a
+mobile application written in the Apple iOS native program language Swift on Xcode 11,
+which runs on the iOS device with iOS 13. The chatbot engine is Dialogﬂow, a UI-based
+platform for creating smart and proactive chatbots. SeVA is a fusion-based system, and
+supports remote diagnosis and medical consultation. The SeVA backend server to fulﬁll
+value has four dedicated advanced reduced instruction set computer machines (ARMs)
+with 2GB memory and the Ubuntu Xenial system.
+The remote monitoring service here includes a fusion of clues from the audio and
+visual content. It connects the following two different environments: SeVA Patient Room
+app (SPR), which is an application that resides in a patient room or ecosystem, and SeVA
+Master Control app (SMC), which is a master control application that resides in the provider
+ecosystem, connected to both the autonomous part of the digital service as well as the
+human actor engaged component, i.e., nursing station to react to speciﬁc patient context.
+4.3. Value Creating Services
+The value creating services are supported using a remote diagnosis that does not use
+text but rather visual gestures, such as the waving of hands or visual eye movement, as
+well as voice conversation. Both of these are important for elders or patients suffering
+with delirium. It uses personalized conversation to answer questions and provide advice.
+Speciﬁcally, the system creates value to clients by responding to patient gestures with
+consultation sessions. In addition, it does regular checks to ensure that the patient condi-
+tion is monitored periodically, including a morning check and hourly rounding. It uses
+delirium checks to assess a patient’s cognitive capabilities and provides music to create a
+relaxed environment to reduce stress and/or help clients manage pain. Table 1 lists these
+patient services.
+Table 1. Seva skills in the Dialogﬂow.
+Type Skill Story Description
+Movement Response Sensor ResponseFall detectionRespond to patient and notify
+nurse by recognizing
+patient movement. Wave
+Regular CheckHourly RoundingFeeling check
+Perform regular hourly check
+to fulﬁll patient needs actively.Restroom check
+Brace check
+Heat pack check
+Delirium CheckWhat day is today?Perform regular delirium
+check to evaluate
+patient cognition. List weekdays in reversed orderInt. J. Environ. Res. Public Health 2021 ,18, 5686 12 of 22
+Table 1. Cont.
+Type Skill Story Description
+RelaxationsSoothing Music Play music
+Use music, jokes, and small
+talk to improve patient’s
+mental state.Small Talk Random talk
+JokeTell me a joke
+More jokes
+4.4. Value Fulﬁllment Service Modules
+The service begins when the chatbot engine receives a trigger upon patient touch or
+sound. It sends the ﬁrst sentence to the SPR and then waits for the patient’s response (i.e.,
+returning sentence). The patient’s response will then be classiﬁed as the intent “Yes” or
+“No”, each leading to a different set of conversations. For periodic monitoring, such as
+hourly and morning checks, the SPR will ask a question every hour (except for the rest
+hour) to make sure the client’s needs are satisﬁed.
+For delirium checks, the SPR starts by checking the patient’s delirium status by asking
+questions, or launches the delirium check game and uses cognitive assessment tests [ 92].
+Two delirium check games are used at present. The ﬁrst game, “Connect Node”, is used
+for testing visuospatial and executive ability. The patient is required to connect the node in
+a given order. If a patient fails the test, a message will be immediately sent to the SMC. The
+second game, “Click Animal”, tests patient attention. Pictures are displayed and disappear.
+The patient has to click the animal picture. The checking result will also be sent to the SeVA
+Master Control application. For supporting relaxation services, the SPR has embedded
+music created by the therapist in order to create a calm atmosphere and relieve panic.
+Figure 4 shows the coordination of the value fulﬁlling activities using a particular
+scenario, beginning with an action from the patient. The fulﬁllment of the activities
+supported by the chatbot engine scenario are deﬁned by medical staff.
+Int. J. Environ. Res. Public Health 2021 , 18, x  13 of 22 
+ 
+  
+Figure 4. Coordination of activities among multip le actors within SeVa architecture. 
+4.5. Agile Digital Platform to Suppor t Activity Coordination among Actors 
+Since many of the components of the system are autonomous agents (or machine 
+actors), the activity of each actor is discu ssed below. Some of these are running continu-
+ally, and others are trigged based on new ev ents. Within the actor-network theory, this 
+human–machine–other human (e.g.,  nurse) interaction has to occur throughout the entire 
+value cycle and let the value-in-use feedback be used to support agility in the software 
+ecosystem. To coordinate the activities, the system here functions as discussed below. 
+Upon user registration and authentication, the user conversation can be initiated by 
+hand waving, using the wake-up word, or simp ly touching the screen. Currently, a smart 
+wristband detects the user movement and another sensor detects a patient’s wave gesture. 
+Once an event is triggered, it will be routed to  the chatbot engine to initiate the conversa-
+tion using the SeVA mobile application. 
+The chatbot engine transforms the user’s voice into plain text, which is processed by 
+the natural language processing (NLP ) module. Using discrete word pre-processing and 
+tokenizing, it is sent to a recurrent neural  network (RNN) module. The output of the RNN 
+is matching the word candidates if the patient poses a directly interpretable request or a 
+suggested intent score of the patient’s question. If it is an intent score that needs further 
+interpretation, it is then sent to the dialogue  engine of the expert system module to decide 
+on the final interpretation of the patient request. See Figure 5. 
+The medical expert defines skills, such as interpreting the intent and trigger, and re-
+plies. Once the intent matches with the skil ls, the system can begin the conversation au-
+tonomously. The skill used to begin the next  conversation is derived from a knowledge 
+base of skills, and this can be triggered either  by a directly interpreted patient request or 
+extracted from the interpretation using both the RNN and expert knowledge. 
+ 
+Figure 5. Chatbot engine skill and story design. 
+Figure 4. Coordination of activities among multiple actors within SeVa architecture.
+ A patient begins the scenario with an event, for example “waving hand.” When this
+patient request is received, the peripheral sensor recognizes the action and sends an
+hypertext transfer protocol secure (HTTPS) request to the SeVA backend server;
+ The request is parsed to fetch the necessary information, such as the room number,
+from the database in order to trigger the chatbot engine to begin the conversation. The
+SeVA patient room application has a WebSocket connection with the chatbot engine
+so that the conversation can be executed;
+ The conversation result is sent back to the SeVA backend server in the form of a SeVA
+command, and it is sent to the SeVA Master Control application in the nurse room;Int. J. Environ. Res. Public Health 2021 ,18, 5686 13 of 22
+ This leads to the nurse taking timely intervention if this is a critical event;
+ The running status of the system is monitored continually by the monitoring server to
+ensure system reliability.
+4.5. Agile Digital Platform to Support Activity Coordination among Actors
+Since many of the components of the system are autonomous agents (or machine
+actors), the activity of each actor is discussed below. Some of these are running continually,
+and others are trigged based on new events. Within the actor-network theory, this human–
+machine–other human (e.g., nurse) interaction has to occur throughout the entire value
+cycle and let the value-in-use feedback be used to support agility in the software ecosystem.
+To coordinate the activities, the system here functions as discussed below.
+Upon user registration and authentication, the user conversation can be initiated by
+hand waving, using the wake-up word, or simply touching the screen. Currently, a smart
+wristband detects the user movement and another sensor detects a patient’s wave gesture.
+Once an event is triggered, it will be routed to the chatbot engine to initiate the conversation
+using the SeVA mobile application.
+The chatbot engine transforms the user’s voice into plain text, which is processed by
+the natural language processing (NLP) module. Using discrete word pre-processing and
+tokenizing, it is sent to a recurrent neural network (RNN) module. The output of the RNN
+is matching the word candidates if the patient poses a directly interpretable request or a
+suggested intent score of the patient’s question. If it is an intent score that needs further
+interpretation, it is then sent to the dialogue engine of the expert system module to decide
+on the ﬁnal interpretation of the patient request. See Figure 5.
+Int. J. Environ. Res. Public Health 2021 , 18, x  13 of 22 
+ 
+  
+Figure 4. Coordination of activities among multip le actors within SeVa architecture. 
+4.5. Agile Digital Platform to Suppor t Activity Coordination among Actors 
+Since many of the components of the system are autonomous agents (or machine 
+actors), the activity of each actor is discu ssed below. Some of these are running continu-
+ally, and others are trigged based on new ev ents. Within the actor-network theory, this 
+human–machine–other human (e.g.,  nurse) interaction has to occur throughout the entire 
+value cycle and let the value-in-use feedback be used to support agility in the software 
+ecosystem. To coordinate the activities, the system here functions as discussed below. 
+Upon user registration and authentication, the user conversation can be initiated by 
+hand waving, using the wake-up word, or simp ly touching the screen. Currently, a smart 
+wristband detects the user movement and another sensor detects a patient’s wave gesture. 
+Once an event is triggered, it will be routed to  the chatbot engine to initiate the conversa-
+tion using the SeVA mobile application. 
+The chatbot engine transforms the user’s voice into plain text, which is processed by 
+the natural language processing (NLP ) module. Using discrete word pre-processing and 
+tokenizing, it is sent to a recurrent neural  network (RNN) module. The output of the RNN 
+is matching the word candidates if the patient poses a directly interpretable request or a 
+suggested intent score of the patient’s question. If it is an intent score that needs further 
+interpretation, it is then sent to the dialogue  engine of the expert system module to decide 
+on the final interpretation of the patient request. See Figure 5. 
+The medical expert defines skills, such as interpreting the intent and trigger, and re-
+plies. Once the intent matches with the skil ls, the system can begin the conversation au-
+tonomously. The skill used to begin the next  conversation is derived from a knowledge 
+base of skills, and this can be triggered either  by a directly interpreted patient request or 
+extracted from the interpretation using both the RNN and expert knowledge. 
+ 
+Figure 5. Chatbot engine skill and story design. 
+Figure 5. Chatbot engine skill and story design.
+The medical expert deﬁnes skills, such as interpreting the intent and trigger, and
+replies. Once the intent matches with the skills, the system can begin the conversation
+autonomously. The skill used to begin the next conversation is derived from a knowledge
+base of skills, and this can be triggered either by a directly interpreted patient request or
+extracted from the interpretation using both the RNN and expert knowledge.
+4.6. Agile Digital Platform to Support Information Sharing among Actors
+The following ﬁve-layer framework is used to support the communication of data
+among the actors in the value cycle: infrastructure layer, data layer, scenario layer, applica-
+tion layer, and security layer. For more information on the infrastructure, see Appendix A.
+The infrastructure layer provides the basic hardware requirement of the data collec-
+tion unit. It includes the minimum requirement for deploying our system to a different
+environment, as most of our system service is on the cloud.
+The data layer processes the incoming raw data from the infrastructure layer. The
+main tasks here are the text-to-speech conversion, speech-to-text conversion, and action
+recognition, using a neural network as the backbone. The patient action is recognizedInt. J. Environ. Res. Public Health 2021 ,18, 5686 14 of 22
+based on the temporal movement data, and a long-short-term memory neural network
+processes this input. The output of this layer will be the conversation plain text and the
+user action classiﬁed as a result.
+The scenario layer contains the scenario provided to the professional medical expert
+and its return as a conversation presented to the user. More speciﬁcally, the medical expert
+predeﬁnes the scenario representation with the related incoming conversation plain text or
+action class. This will lead to a conversation and initiates a trigger to instantiate the next
+program or module in the application layer.
+The application layer consists of the following two mobile applications: the SPR
+application and the SMC application. The SPR application will work as the main interface
+for the patient. The SMC app is designed for the medical staff to receive notiﬁcations from
+the patient room and return quick feedback to the patient.
+The security layer serves as the auxiliary component of the system as it is critical when-
+ever the patient data are moved across networks. In this application, all the data collected
+conform to the privacy policy with the consent of the user, and the data transmission and
+storage is executed in an encrypted form. For system robustness, dual systems are used
+in case of disruption, such as accidental break down of a server, and crash reports in the
+application layer and system monitoring server are used to respond to any anomalies in
+system behavior. The chat messages on the Internet are analyzed for author identiﬁcation
+using machine learning algorithms [ 93], an intermediate security broker is used to improve
+data privacy and security when communication occurs between the cloud and the user [ 94],
+biometric-based authentication schemes are used to help protect patient privacy [ 95], an
+IoT security framework is used to protect smart infrastructures from cyber-attacks [ 96],
+and trusted data servers are used to protect user information using differentiated privacy
+protocols [97].
+In summary, all the client interactions are supported by the SeVA Patient Room
+app (SPR) as shown in Figure 6, using an Apple built-in speech framework for both the
+speech-to-text and text-to-speech conversion. It uses authorization and user conﬁguration
+pages for tailoring value creating services. The value fulﬁlling activity coordination is
+supported by the SeVA Master Control app (SMC) situated in a staff room where the nurses
+are located. It monitors the client status from the messages received regularly from the
+SPR, and provides the feedback from the nurses, if warranted. The SMC lets the nurses
+monitor the status in multiple patient rooms and process incoming requests. The nurse can
+send back acknowledgement, such as communicating critical movement information like
+“patient is sitting up” on the textbox to direct timely nurse intervention.
+Int. J. Environ. Res. Public Health 2021 , 18, x  15 of 22 
+ 
+  
+Figure 6. SPR application user interface. 
+5. Conclusions  
+Returning to the research question posed in Section one, in building an agile digital 
+platform to address population health within a client ecosystem, it is necessary to consider 
+the following two areas: (1) understanding the services needed to create value and design-
+ing digital services that leverage technologies accessible to clients to fulfill the value; and 
+(2) designing an agile digital platform that can evolve with changing client needs by 
+quickly reconfiguring the digital services needed  to fulfill the value. With the client con-
+text changing continuously, th e real-time tracking of value-in-use is needed to support 
+the reconfiguration of digital services using bo th advanced technologies, such as Internet 
+of Things (IoT), NLP, and artificial intelligence tools such as neural networks, as well as 
+human interaction and engagement (e.g., client  and nursing staff). The value of classifying 
+service types to segment population group need s in creating value, modularization of ser-
+vice modules for faster reconfiguration to fulfill value, and value-in-use feedback to assess 
+both the depth and breadth of changes in a client context to create value for the next value 
+cycle is proposed. While no digital platform can be agile enough to  support the evolving 
+client intent, the case study uses questions as  a potential strategy to surface the evolving 
+needs of the client. 
+The digital platform developed to support delirium patients is currently being eval-
+uated for its viability within a hospital setting , using a set of services considered critical 
+to reduce patient falls. One of the goals of buil ding an agile digital platform is to be able 
+to add new services where there is change in the scale (e.g., new services are needed when 
+the patient moves from the hospital to home) or scope (e.g., the condition of a patient 
+changes and needs the engagement of caregivers to respond to needs as opposed to pro-
+fessional nurses in a hospital). While we can’t claim that the platform will support all fu-
+ture changes, both the service modularization and flexible architecture used to create and 
+fulfill value should help its adaptation when new information sharing and activity coor-dination is called for. Work is on-going in supporting such agility. 
+  
+Figure 6. SPR application user interface.Int. J. Environ. Res. Public Health 2021 ,18, 5686 15 of 22
+5. Conclusions
+Returning to the research question posed in Section one, in building an agile digital
+platform to address population health within a client ecosystem, it is necessary to consider
+the following two areas: (1) understanding the services needed to create value and de-
+signing digital services that leverage technologies accessible to clients to fulﬁll the value;
+and (2) designing an agile digital platform that can evolve with changing client needs
+by quickly reconﬁguring the digital services needed to fulﬁll the value. With the client
+context changing continuously, the real-time tracking of value-in-use is needed to support
+the reconﬁguration of digital services using both advanced technologies, such as Internet
+of Things (IoT), NLP , and artiﬁcial intelligence tools such as neural networks, as well as
+human interaction and engagement (e.g., client and nursing staff). The value of classifying
+service types to segment population group needs in creating value, modularization of
+service modules for faster reconﬁguration to fulﬁll value, and value-in-use feedback to
+assess both the depth and breadth of changes in a client context to create value for the
+next value cycle is proposed. While no digital platform can be agile enough to support the
+evolving client intent, the case study uses questions as a potential strategy to surface the
+evolving needs of the client.
+The digital platform developed to support delirium patients is currently being evalu-
+ated for its viability within a hospital setting, using a set of services considered critical to
+reduce patient falls. One of the goals of building an agile digital platform is to be able to
+add new services where there is change in the scale (e.g., new services are needed when the
+patient moves from the hospital to home) or scope (e.g., the condition of a patient changes
+and needs the engagement of caregivers to respond to needs as opposed to professional
+nurses in a hospital). While we can’t claim that the platform will support all future changes,
+both the service modularization and ﬂexible architecture used to create and fulﬁll value
+should help its adaptation when new information sharing and activity coordination is
+called for. Work is on-going in supporting such agility.
+6. Directions for Future Research
+The unprecedented content from clients and partners, and the urgency to act quickly
+to empower and engage clients in self-managing their care within their ecosystem, is
+leading to the rapid digital transformation of healthcare organizations [ 98]. Such digital
+transformation, as it is linked to performance on quality, convenience, and lower costs in
+population health, may call for disruptive delivery models [ 99]. This means that adminis-
+trative leadership models that have permeated healthcare organizations with a culture that
+values long service, organized groups of teams and professionals motivated by personal
+and professional standards, and external accountabilities [ 100], are no longer adequate.
+Visionary leadership and organizational change have to complement administrative leader-
+ship with enabling and adaptive leadership processes [ 101] to let innovative client-centric
+and value-focused digital services support change incrementally and a culture of learning
+cumulatively. A future research question is, “What agile digital services and the popula-
+tion groups they service can help lead to sustained digital transformation that improves
+performance and mitigates risks of all actors involved, including clients?”
+The discussion and the case study argue for an agile digital platform that not only
+brings together clients and clinical and non-clinical care providers, but also a mix of human
+and machine actors using a set of automated and autonomous digital services dynamically
+to create and fulﬁll value. Research on the actor-network theory [ 102] suggests that we
+often fail to distinguish between the efﬁcacy of the network and the efﬁcacy of the processes
+used in the formation of the network itself. We discussed the design of digital platforms to
+make a network agile, where clinical and non-clinical actors used value cycle activities and
+digital services to address the needs of the population groups. A future research question
+is, “How can the digital platform expand its agility to redeﬁne the network itself?” For
+example, can the digital platform used to support delirium patients learn from the client
+questions their evolving intent, such as the need to reduce stress or help avoid isolationInt. J. Environ. Res. Public Health 2021 ,18, 5686 16 of 22
+by adding new digital actors (e.g., a new digital service that autonomously delivers audio
+or video content to suit the client’s tastes in music) or new human actors (e.g., add an
+automated digital service that uses teleconsultation with a mental health counselor or a
+social media interaction with others to exchange stories or play games)? Both of these call
+for altering the process used to create the network, which in turn is used to create value.
+Author Contributions: M.R.T., conceptualization, investigation, methodology, project administra-
+tion, writing—original draft and review and editing; N.A., investigation, project administration,
+resources, software, validation and visualization, review and editing; A.S., conceptualization, method-
+ology, review and editing; S.H., investigation, methodology, resources and software. All authors
+have read and agreed to the published version of the manuscript.
+Funding: This research received funding from the University of Arizona Foundation.
+Institutional Review Board Statement: Not applicable as the study discussed is a system designed
+to support patients and does not involve human subject use and evaluation at this time.
+Informed Consent Statement: Not Applicable.
+Data Availability Statement: The authors conﬁrm that the data supporting the digital platform
+development are available within the article and referenced material.
+Acknowledgments: We want to thank the U of Arizona PHP 305 class students for generating
+ideas on potential services that will address the needs of seniors living at home with various
+health conditions.
+Conﬂicts of Interest: The authors declare no conﬂict of interest.
+Appendix A
+Technologies
+Mobile applications have used AI to support interaction with patients and providers.
+Some are used to assistant a patient in improving their healthy lifestyle, providing medical
+advice, or remotely monitoring a patient for diagnosis. A healthy lifestyle assistant applica-
+tion is used for disease prevention by providing suggestions for healthy eating, physical
+exercise, etc., (e.g., Pact Care provides a patient-centric healthcare data solution, Florence is
+a chatbot based personal health assistant that provides medication reminders and tracks
+health conditions, and AI chatbots are used for remote monitoring to provide nutrition
+education and behavior change interventions) [103].
+Remote monitoring services to fulﬁll value have been used to support client–provider
+interactions for diagnosis, especially when there are limited medical resources within
+a geographical region. These applications are using AI to assist patients in ﬁnding re-
+mote doctors for diagnosis [ 104], engage in consultation based on a picture or text input
+from mobile devices, assist patients to self-diagnose and triage for appropriate care using
+chatbot consultations [ 105,106], as well as provide suggestions on generic medicine for
+children [107].
+With the advancement of natural language processing, value cycle interactions can
+be made more effective as it allows for conversational knowledge to support the patient–
+provider interaction in real time. For example, Microsoft’s healthcare bot is used to build
+and deploy conversational medical experience at scale [ 108]. Combining this with natural
+language capabilities, IBM’s question-answering Watson has been used as a “diagnosis
+and treatment advisor” to assist physicians [109].
+Architecture
+This architecture provides a general methodology for building a chatbot-based health-
+care system that uses real-time patient data as an input for diagnosis, and expert medical
+knowledge as a resource to provide advice. The dark background blocks in Figure A1 repre-
+sent the foundation or necessary utility of the technologies associated with the SeVa system.Int. J. Environ. Res. Public Health 2021 ,18, 5686 17 of 22
+The infrastructure layer provides the basic hardware requirement of the data collec-
+tion unit. It includes the minimum requirement for deploying our system to a different
+environment, as most of our system service is on the cloud.
+ The wireless network block works as a communication module for real-time data transmission;
+ The mobile device, such as the tablet or cell phone, shows the user interface and
+conducts the conversation. The peripheral sensor collects patient movement data to
+infer the patient position status without infringing user privacy;
+ The voice data and movement data will then be transferred to the upper layer.
+Thedata layer processes the incoming raw data from the infrastructure layer. The main
+task here is text-to-speech conversion, speech-to-text conversion, and action recognition,
+using a neural network as the backbone. We use a neural network as the backbone to solve
+the task, and RNN is considered appropriate for this step-by-step approach used to solve
+the problem.
+The scenario layer contains the scenario provided to the professional medical expert
+and its return as a conversation presented to the user. A chatbot engine is used to support
+the scenario representation.
+The application layer consists of the following two mobile applications: the SPR
+application and the SMC application. The SPR application will work as the main interface
+for the patient. The SMC app is designed for the medical staff to receive notiﬁcations from
+the patient room and return quick feedback to the patient.
+The security layer serves as the auxiliary component of the system as it is critical
+whenever patient data are moved across networks.
+Int. J. Environ. Res. Public Health 2021 , 18, x  18 of 22 
+ 
+  
+Figure A1. Communication of information supported  by the SeVa system framework. 
+Additional Architectural Details to Support Patient Interaction 
+Upon user registration, a lo gin request from the user is sent to the SeVA backend 
+server for authentication. Upon authentication , the user conversation can be initiated by 
+hand waving, using the wake-u p word, or simply touching the screen. The peripheral 
+sensors monitor the patient’s status continuously and look for an event to occur before a response is triggered, such as user movement  and a patient’s wave gesture. Once an event 
+is triggered, it will be routed to the chatbot engine to initiate the conversation using the 
+SeVA mobile application. 
+The chatbot engine transforms the user’s qu estion into plain text, which is processed 
+by the NLP module and sent to an RNN modu le. The output of the RNN is a suggested 
+intent score of the patient’s question. If it is  an intent score that needs further interpreta-
+tion, it is then sent to the dialogue engine of the expert system module to decide on the 
+final interpretation of the patient request. Th e medical expert defines skills, such as inter-
+preting the intent and trigger, and replies. A skill is composed of inputs, slots, replies, 
+actions, and stories, as discussed in Table 1 . The inputs define events that a bot can react 
+to. The slots are the memory of the bot fo r remembering some information during the 
+conversation. The replies are all the possible sentences that a bot can reply to a user. The 
+stories define the logic behind a skill. In su mmary, the input is differentiated by the RNN, 
+which has trained with the sample inputs. Once the intent matches with the skills, the 
+system can begin the conversation autonomously . The skill used to begin the next conver-
+sation is derived from a knowledge base of sk ills, and this can be triggered either by a 
+directly interpreted patient request or extrac ted from the interpretation using both the 
+RNN and expert knowledge.  
+The SeVA backend server processes all the incoming requests and manages the user 
+data. It centrally coordinates activities, such  as user account management, and uses APIs 
+to connect the mobile application, database, and monitoring server. It uses a monitoring 
+server along with the backend server to trac k API availability, the number of actors en-
+gaged in interaction, and the current system status. It tracks abnormal behaviors, such as backend server API unavailability or nurse unavailability, for online interaction and re-
+ports them to the appropriate st akeholders through an email. 
+References 
+1. McKinsey Digital. Rethinking Customer Journeys with the Next-Generation Operating Model ; McKinsey & Company: New York, 
+NY, USA, 2018. 
+2. Vargo, S.L.; Lusch, R.F. Why “service”? J. Acad. Mark. Sci. 2008 , 36, 25–38. 
+Figure A1. Communication of information supported by the SeVa system framework.
+Additional Architectural Details to Support Patient Interaction
+Upon user registration, a login request from the user is sent to the SeVA backend
+server for authentication. Upon authentication, the user conversation can be initiated by
+hand waving, using the wake-up word, or simply touching the screen. The peripheral
+sensors monitor the patient’s status continuously and look for an event to occur before a
+response is triggered, such as user movement and a patient’s wave gesture. Once an event
+is triggered, it will be routed to the chatbot engine to initiate the conversation using the
+SeVA mobile application.
+The chatbot engine transforms the user’s question into plain text, which is processed
+by the NLP module and sent to an RNN module. The output of the RNN is a suggestedInt. J. Environ. Res. Public Health 2021 ,18, 5686 18 of 22
+intent score of the patient’s question. If it is an intent score that needs further interpretation,
+it is then sent to the dialogue engine of the expert system module to decide on the ﬁnal
+interpretation of the patient request. The medical expert deﬁnes skills, such as interpreting
+the intent and trigger, and replies. A skill is composed of inputs, slots, replies, actions, and
+stories, as discussed in Table 1. The inputs deﬁne events that a bot can react to. The slots
+are the memory of the bot for remembering some information during the conversation. The
+replies are all the possible sentences that a bot can reply to a user. The stories deﬁne the
+logic behind a skill. In summary, the input is differentiated by the RNN, which has trained
+with the sample inputs. Once the intent matches with the skills, the system can begin the
+conversation autonomously. The skill used to begin the next conversation is derived from
+a knowledge base of skills, and this can be triggered either by a directly interpreted patient
+request or extracted from the interpretation using both the RNN and expert knowledge.
+The SeVA backend server processes all the incoming requests and manages the user
+data. It centrally coordinates activities, such as user account management, and uses APIs
+to connect the mobile application, database, and monitoring server. It uses a monitoring
+server along with the backend server to track API availability, the number of actors engaged
+in interaction, and the current system status. It tracks abnormal behaviors, such as backend
+server API unavailability or nurse unavailability, for online interaction and reports them to
+the appropriate stakeholders through an email.
+References
+1. McKinsey Digital. Rethinking Customer Journeys with the Next-Generation Operating Model ; McKinsey & Company: New York, NY,
+USA, 2018.
+2. Vargo, S.L.; Lusch, R.F. Why “service”? J. Acad. Mark. Sci. 2008 ,36, 25–38. [CrossRef]
+3. Aghena, W.; De Smet, A.; Weerda, K. Agility: It Rhymes with Stability. McKinsey Quarterly. 2015. Available online: https:
+//www.mckinsey.com/business-functions/organization/our-insights/agility-it-rhymes-with-stability (accessed on 1 December
+2015).
+4. Saini, V .; Tanniru, M.; Liang, T.P . E-relationship strategies in digital age using value lens. In Proceedings of the 2020 International
+Conference on Service Science and Innovation, Hsinchu, Taiwan, 15–17 October 2020; p. 33.
+5. Bharadwaj, A.; El Sawy, O.A.; Pavlou, P .A.; Venkatraman, N. Digital business strategy: Toward a next generation of insights. MIS
+Q.2013 ,37, 471–482. [CrossRef]
+6. Trattner, A.; Hvam, L.; Forza, C.; Herbert-Hansen, Z.N.L. Product complexity and operational performance: A systematic
+literature review. CIRP J. Manuf. Sci. Technol. 2019 ,25, 69–83. [CrossRef]
+7. Rodr /acute.ts1Iguez, P .; Haghighatkhah, A.; Lwakatare, L.E.; Teppola, S.; Suomalainen, T.; Eskeli, J.; Karvonen, T.; Kuvaja, P .; Verner, J.M.;
+Oivo, M. Continuous deployment of software intensive products and services: A systematic mapping study. J. Syst. Softw. 2017 ,
+123, 263–291. [CrossRef]
+8. Tanniru, M.; Khuntia, J.; Weiner, J. Hospital leadership in support of digital transformation. Pac. Asia J. Assoc. Inf. Syst. 2018 ,10, 3.
+[CrossRef]
+9. Xu, B.; Xu, L.D.; Cai, H.; Xie, C.; Hu, J.; Bu, F. Ubiquitous data accessing method in IoT-Based information system for emergency
+medical services. IEEE Trans. Ind. Inform. 2014 ,10, 1578–1586.
+10. Masoro, E.J. Are age-associated diseases an integral part of aging? In Handbook of the Biology of Aging ; Masoro, E.J., Austad, S.N.,
+Eds.; Academic Press: New York, NY, USA, 2006.
+11. Levy, B. Stereotype embodiment: A psychosocial approach to aging. Curr. Dir. Psychol. Sci. 2009 ,18, 332–336. [CrossRef]
+[PubMed]
+12. WHO World Health Organization. Active Ageing: A Policy Framework ; World Health Organization: Geneva, Switzerland, 2002.
+13. Doremus, B.L. The four R’s: Social diagnosis in health care. Health Soc. Work 1976 ,1, 120–139. [CrossRef]
+14. Jarzabek, S.; Cheong, K.; Lim, Y.W.; Wong, J.C.M.; Kayanoth, R.K.; Teng, J.Y. CBT assistant platform: Web/mobile co-design
+solution for cognitive behavioral therapy. J. Hosp. Manag. Health Policy 2018 ,2, 34. [CrossRef]
+15. Sendler, D.J. Combining standard psychiatric care with e-health follow up solutions—A viewpoint on making psychiatric care
+cost-effective for millions of patients and professionally satisfactory for providers. J. Hosp. Manag. Health Policy 2018 ,2, 40.
+[CrossRef]
+16. Chiauzzi, E.; Rodarte, C.; DasMahapatra, P . Patient-centered activity monitoring in the self-management of chronic health
+conditions. BMC Med. 2015 ,13, 77. [CrossRef]
+17. Khuntia, J.; Yim, D.; Tanniru, M.R.; Lim, S. Patient empowerment and engagement with a health infomediary. In Health Policy
+Technology ; Elsevier: New York, NY, USA, 2017; Volume 6, pp. 40–50.
+18. Mulders, O.J. Employers’ age-related norms, stereotypes and ageist preferences in employment. Int. J. Manpow. 2019 ,41, 523–534.
+[CrossRef]Int. J. Environ. Res. Public Health 2021 ,18, 5686 19 of 22
+19. Serrat, R.; Warburton, J.; Petriwskyj, A.; Villar, F. Political participation and social exclusion in later life: What politically active
+seniors can teach us about barriers to inclusion and retention. Int. J. Ageing Later Life 2018 ,12, 53–88. [CrossRef]
+20. Gagliardi, C.; Pillemer, K.; Gambella, E.; Piccinini, F.; Fabbietti, P . Beneﬁts for older people engaged in environmental volunteering
+and socializing activities in city parks: Preliminary results of a program in Italy. Int. J. Environ. Res. Public Health 2020 ,17, 3772.
+[CrossRef]
+21. WHO. Healthy Settings: Healthy Cities ; World Health Organization: Geneva, Switzerland, 2019.
+22. WHO. Urban Green Spaces: A Brief for Action ; WHO Regional Ofﬁce for Europe: Copenhagen, Danmark, 2017.
+23. WHO. Physical Activity Strategy for the WHO European Region 2016–2025 ; WHO Regional Ofﬁce for Europe: Copenhagen, Danmark,
+2016.
+24. Foster, L.; Walker, A. Active and successful aging: A European policy perspective. Gerontologist 2015 ,55, 83–90. [CrossRef]
+25. Serrat, R.; Scharf, T.; Villar, F.; G ómez, C. Fifty-ﬁve years of research into older people’s civic participation: Recent trends, future
+directions. Gerontologist 2020 ,60, e38–e51. [CrossRef] [PubMed]
+26. Principi, A.; Jensen, P .H.; Lamura, G. (Eds.) Active Ageing: Voluntary Work by Older People in Europe ; The Policy Press: Bristol, UK,
+2014.
+27. Walker, A. A strategy for active ageing. Int. Soc. Secur. Rev. 2002 ,55, 121–139. [CrossRef]
+28. Darley, S. Learning as a process of personal-social transformation: Volunteering activity in health and social care charities. Mind
+Cult. Act. 2018 ,25, 199–215. [CrossRef]
+29. Van Ingen, E.; Wilson, J. I Volunteer, Therefore I am? Factors Affecting Volunteer Role Identity. Nonproﬁt Volunt. Sect. Q. 2016 ,46.
+[CrossRef]
+30. OECD. SMEs, Entrepreneurship and Innovation, 2010 ; OECD Publishing: Paris, France, 2010; pp. 185–215.
+31. Peredo, A.M.; McLean, M. Social entrepreneurship: A critical review of the concept. J. World Bus. 2006 ,41, 56–65. [CrossRef]
+32. Relationship-Based Home Care: A Sustainable Solution for Europe’s Elder Care Crisis ; Global Coalition on Aging: New York, NY, USA,
+2018; pp. 1–36.
+33. Bom, J.; Bakx, P .; Schut, F.; van Doorslaer, E. The impact of informal caregiving for older adults on the health of various types of
+caregivers: A systematic Review. Gerontologist 2019 ,59, e629–e642. [CrossRef] [PubMed]
+34. Chan, E.Y.Y.; Gobat, N.; Kim, J.H.; Newnham, E.A.; Huang, Z.; Hung, H.; Dubois, C.; Hung, K.K.C.; Lai, Y.; Wong, E.; et al.
+Informal home care providers: The forgotten health-care workers during the COVID-19 pandemic. Lancet 2020 ,395, 1957–1959.
+[CrossRef]
+35. Williams, F.; Moghaddam, N.; Ramsden, S.; de Boos, D. Interventions for reducing levels of burden amongst informal carers of
+persons with dementia in the community. A systematic review and meta-analysis of randomized controlled trials. Aging Ment.
+Health 2019 ,23, 1629–1642. [CrossRef] [PubMed]
+36. Phillips, D.; Paul, G.; Fahy, M.; Dowling-Hetherington, L.; Kroll, T.; Moloney, B.; Duffy, C.; Fealy, G.; Lafferty, A. The invisible
+workforce during the COVID-19 pandemic: Family carers at the frontline. Hrb. Open Res. 2020 ,3, 24. [CrossRef] [PubMed]
+37. Tur-Sinai, A.; Teti, A.; Rommel, A.; Hlebec, V .; Lamura, G. How many older informal caregivers are there in Europe? Comparison
+of estimates of their prevalence from three european surveys. Int. J. Environ. Res. Public Health 2020 ,17, 9531. [CrossRef]
+[PubMed]
+38. Bryant, J.; Mansﬁeld, E.; Boyes, A.W.; Waller, A.; Sanson-Fisher, R.; Regan, T. Involvement of informal caregivers in supporting
+patients with COPD: A review of intervention studies. Int. J. Chronic Obstr. Pulm. Dis. 2016 ,11, 1587–1596. [CrossRef]
+39. Fiest, K.M.; McIntosh, C.J.; Demiantschuk, D.; Leigh, J.P .; Stelfox, H.T. Translating evidence to patient care through caregivers: A
+systematic review of caregiver-mediated interventions. BMC Med. 2018 ,16, 105. [CrossRef]
+40. Kaschowitz, J.; Brandt, M. Health effects of informal caregiving across Europe: A longitudinal approach. Soc. Sci. Med. 2017 ,173,
+72–80. [CrossRef]
+41. Litwin, H.; Stoeckel, K.J.; Roll, A. Relationship status and depressive symptoms among older co-resident caregivers. Aging Ment.
+Health 2014 ,18, 225–231. [CrossRef]
+42. Pinquart, M.; Sörensen, S. Spouses, adult children, and children-in-law as caregivers of older adults: A meta-analytic comparison.
+Psychol. Aging 2011 ,26, 1–14. [CrossRef]
+43. Goll, J.C.; Charlesworth, G.; Scior, K.; Stott, J. Barriers to social participation among lonely older adults: The inﬂuence of social
+fears and identity. PLoS ONE 2015 ,13, e0201510. [CrossRef]
+44. Biggs, S. Toward critical narrativity. Stories of aging in contemporary social policy. J. Aging Stud. 2011 ,15, 303–316. [CrossRef]
+45. Plum, A.; Tanniru, M.; Khuntia, J. An Innovation Platform for Diffusing Public Health Practices across a Global Network ; HICSS: Hawaii,
+HI, USA, 2019.
+46. Tanniru, M. Engagement leading to empowerment—Digital innovation strategies for patient care continuity. J. Hosp. Manag.
+Health Policy 2019 ,3, 28. [CrossRef]
+47. HOPE. Available online: http://www.hopewarmingpontiac.org/ (accessed on 14 May 2021).
+48. Williams, D.R.; Costa, M.V .; Odunlami, A.O.; Mohammad, S.A. Moving upstream: How Interventions that address the social
+determinants of health can improve health and reduce disparities. J. Public Health Manag. Pract. 2008 ,14, S8–S17. [CrossRef]
+[PubMed]
+49. Boccia, S.; Ricciardi, W.; Ioannidis, A.J.P . What other countries can learn from italy during the COVID-19 pandemic. JAMA Intern.
+Med. 2020 ,180, 927–928. [CrossRef]Int. J. Environ. Res. Public Health 2021 ,18, 5686 20 of 22
+50. Armitage, R.; Nellums, L.B. COVID-19 and the consequences of isolating the elderly. Lancet Public Health 2020 ,5, e256. [CrossRef]
+51. Hwang, T.J.; Rabheru, K.; Peisah, C.; Reichman, W.; Ikeda, M. Loneliness and Social Isolation during the COVID-19 Pandemic.
+Int. Psychogeriatr. 2020 ,32, 1–15. [CrossRef] [PubMed]
+52. Rolandi, E.; Vaccaro, R.; Abbondanza, S.; Casanova, G.; Pettinato, L.; Colombo, M.; Guaita, A. Loneliness and social engagement
+in older adults based in lombardy during the COVID-19 lockdown: The long-term effects of a course on social networking sites
+use. Int. J. Environ. Res. Public Health 2020 ,17, 7912. [CrossRef] [PubMed]
+53. Santini, Z.I.; Jose, P .E.; Cornwell, E.Y.; Koyanagi, A.; Nielsen, L.; Hinrichsen, C.; Meilstrup, C.; Madsen, K.R.; Koushede, V .
+Social disconnectedness, perceived isolation, and symptoms of depression and anxiety among older Americans (NSHAP): A
+longitudinal mediation analysis. Lancet Public Health 2020 ,5, e62–e70. [CrossRef]
+54. Sala, E.; Gaia, A.; Cerati, G. The gray digital divide in social networking site use in Europe: Results from a quantitative study. Soc.
+Sci. Comput. Rev. 2020 . [CrossRef]
+55. Yu, R.P .; Ellison, N.B.; McCammon, R.J.; Langa, K.M. Mapping the two levels of digital divide: Internet access and social network
+site adoption among older adults in the USA. Inf. Commun. Soc. 2016 ,19, 1445–1464. [CrossRef]
+56. Mesk ó, B.Z.; Drobni, Z.; B ényei, E.; Gergely, B.; Gy˝ orffy, Z. Digital health is a cultural transformation of traditional healthcare.
+mHealth 2017 ,3, 38. [CrossRef] [PubMed]
+57. Grant, R.W.; Wald, J.S.; Schnipper, J.L. Practicelinked online personal health records for type 2 diabetes mellitus: A randomized
+controlled trial. Arch. Intern. Med. 2008 ,168, 1776–1782. [CrossRef]
+58. Tuil, W.S.; C M Verhaak, D.D.; de Vries Robb é, P .F.; Kremer, J.A.M. Empowering patients undergoing in vitro fertilization by
+providing Internet access to medical data. Fertil. Steril. 2007 ,88, 361–368. [CrossRef]
+59. Wagner, P .; Dias, J.; Shalon, H.; Kintziger, K.W.; Hudson, M.F.; Seol, Y.H.; Sodomka, P . Personal health records and hypertension
+control: A randomized trial. J. Am. Med. Inform. Assoc. 2012 ,19, 626–634. [CrossRef] [PubMed]
+60. MHU. Mobile Clinic. Available online: https://publichealth.arizona.edu/outreach/primary-prevention-mobile-health-unit
+(accessed on 14 May 2021).
+61. Haggstrom, D.A.; Saleem, J.J.; Russ, A.L.; Jones, J.; Russell, S.A.; Chumbler, N.R. Lessons learned from usability testing of the
+VA’s personal health record. J. Am. Med. Inform. Assoc. 2011 ,18, i13–i17. [CrossRef] [PubMed]
+62. Keefe, F.J.; Huling, D.A.; Coggins, M.J.; Keefe, D.F.; Rosenthal, M.Z.; Herr, N.R.; Hoffman, H.G. Virtual reality for persistent pain:
+A new direction for behavioral pain management. Pain 2012 ,153, 2163–2166. [CrossRef] [PubMed]
+63. Mosadeghi, S.; Reid, M.W.; Martinez, B.; Rosen, B.T.; Spiegel, B.M.R. Feasibility of an immersive virtual reality intervention for
+hospitalized patients: An observational cohort study. JMIR Ment. Health 2016 ,3, e28. [CrossRef]
+64. Fadel, K.; Brown, S.; Tanniru, M. A theoretical framework for knowledge transfer in process redesign. Data Base 2008 ,39, 21–40.
+[CrossRef]
+65. Pwc. Available online: https://www.sleepreviewmag.com/uncategorized/pwc-research-resmeds-myair-signiﬁcantly-improves-
+adherence-cpap-therapy/ (accessed on 14 May 2021).
+66. Timms, K.P .; Rivera, D.E.; Collins, L.M.; Piper, M.E. A dynamical systems approach to understanding self-regulation in smoking
+cessation behavior change. Nicotine Tob. Res. 2014 ,16(Suppl. 2), S159–S168. [CrossRef]
+67. Yu, K.-H.; Beam, A.L.; Kohane, I.S. Artiﬁcial intelligence in healthcare. Nat. Biomed. Eng. 2018 ,2, 719–731. [CrossRef]
+68. Tanniru, M.; Jones, J.; Kazziha, S.; Hornberger, M. Strategies to address care transition—A methodology and a case study. J. Hosp.
+Adm. 2019 ,8, 38.
+69. Khuntia, J.; Tanniru, M.; Weiner, J. Juggling digitization and technostress: The case of alert fatigues due to intelligent care system
+implementation at a hospital. Healthc. Policy Technol. 2015 ,4, 364–377. [CrossRef]
+70. Agarwal, R.; Tanniru, M.; Wilemon, D. Assimilating information technology innovations: Strategies and moderating inﬂuences.
+IEEE Trans. Eng. Manag. 1997 ,44, 358. [CrossRef]
+71. Khuntia, J.; Tanniru, M.; Fragoli, F.; Nawrocki, M. Mindfulness differences in hospital unit operations: Analysis of response to
+nurse call systems. Pac. Asia J. Assoc. Inf. Syst. 2016 ,8, 33–36.
+72. McCradden, M.D.; Joshi, S.; Mazwi, M.; Anderson, J.A. Ethical Limitations of Algorithmic Fairness Solutions in Health Care Machine
+Learning ; Elsevier: New York, NY, USA, 2020; Volume 2.
+73. Wenger, N.K. Cardiovascular disease: The female heart is vulnerable. A call to action from the 10Q Report. Clin. Cardiol. 2012 ,35,
+134–135. [CrossRef] [PubMed]
+74. Friedler, S.A.; Scheidegger, C.; Venkatasubramanian, S. On the (Im)possibility of Fairness. Available online: https://arxiv.org/
+pdf/1609.07236.pdf (accessed on 23 September 2019).
+75. Barocas, S.; Hardt, M.; Narayanan, A. Fairness and Machine Learning: Limitations and Opportunities. 2018. Available online:
+https://fairmlbook.org/ (accessed on 6 December 2019).
+76. Dearing, J.W.; Smith, D.K.; Larson, R.S.; Estabrooks, C.A. Designing for diffusion of a biomedical intervention. Am. J. Prev. Med.
+2013 ,44, S70–S76. [CrossRef]
+77. Endsley, M.R. Designing for Situation Awareness: An Approach to User-Centered Design , 2nd ed.; CRC Press, Inc.: Boca Raton, FL,
+USA, 2011.
+78. Agarwal, A.; Tanniru, M. Assessing organizational impacts of technology. Int. J. Technol. Manag. 1992 ,7, 626–643. [CrossRef]Int. J. Environ. Res. Public Health 2021 ,18, 5686 21 of 22
+79. Grifﬁths, F.; Watkins, J.A.; Huxley, C.; Harris, B.; Cave, J.; Pemba, S.; Chipwaza, B.; Lilford, R.; Ajisola, M.; Arvanitis, T.N.;
+et al. Mobile consulting (mConsulting) and its potential for providing access to quality healthcare for populations living in
+low-resource settings of low- and middle-income countries. Digit. Health 2020 . [CrossRef] [PubMed]
+80. Jansen, S.; Cusumano, M.A.; Popp, K.M. Managing software platforms and ecosystems. IEEE Softw. 2019 ,36, 17–21. [CrossRef]
+81. Basole, R.C.; Park, H. Interﬁrm collaboration and ﬁrm value in software ecosystems: Evidence from cloud computing. IEEE Trans.
+Eng. Manag. 2019 ,66, 368–380. [CrossRef]
+82. Basole, R.C.; Russell, M.G.; Huhtamaki, J.; Rubens, N.; Still, K.; Park, H. Understanding business ecosystem dynamics: A
+data-driven approach. ACM Trans. Manag. Inf. Syst. 2015 ,6, 1–32. [CrossRef]
+83. Kumara, J.; Han, A.; Colman, W.; van den Heuvel, W.; Tamburri, D.A. Runtime evolution of multi-tenant service networks. In
+Proceedings of the Service Oriented and Cloud Computing—7th IFIP WG 2.14 European Conference; Proceedings, ser. Lecture
+Notes in Computer Science, ESOCC, Como, Italy, 12–14 September 2018; Kritikos, K., Plebani, P ., Paoli, F.D., Eds.; Springer: New
+York, NY, USA, 2018; Volume 11116, pp. 33–48.
+84. de Vasconcelos Gomes, L.A.; Facin, A.L.F.; Salerno, M.S.; Ikenami, R.K. Unpacking the innovation ecosystem construct: Evolution,
+gaps and trends. Technol. Forecast. Soc. Chang. 2018 ,136, 30–48. [CrossRef]
+85. Nguyen, L.H.; Thu, V .G.; Ha, G.H.; Nguyen, C.T.; Vu, H.M.; Nguyen, T.Q.; Tran, T.H.; Pham, K.T.H.; Latkin, C.A.; Tran, B.X.; et al.
+Fear of falling among older patients admitted to hospital after falls in vietnam: Prevalence, associated factors and correlation
+with impaired health-related quality of life. Int. J. Environ. Res. Public Health 2020 ,17, 2493. [CrossRef] [PubMed]
+86. Scheffer, A.C.; Schuurmans, M.J.; van Dijk, N.; van der Hooft, T.; de Rooij, S.E. Fear of falling: Measurement strategy, prevalence,
+risk factors and consequences among older persons. Age Aging 2006 ,37, 19–24. [CrossRef] [PubMed]
+87. Cumming, R.G.; Salkeld, G.; Thomas, M.; Szonyi, G. Prospective study of the impact of fear of falling on activities of daily living,
+SF-36 scores, and nursing home admission. J. Gerontol. Ser. A Biol. Sci. Med. Sci. 2000 ,55, M299–M305. [CrossRef]
+88. Chamberlin, M.E.; Fulwider, B.D.; Sanders, S.I.; Medeiros, J.M. Does fear of falling inﬂuence spatial and temporal gait parameters
+in elderly persons beyond changes associated with normal aging? J. Gerontol. Ser. A Biol. Sci. Med. Sci. 2005 ,60, 1163–1167.
+[CrossRef]
+89. Deshpande, N.; Metter, E.J.; Bandinelli, S.; Lauretani, F.; Windham, B.G.; Ferrucci, L. Psychological, physical, and sensory
+correlates of fear of falling and consequent activity restriction in the elderly: The InCHIANTI study. Am. J. Phys. Med. Rehabil.
+2008 ,87, 354–362. [CrossRef]
+90. Chaccour, K.; Darazi, R.; Hassani, A.H.E.; Andres, E. From fall detection to fall prevention: A generic classiﬁcation of fall-related
+systems. IEEE Sens. J. 2017 ,17, 812–822. [CrossRef]
+91. Habib, M.; Mohktar, M.; Kamaruzzaman, S.; Lim, K.; Pin, T.; Ibrahim, F. Smartphone-based solutions for fall detection and
+prevention: Challenges and open issues. Sensors 2014 ,14, 7181–7208. [CrossRef]
+92. Julayanont, P .; Phillips, N.; Chertkow, H.; Nasreddine, Z.S. Montreal Cognitive Assessment (MoCA): Concept and Clinical Review.
+InCognitive Screening Instruments: A Practical Approach ; Springer: London, UK, 2012; pp. 111–151.
+93. Shao, S.; Tunc, C.; Al-Shawi, A.; Hariri, S. Autonomic Author Identiﬁcation in Internet Relay Chat (IRC). In Proceedings of
+the IEEE/ACS 15th International Conference on Computer Systems and Applications (AICCSA), Aqaba, Jordan, 28 October–1
+November 2018.
+94. Ahmad, M.; Amin, M.; Hussain, S.; Kang, B.; Cheong, T.; Lee, S. Health fog: A novel framework for health and wellness
+applications. J. Supercomput. 2016 ,72, 3677–3695. [CrossRef]
+95. Kumar, T.; Braeken, A.; Liyanage, M.; Ylianttila, M. Identity privacy preserving biometric based authentication scheme for Naked
+healthcare environment. In Proceedings of the IEEE International Conference on Communications (ICC), Paris, France, 21–25
+May 2017.
+96. Pacheco, J.; Hariri, S. IoT security framework for smart cyber infrastructures. In Proceedings of the 2016 IEEE 1st International
+Workshops on Foundations and Applications of Self* Systems (FAS*W), Augsburg, Germany, 12–16 September 2016; pp. 242–247.
+[CrossRef]
+97. Gu, X.; Li, M.; Cao, Y.; Xiong, L. Supporting both range queries and frequency estimation with local differential privacy. In
+Proceedings of the 2019 IEEE Conference on Communications and Network Security (CNS), Washington, DC, USA, 10–12 June
+2019.
+98. Tremblay, K. Healthcare @ The Speed of Thought: A digital world needs successful transformative leaders. Healthc. Manag.
+Forum. 2017 ,30, 246–251. [CrossRef]
+99. Christensen, C.M.; Bohmer, R.; Kenagy, J. Will disruptive innovation cure healthcare? Harv. Bus. Rev. 2020 ,78, 102–112.
+100. Schein Edgar, H. Coming to a new awareness of organizational culture. Sloan Manag. Rev. 1984 ,25, 3.
+101. Uhl-Bien, M.; Marion, R.; McKelvey, B. Complexity leadership theory: Shifting leadership from the industrial age to the
+knowledge era. In Leadership, Gender, and Organization ; Springer: New York, NY, USA, 2011; pp. 109–138.
+102. Cressman, D. A Brief Overview of Actor-Network Theory: Punctualization, Heterogeneous Engineering & Translation. 2009.
+Available online: https://www.semanticscholar.org/paper/A-Brief-Overview-of-Actor-Network-Theory%3A-%26-Cressman/
+09312181b176e8a32b1fc0cd7c1510cbcf98a57f (accessed on 7 April 2021).
+103. Fadhil, A.; Gabrielli, S. Addressing challenges in promoting healthy lifestyles. In Proceedings of the 11th EAI International
+Conference on Pervasive Computing Technologies for Healthcare, PervasiveHealth 17, Barcelona, Spain, 23–26 May 2017.Int. J. Environ. Res. Public Health 2021 ,18, 5686 22 of 22
+104. Babylon Health. The Online Doctor and Prescription Services App, Babylon Health. 2019. Available online: https://www.
+babylonhealth.com (accessed on 5 August 2019).
+105. Buoy Health. Check Symptoms & Find the Right Care. Available online: https://www.buoyhealth.com/ (accessed on 7 April
+2021).
+106. Chung, K.; Park, R.C. Chatbot-based healthcare service with a knowledge base for cloud computing. Clust. Comput. 2019 ,22,
+1925–1937. [CrossRef]
+107. Comendador, B.E.V .; Francisco, B.M.B.; Medenilla, J.S.; Nacion, S.M.T.; Serac, T.B.E. Pharmabot: A Pediatric Generic Medicine
+Consultant Chatbot. J. Autom. Control Eng. 2015 ,3, 137–140. [CrossRef]
+108. Microsoft Health Bot Project. AI At Work for Your Patients, Microsoft Research. 2019. Available online: https://www.microsoft.
+com/en-us/research/project/health-bot/ (accessed on 7 April 2021).
+109. IBM Watson Health. AI Healthcare Solutions, IBM Watson Health. 2019. Available online: https://www.ibm.com/watson-health
+(accessed on 7 April 2021).

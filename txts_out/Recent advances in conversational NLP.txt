@@ -1,0 +1,713 @@
+Recent advances in conversational NLP :
+Towards the standardization of Chatbot building
+Maali Mnasri
+Opla / Clermont-Ferrand, France
+maali@opla.ai
+Abstract
+Dialogue systems have become recently essen-
+tial in our life. Their use is getting more and
+more ﬂuid and easy throughout the time. This
+boils down to the improvements made in NLP
+and AI ﬁelds. In this paper, we try to provide
+an overview to the current state of the art of
+dialogue systems, their categories and the dif-
+ferent approaches to build them. We end up
+with a discussion that compares all the tech-
+niques and analyzes the strengths and weak-
+nesses of each. Finally, we present an opinion
+piece suggesting to orientate the research to-
+wards the standardization of dialogue systems
+building.
+1 Introduction
+Conversational agents or dialogue systems, re-
+ferred also as chatbots by the media and the in-
+dustrials, have become very common in our ev-
+eryday life. We encounter them, for example, in
+our mobile phones as personal assistants or in e-
+commerce websites as selling bots. These sys-
+tems are intended to carry coherent conversations
+with humans in natural language text or speech or
+even both. Developing intelligent conversational
+agents is still an unresolved research problem that
+raises many challenges in the artiﬁcial intelligence
+community. We try through this work to identify
+the different existing algorithms to build chatbots.
+We also classify the predominant approaches and
+compare them according to the ﬁnal use case while
+stating each approach strengths and weaknesses.
+We aim at uncovering the issues related to this task
+which can help researchers choose the future di-
+rections in conversational NLP.
+Although the ﬁrst chatbots have been developed
+many years ago, this ﬁeld has never been more fo-
+cused on than these last years. This can be ex-
+plained by the recent development on AI and NLP
+technologies as well as the data availability. Thecurrent scientiﬁc and technological landscape is
+starting to get crowded with the variety of methods
+to build chatbots (Gilbert et al., 2019; Haponchyk
+et al., 2018; Yu et al., 2019; Hwang et al., 2018)
+while there is a lack of tools that can help re-
+searchers and industrials focus on improving chat-
+bots performance. We discuss this problem in sec-
+tion 6. Our main contributions consist of :
+analyzing the current scientiﬁc and techno-
+logical state of the art of conversational sys-
+tems
+presenting a new vision towards the standard-
+ization of conversational NLP
+2 Chatbots categories
+We choose to categorize chatbots into two major
+types: social chatbots and task oriented chatbots.
+2.1 Social chatbots
+They are designed to carry unstructured human-
+like conversations. They are considered as chit-
+chat bots. Currently, such systems may have an
+entertainment value but ﬁrstly, they were designed
+as a testbed for psychological therapy and they
+are still used, today, for this purpose. These sys-
+tems (e.g., ELIZA (Weizenbaum, 1966), PARRY
+(Colby, 1975), ALICE, CLEVER, Microsoft Lit-
+tle Bing, etc) have taken the ﬁrst steps towards
+conversational agents.
+2.2 Task oriented chatbots
+We also choose to classify them into two cate-
+gories: generalist task oriented and specialist task
+oriented chatbots.
+2.2.1 Generalist task oriented chatbots
+A generalist chatbot is supposed to answer to gen-
+eral utterances. This feature is referred to as ”chit-
+chat” and is designed to carry short conversations.arXiv:1903.09025v1  [cs.CL]  21 Mar 2019Beyond this social aspect, a generalist chatbot can
+also accomplish simple tasks related to everyday
+life such as setting the alarm, making a phone call,
+sending a text, etc.
+2.2.2 Specialist task oriented chatbots
+Specialist chatbots are designed for a very particu-
+lar task. They are provided with a speciﬁc domain
+expertise that enables them to perform speciﬁc ac-
+tions or to solve complex problems. A speciﬁc
+task can be to book a ﬂight, to order food or even
+to analyze health problems.
+3 Chatbot building approaches
+We describe in this section two of the main chatbot
+building architectures: rule-based approches and
+data-driven approaches. rule-based systems were
+exploited. earlier and they rely on pattern-action
+rules. On the other side, we ﬁnd the data-driven
+approaches which rely on large conversations cor-
+pora.
+3.1 rule-based chatbots
+Rule-based chatbots are designed to answer ques-
+tions based on preﬁxed rules. During the dia-
+logue, the bot follows speciﬁc rules to chat with
+the user. For example, if the user utterance is part
+of [Hello”, ”Good morning”, ”Hi”] then the chat-
+bot should answer with ”Hello”. Rule-based chat-
+bots are very popular in today’s market as they
+are easy to build and performing for simple tasks.
+However, performing complex tasks requires writ-
+ing many rules which can be time consuming. De-
+spite their simplicity, the ﬁrst proposed rule-based
+chatbots in history are impressing. ELIZA is a
+rule-based chatbot that simulates a Rogerian psy-
+chotherapist (Weizenbaum, 1966). Its principle
+consists in applying pattern and transform rules.
+Each transform rule corresponds to a keyword.
+Keywords are ranked from speciﬁc to general with
+speciﬁc keywords being highly ranked. Then, in
+each user utterance, the chatbot ﬁnds the keywords
+with the highest rank in the knowledge base and
+applies the transform rule according to the sen-
+tence pattern. Let’s take the following sentence
+as an example of the user utterance.
+’You hate me’
+This sentence matches the following pattern:
+(0 YOU 0 ME)where 0 indicates a sequence of words with a vari-
+able length. We suppose that the keyword YOU is
+linked to the transform rule :
+(0 YOU 0 ME)!(WHAT MAKES YOU
+THINK I 3 YOU?)
+where 3 refers to the third element in the pattern
+which is, in this case, the second zero and corre-
+sponds to the word ’hate’ in the source sentence.
+Applying this rule leads to the following answer:
+WHAT MAKES YOU THINK I hate YOU?
+Following ELIZA, another system called PARRY
+specialized in psychotherapy has been proposed
+(Colby, 1975). PARRY uses rules similar to
+ELIZA but is more sophisticated as it has affect
+variables (e.g., anger, fear) that lead to more nu-
+anced answers. These states are deﬁned using for-
+mal logic rules.
+3.2 Data-driven chatbots
+Data-driven chatbots are the newest approaches
+and the most used ones. The availability of text
+datasets, in general, and conversational datasets,
+in particular, allowed to apply data-driven ap-
+proaches to text. While rule-based approaches
+use hand-crafted rules to produce answers or even
+questions, data-driven approaches use existing
+human-human or bot-human conversations and/or
+narrative documents to create the bot utterances.
+In order to leverage the existing conversational
+data, one can use whether Information Retrieval
+(IR) or Machine Learning (ML). We will try, be-
+low, to report the most popular and recent data-
+driven approaches for chatbot building.
+3.2.1 Information retrieval based chatbots
+Among the ﬁrst IR chatbots, we can cite Clever-
+Bot. It was created by Rollo Carpenter in 1988 and
+published in 1997. CleverBot replies to questions
+by identifying how a human responded to the same
+question in a conversation database. Although it is
+simplistic, CleverBot was used a lot.Information
+retrieval chatbot models work pretty much as a
+search engine where the query is the user turn and
+the search result is the chatbot answer. Having a
+Q-R1pairs dataset and question Q, the IR based
+conversational model will look in the Q-R dataset
+for the pair (Q’,R’) that best matches Q and returns
+R as an answer to Q (Jafarpour et al., 2010; Leuski
+and Traum, 2011). This can be considered as a
+1Question-Replyway to mirror the training data. To achieve these
+tasks, many retrieval baseline models have been
+proposed. Word-level Vector space models have
+been widely used with a cosine distance to ﬁnd the
+best match Q-A pair (Banchs and Li, 2012). Other
+works focused on using Term Frequency-Inverse
+Document Frequency (TF-IDF) retrieval models
+(Gandhe and Traum, 2013; Charras et al., 2016).
+Galitsky and Ilvovsky (2017) proposed a chatbot
+for customer support and product recommendation
+that aims at helping users navigate to the exact
+expected answer as fast as possible. To this end,
+they suggest using discourse trees and particularly
+Rhetorical Structure Theory (Mann and Thomp-
+son, 1988) to model the generalization or speciﬁ-
+cation relations between the possible answers.
+Regarding the data sources for creating dialogue
+systems (Serban et al., 2015), WikiAnswers2, Ya-
+hoo Answers3and twitter conversations are among
+the most used open domain datasets for generalist
+IR based chatbots. Some researchers have gone
+beyond these datasets and applied the IR approach
+to narrative text datasets such as Wikipedia (Isbell
+et al., 2000; Yan et al., 2016).
+3.2.2 Machine learning based chatbots
+The problem of generating human-like conver-
+sations has been modeled, lately, as the problem
+of mapping a human turn to a machine turn
+which is the target to be predicted. Most recent
+works focused on applying deep learning models
+but each of these formulates the problem in a
+particular way and uses a different set of features.
+Most used machine learning models are sequence-
+to-sequence learning and reinforcement learning.
+We describe them below.
+Sequence to sequence learning
+Sequence to sequence (seq2seq) learning
+(Sutskever et al., 2014) represents a pattern
+for using Recurrent Neural Networks (RNN) to
+tackle complex sequence-to-sequence prediction
+problems such as machine translation, image
+captioning (Park et al., 2017), speech recognition
+(Chorowski and Jaitly, 2016), text summarization
+(Rush et al., 2015; Nallapati et al., 2016) and
+question-answering. Seq2seq learning have
+shown a great success when ﬁrst applied on
+phrase to phrase machine translation (Cho et al.,
+2014) and therefore, inspired researchers to apply
+2http://www.answers.com/Q/
+3https://answers.yahoo.com/?guccounter=1
+Figure 1: Sequence to sequence architecture
+it for other tasks.
+For building chatbots, the problem was consid-
+ered as translating the user utterance to the chatbot
+answer. Currently seq2seq models hold the state-
+of-the-art performance on chatbot building. These
+models are trained to map input sequences to
+output sequences. The length of the input and
+output sequences can be different and this is
+the strength of seq2seq models in comparison
+with other neural learning models. Technically,
+a seq2seq model is composed of an encoder and
+a decoder. The encoder is a neural network that
+reads the input sequence and converts it into
+a hidden state called context vector or thought
+vector because it stores the meaning of the input
+sequence, considered as a thought. The decoder
+is then fed with this context vector. During the
+learning stage, it learns to map the hidden state
+to the true output sequence. In the inference
+stage, the decoder returns the predicted output
+sequence with respect to the learning goal. Figure
+1 shows an example of a sequence to sequence
+architecture.
+Vinyals and Le (2015a) proposed a straightfor-
+ward data-driven approach where they trained a
+seq2seq model on large conversational datasets to
+predict the chatbot answer given the user question.
+Their work showed that despite the simplicity of
+the system, the seq2seq model was able to answer
+simple questions, extract relevant information
+from large corpus and perform shallow reason-
+ing. However it is far from performing natural
+conversations. A similar model has been trained
+on TV shows and particularly on selected popular
+characters (Nguyen et al., 2017). The trained
+chatbots inherited successfully the identity and the
+personality of the target character which shows
+that these models can capture many aspects.
+Hu et al. (2018) proposed a modiﬁcation to theseq2seq model so it captures the tone in customer
+care conversations (e.g., neutral, passionate,
+empathetic, etc.) and takes it into account by
+generating toned answers. In the learning step,
+the seq2seq model is fed with not only pairs of
+user-agent turns but also with the corresponding
+tone of the ﬁrst speaker. Considering the history
+as a context in seq2seq models led to some im-
+provement over context-independent models but
+suffers from the highly general answers (Sordoni
+et al., 2015).
+Reinforcement learning
+Reinforcement learning enables the machine to
+learn in the same way humans do, that is to say,
+by interacting with the surrounding environment.
+The learning process aims at maximizing a notion
+of cumulative reward. After each interaction,
+the agent observes the results of its action and
+receives accordingly a reward which can be
+positive or negative.
+To train a dialogue system with reinforcement
+learning, the chatbot is put in use by the end users
+to become increasingly efﬁcient throughout the
+conversations. Previously to the development of
+neural networks, the problem of dialogue systems
+have been modeled as Markov Decision Processes
+(MDPs) (Levin et al., 1998) in order to use
+reinforcement learning. The system is represented
+by a set of states that correspond to the entire
+dialogue, and by a set of actions representing
+the system answers. The goal is to maximize
+the reward obtained for fulﬁlling users requests.
+This dialogue manager is preceded by an SLU
+(Speech Language Understanding) component
+and succeeded by an NLG (Natural Language
+Generation) component.
+Later, dialogue systems have been modeled
+using Partially Observed Markov Decision Pro-
+cesses (POMDPs) (Roy et al., 2000; Young, 2002;
+Williams and Young, 2007; Young et al., 2013;
+Gai et al., 2013). This approach assumes that
+dialogue starts in an initial state s0. Succeeding
+states are modeled by a transition probability
+p(stjst 1; at 11)where stis the state at time t
+andatis the action taken at time t. The state stis
+partially observable to take into account the error
+rate of the language understanding framework. To
+this end, at each turn, the user input is converted
+to an observation with probability p(otjst)
+where otis the observation at time t. Thetransition and observation probability stochastic
+functions represent the dialogue model M. The
+possible system actions are delegated to another
+stochastic model encoding the policy P. During
+the dialogue, a reward is assigned to the system at
+each utterance in a way to favor the ideal behavior
+of the dialogue system. The dialogue model
+and the policy model are optimized by summing
+up the cumulated rewards during the dialogue.
+Reinforcement learning consists of learning the
+best policy through reward system. This process
+can be learned on-line or off-line.
+3.2.3 Hybrid approaches
+Each of the described approaches has its own lim-
+its and strengths. In order to take the best part
+of each method, many studies focused on combin-
+ing different approaches: machine learning and IR
+or seq2seq and reinforcement learning. Seq2seq
+generative models have been combined to IR ap-
+proaches. This is the case of the Alibaba shop-
+ping assistant (Qiu et al., 2017) that uses an IR
+approach to retrieve the best candidates from the
+knowledge base then, the seq2seq model is used
+to re-rank the candidates and generate the answer.
+Cui et al. (2017a) propose a meta-engine customer
+service chatbot composed of four sub-engines. A
+fact QA engine answers questions about the prod-
+uct details found in the product page using a deep
+structured semantic model (Huang et al., 2013) for
+matching the question to the product attributes. A
+FAQ search engine maps the questions to the exist-
+ing questions in the FAQ by training a regression
+model using many semantic similarity measures.
+Another engine leverages the customers reviews
+to answer opinion-oriented questions. Finally, a
+chit-chat engine consisting of an attention based
+seq2seq model is trained on twitter conversations
+to answer greeting and thanking queries. Li et al.
+(2016) highlighted the fact that seq2seq predict an-
+swers only one at a time and fail to predict their
+inﬂuence on the future utterances. They suggested
+a novel model that leverages the seq2seq ability
+to represent semantics and combines it to a rein-
+forcement learning policy which optimizes long-
+term rewards according to the developer goal. Ex-
+tending seq2seq models with history trackers and
+database information has also shown an improve-
+ment over basic seq2seq where only the user intent
+is decoded (Wen et al., 2016).4 Chatbots evaluation
+Chatbots can be evaluated through human evalu-
+ation. To this end, human judges are asked to
+score the chatbot performance on different crite-
+ria or to compare the chatbot answers to another
+chatbot answers. While it provides a high qual-
+ity evaluation, human evaluation remains very ex-
+pensive in time and human resources and cannot
+scale well. Some IR based chatbots can be eval-
+uated using simple precision and recall metrics as
+they operate as a search engine. Recently , auto-
+matic evaluation approaches have been tested such
+as BLEU (Papineni et al., 2002) and ROUGE (Lin,
+2004) which are used respectively for automatic
+translation and text summarization. These metrics
+work by computing the n-gram overlap between
+the output of a system and a set of references. For
+chatbot evaluation, these metrics have been used
+to compare the chatbot answers to human answers
+to the same question. N-gram overlap based met-
+rics has limits in dialogue systems evaluation as
+two answers can be totally different but have the
+same meaning.
+Perplexity (Manning et al., 1999) has also been
+used to evaluate chatbots (Vinyals and Le, 2015b;
+Yao et al., 2016; Serban et al., 2017; Cui et al.,
+2017b). Used originally to evaluate language
+models, perplexity measures how well a language
+model predicts the probability of words in the test
+set. If we suppose that the test set is composed of
+fw1; w2; :::; ; w Ngthe perplexity of the language
+model that should predict the probability of these
+words is:
+Perplexity =e 1
+NP
+ilog(Pwi))(1)
+This means the lower the perplexity score the bet-
+ter. More recent studies suggested new evaluation
+metrics inspired by the Turing test consisting of
+training a classiﬁer to distinguish system answers
+from human answers (Li et al., 2017).
+5 Discussion
+All the described methods have their own weak-
+nesses and strengths. Choosing one approach
+or another depends deeply on the available data
+format for training (structured or unstructured).
+It depends also on the chatbot end-use. Some
+approaches may be performing for a chit-chat
+engine as a purely data-driven seq2seq model but
+not for a domain speciﬁc task oriented chatbot.rule-based approaches are straightforward but
+efﬁcient for simple use cases. They can also
+be used jointly with data-driven approaches to
+handle mandatory scenarios that arent present
+in the knowledge base. Rules can also be used
+to support data-driven methods to guarantee a
+security level, especially, in industrial cases where
+machine learning, on its own, cannot be fully
+trusted. IR methods are the best when it comes
+to selecting the best piece of information from
+structured data to respond to a user query. While
+IR methods can be very performing in many
+cases, they need an extra component that adapts
+the form of the retrieved/selected information to
+be suitable as an answer. Moreover, purely IR
+based methods don’t perform reasoning and are
+then perfect to mirror existing knowledge, not
+more.
+Machine learning based approaches are
+the dominating methods now in chatbot build-
+ing. While reinforcement learning has been the
+main used learning method in dialogue systems
+for years, the encoder-decoder learning is now
+taking the lead. Reinforcement learning has been
+widely used in robotics as it allows the robot to
+be autonomous. The same thing is noticed in
+chatbot systems. Reinforcement learning leads to
+a more natural chatbot as it learns from human
+feedback and develops its own control system.
+Reinforcement learning enables the chatbot to
+handle a long conversation and takes into account
+the preceding turns. It is also convenient to use RL
+to make chatbots learn to act and not only to chat.
+For example, a ﬂight booking agent will receive
+a reward if it properly books a ﬂight according
+to the user request and will get penalized if it
+makes an error. However, RL raises two main
+issues. Firstly, it needs so much time and so many
+interactions until the agent is trained which may
+be restricting if the training is online. Secondly,
+RL is not most suitable option to learn language
+generation. That is the reason behind the glory of
+the generative seq2seq models that have partially
+solved the problem. Seq2seq models are, usually,
+trainable end-to-end without any hand-crafted
+rules. Despite their success, seq2seq models have
+also some weaknesses. The basic seq2seq models
+are effective however they are more performing in
+generalist chatbots than in task oriented chatbots.
+Another problem is that these models tend toreturn very generic answers (Sordoni et al., 2015)
+because of the high number of generic sentences
+in the training data and the objective function
+of the seq2seq models. Besides, these models
+don’t take repetition into account. For example,
+if the chatbot says ”goodbye” and the user replies
+with goodbye”, than it is possible that the chatbot
+answers again with a ”goodbye”. This is a simple
+example that can be handled easily but it is just
+to show how the chatbot can be stuck in a loop.
+Hybrid systems that combine RL with seq2seq or
+those who extend seq2seq models with external
+information (e.g., a database) seem to overcome
+some of the listed problems or at least to produce
+a more performing chatbot.
+6 Opinion piece : towards the
+standardization of the ﬁeld
+Recently, AI researchers have started to pay more
+attention to conversational agents and attempts
+to build strong chatbot systems are being pub-
+lished increasingly. Since this ﬁeld is not tech-
+nologically mature we can obviously notice the
+lack of standard open source tools or models that
+can help scientists save time on the implementa-
+tion step. For example, there is a common part
+among all the chatbot systems : the chatbot en-
+gine. This part represent the backbone of the
+chatbot system and should be independent from
+the used approach (ML or rule-based). Unfortu-
+nately, the distinction between the generic chatbot
+engine and the conversational NLP protocol is not
+always established. As a consequence, a repeti-
+tive work is done by each member of the com-
+munity by building chatbot systems from scratch
+every time an approach is proposed. While some
+code blocks are available to reuse, one should in-
+vest time to understand the code and adapt it to
+his CNLP techniques. This process slows down
+the progress in the chatbot ﬁeld. If we take a look
+at other research ﬁelds we can observe the estab-
+lishment of some well known standards that al-
+lowed to make huge steps on the related ﬁeld. For
+example, the available open source standards for
+Machine Learning and Deep Learning techniques
+(e.g., TensorFlow (Abadi et al., 2016)) allowed
+the researchers to explore a multitude of applica-
+tions and that has contributed to many advances
+in different ﬁelds. By analogy, we can say that
+there’s a need to such an open source standard
+for the CNLP ﬁeld. Considering these facts, wethink future studies on chatbot systems should fo-
+cus on setting up standard frameworks and archi-
+tectures for conversational agents. Such standards
+should be interoperable and should allow NLP re-
+searchers to plug their NLP in it.
+7 Conclusion
+In the light of these observations, we believe that
+developing a natural conversational agent cannot
+be solved with one simple model. As was the case
+with many problems, system aggregation usually
+leads to better results than each system alone. Fu-
+ture works should maybe focus on ﬁnding the best
+way to combine the different approaches to chat-
+bot building in order to take better advantage of
+each method, even the simplest ones.
+On the other hand, the diversity of the approaches
+for chatbot building and the growing interest to
+this ﬁeld suggest to start thinking about setting
+standard tools and platforms to boost the develop-
+ment of this domain and help the scientiﬁc com-
+munity focus on new models.
+References
+Mart ´ın Abadi, Paul Barham, Jianmin Chen, Zhifeng
+Chen, Andy Davis, Jeffrey Dean, Matthieu Devin,
+Sanjay Ghemawat, Geoffrey Irving, Michael Isard,
+et al. 2016. Tensorﬂow: A system for large-scale
+machine learning. In 12thfUSENIXgSymposium
+on Operating Systems Design and Implementation
+(fOSDIg16), pages 265–283.
+Rafael E Banchs and Haizhou Li. 2012. IRIS: a chat-
+oriented dialogue system based on the vector space
+model. pages 37–42. Association for Computational
+Linguistics.
+Franck Charras, G Dubuisson Duplessis, Vincent
+Letard, Anne-Laure Ligozat, and Sophie Rosset.
+2016. Comparing system-response retrieval models
+for open-domain and casual conversational agent.
+Kyunghyun Cho, Bart Van Merrinboer, Caglar Gul-
+cehre, Dzmitry Bahdanau, Fethi Bougares, Holger
+Schwenk, and Yoshua Bengio. 2014. Learning
+phrase representations using RNN encoder-decoder
+for statistical machine translation. arXiv preprint
+arXiv:1406.1078 .
+Jan Chorowski and Navdeep Jaitly. 2016. Towards
+better decoding and language model integration
+in sequence to sequence models. arXiv preprint
+arXiv:1612.02695 .
+Kenneth Mark Colby. 1975. Artiﬁcial paranoia: A
+computer simulation of paranoid processes , vol-
+ume 49. Elsevier.Lei Cui, Shaohan Huang, Furu Wei, Chuanqi Tan,
+Chaoqun Duan, and Ming Zhou. 2017a. Su-
+perAgent: A Customer Service Chatbot for E-
+commerce Websites. Proceedings of ACL 2017, Sys-
+tem Demonstrations , pages 97–102.
+Lei Cui, Shaohan Huang, Furu Wei, Chuanqi Tan,
+Chaoqun Duan, and Ming Zhou. 2017b. Supera-
+gent: A customer service chatbot for e-commerce
+websites. Proceedings of ACL 2017, System Demon-
+strations , pages 97–102.
+Boris Galitsky and Dmitry Ilvovsky. 2017. Chatbot
+with a Discourse Structure-Driven Dialogue Man-
+agement. pages 87–90.
+Sudeep Gandhe and David Traum. 2013. Surface text
+based dialogue models for virtual humans. pages
+251–260.
+Milica Gai, Catherine Breslin, Matthew Henderson,
+Dongho Kim, Martin Szummer, Blaise Thomson,
+Pirros Tsiakoulis, and Steve Young. 2013. On-
+line policy optimisation of bayesian spoken dialogue
+systems via human interaction. pages 8367–8371.
+IEEE.
+Mazin Gilbert, Esther Levin, Michael Lederman
+Littman, and Robert E Schapire. 2019. Learning
+from interactions for a spoken dialog system. US
+Patent App. 15/483,213.
+Iryna Haponchyk, Antonio Uva, Seunghak Yu, Olga
+Uryupina, and Alessandro Moschitti. 2018. Super-
+vised clustering of questions into intents for dialog
+system applications. In Proceedings of the 2018
+Conference on Empirical Methods in Natural Lan-
+guage Processing , pages 2310–2321.
+Tianran Hu, Anbang Xu, Zhe Liu, Quanzeng You, Yu-
+fan Guo, Vibha Sinha, Jiebo Luo, and Rama Akki-
+raju. 2018. Touch Your Heart: A Tone-aware Chat-
+bot for Customer Care on Social Media. page 415.
+ACM.
+Po-Sen Huang, Xiaodong He, Jianfeng Gao, Li Deng,
+Alex Acero, and Larry Heck. 2013. Learning deep
+structured semantic models for web search using
+clickthrough data. pages 2333–2338. ACM.
+Inchul Hwang, Heesik Jeon, Hyung Rai Oh,
+Donghyeon Lee, Munjo Kim, and Jihie Kim.
+2018. Chatti: A conversational chatbot platform. In
+Workshops at the Thirty-Second AAAI Conference
+on Artiﬁcial Intelligence .
+Charles Lee Isbell, Michael kearns, Dave Kormann,
+Satinder Singh, and Peter Stone. 2000. Cobot in
+LambdaMOO: A social statistics agent. pages 36–
+41.
+Sina Jafarpour, Christopher JC Burges, and Alan Rit-
+ter. 2010. Filter, rank, and transfer the knowledge:
+Learning to chat. Advances in Ranking , 10:2329–
+9290.Anton Leuski and David Traum. 2011. NPCEditor:
+Creating virtual human dialogue using information
+retrieval techniques. Ai Magazine , 32(2):42–56.
+Esther Levin, Roberto Pieraccini, and Wieland Eckert.
+1998. Using Markov decision process for learn-
+ing dialogue strategies. volume 1, pages 201–204.
+IEEE.
+Jiwei Li, Will Monroe, Alan Ritter, Michel Galley,
+Jianfeng Gao, and Dan Jurafsky. 2016. Deep rein-
+forcement learning for dialogue generation. arXiv
+preprint arXiv:1606.01541 .
+Jiwei Li, Will Monroe, Tianlin Shi, Sbastien Jean, Alan
+Ritter, and Dan Jurafsky. 2017. Adversarial learn-
+ing for neural dialogue generation. arXiv preprint
+arXiv:1701.06547 .
+Chin-Yew Lin. 2004. Rouge: A package for auto-
+matic evaluation of summaries. Text Summarization
+Branches Out .
+William C Mann and Sandra A Thompson. 1988.
+Rhetorical structure theory: Toward a functional the-
+ory of text organization. Text-Interdisciplinary Jour-
+nal for the Study of Discourse , 8(3):243–281.
+Christopher D Manning, Christopher D Manning, and
+Hinrich Sch ¨utze. 1999. Foundations of statistical
+natural language processing . MIT press.
+Ramesh Nallapati, Bowen Zhou, Caglar Gulcehre, and
+Bing Xiang. 2016. Abstractive text summarization
+using sequence-to-sequence rnns and beyond. arXiv
+preprint arXiv:1602.06023 .
+Huyen Nguyen, David Morales, and Tessera Chin.
+2017. A Neural Chatbot with Personality.
+Kishore Papineni, Salim Roukos, Todd Ward, and Wei-
+Jing Zhu. 2002. Bleu: a method for automatic eval-
+uation of machine translation. In Proceedings of
+the 40th annual meeting on association for compu-
+tational linguistics , pages 311–318. Association for
+Computational Linguistics.
+Chunseong Cesc Park, Byeongchan Kim, and Gunhee
+Kim. 2017. Attend to you: Personalized image cap-
+tioning with context sequence memory networks.
+Minghui Qiu, Feng-Lin Li, Siyu Wang, Xing Gao, Yan
+Chen, Weipeng Zhao, Haiqing Chen, Jun Huang,
+and Wei Chu. 2017. Alime chat: A sequence to se-
+quence and rerank based chatbot engine. volume 2,
+pages 498–503.
+Nicholas Roy, Joelle Pineau, and Sebastian Thrun.
+2000. Spoken dialogue management using proba-
+bilistic reasoning. pages 93–100. Association for
+Computational Linguistics.
+Alexander M Rush, Sumit Chopra, and Jason We-
+ston. 2015. A neural attention model for ab-
+stractive sentence summarization. arXiv preprint
+arXiv:1509.00685 .Iulian V Serban, Chinnadhurai Sankar, Mathieu Ger-
+main, Saizheng Zhang, Zhouhan Lin, Sandeep Sub-
+ramanian, Taesup Kim, Michael Pieper, Sarath
+Chandar, Nan Rosemary Ke, et al. 2017. A deep
+reinforcement learning chatbot. arXiv preprint
+arXiv:1709.02349 .
+Iulian Vlad Serban, Ryan Lowe, Peter Henderson, Lau-
+rent Charlin, and Joelle Pineau. 2015. A survey of
+available corpora for building data-driven dialogue
+systems. arXiv preprint arXiv:1512.05742 .
+Alessandro Sordoni, Michel Galley, Michael Auli,
+Chris Brockett, Yangfeng Ji, Margaret Mitchell,
+Jian-Yun Nie, Jianfeng Gao, and Bill Dolan. 2015.
+A neural network approach to context-sensitive gen-
+eration of conversational responses. arXiv preprint
+arXiv:1506.06714 .
+Ilya Sutskever, Oriol Vinyals, and Quoc V Le. 2014.
+Sequence to sequence learning with neural net-
+works. pages 3104–3112.
+Oriol Vinyals and Quoc Le. 2015a. A neural conversa-
+tional model. arXiv preprint arXiv:1506.05869 .
+Oriol Vinyals and Quoc Le. 2015b. A neural conversa-
+tional model. arXiv preprint arXiv:1506.05869 .
+Joseph Weizenbaum. 1966. ELIZAa computer pro-
+gram for the study of natural language communica-
+tion between man and machine. Communications of
+the ACM , 9(1):36–45.
+Tsung-Hsien Wen, David Vandyke, Nikola Mrksic,
+Milica Gasic, Lina M Rojas-Barahona, Pei-Hao Su,
+Stefan Ultes, and Steve Young. 2016. A network-
+based end-to-end trainable task-oriented dialogue
+system. arXiv preprint arXiv:1604.04562 .
+Jason D Williams and Steve Young. 2007. Partially
+observable Markov decision processes for spoken
+dialog systems. Computer Speech & Language ,
+21(2):393–422.
+Zhao Yan, Nan Duan, Junwei Bao, Peng Chen, Ming
+Zhou, Zhoujun Li, and Jianshe Zhou. 2016. Doc-
+chat: An information retrieval approach for chatbot
+engines using unstructured documents. volume 1,
+pages 516–525.
+Kaisheng Yao, Baolin Peng, Geoffrey Zweig, and
+Kam-Fai Wong. 2016. An attentional neural con-
+versation model with improved speciﬁcity. arXiv
+preprint arXiv:1606.01292 .
+Steve Young. 2002. Talking to machines (statistically
+speaking).
+Steve Young, Milica Gai, Blaise Thomson, and Jason D
+Williams. 2013. Pomdp-based statistical spoken di-
+alog systems: A review. Proceedings of the IEEE ,
+101(5):1160–1179.Zhou Yu, Vikram Ramanarayanan, Patrick Lange, and
+David Suendermann-Oeft. 2019. An open-source
+dialog system with real-time engagement tracking
+for job interview training applications. In Ad-
+vanced Social Interaction with Agents , pages 199–
+207. Springer.

@@ -1,0 +1,1404 @@
+B/y.pcGPT5 : End-to-End Style-conditioned Poetry Generation
+with Token-free Language Models
+Jonas Belouadi
+Bielefeld University
+jonas.belouadi@uni-bielefeld.deSteﬀen Eger
+Bielefeld University
+steffen.eger@uni-bielefeld.de
+Abstract
+State-of-the-artpoetrygenerationsystemsare
+often complex. They either consist of task-
+speciﬁc model pipelines, incorporate prior
+knowledge in the form of manually created
+constraints or both. In contrast, end-to-end
+modelswouldnotsuﬀerfromtheoverheadof
+having to model prior knowledge and could
+learn the nuances of poetry from data alone,
+reducing the degree of human supervision re-
+quired. In this work, we investigate end-to-end
+poetry generation conditionedonstyles such as
+rhyme, meter, and alliteration. We identify and
+addresslackoftrainingdataandmismatching
+tokenization algorithms as possible limitations
+of past attempts. In particular, we successfully
+pre-trainandrelease B/y.pcGPT5,anewtoken-free
+decoder-onlylanguagemodel,andﬁne-tuneit
+on a large custom corpus of English and Ger-
+man quatrains annotated with our styles. We
+showthat B/y.pcGPT5 outperformsothermodels
+such as /m.pcT5,B/y.pcT5,GPT-2andC/h.pc/a.pc/t.pcGPT ,
+whilealsobeingmoreparametereﬃcientand
+performing favorably compared to humans. In
+addition, we analyze its runtime performance
+and introspect the model’s understanding of
+style conditions. We make our code, models,
+and datasets publicly available. /one.sup
+1 Introduction
+End-to-endﬁne-tuningofpre-trainedlanguagemod-
+els like GPT-2(Radford et al., 2019) or T5(Raf-
+fel et al., 2020a) on downstream tasks has been
+an immensely popular training paradigm for text-
+generationinthelastfewyears(Lietal.,2021). End-
+to-endmodelslearntocompleteataskbydirectly
+learning all steps, without intermediary algorithms
+such as hand-crafted rules or post-processing. This
+approachhasproventobehighlyeﬀectiveonawide
+rangeofproblemssuchasdialoggeneration(Sun
+etal.,2022;Yangetal.,2021),summarization(Zhu
+etal.,2021;Zhongetal.,2021;Huangetal.,2021),
+/one.supgithub.com/potamides/uniformersThesweetwildstrain,thesuddenstart, A
+Whichshakestheperfumedaltar’sflame, B
+Tomakeitsshrineasacredname, B
+Andsingitspraiseineveryheart. A
+—B/y.pcGPT5
+Figure1: GeneratedquatrainwithABBArhymescheme,
+high amountof alliterations(green), and iambicmeter,
+i.e., unstressed syllable ( ) follows stressed syllable ( ).
+and machine translation (Farinha et al., 2022; Tran
+et al., 2020). Nevertheless, all these applications
+have in common that they only concern themselves
+with the generation of prosaic texts. Generating
+formal verse poetry on the other hand, with strict
+constraintson aestheticstyle suchasrhymescheme,
+meter and alliteration, remains a diﬃcult problem.
+Attemptstoemployend-to-endsolutionsinthiscon-
+texthavesofarbeenunsuccessful(Wöckeneretal.,
+2021), with some authors even concluding that
+language models cannot pick up such constraints
+fromdataalone(Popescu-Belisetal.,2022). Asa
+consequence,state-of-the-artpoetrygenerationsys-
+tems rely on human guidance by (i) injecting prior
+knowledge /two.supintheformofhard-codedconstraints
+during inference to ﬁlter model outputs or modi-
+fyingprobabilitydistributionsor(ii)breakingthe
+wholeprocessdownintosophisticatedtask-speciﬁc
+model pipelines.
+TianandPeng(2022),forexample,proposeason-
+netgenerationframeworkwithfourdistinctpipeline
+steps: content planning, rhyme pairs generation,
+polishingforaesthetics,andﬁnallysketch-to-sonnet
+generation. Further,theyincorporatepriorknowl-
+edgesuchaspronunciationdictionaries,knowledge
+bases,andlexicallyconstraineddecoding. Hopkins
+andKiela(2017)useWeightedFiniteStateTrans-
+/two.supWedeﬁneincorporatingpriorknowledgeas“Anyformof
+inﬂuence on model decisions not learned by the model itself.”
+1arXiv:2212.10474v1  [cs.CL]  20 Dec 2022ducerstomonitorwhethertheirpoetrygeneration
+system meets metric constraints and roll back its
+stateincaseofaviolation. Jhamtanietal.(2019)
+andOrmazabaletal.(2022)generatealargenum-
+ber of samples poems before ﬁltering them with
+pronunciation dictionaries.
+Such forms of human supervision lead to ram-
+iﬁcations that an end-to-end solution would not
+face. Pipelines are susceptible to errors in early
+modules that propagate and are ampliﬁed in sub-
+sequent modules; an eﬀect known as cascading
+of errors (Castro Ferreira et al., 2019). Similarly,
+incorporating prior knowledge at inference time
+depends on the cleverness and intent of the mod-
+elerand generally becomes more diﬃcult when
+heterogeneous constraints are involved or the num-
+ber of constraints increases (Garbacea and Mei,
+2022). Furthermore,standardtext-generationarchi-
+tecturesdonotlendthemselveswellformanually
+applying constraints to their output. Due to the
+autoregressive generation of tokens from left to
+right, constraints at arbitrary positions cannot be
+implemented easily or only with additional trade-
+oﬀs(GarbaceaandMei,2022). Forexample,end
+rhymes,whichcomeattheendofaverse,cannot
+be constrained in isolation due dependencies on
+previously generated tokens. A commonly applied
+work-around for this problem is to generate each
+verse in reverse (Lau et al., 2018; Jhamtani et al.,
+2019; Van de Cruys, 2020; Xue et al., 2021a).
+Inthiswork,wethusaimtoreducetheamount
+of human supervision in poetry generation and ex-
+plore viable end-to-end solutions. We hypothesize
+that failing to do so so far has the following root
+causes: (i) lack of available training data. Poetry
+corpora labeled with aesthetic styles are few and
+farbetweenandwespeculatethattheydonotsuf-
+ﬁcetotrainageneralizedmodel. (ii)Unfavorable
+tokenization algorithms. Aesthetic styles of poetry
+such as rhyme, meter, and alliteration are often
+expressed at the character-level while most avail-
+able oﬀ-the-shelf pre-trained models operate at the
+subword-level (Kudo and Richardson, 2018). Xue
+et al. (2022) showed that character-level models
+(also known as token-free models) excel at other
+character-level tasks so we assume that they would
+perform similarly well at poetry generation. Our
+contributions are as follows:
+(i)Wepre-train B/y.pcGPT5,toourknowledgethe
+ﬁrst decoder-only transformer for character-
+level language modeling.(ii)Wecreate Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc ,alargemachine-labeled
+poetry corpus of quatrains in German and
+English.
+(iii)By ﬁne-tuning B/y.pcGPT5 onQ/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc , we
+show that it learns character-level styles better
+thansubword-basedsystems,suchas GPT-2
+and/m.pcT5, as well as other token-free models
+likeB/y.pcT5, while being more parameter eﬃ-
+cientandalsofaringwellcomparedtohumans.
+(iv)Wefurtherdemonstratethat B/y.pcGPT5 exhibits
+few memorization problems and, via token-
+level attributions, we introspect what infor-
+mation it uses when predicting a next token,
+ﬁnding that it better learns to understand po-
+eticstylesthanthecompetitorswecompareto.
+In addition, we compare its performance to
+C/h.pc/a.pc/t.pcGPT andalsoﬁndthatitperformswellon
+tasks that do not operate at the character-level.
+2 Background
+In formal verse poetry, poems have to adhere to
+strict patterns and rules of language to which we
+referasstyles. Suchstylesevokeadditionalmeaning
+comparedtoprosaictextsorspokenlanguageand
+often lead to the use of distinguished linguistic
+expressions. Our goal is to train an end-to-end
+poetrygenerationsystemwhosegeneratedpoems
+canbeconstrainedtoadheretospeciﬁedstyles. We
+refer to this as style-conditioned poetry generation.
+Inourwork, wefocusongenerating quatrainsand
+conditioning on the following deﬁning styles of
+formal verse poetry (cf. Figure 1):
+Rhyme Rhyme is the repetition of the same or
+similarsoundsintheﬁnalaccentedsyllablesoftwo
+ormorewords,whichmustbeprecededbydiﬀering
+consonants (Harmon et al., 2000). If all conditions
+are met, we speak of perfect rhymes, and if some
+of them are violated, for example, because the
+ﬁnal sounds are diﬀerent or the words are identical,
+we speak of imperfect rhymes. Rhymes typically
+appear at the end of lines in poetry in which case
+they are also called end rhymes . The pattern in
+which such end rhymes appear in a stanza is called
+rhymescheme andisusuallyencodedasletters,e.g.,
+in a quatrain with ABAB rhyme scheme, the ﬁrst
+and thirdlines rhyme,as dothe secondand fourth
+lines. For a quatrain, there exist 15 theoretically
+possible rhyme schemes.
+2MeterMeterreferstotherhythmicpatternwithin
+a verse. In modern poetry, this rhythm is usu-
+ally accented-syllabic, that is, the succession of
+stressed( )andunstressedsyllables( )occursat
+regular intervals (Harmon et al., 2000). The rhyth-
+mic unit is also known as a foot and the meter of a
+verse can thus be described as a sequence of feet.
+InEnglishpoetry,commonfeetareiambic( ),
+trochaic( ),anapestic( ),anddactylic(
+). For conditioning on meter, we consider all met-
+ric feet appearing in our datasets (cf. Appendix A).
+Alliteration Harmon et al. (2000) deﬁne allitera-
+tion as the repetition of the same consonant sounds
+oranyvowelsoundsatthebeginningofwordsor
+syllablesthatareclosetogetherinaverse. Informal
+verse, alliteration is secondary to rhyme and meter,
+followslessstrictconstraints,andisthereforenot
+as easily classiﬁed. In this work, we thus consider
+thelevelofalliterationinstead,whichweclassify
+as eitherlow,medium, orhigh(cf. Section 4).
+3 Methods
+We induce our end-to-end poetry generation sys-
+tems for English and German by ﬁne-tuning pre-
+trainedtransformermodels(Vaswanietal.,2017).
+Forconditioningonstyle,weconsidertwoarchitec-
+tural variants—encoder-decoder transformers (Xue
+et al., 2021b, 2022) and decoder-only transform-
+ers(Radfordetal.,2019;Brownetal.,2020). As
+explained in Section 1, we focus on token-free
+models,butalsoconsidersubword-levelmodelsfor
+comparison. We do not experiment with models
+withmorethan400millionparameterssincethey
+exceedthecapacityofouravailableGPUresources.
+Encoder-Decoder With encoder-decoder mod-
+els,weinitializetheencoderwithatupleofdesired
+stylesandgenerateaquatrainwiththedecoder. We
+representeachstylebyaspecialtokenwhichweadd
+to the model vocabulary. We use B/y.pcT5(Xue et al.,
+2022), a token-free pre-trained encoder-decoder
+transformer, as a baseline model. For compari-
+son with subword-level approaches, we ﬁne-tune
+/m.pcT5(Xue et al., 2021b).
+Decoder-only Astheinputforencoder-decoder
+models is a relatively short sequence of styles, this
+could lead to an underutilization of the encoder.
+We thus hypothesize that a decoder-only model,
+with styles supplied as a prompt string, would be
+better suited for our task. On the subword-level,
+multiple models, such as GPT-2(Radford et al.,Name Size Params Enc/Dec Token-free
+B/y.pcGPT5small 73.5M Decoder 3
+base 139.2M Decoder 3
+medium 289.1M Decoder 3
+GPT-2base 124.4M Decoder 7
+medium 354.8M Decoder 7
+B/y.pcT5 small 300M Enc-Dec 3
+/m.pcT5 small 300M Enc-Dec 7
+Table1: Listofallpre-trainedmodelsweﬁne-tuneon
+poetrygeneration. B/y.pcGPT5 isanewmodeldeveloped
+by us. The German GPT-2model we use does not exist
+in medium size Minixhofer (2020), which is why we
+only use a base model there.
+2019),arereadilyavailable. However,toourbest
+knowledge, no such model exists at the character-
+levelyet,whichiswhywetrainourown. Sinceour
+newmodelsharessomesimilaritieswiththe GPT
+family of models, but has its origin in B/y.pcT5(see
+Section3.1),werefertoitas B/y.pcGPT5. Anoverview
+of all models we use can be seen in Table 1.
+3.1 B/y.pcGPT5
+Forpre-trainingourowntoken-freedecoder-only
+model, we start by modifying the architecture of
+B/y.pcT5anddiscarditsencodercomponententirely.
+Wetheninitializetheweightswiththedecoderof
+B/y.pcT5to warm-start the training process (Rothe
+et al., 2020; Tang et al., 2022). We repeat this
+forthethreesmallsmallestvariantsof B/y.pcT5. Be-
+cause B/y.pcT5hasanasymmetricalarchitecture,the
+resulting models retain only 25% of its parameters.
+We refer to their model sizes as small, base, and
+medium.
+Astrainingdata,weuse O/p.pc/e.pc/n.pcW/e.pc/b.pcT/e.pc/x.pc/t.pc2 (Gao
+etal.,2021)forEnglishandasubsetof /c.pc/c.pc100(Con-
+neau et al., 2020) for German. For hyper-
+parameters, we follow Radford et al. (2019) and
+Brown et al. (2020) and use Adam with a weight
+decay of 0.1, a batch size of 512, varying learn-
+ing rates depending on model size, and train on a
+causal language modeling objective for 50k steps
+following (Lester et al., 2021). The loss curves can
+be seen in Figure 2.
+4 Datasets
+Wecollectarangeoflabeledandunlabeleddatasets
+of English and German poetry (cf. Table 2). As
+shown, we were able to procure labeled data for
+rhyme and meter, but the corpora are far too small
+totrainapoetrygenerationsystem. Instead,weaim
+3125002500037500
+TrainingSteps200225250275300325350PerplexityEnglish
+B/y.pcGPT5 (small)
+B/y.pcGPT5 (base)
+B/y.pcGPT5 (medium)
+125002500037500
+TrainingStepsGerman
+B/y.pcGPT5 (small)
+B/y.pcGPT5 (base)
+B/y.pcGPT5 (medium)Figure 2: Perplexity on the training data when pre-
+training B/y.pcGPT5 for English and German.
+Dataset Language Verses R M A
+EPG64 English 1k 3 3 7
+P/r.pc/o.pc/s.pc/o.pc/d.pc/i.pc/c.pc English 2k 7 3 7
+FORB English 1k 3 3 7
+C/h.pc/i.pc/c.pc/a.pc/g.pc/o.pc English 95k 3 7 7
+A/n.pc/t.pc/i.pc-K German 4k 3 3 7
+GRC German 41k 3 7 7
+EPG English 2.8m 7 7 7
+DLK German 2.8m 7 7 7
+Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pcEnglish 2.7m∗3†3†3†
+German 5.9m∗3†3†3†
+∗Verses may occur in multiple pseudo-quatrains.
+†Labels are obtained from classiﬁers.
+Table 2: Available poetry datasets for rhyme (R), meter
+(M),andalliteration(A).Unlabeledcorpora(middle)are
+orders of magnitude larger than labeled corpora (top),
+and we label them automatically (bottom). Further
+information can be found in Appendix A.
+to use the bigger unannotated corpora, EPGand
+DLK, as training data by labeling them automati-
+cally. Tofacilitatethelabelingprocess,wechunk
+these datasets into pseudo-quatrains (any consecu-
+tive sequenceof four lines),eventuallyamounting
+to over 660k quatrains for English and 1.4m for
+German. We refer to this new dataset as Q/u.pc/a.pc-
+T/r.pc/a.pc/i.pc/n.pc(cf. Table 2), further statistics can be found
+in Appendix A. In the following, we explain the
+labeling process for each style.
+For rhyme and meter classiﬁcation, we lever-
+age the available labeled data (cf. Table 2) and
+train classiﬁers. Meter classiﬁcation is a multi-
+classclassiﬁcationproblemwithasingleverseas
+input, while rhyme classiﬁcation is a binary clas-
+siﬁcationproblemwithtwoversesseparatedbya
+specialtokenasinput. Foreachstyle,weperform
+a90/5/5train-valid-testsplitandﬁne-tunearange
+of encoder-only transformers with classiﬁcation
+heads jointly on both languages, as this improves
+performance (de la Rosa et al., 2021; Haider andModel Rhyme Meter
+C/a.pc/n.pc/i.pc/n.pc/e.pc-C 98.05 58.49
+XLM-R 97.22 54.65
+/m.pcBERT 97.17 49.01
+Table 3: F1-Score on classifying rhyme and meter.
+Kuhn, 2018). We test subword-level /m.pcBERTand
+XLM-R,aswellascharacter-level C/a.pc/n.pc/i.pc/n.pc/e.pc-C (Clark
+et al., 2022). The performance of these models can
+beseeninTable3. Sincecharacter-level C/a.pc/n.pc/i.pc/n.pc/e.pc-C
+outperforms both /m.pcBERTandXLM-Ron both
+classiﬁcation tasks, we use it as our ﬁnal classiﬁer.
+We classify the meter of a quatrain by choosing the
+dominant meter among the verses /three.sup, and the rhyme
+scheme by determining which verses rhyme and
+which do not.
+As no readily available poetry datasets include
+labels foralliteration, we approachthe problemin
+a diﬀerent way. The quantiﬁcation of the level of
+alliteration in a document is a long known research
+problem(Skinner,1939;Leavitt,1976;Blain,1987;
+Benner, 2014). Let 𝑣𝑖be the atomic units of sound
+in verse 𝑣, Blain (1987) quantify alliteration as
+allit¹𝑣º=Íj𝑣j
+𝑖=1Íj𝑣j
+𝑗=𝑖¸1f¹𝑣𝑖𝑣𝑗º
+𝑗 𝑖
+Íj𝑣j
+𝑖=1Íj𝑣j
+𝑗=𝑖¸11
+𝑗 𝑖(1)
+where f¹ºis a similarity function of two sounds;
+thedefaultsimplytestingforequality. Intuitively,
+allit¹ºcountsalliterativesoundsinaverse,applies
+a distance penalty, and normalizes the score to
+»01¼. To get a score for quatrains, we average
+the alliteration level of all verses. We consider
+initial phonemes of words, as well as all further
+stressed phonemes as atomic sound units 𝑣𝑖, and
+to determine phonemes and stress, we employ a
+grapheme-to-phoneme conversion model based on
+B/y.pcT5(Zhu et al., 2022). Further, we conducted
+astudytoempiricallydetermineseveralintensity
+thresholds based on a sample of quatrains. We
+classify the alliteration level of a quatrain as low
+if the score is below 0.05, mediumif the score is
+below 0.1, and highif it is above that.
+5 Experiments
+Forﬁne-tuning,weusethesamehyperparametersas
+inSection3.1forallmodels,butreducethebatch
+size to 128 (for eﬃciency reasons). We induce
+/three.supSinceinformalversepoetry,ameterismaintainedthrough-
+out a poem, this procedure is meaningful.
+4B/y.pcGPT5(small)
+B/y.pcGPT5(base)
+B/y.pcGPT5(medium)GPT-2(base)
+GPT-2(medium)B/y.pcT5(small)
+/m.pcT5(small)040506070809
+English
+RhymeScore
+AlliterationScore
+MeterScore
+Coherence
+B/y.pcGPT5(small)
+B/y.pcGPT5(base)
+B/y.pcGPT5(medium)GPT-2(base)
+B/y.pcT5(small)
+/m.pcT5(small)
+German
+RhymeScore
+AlliterationScore
+MeterScore
+CoherenceFigure 3: Automatic evaluation results for all models on English and German.
+separate models for each language in Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc
+andtrainfor10epochs. Weconductbothautomatic
+(Section5.1)andhumanevaluation(Section5.2).
+Examples of generated quatrains can be found in
+Appendix C.
+5.1 Automatic Evaluation
+For automatic evaluation, we condition our models
+onarangeofdiﬀerentstylecombinations. Wese-
+lect four common rhyme schemes (AABB, ABAB,
+ABBA, and ABCB), the most popular meters per
+language(iambus,trochee,anapest,anddactylfor
+English,andiambus,trochee,andalexandrinefor
+German), and all levels of alliteration, and create
+75 poems per model for each possible combination.
+To ﬁnd out if these styles are properly reﬂected
+inthegeneratedquatrainswereusetheclassiﬁers
+from Section 4, i.e., we use them to classify the
+generated poems and see if the styles match. We
+deﬁne the following metrics:
+Rhyme Score computes the recall of verses that
+should rhyme in a quatrain, as well as the
+recall of verses that should not and takes their
+arithmetic average.
+Alliteration Score is1ifaquatrainhasthecorrect
+alliteration level, else 0.
+Meter Score isthefractionofverseswithcorrectly
+classiﬁed meters.
+Coherence uses BERTfor next sentence predic-
+tion (Devlin et al., 2019) as a means to assessdiscourse relations of verses (Duari and Bhat-
+nagar, 2021; Shi and Demberg, 2019). The
+scoreisthefractionofconsecutiveversepairs
+thatarecorrectlyclassiﬁedtocomeafterone
+another.
+Weprovidethescoresforeachmodelaveragedover
+all generated quatrains (2700 for German and 3600
+forEnglish)inFigure3. Wecanseethatallmodels
+managetolearntofollowaestheticstylestosome
+degree. Nevertheless, there are noticeable score
+diﬀerences between individual models.
+Intermsofrhyme,all B/y.pcGPT5 variantscollec-
+tively outperform all GPT-2models on both lan-
+guages. Similarly, B/y.pcT5consistentlyoutperforms
+/m.pcT5. This supports our hypothesis that token-
+free models are better suited for character-level
+styles. Further, B/y.pcGPT5 (small) performs better
+thanB/y.pcT5(small)whichmeanswecandiscardthe
+encoder (75% of parameters) while still improving
+performance. Surprisinglythough,base B/y.pcGPT5
+andGPT-2achievehigherscoresthantheirmedium
+variants. Whilethismayinitiallysuggestthatlarger
+capacitydecodersprioritize(meaningful)content,
+while smaller decoders focus on style, the high
+coherenceseenacrossallmodelsweakensthishy-
+pothesis. Instead, we speculate that this may be an
+overﬁttingproblem. Inparticular,smallermodels,
+up to base size, may be better suited for generating
+shorter texts such as quatrains. Another surpris-
+ing ﬁnding is that B/y.pcT5(small) performs worse
+thanGPT-2(base) onEnglish. Weinvestigate this
+5 10 05 00 05 10000005010015020DensityRhyme
+ 10 05 00 05 1000010203HumanLikeness
+ 10 05 00 05 10000005010015Meter
+Human B/y.pcGPT5 (small) GPT-2(base) B/y.pcT5(small) /m.pcT5(small)Figure4: DistributionsofBWSscoresforrhyme,humanlikeness,andmeterannotationsthroughkerneldensity
+estimation. Scores range from -1 (very bad) to 1 (very good). Expected values are marked with “ •”.
+further in Section 5.2.
+Onmeter,allmodelsperformverysimilartoone
+another. Whereas B/y.pcGPT5 (small)performsbest
+on English by a small margin, it is outperformed
+by/m.pcT5(small) on German. This result is not
+surprising. Since meter is a syllable-level style,
+subword-levellanguagemodelsalsomanagetopick
+itupreasonablywell(Lauetal.,2018). Interestingly
+though,onEnglishthescoresaremuchloweroverall
+than on German. A reason for this may be that the
+occurrenceofdiﬀerentmetersismuchmoreevenly
+distributed in German Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc (cf. Table 6 in
+the appendix). While in German only about 60%
+of all meters are iambs, in English it is over 80%
+making it diﬃcult for models to learn other meters.
+We identify further reasons in Section 5.2.
+Alliteration is the style that all models are the
+worst at. Our formulation of alliteration levels
+may make it very diﬃcult for models to pick up
+its semantics. Still, B/y.pcGPT5 (base) performs the
+best on English, and B/y.pcGPT5 (small) and B/y.pcT5
+(small) perform the best on German, suggesting
+that token-free models have an advantage on this
+style.
+5.2 Human Evaluation
+To further validate the eﬀectiveness of our models,
+we conduct a human evaluation campaign using
+best-worst scaling (BWS) as a means of annota-
+tion (Louviere et al., 2015). BWS is a variant of
+comparativeannotationthathasbeenshowntopro-
+ducehigh-qualityresultswhilekeepingthenumber
+ofrequiredannotationslow(KiritchenkoandMo-
+hammad, 2016, 2017). Annotators are presented
+withtuplesof 𝑛itemsandaskedtoidentifythebest
+and worst item based on a speciﬁed property. By
+subtractingthefractionoftimesanitemischosenas the best from the fraction of times it is chosen
+as the worst, real-valued scores ranging from -1
+(very bad) to 1 (very good) can be obtained (Orme,
+2009). Inourannotations, weconsiderthreeprop-
+erties: rhyme,meter,andhumanlikeness,i.e.,the
+likelihood of a poem being written by a human.
+Asweonlyhavelimitedresources,wetakeafew
+measurestoreducetheworkloadonourannotators.
+First,weexclusivelyevaluateourEnglishmodels
+andonlyconsiderthetop-performingmodelwithin
+eachmodelclassbasedontheresultsofourauto-
+maticevaluation. Themodelsinquestionthusare
+B/y.pcGPT5 (base), GPT-2(base), B/y.pcT5(small),and
+/m.pcT5(small). Furthermore, we only choose from
+three rhyme schemes (AABB, ABAB and ABBA),
+twometers (iambusandtrochee),andone levelof
+alliteration (medium), and create four poems per
+system for each possible combination.
+Inadditiontomachine-generatedpoems,wealso
+randomlysamplehumanquatrainsfromourdatasets
+thatmatchtheconstraintsandcreate1204-tuples
+from the combined set of quatrains. We ensure
+thateachquatrainappearsin4distincttuples. Four
+distinct annotators then annotate the rhyme and hu-
+manlikenessofeachtuple,whilemeterisevaluated
+by a single expert annotator only. Since we have
+multiple annotators workingon rhyme and human
+likenessweusethe split-halfreliability (SHR)mea-
+sure (Kiritchenko and Mohammad, 2017) to assess
+their consistency. SHR is calculated by splitting
+the annotations into two sets, computing scores for
+eachset,andthencomputingtheirSpearmanrank
+correlation coeﬃcient.
+InFigure4,weprovideakerneldensityestimate
+for each annotated property. On rhymes, we obtain
+an SHR of 𝜌=077which demonstrates a high
+agreement between annotators. Human rhymes
+6are ranked the highest overall, whereas B/y.pcGPT5
+comes in as a close second, followed by B/y.pcT5.
+This shows that, with respect to rhymes, human
+annotatorsconsistentlyprefer token-freelanguage
+models over subword-level models. This is a bit
+diﬀerent from our ﬁndings during automatic evalu-
+ationwhere GPT-2(base)wasrankedhigherthan
+B/y.pcT5(small) on English. An analysis of GPT-2
+generated quatrains revealed a predominance of
+imperfectrhymesasalikelycause. Asourrhyme
+classiﬁeristrainedonbinarylabelsitisunableto
+detectthis,buthumanannotatorsperceivethiskind
+of rhyme as worse.
+With 𝜌=054, the SRH of human likeness is
+noticeably lower than for rhyme. This suggests
+thatallmodelssucceededingeneratinghuman-like
+quatrains, and it was therefore more diﬃcult for
+annotators to rank them consistently. Indeed, the
+distributions in Figure 4 are much closer overall,
+and although humans rank higher than B/y.pcGPT5,
+which in turn ranks higher than GPT-2, they still
+perform similarly well. Still, we can see that B/y.pcT5,
+and especially /m.pcT5are ranked a bit lower than the
+other contenders. Both models were pre-trained on
+aspancorruptionobjectiveandhavethusneverseen
+truly natural text during pre-training (Zhu et al.,
+2022;Raﬀeletal.,2020b;Lesteretal.,2021)which
+we believe could be a possible cause.
+The distributions for meter in Figure 4 have very
+large variances for all models, and also for humans.
+This is surprising, as it suggests that our annotator
+doesnotthinkthathumansarebetteratadheringto
+metricconstraintsthanourmodels,eventhoughthe
+resultsofautomaticevaluationonEnglishwerenot
+on par with those on German. We hypothesize that
+evenamongrealEnglishpoets,thereisasigniﬁcant
+amount of poetry that does not strictly adhere to
+metric constraints. Subsequently, language models
+only learn to follow them freely as well, which
+could explain our results of automatic evaluation.
+6 Analysis
+Wecontinuewithadeeperanalysisofourmodels
+andlookintolow-resourcetraining(§6.1),quantify
+memorization(§6.2),evaluatetheperformanceof
+token-free models on non-character-based, high-
+level tasks (§6.3), use token-level attributions for
+explainability (§6.4), and compare B/y.pcGPT5 with
+C/h.pc/a.pc/t.pcGPT (§6.5).
+B/y.pcGPT5(small)
+B/y.pcGPT5(base)
+B/y.pcGPT5(medium)
+GPT-2(base)
+GPT-2(medium)
+B/y.pcT5(small)
+/m.pcT5(small)02030405
+RhymeScore
+AlliterationScore
+MeterScoreFigure 5: Automatic evaluation of English low-resource
+models.
+6.1 Low-resource Training
+Wehypothesizedthatalargetrainingcorpusisan
+important factor in successfully training an end-to-
+end poetry generation system. Thus, we examine
+thishypothesisbyselectingasubsetofEnglish Q/u.pc/a.pc-
+T/r.pc/a.pc/i.pc/n.pcandre-trainingourmodelsinalow-resource
+setting. In particular, we select 1/20th of all po-
+ems, amounting to 33k quatrains of training data
+andusethesamehyperparametersasinSection5.
+Figure 5 shows how well these new low-resource
+models adhere to style constraints, similar to the
+automaticevaluationoffulltraininginFigure3. In
+contrast to full training, all low-resource models
+perform noticeably worse at generating rhymes,
+independent of their architectures and tokenization
+algorithms. Results on meter and alliteration show
+similar trends, although not as severe. Whereas
+resultsonrhymeare15%-40%worse,formeteritis
+only 5%-20%, and for alliteration 5%-10%. Never-
+theless,theresultsshow,especiallyforrhymes,that
+even character-level tokenization algorithms do not
+helpmuchwithpickingupstylewhentheamountof
+training data is low. On rhyme, all models perform
+almost equally bad, suggesting that a large training
+corpus is important.
+6.2 Extractive Memorization
+A common problem of language models, known
+as extractive memorization, is generating verbatim
+copiesfromthetrainingdataduringinference(Car-
+lini et al., 2022; Raunak and Menezes, 2022; Mee-
+han et al., 2020). We now quantify whether, and
+if, to which degree, our models are aﬀected by
+memorization. According to Carlini et al. (2022)
+7Memorization Emotion
+Model English German German
+B/y.pcGPT5 (small) 0.0% 0.0% 0.676
+B/y.pcGPT5 (base) 0.0% 0.04% 0.680
+B/y.pcGPT5 (medium) 0.0% 0.81% 0.659
+GPT-2(base) 0.39% 1.81% 0.676
+GPT-2(medium) 3.64% — —
+B/y.pcT5 0.0% 0.0% 0.691
+/m.pcT5 0.0% 0.0% 0.696
+Table 4: Extractive memorization rates (English &
+German) and recall on emotion generation (German).
+extractive memorization occurs when a language
+model’scontinuation ofastringispart ofthedata
+it was trained on. Since the inputs to our language
+modelsarestringsofstyle,thisformulationlends
+itselfwelltoourusecase: wesimplyhavetocheck
+if generated poems appear in Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc . In Ta-
+ble4,wethuscomputetheextractivememorization
+ratesofthequatrainsgeneratedinSection5.1. To
+account for negligible variations in the generated
+sequences, we do not compare raw strings, but
+calculate the Ratcliﬀ-Obershelp similarity (Ratcliﬀ
+andMetzener,1988),andassumethattwostrings
+are equivalent if their similarity exceeds 0.7.
+As can be observed, GPT-2suﬀers from mem-
+orization the most. On English, over 3% of all
+quatrainsgeneratedby GPT-2(medium)arecopied.
+While B/y.pcGPT5 alsocopiesquatrainstoanextent,
+it is much less aﬀected in comparison. On English,
+B/y.pcGPT5 (medium) does not copy anything and on
+Germanonly0.81%ofallgeneratedpoems. Asa
+generaltrend,wecanseethatbiggermodelvariants
+tendtocopymoredatathansmallerones—aﬁnding
+sharedbyothers(Carlinietal.,2022). Interestingly,
+encoder-decodermodelsdonotseemtobeaﬀected
+bythisproblematall,mostlikelybecausestylesare
+notusedasaprompt,butarefedintotheencoder
+separately.
+6.3 Higher-level Styles
+We also explore how well token-free models per-
+form on higher-level styles which are not character-
+orsubword-levelphenomena. Inparticular,wefo-
+cusonemotionasahigher-levelstylephenomenon,
+using P/o.pc-E/m.pc/o.pc(Haideretal.,2020),adatasetwhich
+distinguishesbetweeneightdiﬀerentaestheticemo-
+tionsinvokedbyreadersofpoetry(cf. AppendixA).
+We condition our models on these emotions, and
+assess their ability to understand and accurately<ABBA>
+<iambus>
+<high>Iholdittrue,whate’erbefall;
+IfeelitwhenIsorrowmost;
+’Tisbettertohavelovedandlost
+Thannevertohavelovedatall.
+<ABBA>
+<iambus>
+<high>Iholdittrue,whate’erbefall;
+IfeelitwhenIsorrowmost;
+’Tisbettertohavelovedandlost
+Thannevertohavelovedatall.
+Figure 6: A famous stanza by Tennyson (1850) with
+visualized attention from B/y.pcGPT5 (top) and GPT-2
+(bottom) when generating the last syllable.
+depict emotion in poetry.
+As inSection 4, weleverage automatic labeling.
+To that matter we train an emotion classiﬁer on the
+Germansubsetof P/o.pc-E/m.pc/o.pcasinHaideretal.(2020)
+andreproducetheresults. Wethenclassifytheemo-
+tionsofallpoemsinGerman Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc andretrain
+our language models by conditioning them on all
+emotions appearing in a quatrain. For evaluation,
+wegenerate100poemsforeachpossible2-tupleof
+emotions (so 2800 poems overall) and compute the
+recall of correctly classiﬁed emotions in a quatrain.
+The results in Table 4 show that encoder-decoder
+modelsscorethehighest,with /m.pcT5achievingthe
+overall best performance. Still, token-free mod-
+els are not far behind. Especially B/y.pcGPT5 fares
+verywellagainst GPT-2,suggestingthattoken-free
+models are still competitive on higher-level tasks.
+6.4 Token-level Attributions
+In this section, to gain an insight into the decision-
+making processes of our models, we visualize
+token-level attributions when generating a quatrain.
+Token-level attributions explain to which degree
+eachtokenintheinputisinvolvedindetermining
+the next output token of a model allowing us to
+reason about what a model has learned. To this
+end,Ferrandoetal.(2022)decomposetheattention
+blocks of transformers into a sum of vectors and
+deﬁneanewmeasureforvisualizingtoken-to-token
+interactions based on the distance of each vector to
+theoutput(Kobayashietal.,2021). Weapplythis
+measure on generative language models and visual-
+izetoken-levelattributionsfor B/y.pcGPT5 andGPT-2
+when generating the last syllable in a quatrain in
+Figure 6.
+We can see that B/y.pcGPT5 puts a big emphasis
+on the current verse, as well as the styles it was
+conditioned on. Further, possibly in response to
+8the ABBA rhyme scheme, it also heavily stresses
+the ending of the ﬁrst verse. Since the model
+alsoplacesamoderateamountofattentiononthe
+last consonants in verse 3, it also seems to be
+aware of which sounds it should notgenerate in
+order maintain the rhyme scheme. Interestingly,
+it heavily emphasizes the letter vin the last two
+verses. We assume that this corresponds to what
+B/y.pcGPT5 understands by alliteration, in which case
+itwouldnothaveunderstoodwellatwhichposition
+in a word the same sounds must occur.
+Unlike B/y.pcGPT5,GPT-2doesnotputanyvisible
+emphasis on intput style tokens, which suggests
+thatitdoesnotunderstandhowtohandlethemvery
+well. Nevertheless it stresses similar aspects to
+B/y.pcGPT5, although, due to the subword vocabulary,
+at a diﬀerent level of granularity. We provide
+additional examples in German in Appendix B.
+6.5 Comparison with C/h.pc/a.pc/t.pcGPT
+C/h.pc/a.pc/t.pcGPT (OpenAI,2022)isaconversationallarge
+language model which specializes in dialogue. It
+hasattractedattentionforitsdetailedandexpressive
+answers, raising the question of how well it per-
+formsingeneratingpoetry. Inasmall-scalestudy,
+we thus ask C/h.pc/a.pc/t.pcGPT to generate quatrains with
+various rhyme schemes (AABB, ABAB, ABBA,
+andABCB)usingitswebinterface,andsimilarly
+generate poems using B/y.pcGPT5. We then construct
+random pairs of quatrains generated by each model
+and want to ﬁnd out which poem adheres better to
+rhyme constraints. Since we know the quatrains of
+C/h.pc/a.pc/t.pcGPT beforehand, we use our rhyme scorer of
+Section5.1forunbiasedscoring. Onlyin15%of
+cases does our scorer prefer poems of C/h.pc/a.pc/t.pcGPT
+overB/y.pcGPT5. Manual investigation showed that
+C/h.pc/a.pc/t.pcGPT tends to generate rhymes at arbitrary
+positions,ratherthanadheringtospeciﬁedrhyme
+schemes,evenwhengivingexamplesintheprompt.
+Ourverdictisthat C/h.pc/a.pc/t.pcGPT isaviableapproachfor
+poetry generation but not style-conditioned poetry
+generation.
+7 Related Work
+As indicated in Section 1, other competing po-
+etry generation systems usually consist of model
+pipelinesand/orincorporatepriorknowledgeinthe
+generation process. Lau et al. (2018), for example,
+propose D/e.pc/e.pc/p.pc-/s.pc/p.pc/e.pc/a.pc/r.pc/e.pc ,apoetrygenerationsystem
+for modeling quatrains in English consisting of
+threecomponents: onelanguagemodelgeneratesa set of sample verses in reverse order, another
+model re-initiates sampling as long as the rhyme
+constraints are not met, and a ﬁnal model ranks
+the samples according to how well they adhere
+to iambic pentameter. Van de Cruys (2020) also
+induce prior knowledge into a generic language
+model, but they do it by modifying output prob-
+ability distributions directly. D/e.pc/e.pc/p.pcR/a.pc/p.pc/p.pc/e.pc/r.pc (Xue
+et al., 2021a) does the same for generating rhymes
+in rap music. In addition, rhythmic constraints
+of rap are encoded as special tokens interleaved
+withactuallyrics. Jhamtanietal.(2019)puttheir
+focusonactually learningrhymeandtrainasonnet
+andlimerickgeneratorthroughadversarialtraining.
+The model is hierarchical, i.e., it ﬁrst generates a
+sequence of line endings which are subsequently
+completed in reverse. While the model manages to
+learnthemeaningofrhymetoanextent,theauthors
+stillﬁlteroutputsusingpronunciationdictionaries.
+More in line with our research, Hopkins and Kiela
+(2017)trainamodelonthephoneticrepresentation
+of poetry using the International Phonetic Alpha-
+bet (IPA) as a character-level vocabulary. During
+inference, a second model translates sounds back
+to human readable text. Although promising, the
+model did not generalize well, and an additional
+modelenforcesrhythmicconstraintsintheirﬁnal
+approach. Ormazabaletal.(2022)alsoidentifylack
+of poetic training data as a shortcoming, but unlike
+us,addresstheissuebyusingcleverpre-trainingon
+prosaictexts. Theypreﬁxeachtextwithacontent
+planspecifyinglineendingsandsyllablecountsfor
+eachcontainedline. Duringinferencetheygenerate
+poetry by specifying content plans with rhyming
+line endings and metric syllable counts. While this
+approachdoesnotrequireactualpoems,ithasthe
+limitationofrequiringtheexplicitspeciﬁcationof
+lineendingsanddoesnottakeintoaccountsyllable
+stress, which is a crucial aspect of meter.
+Apart from the aforementioned systems which
+donotrequirehumaninputduringruntime,aparal-
+lelﬁeldofresearchinvestigatesinteractivepoetry
+generation, with a focus on assistingpoets in their
+creative process. Boggia et al. (2022), Popescu-
+Belis et al. (2022), and Tian and Peng (2022) all
+proposetheuseofcomplexmodelpipelinesforthis
+purpose, while Chakrabarty et al. (2022) ﬁne-tune
+T5toenableittoanswerpredeﬁnedquestionsabout
+poetry.
+Finally, several studies have focused on the task
+of style transfer, speciﬁcally the ability to replicate
+9the writing style of a speciﬁc author. Zugarini
+et al. (2019) and Lewis et al. (2021) both train
+modelsontheworksofanItalianandEnglishpoet,
+respectively,andimplementhand-craftedrulesto
+ﬁlter generated samples.
+In this work, we implement end-to-end style-
+conditioned poetry generation systems for generat-
+ing quatrains in English and German. In particular,
+we present B/y.pcGPT5, a novel token-free decoder-
+only language model, and show that ﬁne-tuning
+it on a custom poetry corpus outperforms other
+models, such as GPT-2,/m.pcT5, and B/y.pcT5, on aver-
+age,whilealsoperformingfavorablyagainsthuman
+poems. Our key ﬁndings are that (i) tokenization
+algorithms matter, i.e., token-free language models
+generally perform better at generating character-
+level styles than subword-level transformers, and
+(ii)largedatasetsarecrucialforsuccessfulmodel
+training. We further show that bigger models do
+not necessarily perform better and that decoder-
+only architectures work best, i.e., we can discard
+the encoder of B/y.pcT5(75% of parameters) while
+still improvingdownstream performance. We also
+demonstratethattoken-freetransformersperform
+competitively on tasks not tied to character-level
+styles, and are less susceptible to memorization
+of the training dataset. Additionally, we visual-
+ize token-level attributions to gain insights into
+the decision-making processes of models when
+generating a quatrain.
+In future work, we want to to extend our system
+to other poetic forms such as sonnets, limericks, or
+villanelles.
+8 Limitations
+Awell-knownshortcomingoftransformersisthe
+computational complexity in self-attention lay-
+ers (Vaswani et al., 2017). Since the number
+of required calculations grows quadratically with
+the length of the input, transformers become pro-
+hibitivelyslowonverylongsequences. Anunfortu-
+natesideeﬀectofprocessinginputsatthecharacter-
+levelisthatinternalsequencesbecomemuchlonger,
+so token-free transformers run into these eﬃciency
+problems much earlier than subword-based models.
+Figure 7 illustrates this problem by contrasting the
+runtime of all poetry generation systems when gen-
+eratingasinglequatrain. Even B/y.pcGPT5(small),the
+smallestmodelintermsofnumberofparameters
+(cf. Table 1) and the fastest token-free transformer,
+is only marginally faster than GPT-2(medium),
+B/y.pcGPT5(small)
+B/y.pcGPT5(base)
+B/y.pcGPT5(medium)
+B/y.pcT5(small)
+/m.pcT5(small)
+GPT-2(base)
+GPT-2(medium)02505007501000125015001750Timein[ms]Figure7: Inferencetimesforgeneratingasinglequatrain
+(with 177 characters) on an A6000 GPU.
+whichisalmostﬁvetimeslarger. Tayetal.(2022)
+proposea solutiontothisproblem fortransformer
+encoderblocksbyapplyinganeuralpoolingoper-
+ation over input embeddings before feeding them
+intothemodel,whichcouldbeextendedtodecoder
+blocksinfuturework. Alternatively,Libovickýetal.
+(2022)proposeatwo-stagedecodingarchitecturein
+whichthetransformerdecoderoperatesoncharacter
+blocks that an additional LSTM model (Hochreiter
+and Schmidhuber, 1997) decodes into individual
+characters.
+Anothershortcomingisthatourpoetrygenera-
+tionsystemscanonlygenerateasinglepoeticform,
+i.e.,quatrains. Ingeneral,poetryisaverydiverse
+form of language and stanzas can be of arbitrary
+length, so this is a serious limitation. In future
+work, we thus plan to extend our implementation
+of style-conditioning for variable length poems. In
+particular, one could encode a rhyme scheme not
+asasinglespecialtoken,butasanarbitraryseries
+of letters indicating which verses rhyme with each
+other. Alternatively,ourcurrentsystemscouldbe
+used to generate longer stanzas through a sliding
+window approach, i.e., generating one verse at a
+time with the last three verse as context.
+Further, Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc islimitedinthatitconsists
+of pseudo-quatrains, which are not real quatrains
+and often have missing contexts. Nonetheless, as
+can be seen in Appendix C, models trained on
+Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc are still able to generate meaningful
+poetry. In future work, we plan to improve the
+10quality of our dataset by obtaining real quatrains
+from additional sources such as the Eighteenth-
+Century Poetry Archive (Huber, 2022).
+References
+Drayton C. Benner. 2014. ‘The Sounds of the Psalter:
+Computational Analysis of Soundplay’. Literary and
+Linguistic Computing , 29(3):361–378.
+DerrelR.Blain.1987. Amathematicalmodelforallit-
+eration.Style, 21(4):607–625.
+Michele Boggia, Sardana Ivanova, Simo Linkola, Anna
+Kantosalo, and Hannu Toivonen. 2022. One line
+at a time — generation and internal evaluation of
+interactivepoetry. In Proceedingsofthe13thInter-
+national Conference on Computational Creativity ,
+pages 7–11, International. The Association for Com-
+putational Creativity. International Conference on
+Computational Creativity, ICCC ; Conference date:
+27-06-2022 Through 01-07-2022.
+Tom Brown, Benjamin Mann, Nick Ryder, Melanie
+Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind
+Neelakantan,Pranav Shyam,GirishSastry,Amanda
+Askell, Sandhini Agarwal, Ariel Herbert-Voss,
+Gretchen Krueger, Tom Henighan, Rewon Child,
+Aditya Ramesh, Daniel Ziegler, Jeﬀrey Wu, Clemens
+Winter, Chris Hesse, Mark Chen, Eric Sigler, Ma-
+teuszLitwin,ScottGray,BenjaminChess,JackClark,
+Christopher Berner, Sam McCandlish, Alec Radford,
+IlyaSutskever,andDarioAmodei.2020. Language
+models are few-shot learners. In Advances in Neural
+Information Processing Systems , volume 33, pages
+1877–1901. Curran Associates, Inc.
+Nicholas Carlini, Daphne Ippolito, Matthew Jagielski,
+KatherineLee,FlorianTramer,andChiyuanZhang.
+2022. Quantifyingmemorizationacrossneurallan-
+guage models.
+ThiagoCastroFerreira,ChrisvanderLee,EmielvanMil-
+tenburg, and Emiel Krahmer. 2019. Neural data-to-
+text generation: A comparison between pipeline and
+end-to-end architectures. In Proceedings of the 2019
+Conference on Empirical Methods in Natural Lan-
+guageProcessingandthe9thInternationalJointCon-
+ference on Natural Language Processing (EMNLP-
+ĲCNLP),pages552–562,HongKong,China.Asso-
+ciation for Computational Linguistics.
+TuhinChakrabarty,VishakhPadmakumar,andHeHe.
+2022. Help me write a poem - instruction tuning
+as a vehicle for collaborative poetry writing. In
+Proceedings of the 2022 Conference on Empirical
+MethodsinNaturalLanguageProcessing ,pages6848–
+–6863.
+Jonathan H. Clark, Dan Garrette, Iulia Turc, and John
+Wieting. 2022. Canine: Pre-training an eﬃcient
+tokenization-freeencoderforlanguagerepresentation.
+Transactions of the Association for Computational
+Linguistics , 10:73–91.AlexisConneau,KartikayKhandelwal,NamanGoyal,
+Vishrav Chaudhary, Guillaume Wenzek, Francisco
+Guzmán, Edouard Grave, Myle Ott, Luke Zettle-
+moyer, and Veselin Stoyanov. 2020. Unsupervised
+cross-lingual representation learning at scale. In Pro-
+ceedingsofthe58thAnnualMeetingoftheAssocia-
+tionforComputationalLinguistics ,pages8440–8451,
+Online. Association for Computational Linguistics.
+Javier de la Rosa, Álvaro Pérez, Mirella de Sisto, Laura
+Hernández, Aitor Díaz, Salvador Ros, and Elena
+González-Blanco. 2021. Transformersanalyzing po-
+etry: multilingual metrical pattern prediction with
+transfomer-based language models. Neural Comput-
+ing and Applications .
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and
+Kristina Toutanova. 2019. BERT: Pre-training of
+deep bidirectional transformers for language under-
+standing. In Proceedingsofthe2019Conferenceof
+the North American Chapter of the Association for
+ComputationalLinguistics: HumanLanguageTech-
+nologies,Volume1(LongandShortPapers) ,pages
+4171–4186,Minneapolis,Minnesota.Associationfor
+Computational Linguistics.
+Swagata Duariand Vasudha Bhatnagar. 2021. Ffcd: A
+fast-and-frugal coherence detection method. IEEE
+Access, PP:1–1.
+AnaCFarinha,M.AminFarajian,MariannaBuchicchio,
+Patrick Fernandes, JosÃ ©G. C. de Souza, Helena
+Moniz, and AndrÃ ©F. T. Martins. 2022. Findings
+of the wmt 2022 shared task on chat translation. In
+ProceedingsoftheSeventhConferenceonMachine
+Translation , pages 724–743, Abu Dhabi. Association
+for Computational Linguistics.
+Javier Ferrando, Gerard I. Gállego, and Marta R. Costa-
+jussà. 2022. Measuring the mixing of contextual
+informationinthetransformer. In Proceedingsofthe
+2022 Conference on Empirical Methods in Natural
+Language Processing , pages 8698–8714.
+LeoGao,StellaBiderman,SidBlack,LaurenceGolding,
+TravisHoppe,CharlesFoster,JasonPhang,Horace
+He,AnishThite,NoaNabeshima,ShawnPresser,and
+ConnorLeahy.2021. Thepile: An800gbdatasetof
+diverse text for language modeling.
+Cristina Garbacea and Qiaozhu Mei. 2022. Why is
+constrainedneurallanguagegenerationparticularly
+challenging?
+Thomas Haider. 2021. Metrical tagging in the wild:
+Building and annotating poetry corpora with rhyth-
+micfeatures. In Proceedingsofthe16thConferenceof
+the European Chapter of the Association for Compu-
+tationalLinguistics: MainVolume ,pages3715–3725,
+Online. Association for Computational Linguistics.
+Thomas Haider, Steﬀen Eger, Evgeny Kim, Roman
+Klinger,andWinfriedMenninghaus.2020. PO-EMO:
+Conceptualization, annotation, and modeling of aes-
+thetic emotions in German and English poetry. In
+11Proceedings of the Twelfth Language Resources and
+Evaluation Conference , pages 1652–1663, Marseille,
+France. European Language Resources Association.
+Thomas Haider and Jonas Kuhn. 2018. Supervised
+rhymedetectionwithSiameserecurrentnetworks. In
+Proceedings of the Second Joint SIGHUM Workshop
+onComputationalLinguisticsforCulturalHeritage,
+Social Sciences, Humanities and Literature , pages
+81–86, Santa Fe, New Mexico. Association for Com-
+putational Linguistics.
+W. Harmon, C.H. Holman, and W.F. Thrall. 2000. A
+Handbook to Literature . Handbook to Literature
+Series. Prentice Hall.
+Sepp Hochreiter and Jürgen Schmidhuber. 1997. Long
+short-term memory. Neural Comput. , 9(8):1735–
+1780.
+Jack Hopkins and Douwe Kiela. 2017. Automatically
+generatingrhythmicversewithneuralnetworks. In
+Proceedings of the 55th Annual Meeting of the As-
+sociationforComputationalLinguistics(Volume1:
+Long Papers) , pages 168–178, Vancouver, Canada.
+Association for Computational Linguistics.
+Luyang Huang, Shuyang Cao, Nikolaus Parulian, Heng
+Ji,andLuWang.2021. Eﬃcientattentionsforlong
+documentsummarization. In Proceedingsofthe2021
+Conference of the North American Chapter of the
+AssociationforComputationalLinguistics: Human
+Language Technologies , pages 1419–1436, Online.
+Association for Computational Linguistics.
+Alexander Huber. 2022. Eighteenth-century poetry
+archive. [Online; accessed 15-December-2022].
+Harsh Jhamtani, Sanket Vaibhav Mehta, Jaime Car-
+bonell, and Taylor Berg-Kirkpatrick. 2019. Learning
+rhyming constraintsusing structured adversaries. In
+Proceedings of the 2019 Conference on Empirical
+Methods in Natural Language Processing and the
+9th International Joint Conference on Natural Lan-
+guage Processing (EMNLP-ĲCNLP) , pages 6025–
+6031,Hong Kong,China.Association forComputa-
+tional Linguistics.
+Svetlana Kiritchenko and Saif Mohammad. 2017. Best-
+worstscalingmorereliablethanratingscales: Acase
+study on sentiment intensity annotation. In Proceed-
+ingsofthe55thAnnualMeetingoftheAssociationfor
+Computational Linguistics (Volume 2: Short Papers) ,
+pages465–470,Vancouver,Canada.Associationfor
+Computational Linguistics.
+Svetlana Kiritchenko and Saif M. Mohammad. 2016.
+Capturing reliable ﬁne-grained sentiment associa-
+tions by crowdsourcing and best–worst scaling. In
+Proceedings of the 2016 Conference of the North
+American Chapter of the Association for Computa-
+tional Linguistics: Human Language Technologies ,
+pages811–817,SanDiego,California.Association
+for Computational Linguistics.GoroKobayashi,TatsukiKuribayashi,ShoYokoi,and
+Kentaro Inui. 2021. Incorporating Residual and Nor-
+malizationLayersintoAnalysisofMaskedLanguage
+Models. In Proceedingsofthe2021Conferenceon
+Empirical Methods in Natural Language Processing ,
+pages4547–4568,OnlineandPuntaCana,Dominican
+Republic. Association for Computational Linguistics.
+Taku Kudo and John Richardson. 2018. SentencePiece:
+A simple and language independent subword tok-
+enizer and detokenizer for neural text processing. In
+Proceedings of the 2018 Conference on Empirical
+Methods in Natural Language Processing: System
+Demonstrations , pages 66–71, Brussels, Belgium.
+Association for Computational Linguistics.
+Jey Han Lau, Trevor Cohn, Timothy Baldwin, Julian
+Brooke, and Adam Hammond. 2018. Deep-speare:
+A joint neural model of poetic language, meter and
+rhyme. In Proceedingsofthe56thAnnualMeetingof
+theAssociationforComputationalLinguistics(Vol-
+ume 1: Long Papers) , pages 1948–1958, Melbourne,
+Australia. Association for Computational Linguistics.
+JayA.Leavitt.1976. Onthemeasurementofalliteration
+inpoetry. ComputersandtheHumanities ,10(6):333–
+342.
+BrianLester,RamiAl-Rfou,andNoahConstant.2021.
+The power of scale for parameter-eﬃcient prompt
+tuning. In Proceedings of the 2021 Conference on
+Empirical Methods in Natural Language Processing ,
+pages3045–3059,OnlineandPuntaCana,Dominican
+Republic. Association for Computational Linguistics.
+Danielle Lewis, Andrea Zugarini, and Eduardo Alonso.
+2021. Syllable neural language models for english
+poem generation. In Proceedings of the Twelfth
+International Conference on Computational Creativ-
+ity, México City, México (Virtual), September 14-18,
+2021,pages350–356.AssociationforComputational
+Creativity (ACC).
+Junyi Li, Tianyi Tang, Wayne Xin Zhao, and Ji-Rong
+Wen.2021. Pretrainedlanguagemodelfortextgen-
+eration: A survey. In Proceedings of the Thirtieth
+International Joint Conference on Artiﬁcial Intel-
+ligence, ĲCAI-21 , pages 4492–4499. International
+JointConferencesonArtiﬁcialIntelligenceOrganiza-
+tion. Survey Track.
+Jindřich Libovický, Helmut Schmid, and Alexander
+Fraser.2022. Whydon’tpeopleusecharacter-level
+machine translation? In Findings of the Association
+for Computational Linguistics: ACL 2022 , pages
+2470–2485, Dublin, Ireland. Association for Compu-
+tational Linguistics.
+Jordan J. Louviere, Terry N. Flynn, and A. A. J. Marley.
+2015.Best-Worst Scaling: Theory, Methods and
+Applications . Cambridge University Press.
+CaseyMeehan,KamalikaChaudhuri,andSanjoyDas-
+gupta. 2020. A three sample hypothesis test for
+evaluating generative models. In Proceedings of the
+12TwentyThirdInternationalConferenceonArtiﬁcialIn-
+telligence and Statistics , volume 108 of Proceedings
+of Machine Learning Research , pages 3546–3556.
+PMLR.
+Benjamin Minixhofer. 2020. GerPT2: German large
+and small versions of GPT2.
+Eduard Mörike. 1832. Maler Nolten. Novelle in zwei
+Teilen.2.Teil . G.J.Göschen’scheVerlagshandlung,
+Stuttgart.
+OpenAI. 2022. ChatGPT: Optimizing language models
+fordialogue. [Online; accessed17-December-2022].
+Aitor Ormazabal, Mikel Artetxe, Manex Agirrezabal,
+Aitor Soroa, and Eneko Agirre. 2022. Poelm: A
+meter- and rhyme-controllable language model for
+unsupervised poetry generation.
+Bryan K. Orme. 2009. Maxdiﬀ analysis : Simple
+counting,individual-levellogit,andhb. Sawtooth
+Software, Inc.
+AndreiPopescu-Belis,ÀlexAtrio,ValentinMinder,Aris
+Xanthos, Gabriel Luthier, Simon Mattei, and Anto-
+nioRodriguez.2022. Constrainedlanguagemodels
+for interactive poem generation. In Proceedings of
+theThirteenthLanguageResourcesandEvaluation
+Conference , pages 3519–3529, Marseille, France.
+European Language Resources Association.
+Alec Radford, Jeﬀrey Wu, Rewon Child, David Luan,
+DarioAmodei,andIlyaSutskever.2019. Language
+Models are Unsupervised Multitask Learners.
+Colin Raﬀel,Noam Shazeer,Adam Roberts, Katherine
+Lee, Sharan Narang, Michael Matena, Yanqi Zhou,
+Wei Li, and Peter J. Liu. 2020a. Exploring the lim-
+its of transfer learning with a uniﬁed text-to-text
+transformer. Journal of Machine Learning Research ,
+21(140):1–67.
+Colin Raﬀel,Noam Shazeer,Adam Roberts, Katherine
+Lee, Sharan Narang, Michael Matena, Yanqi Zhou,
+Wei Li, and Peter J. Liu. 2020b. Exploring the
+limitsoftransferlearningwithauniﬁedtext-to-text
+transformer. Journal of Machine Learning Research ,
+21(140):1–67.
+John W. Ratcliﬀ and David E. Metzener. 1988. Pattern
+matching: The gestalt approach. Dr. Dobb’s Journal ,
+page 46.
+Vikas Raunak and Arul Menezes. 2022. Finding memo:
+Extractive memorization in constrained sequence
+generation tasks.
+Sascha Rothe, Shashi Narayan, and Aliaksei Severyn.
+2020. Leveraging pre-trained checkpoints for se-
+quencegenerationtasks. TransactionsoftheAssocia-
+tion for Computational Linguistics , 8:264–280.
+Wei Shi and Vera Demberg. 2019. Next sentence pre-
+dictionhelpsimplicitdiscourserelationclassiﬁcation
+within and across domains. In Proceedings of the2019 Conference on Empirical Methods in Natu-
+ral Language Processing and the 9th International
+Joint Conference on Natural Language Processing
+(EMNLP-ĲCNLP) , pages 5790–5796, Hong Kong,
+China. Association for Computational Linguistics.
+Burrhus F. Skinner. 1939. The alliteration in shake-
+speare’s sonnets: a study in literary behavior. Psy-
+chological Record .
+HaipengSun,JunweiBao,YouzhengWu,andXiaodong
+He.2022. BORT:Backanddenoisingreconstruction
+forend-to-endtask-orienteddialog. In Findingsofthe
+AssociationforComputationalLinguistics: NAACL
+2022, pages 2156–2170, Seattle, United States. Asso-
+ciation for Computational Linguistics.
+Tianyi Tang, Junyi Li, Wayne Xin Zhao, and Ji-Rong
+Wen. 2022. Mvp: Multi-task supervised pre-training
+for natural language generation.
+Yi Tay, Vinh Q. Tran, Sebastian Ruder, Jai Prakash
+Gupta, Hyung Won Chung, Dara Bahri, Zhen Qin,
+SimonBaumgartner,CongYu,andDonaldMetzler.
+2022. Charformer: Fast character transformers via
+gradient-based subword tokenization. In The Tenth
+International Conference on Learning Representa-
+tions, ICLR 2022, VirtualEvent, April 25-29, 2022 .
+OpenReview.net.
+AlfredTennyson.1850. InMemoriamA.H.H. Edward
+Moxon and Co., London.
+Yufei Tian and Nanyun Peng. 2022. Zero-shot sonnet
+generation with discourse-level planning and aesthet-
+icsfeatures. In Proceedingsofthe2022Conference
+of the North American Chapter of the Association for
+ComputationalLinguistics: HumanLanguageTech-
+nologies, pages 3587–3597, Seattle, United States.
+Association for Computational Linguistics.
+Chau Tran, Yuqing Tang, Xian Li, and Jiatao Gu. 2020.
+Cross-lingual retrieval for iterative self-supervised
+training. In Advances in Neural Information Process-
+ing Systems , volume 33, pages 2207–2219. Curran
+Associates, Inc.
+Herbert F. Tucker. 2011. Poetic data and the news from
+poems: A "for better for verse" memoir. Victorian
+Poetry, 49(2):267–281.
+TimVandeCruys.2020. Automaticpoetrygeneration
+from prosaic text. In Proceedings of the 58th Annual
+Meeting of the Association for Computational Lin-
+guistics, pages 2471–2480, Online. Association for
+Computational Linguistics.
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob
+Uszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz
+Kaiser,andIlliaPolosukhin.2017. Attentionisallyou
+need. InAdvances in Neural Information Processing
+Systems, volume 30. Curran Associates, Inc.
+Jörg Wöckener, Thomas Haider, Tristan Miller, The-
+Khang Nguyen, Thanh Tung Linh Nguyen, Minh Vu
+13Pham, Jonas Belouadi, and Steﬀen Eger. 2021. End-
+to-end style-conditioned poetry generation: What
+does it take to learn from examples alone? In
+Proceedings of the 5th Joint SIGHUM Workshop
+onComputationalLinguisticsforCulturalHeritage,
+Social Sciences, Humanities and Literature , pages
+57–66, Punta Cana, Dominican Republic (online).
+Association for Computational Linguistics.
+LanqingXue,KaitaoSong,DuocaiWu,XuTan,NevinL.
+Zhang, Tao Qin, Wei-Qiang Zhang, and Tie-Yan Liu.
+2021a. DeepRapper: Neural rap generation with
+rhymeandrhythmmodeling. In Proceedingsofthe
+59thAnnualMeetingoftheAssociationforCompu-
+tational Linguistics and the 11th International Joint
+ConferenceonNaturalLanguageProcessing(Volume
+1: LongPapers) ,pages69–81,Online.Association
+for Computational Linguistics.
+Linting Xue, Aditya Barua, Noah Constant, Rami Al-
+Rfou, Sharan Narang, Mihir Kale, Adam Roberts,
+and Colin Raﬀel. 2022. ByT5: Towards a token-free
+future with pre-trained byte-to-byte models. Transac-
+tionsoftheAssociationforComputationalLinguistics ,
+10:291–306.
+LintingXue,NoahConstant,AdamRoberts,MihirKale,
+RamiAl-Rfou,AdityaSiddhant,AdityaBarua,and
+Colin Raﬀel. 2021b. mT5: A massively multilingual
+pre-trainedtext-to-texttransformer. In Proceedingsof
+the 2021 Conference of the North American Chapter
+oftheAssociationforComputationalLinguistics: Hu-
+man Language Technologies , pages 483–498, Online.
+Association for Computational Linguistics.
+YunyiYang,YunhaoLi,andXiaojunQuan.2021. Ubar:
+Towards fully end-to-end task-oriented dialog system
+withgpt-2. ProceedingsoftheAAAIConferenceon
+Artiﬁcial Intelligence , 35(16):14230–14238.
+MingZhong,DaYin,TaoYu,AhmadZaidi,Mutethia
+Mutuma, Rahul Jha, Ahmed Hassan Awadallah, Asli
+Celikyilmaz, Yang Liu, Xipeng Qiu, and Dragomir
+Radev. 2021. QMSum: A new benchmark for query-
+based multi-domain meeting summarization. In Pro-
+ceedingsofthe2021ConferenceoftheNorthAmer-
+ican Chapter of the Association for Computational
+Linguistics: HumanLanguageTechnologies ,pages
+5905–5921,Online.AssociationforComputational
+Linguistics.
+Chenguang Zhu, Yang Liu, Jie Mei, and Michael Zeng.
+2021. MediaSum: A large-scale media interview
+dataset for dialogue summarization. In Proceedings
+ofthe2021ConferenceoftheNorthAmericanChapter
+of the Association for Computational Linguistics:
+Human Language Technologies , pages 5927–5934,
+Online. Association for Computational Linguistics.
+Jian Zhu, Cong Zhang, and David Jurgens. 2022.
+ByT5 model for massively multilingual grapheme-
+to-phonemeconversion. In Proc.Interspeech2022 ,
+pages 446–450.
+Andrea Zugarini, Stefano Melacci, and Marco Maggini.
+2019. Neural poetry: Learning to generate poemsusing syllables. In Artiﬁcial Neural Networks and
+Machine Learning - ICANN 2019: Text and Time
+Series-28thInternationalConferenceonArtiﬁcial
+NeuralNetworks,Munich,Germany,September17-
+19, 2019, Proceedings, Part IV , volume 11730 of
+LectureNotesinComputerScience ,pages313–325.
+Springer.
+14Meter Symbol
+iambus
+trochee
+amphibrach
+anapest
+dactyl
+alexandrine
+Table 5: Meters in our dataset we consider for our
+experiments. An alexandrine consists of iambic feet
+with a caesura after the sixth syllable.
+A Additional poetry corpus statistics
+ThepoetrycorporawecollectareEnglishProject
+Gutenberg ( EPG) and Deutsches Lyrik Korpus
+(DLK) (Haider, 2021) for unlabeled poetry, and
+P/r.pc/o.pc/s.pc/o.pc/d.pc/i.pc/c.pc /four.sup, Chicago Rhyme Corpus ( C/h.pc/i.pc/c.pc/a.pc/g.pc/o.pc)/five.sup,
+For-better-for-verse ( FORB) (Tucker, 2011), Ger-
+man Rhyme Corpus ( GRC) (Haider and Kuhn,
+2018), as well as EPG64andA/n.pc/t.pc/i.pc-K(Haider,
+2021) for labeled poetry. We map meters which
+appear less than 25 times in our labeled corpora to
+thespeciallabel other. Theﬁnallistofmeterswe
+consider can be found in Table 5.
+Additional statistics of our custom Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc
+corpuscanbe foundinTable6. Duringautomatic
+labeling, when the rhyme scheme cannot be clearly
+determined(e.g.,accordingtotheclassiﬁertheﬁrst
+verse rhymes withthe second, thesecond with the
+third but the ﬁrst and the third do not rhyme) or no
+dominant meter exists, we discard the quatrain.
+The eight emotions in P/o.pc-E/m.pc/o.pc we train our
+classiﬁeronare beauty/joy ,sadness,uneasiness ,
+vitality,awe / sublime ,suspense,humor, andan-
+noyance. Since an additional emotion, nostalgia ,
+almost never occurs, we follow Haider et al. (2020)
+and omit it from our experiments.
+B German Token-level Attributions
+Germantoken-levelattributionscoresinFigure8
+largelyfollowthetrendsobservedinSection6.4on
+English. GPT-2puts less attention on style and the
+emphasized parts of text are less granular.
+C Example Quatrains
+In Table 7 we list additional example quatrains
+in German and English, generated with B/y.pcGPT5
+(base).
+/four.supgithub.com/quadrismegistus/prosodic
+/five.supgithub.com/sravanareddy/rhymedata<ABBA>
+<trochee>
+<medium>FrühlingläßtseinblauesBand
+WiederflatterndurchdieLüfte;
+Süße,wohlbekannteDüfte
+StreifenahnungsvolldasLand.
+<ABBA>
+<trochee>
+<medium>FrühlingläßtseinblauesBand
+WiederflatterndurchdieLüfte;
+Süße,wohlbekannteDüfte
+StreifenahnungsvolldasLand.
+Figure 8: A famous stanza by Mörike (1832) with
+visualized attention from B/y.pcGPT5 (top) and GPT-2
+(bottom) when generating the last syllable.
+15Rhyme Meter Alliteration
+Language label freq. label freq. label freq.
+GermanABCD 19.73% iambus 61.66% low 50.95%
+ABAB 15.60% alexandrine 18.06% medium 39.23%
+AABB 13.07% trochee 17.05% high 9.81%
+EnglishAABB 19.17% iambus 83.96% medium 54.92%
+ABCD 16.40% anapest 7.61% low 28.94%
+ABBC 13.07% trochee 4.13% high 16.14%
+Table 6: Distribution of alliteration levels, as well as most frequent meters and rhyme schemes in Q/u.pc/a.pcT/r.pc/a.pc/i.pc/n.pc .
+German English
+EinReiterstehtamHafen, A
+DerschautdieFlutnichtan, B
+ErhörtdieSchifferschlafen A
+ImstillenOzean. BWithlanguidsmile,thestealingtearretires, A
+Andtheslowfadinglightontremblingﬁres! A
+Nowshereceivesthegoldencircletround, B
+Andﬁllsthewovenchamberswithasound; B
+SchweigendstehndieBurgennieder, A
+UnddieLüftesindverhallt, B
+UnddieTrommelnklingenwider, A
+UnddieBüchsenknallenhalt. BTheﬁrstwholearnedthelessonthere A
+Hadlearnedtoscoﬀandscorntosneer, A
+Andthatthelearnedmighthavebeen B
+Ashamelesswomanandaqueen. B
+DerGreiserbebt,dieHanderstarrt, A
+DieKinderschauernvordemSterben; B
+DieStimmebricht,dieThränefallt, C
+SiesiehtihmnachmitnassemBeben. BThencamethelabourofthedaywithin, A
+Thegraybeginningoftheweek, B
+Anddownwewentwithhopeandterrorsin, A
+Andnotawordtosayandspeak. B
+DieStrömungwiederumdurchalleGliederdringt, A
+Undalles,wasdalebtundwalltundleuchtet,singt. A
+DasteigteinPalmenstrauchausdemerhabnenLichte, B
+Erschwimmt aufeinerFluthundsingetinGedichte. BForthestarsareinthesky; A
+Andthestarshavegonetodie A
+Withtheirsongsofjoyandfear, B
+Withtheirmusicandtheircheer. B
+Table 7: Additional example poems generated with B/y.pcGPT5 (base) in German and English.
+16

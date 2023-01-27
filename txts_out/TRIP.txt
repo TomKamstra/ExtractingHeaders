@@ -1,0 +1,968 @@
+TRIP: Triangular Document-level Pre-training
+for Multilingual Language Models
+Hongyuan Lu~, Haoyang Huang, Shuming Ma, Dongdong Zhang, Wai Lam~, Furu Wei
+~The Chinese University of Hong Kong
+Microsoft Corporation
+{hylu,wlam}@se.cuhk.edu.hk
+{haohua,shumma,dozhang,fuwei}@microsoft.com
+Abstract
+Despite the current success of multilingual
+pre-training, most prior works focus on lever-
+aging monolingual data or bilingual parallel
+data and overlooked the value of trilingual
+parallel data. This paper presents Triangular
+Document-level Pre-training ( TRIP ), which
+is the ﬁrst in the ﬁeld to extend the conven-
+tional monolingual and bilingual pre-training
+to a trilingual setting by (i) Grafting the
+same documents in two languages into one
+mixed document, and (ii) predicting the re-
+maining one language as the reference transla-
+tion. Our experiments on document-level MT
+and cross-lingual abstractive summarization
+show that TRIP brings by up to 3.65 d-BLEU
+points and 6.2 ROUGE-L points on three mul-
+tilingual document-level machine translation
+benchmarks and one cross-lingual abstractive
+summarization benchmark, including multi-
+ple strong state-of-the-art (SOTA) scores. In-
+depth analysis indicates that TRIP improves
+document-level machine translation and cap-
+tures better document contexts in at least three
+characteristics: (i) tense consistency, (ii) noun
+consistency and (iii) conjunction presence.
+1 Introduction
+Conventional multilingual pre-training achieved
+promising results on machine translation (Liu
+et al., 2020) and cross-lingual classiﬁcation (Xue
+et al., 2021). These document-level pre-training
+paradigms are commonly pre-trained on monolin-
+gual corpora in different languages with denoising
+objectives such as sentence permutation and span
+masking (Liu et al., 2020; Lewis et al., 2020b) to
+understand document-level structures and enhance
+cross-lingual relationships. Despite the fact that
+these models are usually pre-trained on a large
+scale that is usually unaffordable for most NLP
+practiontitioners, there are also calls that unsuper-
+vised scenario is not strictly realistic (Artetxe et al.,
+2020). Following these motivations, supervisedpre-training advances into the bilingual method-
+ologies that take the advantage of supervised pre-
+training with translation pairs (Chi et al., 2021;
+Reid and Artetxe, 2022) which could provide a
+stronger signal and better performance. To our best
+knowledge, prior works overlooked the value of
+trilingual pairs buried in parallel corpora and pre-
+train on bilingual translation pairs (Chi et al., 2021;
+Reid and Artetxe, 2022). DOCmT5 (Lee et al.,
+2022) is perhaps the closest work to ours, which
+creates synthetic translation pairs for a document-
+level bilingual pre-training. This paper further steps
+into a trilingual document-level pre-training setting
+through trilingual translation pairs.
+We present TRIP, a pre-training method that
+squeezes the most value of parallel corpora. We
+ﬁrst construct trilingual pairs from parallel cor-
+pora. Subsequently, TRIP augments the conven-
+tional parallel document-level pre-training by (i)
+grafting two documents presented in two different
+languages into one mixed document, and (ii) pre-
+dicting the remaining one language as the reference
+translation. We conduct experiments on document-
+level machine translation on TED talks (Cettolo
+et al., 2015), News benchmark (News-commentary)
+and Europarl (Koehn, 2005), and cross-lingual ab-
+stractive summarization on Wikilingua (Ladhak
+et al., 2020; Gehrmann et al., 2021). We found that
+TRIP signiﬁcantly improves previous pre-training
+paradigms (Lee et al., 2022), and yields strong re-
+sults including multiple SOTA on both tasks.
+In summary, we make three key contributions:
+•TRIP is the ﬁrst work to incorporate trilin-
+gual document pairs as a novel pre-training
+paradigm for multilingual pre-training.
+•TRIP yields competitive SOTA results on
+multilingual document-level MT and cross-
+lingual abstractive summarization.
+•In-depth analysis and ablation studies indicate
+TRIP’s effectiveness.arXiv:2212.07752v1  [cs.CL]  15 Dec 2022Figure 1: Overview of our proposed Triangular Document-level Pre-training ( TRIP ). For each constructed trilin-
+gual document pair, we take two languages as the input and use the remaining one as the reference translation.
+We deﬁne a new symbol Tto denote our noise function that combines three operations in sequence: splitting by
+half, concatenating, and sentence permutation. Zn, Jn, and En for n=f1;2;3;4gdenotes four sentences in three
+different languages with the same meaning. Zn’, Jn’, and En’ denotes the span of corrupted sentences.
+Source Target Size/GB Source Target Size/GB
+Es En 3.22 Pt Es 2.71
+Es Ca 2.07 Uk Ru 1.60
+Fr Es 1.47 Es Pt 1.47
+En De 1.25 Pt En 1.14
+Ca Es 1.12 Fr En 1.03
+Ru Uk 0.87 Pt Fr 0.73
+Table 1: A language list for the top 12 language direc-
+tions for the bilingual high-quality pre-training data in
+MIND2to illustrate the scale of MIND2.
+2 Related Work
+2.1 Multilingual Pre-training
+Multilingual pre-training in Natural Language Gen-
+eration has achieved great success. Previous works
+can be divided into two streams: monolingual pre-
+training (Liu et al., 2020; Xue et al., 2021) and par-
+allel pre-training (Tang et al., 2021; Chi et al., 2021;
+Reid and Artetxe, 2022; Lee et al., 2022). Mono-
+lingual pre-training refers to the works that use
+monolingual corpora in many different languages
+and perturbs the input using noise functions such
+as sentence permutation (Liu et al., 2020) and span
+corruption (Xue et al., 2021) and requires the model
+to reconstruct the model. Parallel pre-training uses
+translation pairs in the pre-training stage. Tang
+et al. (2021) uses clean translation pair without
+any noise for pre-training. Chi et al. (2021) ex-
+tends mT5 with objectives such as translation span
+corruption. Reid and Artetxe (2022) proposes dic-
+tionary denoising with translation pairs. DOCmT5
+(Lee et al., 2022) creates synthetic translation pairsand uses sentence permutation for document-level
+multilingual pre-training.
+2.2 Document-level Cross-lingual Tasks
+Document-level machine translation and cross-
+lingual summarization are the two document-level
+cross-lingual tasks that we investigate in this paper.
+Document-level MT (Yang et al., 2016; Maruf
+et al., 2019, 2021; Zhang et al., 2022) is a typ-
+ically hard translation task, possibly due to the
+long input problem (Pouget-Abadie et al., 2014;
+Koehn and Knowles, 2017) when directly mod-
+elling the long document as a single input as well
+as the necessity in solving contextual understand-
+ing (V oita et al., 2018, 2019). Due to its nature
+of hardness, many works focus on using sentence-
+level models with a smaller contextual window to
+simulate document-level MT (Zheng et al., 2020;
+Chen et al., 2020), while directly modelling a long
+document provides richer contextual information.
+This paper follows the setting from the pre-training
+paradigm DOCmT5 (Lee et al., 2022) that opti-
+mizes a document-level model with a longer con-
+text window that provides a richer source of con-
+text, which is also a double-edged sword that is a
+typically hard setting due to the long input problem.
+Abstractive summarization is a generation task
+that requires an understanding of texts (Chopra
+et al., 2016; Fan et al., 2018). We focus on a cross-
+lingual setting where source and target are written
+in different languages (Ladhak et al., 2020).Models MTP Grafting MDPTrilingual Document
+Data Level
+mBART (Liu et al., 2020)
+mT5 (Xue et al., 2021)
+mT6 (Chi et al., 2021)
+PARADISE (Reid and Artetxe, 2022)
+DOCmT5 (Lee et al., 2022)
+TRIP
+Table 2: Comparisons of various popular multilin-
+gual pre-training paradigms to TRIP. We denote the
+intermediate value as . For example, mT5 uses span
+corruption solely without sentence permutation, so we
+put as a value of MDP for mT5. MTP ,Grafting ,
+andMDP refer to the pre-training objective we intro-
+duce at the start of Section 3.
+3 Triangular Document-level
+Pre-training
+3.1 MIND2: Creating a Corpus With
+Trilingual Document Pairs
+We create MIND2, a trilingual parallel corpus with
+document translation pairs across 115 languages
+and 5,669 language directions. The acquisition of
+MIND2is sourced from the high-quality news doc-
+uments scoped from XXX website1timestamped
+from April 2021 to July 2022. The whole procedure
+is composed of two steps: (i) creating bilingual doc-
+ument pairs and (ii) creating trilingual document
+pairs based on the bilingual document pairs.
+More details will be available upon publication.
+3.2 TRIP
+We then introduce the conventional training objec-
+tives for multilingual language models:
+•Machine Translation Pre-training (MTP) :
+Using sentence-level translation pairs is an
+effective second-stage pre-training data to fur-
+ther enhance the pre-training models (Kale
+et al., 2021; Tang et al., 2021).
+•Code-Switching Pre-training (CSP) : The
+use of randomly replacing words with trans-
+lations in different languages is an effective
+strategy in training multilingual models (Yang
+et al., 2020; Reid and Artetxe, 2022).
+•Monolingual Document-level Pre-training
+(MDP) : Sentence permutation (Liu et al.,
+1To make the submission anonymized, the full name will
+only be available upon publication.Model Fr!En De!En Zh!En Vi!En Cs!En Th!En Avg.
+Sentence-level Systems
+HANy - - 24.00 - - - -
+mBART 48.69 44.80 28.39 37.18 39.46 - -
+In-house Translator 50.69 47.07 30.35 39.59 43.05 32.30 40.51
+Document-level Systems
+mT5y - - 24.24 - - - -
+M2M-100 49.43 43.82 26.63 35.91 39.04 25.93 36.79
+mBART 49.16 44.86 27.90 37.09 39.64 - -
+MARGE y - - 28.40 - - - -
+DOCmT5 y - - 31.40 - - - -
+TRIP 51.94 48.24 31.63 40.52 44.22 32.87 41.52
+Ablation Study
+- w/o Grafting 50.74 46.46 30.65 39.67 42.64 31.70 40.31
+- w/o Document Data 49.53 45.98 30.17 39.28 42.33 30.62 39.65
+Table 3: Results for document-level machine transla-
+tion on TED Talks in the direction of (X !En). We
+report the d-BLEU scores for all the results. y: scores
+are taken from Lee et al. (2022) for these models.
+2020) and span corruption (Xue et al., 2021)
+are effective multilingual pre-train strategies.
+In comparison, TRIP introduces a trilingual set-
+ting by (i) splitting the documents written in two
+different languages but with the same meaning half
+by half, (ii) concatenating half of the document
+from each language with each other to form a new
+document that contains two languages, and (iii)
+doing sentence permutation on the resulting doc-
+uments. Such a combinatory operation extends
+theCSP into a novel concept we call Grafting2
+that mix-up sentences from documents in different
+languages but in the same meaning into a new docu-
+ment that retains the original meaning. TRIP is the
+ﬁrst one to unify MTP ,Grafting , and MDP into
+a novel multilingual document-level pre-training
+paradigm with a trilingual setting.
+We present in Figure 1 to illustrate the mech-
+anism of TRIP. Given three documents with the
+same meaning written in Chinese, Japanese, and
+English, two of the documents are split and concate-
+nated. The concatenation is randomly permutated
+at the sentence level, and the remaining unchanged
+document is used as the translation reference.
+Table 2 presents the characteristics that TRIP
+exhibits compared to the previous pre-training
+paradigms. We report whether trilingual document
+pairs are included in the pre-training, and we report
+whether document-level tasks such as document-
+level machine translation or abstractive summariza-
+2Grafting refers to joining two plants together by cutting
+and using scion (the upper part of the grafting) as the top and
+the understock (the lower part of the grafting) as the root.Figure 2: Overall performance of TRIP on TED Talks
+in the direction of (X !X) with our checkpoint pre-
+trained in (X!En) directions only. The scores are
+written in TRIP as the former and the In-house Trans-
+lator as the latter. We highlight in aqua when TRIP
+wins (darker one when printed in B&W) and in hot
+pink (lighter one when printed in B&W) when In-house
+Translator wins.
+tion are reported in the original papers. To our best
+knowledge, TRIP is the ﬁrst work in our ﬁeld to
+incorporate buried trilingual pairs in parallel cor-
+pora for pre-training purposes. This is also the ﬁrst
+work that features Grafting.
+More formally, we ﬁrst denote Nas the number
+of training document pairs in trilingual triplets of
+(x1;x2;x3)in a pre-training corpus D. Given a
+Seq2Seq generation model (Sutskever et al., 2014)
+with parameters , TRIP optimizes the likelihood:
+NX
+n=1Exn
+1;xn
+2;xn
+32D[ logP(x3jx1Tx2)];(1)
+where we deﬁne Tas a new operation that accepts
+two documents in different languages as the input,
+and takes three operation in sequence: splitting by
+half, concatenating, and sentence permutation.
+4 Experiments
+4.1 TRIP Pre-training
+Model Conﬁguration We use DeltaLM_large
+as our basic model structure (Ma et al., 2021). This
+architecture is composed of 24 Transformer en-
+coder layers and 12 interleaved decoder layers. In
+addition, the architecture has an embedding size of
+1024, and a dropout rate of 0.1. The feed-forward
+network is conﬁgured to have a size of 4096 with
+16 attention heads. For parameter initialization, weuse a checkpoint that continually trains on the ofﬁ-
+cialDeltaLM_large checkpoint, a strong In-house
+machine translation system that achieves competi-
+tive scores in WMT21. We call it In-house Trans-
+lator in the remaining of this paper.
+Dataset and Pre-processing As described in
+Section 3, we create and use MIND2to train TRIP.
+We use a list of keywords to automatically clean
+and remove noisy text such as claims and adver-
+tisements. After data cleaning, we follow Ma et al.
+(2021) to use SentencePiece (Kudo and Richard-
+son, 2018) for tokenization. The SentencePiece
+model we have used is consistent with the prior
+works which share the same DeltaLM_large archi-
+tecture used for DeltaLM (Ma et al., 2021). We
+use the same design as the prior works relevant to
+DeltaLM_large and we preﬁx the sentence with
+a language that targets the direction of generation.
+We split the documents 512 by 512.
+Training Details We use the Adam optimizer
+(Kingma and Ba, 2014) with 1= 0:9and2=
+0:98for our multilingual pre-training. The learning
+rate is set as 1e-5with a warmup step of 4000 . We
+use the label smoothing cross-entropy for our trans-
+lation loss and we set label smoothing with a ratio
+of0:1for model training. All of our pre-trainings
+are conducted on 16 NVIDIA V100 GPUs. We set
+the batch size as 512 tokens per GPU. To simulate
+a larger batch size, we update the model every 128
+steps. For the noise function Tthat we deﬁne for
+TRIP which splits two documents from a trilingual
+document pair, we split each by half.
+4.2 Multilingual Document-level MT
+4.2.1 TED Talks
+Experimental Settings Prior systems have re-
+ported scores for TED Talks on only 1 or 2 trans-
+lation directions (Lee et al., 2022; Sun et al.,
+2022). Further, the current state-of-the-art system
+DOCmT5 supports only the translation direction
+into English (X!En). Following DOCmT5, we
+use the IWSLT15 Campaign for the evaluation on
+TED Talks. We report more language directions
+while DOCmT5 only evaluates Chinese (Zh !En).
+Following DOCmT5, we split all documents into a
+maximum of 512 tokens for all train/dev/test sets
+during training and inference. For evaluation, we
+reconstruct the documents by concatenating the
+sentences/documents alike DOCmT5 and evaluate
+the output using d-BLEU (Papineni et al., 2002)Model Da!En De!En El!En Es!En Fr!En It!En Nl!En Pt!En Sv!En
+Sentence-level Systems
+mBART - 48.28 - - 49.16 50.83 47.48 - -
+In-house Translator 48.94 47.25 53.46 50.57 47.68 49.49 45.95 50.65 52.77
+Document-level Systems
+mBART - 47.70 - - 48.98 50.62 46.96 - -
+TRIP 51.13 48.30 54.38 52.29 49.36 51.23 48.07 51.03 53.43
+Ablation Study
+- w/o Grafting 49.90 47.75 53.75 51.78 48.70 50.37 47.18 50.49 52.49
+- w/o Document Data 49.85 47.64 53.34 51.32 48.46 50.26 47.12 50.13 52.42
+Table 4: Results for document-level machine translation on Europarl in the direction of (X !En). We report the
+d-BLEU scores for all the results including both sentence-level systems and document-level systems.
+Model Fr!En De !En Zh !En Cs !En Avg.
+Sentence-level Systems
+mBART 29.93 29.31 18.33 30.15 26.93
+In-house Translator 35.59 34.71 27.23 37.39 33.73
+Document-level Systems
+mBART 30.14 26.35 15.01 29.79 25.32
+TRIP 39.49 35.48 27.58 38.06 35.15
+Ablation Study
+- w/o Grafting 38.47 35.20 26.74 37.26 34.42
+- w/o Document Data 36.38 34.24 25.58 36.97 33.29
+Table 5: Results for document-level machine transla-
+tion on the News benchmark in the direction of (X !
+En).
+with the SacreBLEU.3The training data we use is
+the ofﬁcial parallel training data from IWSLT15
+without any additional monolingual data. Follow-
+ing DOCmT5 (Lee et al., 2022), we use the ofﬁcial
+2010 dev set and 2010-2013 test set.
+Baseline Systems We compare our system to
+several sentence-level and document-level base-
+lines including SOTA models DOCmT5 y(Lee
+et al., 2022), M2M-100 (Fan et al., 2022), mBART
+(Liu et al., 2020), HAN y(Yang et al., 2016),
+MARGEy(Lewis et al., 2020a), and the In-house
+Translator that we use to initialize the weights for
+TRIP.y: the scores are taken from existing papers
+for these models.
+Results Table 3 presents the evaluation results
+on TED Talks in the direction of (X !En). TRIP
+clearly surpasses the sentence-level systems and
+the prior baselines and SOTA systems. TRIP sur-
+passes the In-house Translator (i.e., the row of -
+w/o Document Data) when both are ﬁne-tuned in
+the document-level settings by an average of 1.87
+3https://github.com/mjpost/sacrebleu
+50 55 60 65 70
+BlonDe ScoresZh->EnDe->EnTh->EnVi->EnFr->EnCs->EnLanguage DirectionsBlonDe Scores on the TED dataset for X->En Directions
+TRIP
+In-house TranslatorFigure 3: BlonDe scores on the TED dataset evaluated
+with TRIP and In-house Translator.
+points in d-BLEU. TRIP surpasses In-house Trans-
+lator when the latter is ﬁne-tuned in the sentence-
+level setting by an average of 1.01 points in d-
+BLEU. We observe that In-house Translator as the
+sentence-level model reports a better score than
+the one trained in a document-level setting, which
+aligns with the fact that document-level training
+is naturally a hard task potentially due to the long
+input problem (Bao et al., 2021; Sun et al., 2022).
+TRIP beats the prior SOTA system DOCmT5 and
+reports more language directions. We also note that
+DOCmT5 directly trains on the MTmC4 corpus
+that contains TED talks and can lead to potential
+information leakage on the test set.
+4.2.2 News
+Experimental Settings For News benchmarks,
+we follow Sun et al. (2022) to use News Com-
+mentary v11 as the training set. For Cs and De,
+we use newstest2015 as the dev set, and new-
+stest2016/newstest2019 as the test set respectively.
+For Fr, we use newstest2013 as the dev set and
+newstest2015 as the test set. For Zh, we use new-Model Tr!En Vi !En Ru !En Es !En Hi !En Fr !En Id !En
+mT5-XL y 40.0/18.3/33.3 37.6/14.9/31.2 37.2/14.6/30.9 41.2/17.2/34.6 -/-/- -/-/- -/-/-
+ByT5-large y 35.9/15.8/29.8 32.7/12.2/27.2 31.4/11.0/26.2 35.1/13.5/29.1 -/-/- -/-/- -/-/-
+mBART y 34.4/13.0/28.1 32.0/11.1/26.4 33.1/11.0/27.8 38.3/15.4/32.4 -/-/- -/-/- -/-/-
+DOC-mT5 y 37.7/16.7/31.4 32.4/11.9/27.0 33.6/12.8/28.5 36.8/15.0/31.5 35.2/13.7/29.5 36.3/14.3/30.8 34.2/13.3/27.9
+TRIP 45.3/22.5/39.0 40.8/17.3/34.4 36.6/ 14.6/30.8 38.7/15.9/32.7 42.8/19.9/36.8 38.5/16.0/32.9 39.4/16.4/33.3
+Ablation Study
+- w/o Grafting 42.6/19.6/36.6 38.8/16.1/33.1 34.9/13.3/29.6 37.1/14.8/31.5 40.7/18.1/34.9 37.2/14.9/31.8 37.6/15.2/31.9
+- w/o Document Data 42.4/19.7/36.4 38.5/15.8/32.9 34.9/13.4/29.7 36.9/14.8/31.4 40.9/18.0/35.0 37.3/14.9/31.9 37.8/15.3/32.2
+Table 6: Results for cross-lingual abstractive summarization on Wikilingua in the direction of (X !En). We
+report the scores of F-measure for ROUGE-1/ROUGE-2/ROUGE-L. "-" means not provided. y: the scores are
+taken from Lee et al. (2022) and ofﬁcial GEM benchmark4(Gehrmann et al., 2021) for these models.
+stest2019 as the dev set and newstest2020 as the
+test set. We use the same dataset preprocessing and
+evaluation metric as for the TED dataset.
+Baseline Systems As the weights for DOCmT5
+are not available at the time of writing, we compare
+our system to sentence-level and document-level
+mBART and the In-house Translator. The scores
+are run by us using the ofﬁcial checkpoints.
+Results In Table5, we see obvious improvements
+by up to 3.65 d-BLEU points with TRIP in the
+direction of (Fr!En). The improvements are
+consistent among the remaining directions.
+4.2.3 Europarl
+Experimental Settings For Europarl dataset
+(Koehn, 2005), we follow Sun et al. (2022) to use
+Europarl-v7, and we experiment with the setting of
+(X!En) where we test nine languages: Da, De,
+El, Es, Fr, It, Nl, Pt, and Sv. Like previous works
+(Bao et al., 2021; Sun et al., 2022), the dataset is
+randomly partitioned into train/dev/test divisions.
+Additionally, we split by English document IDs to
+avoid information leakage.
+Baseline Systems As the weights for DOCmT5
+are not available at the time of writing, we compare
+our system to sentence-level and document-level
+mBART and the In-house Translator. The scores
+are run by us using the ofﬁcial checkpoints.
+Results By comparing TRIP to strong baselines,
+we see that the improvements with TRIP are con-
+sistent in all directions, and surpass all the strong
+baselines. This validates TRIP’s effectiveness.
+4.3 Cross-lingual Abstractive Summarization
+Experimental Settings We follow the same set-
+ting used by DOCmT5 (Lee et al., 2022) to evalu-
+ate cross-lingual abstractive summarization on thedataset of Wikilingua (Ladhak et al., 2020). The
+only difference is that they put a special preﬁx
+"Summarize X to Y" for summarization like mT5,
+and we put a language tag to indicate the target
+language as the preﬁx. We use the F1 measure
+for ROUGE-1/ROUGE-2/ROUGE-L scores (Lin,
+2004) for evaluation.
+Baseline Systems In addition to DOCmT5 that
+we report the scores from the original paper (Lee
+et al., 2022), we use prior SOTA scores from the
+ofﬁcial GEM benchmark (Gehrmann et al., 2021)
+with mT5, ByT5 (Xue et al., 2022) as strong base-
+lines. We also employ mBART as the baseline.
+Results Table 6 demonstrates that TRIP signiﬁ-
+cantly exceeds previous SOTA systems and base-
+line systems in many language directions. This
+includes up to 6.2 ROUGE-L points in the direc-
+tion of (Hi!En) compared to DOCmT5. Hence,
+we conclude that TRIP is effective for the task of
+cross-lingual abstractive summarization.
+4.4 Ablation Study
+One major novelty of TRIP is the use of trilingual
+document pairs and the Grafting mechanism. To
+conduct rigorous experiments, we report ablation
+scores without bilingual document pairs and with-
+outGrafting in Table 3, 4, 5, and 6. Among all
+the tables, obvious decreases in the d-BLEU scores
+can be observed in all four of the benchmarks we
+report across all the language directions. Here, the
+trilingual pairs are constructed from bilingual pairs,
+so the improvement is not solely due to the data,
+and we conclude that the Grafting mechanism is
+an effective multilingual pre-training strategy.
+4.5 BlonDe Evaluation
+Figure 3 depicts the evaluation results on TED
+Talks with BlonDe scores (Jiang et al., 2022),Case 1: Tense Consistency (Jiang et al., 2022; Sun et al., 2022)
+Source . . . . . .，但是这是一个大致的抽象的讨论，当某些间隙的时候，奥克塔维奥说，“保罗,也许我们可以观看TEDTalk。” TEDTalk 用
+简单的方式就讲明了，. . . . . .
+Reference ..., But itwas a fairly abstract discussion, and at some point when there was a pause, Octavio said, "Paul, maybe we could watch the
+TEDTalk." So the TEDTalk laidout in very simple terms ...
+Google Translate ..., But it’s a roughly abstract discussion when at some point Octavio said, "Paul, maybe we can watch the TEDTalk." The TEDTalk said it
+in a simple way, ...
+Microsoft Translator ..., But it’s a roughly abstract discussion when, at certain intervals, Octavio said, "Paul, maybe we can watch TEDTalk." TEDTalk explains
+it in a simple way, ...
+DeepL Translate ..., But itwas a broadly abstract discussion, and when there were certain breaks, Octavio said, "Paul, maybe we can watch TEDTalk."
+TEDTalk uses simple way to illustrate, ...
+ChatGPT ..., But thisis a general abstract discussion, when some gaps occur, Octavio said, "Paul, maybe we can watch a TED Talk." The TED Talk
+explained it in a simple way, ...
+In-house Translator (Sentence) ..., But it’s kind of an abstract discussion, and at some point, Octavio says, "Paul, maybe we can watch the TEDTalk." And the TEDTalk
+simply explains that, ...
+In-house Translator (Document) ..., But it’s sort of an abstract discussion. And at some point, Octavio said, "Paul, maybe we can watch the TEDTalk." The TEDTalk explained,
+in a very simple way, ...
+TRIP ..., But itwas a sort of abstract discussion, and at some point in the intermission, Octavio said, "Paul, maybe we can watch the TEDTalk."
+And the TEDTalk made it clear, ...
+Case 2: Noun-related Issues (Jiang et al., 2022)
+Source . . . . . .当光在西红柿上走过时，它一直在闪耀。它并没有变暗。为什么？因为西红柿熟了，并且光在西红柿内部反射，. . . . . .
+Reference ..., as the light washes over thetomato, It continues to glow. It doesn’t become dark. Why is that? Because thetomato isactuallyripe, and
+thelight is bouncing around inside the tomato, ...
+Google Translate ..., as the light passed over thetoma toes, It kept shining. It didn’t get darker. Why? Because thetoma toes areripe, and light is reﬂected
+inside the tomatoes, ...
+Microsoft Translator ..., as the light walks over thetoma toes, It keeps shining. It didn’t darken. Why? Because thetoma toesareripe, and light is reﬂected inside
+the tomatoes, ...
+DeepL Translate ,... as the light traveled over thetoma toes, it kept shining. It doesn’t dim. Why? Because thetoma toes are ripe and thelight is reﬂecting
+inside the tomatoes, ...
+ChatGPT ..., when the light passes over thetomato, it continues to shimmer. It does not get dark. Why? Because thetomato is ripe, and thelight is
+reﬂected inside the tomato, ...
+In-house Translator (Sentence) ..., as the light goes over thetomato, It’s always glowing. It’s not darkening. Why? Because thetomato isripe, and light is reﬂected inside
+the tomato ...
+In-house Translator (Document) ..., as the light passes over thetomato, It keeps ﬂashing. It doesn’t get darker. Why? Because thetoma toes areripe , and thelight is is
+reﬂected inside the tomato, ...
+TRIP ..., as the light passes over thetomato, It’s ﬂashing all the time. It’s not getting darker. Why? Because thetomato isripe, and thelight is
+reﬂected inside the tomato, ...
+Case 3: Conjunction Presence (Xiong et al., 2019; Sun et al., 2022)
+Source . . . . . .，我想提醒大家，我已经谈论了很多前人的事情。我还想考虑一下，民主会是什么样子,或者是已经是什么样子的可能性如
+果我们可以让更多的母亲参与进来. . . . . .
+Reference ..., I want to suggest to you that I’ve been talking a lot about the fathers. And Iwant tothink about the possibilities of what democracy might
+look like, or might have looked like, if we had more involved the mothers ...
+Google Translate ..., I want to remind everyone that I’ve talked a lot about my predecessors. Ialsowant tothink about what democracy would look like, or is
+it already What the possibilities look like if we could get more mothers involved...
+Microsoft Translator ..., I want to remind you that I have talked a lot about my predecessors. Iwould also liketoconsider what democracy would look like, or
+already be What kind of possibilities if we can involve more mothers ...
+DeepL Translate ,... I want to remind you that I’ve talked about a lot of things that have come before. Ialsowant toconsider the possibility of what democracy
+would look like, or what it already looks like if we could get more mothers involved in, ...
+ChatGPT ..., I would like to remind everyone that I have already talked about many things of the ancestors. Ialso want toconsider what democracy
+would look like, or what it might already look like if we could involve more mothers, ...
+In-house Translator (Sentence) ..., I want to remind you that I’ve talked about a lot of my predecessors. Ialsowant tothink about what democracy might look like, or what
+democracy might look like if we could get more mothers involved...
+In-house Translator (Document) ..., I’d like to remind you that I’ve talked about a lot of things before. I’dalso liketothink about the possibilities of what democracy might
+look like, or what it might be like, if we could get more mothers to participate ...
+TRIP ..., I want to remind you that I’ve talked a lot about the past. And Iwant tothink about the possibilities of what democracy might look like,
+or already looks like, if we can get more mothers involved ...
+Table 7: Three case studies from TED Talks demonstrate that TRIP captures better tense consistency, noun consis-
+tency, and conjunction presence. We highlight the correct translation in aqua (darker one when printed in B&W),
+and the mistakes in hot pink (lighter one when printed in B&W). Google Translate: https://translate.google.com/,
+Microsoft Translator: https://www.bing.com/translator, DeepL Translate: https://www.deepl.com/translator. Chat-
+GPT: https://openai.com/blog/chatgpt/. The results are taken in December 2022 and can be subject to change.
+which is an evaluation metric designed for
+document-level machine translation that considers
+consistency issues. Consistent improvements in
+BlonDe scores on TRIP can be observed in all the
+directions on TED Talks. We postulate that such
+an improvement over consistency attributes to theGrafting mechanism that randomly replaces nouns
+and tensed verbs into another language.
+4.6 Unseen (X!X) Language Pairs
+Figure 2 reports the performance on TED Talks
+in the direction of (X !X) with our TRIP check-Model Fr!En De !En Zh !En Vi !En Cs !En Th !En Avg.
+ChatGPT 29.56 36.76 23.31 28.26 30.29 20.94 28.19
+TRIP 54.79 49.94 28.45 41.19 42.73 34.92 42.00
+Table 8: Comparison to ChatGPT on the task of
+document-level machine translation on TED Talks in
+the direction of (X !En). We report BLEU scores for
+randomly sampled 50 sub-documents chunked at 512
+tokens max length for each language direction.
+point pre-trained in (X !En) directions only. TRIP
+clearly improves the In-house Translator baseline
+on these unseen language pairs.
+4.7 Case Study
+Translation Table 7 presents a case study that
+demonstrates and compares the output between
+TRIP and the baseline system. We highlighted the
+correct translation in aqua and the wrong transla-
+tion in hot pink. In addition to the sentence-level In-
+house Translator and the document-level In-house
+Translator, we also present the outputs from popu-
+lar commercial translation systems Google Trans-
+late, Microsoft Translator, and DeepL Translate.
+Each case demonstrates that TRIP is the best in
+terms of three characteristics respectively: (i) tense
+consistency (Jiang et al., 2022; Sun et al., 2022)
+across the sentences, (ii) noun consistency (Jiang
+et al., 2022) such as singular and plural consistency
+as well as attaching grammatical article ‘the’ to a
+previously mentioned object ‘light’, and (iii) con-
+junction presence that indicates the relationship
+between sentences and makes the translation natu-
+ral and ﬂuent (Xiong et al., 2019; Sun et al., 2022).
+While some outputs in the third case are accept-
+able translations, missing coordinating conjunction
+does not precisely capture the relationship between
+sentences and can make the translation less ﬂuent.
+All the characteristics require document-level con-
+textual understanding, which TRIP handles the best
+among all the systems we test. Again, we postulate
+that such an improvement attributes to the Graft-
+ingmechanism that randomly replaces nouns and
+tensed verbs into another language.
+Summarization Table 9 in the Appendix depicts
+the cases which show that TRIP outputs better
+cross-lingual summarization in (i) precisely cap-
+turing the context and outputting properly in Case
+1, (ii) outputting consistent nouns, i.e., messages
+instead of settings in Case 2 and (iii) producing
+concise and accurate summarization in Case 3.4.8 Comparisons to ChatGPT
+Table 8 presents comparisons on TRIP to a popular
+Large Language Model (LLM) ChatGPT.5We con-
+duct experiments on TED Talks. For each source
+document chunked at 512 tokens max length, we
+added a preﬁx ‘Translate the following text into En-
+glish:’ to 50 random test samples for all directions.
+The results indicate ChatGPT still lags supervised
+system TRIP. This conclusion aligns with our case
+studies in Table 7, which show that ChatGPT fails
+in handling contextual information perfectly.
+5 Conclusions
+We present a novel multilingual document-level
+pre-training methodology called TRIP, which is the
+ﬁrst to adopt a trilingual setting with the use of
+trilingual document pairs and adopts the Grafting
+mechanism to fuse documents written in differ-
+ent languages. Experimental results indicate that
+TRIP achieves competitive scores on document-
+level MT and cross-lingual abstractive summariza-
+tion, including several SOTA scores on both tasks.
+Detailed analysis and case studies indicate the ef-
+fectiveness of TRIP.
+Limitations of TRIP
+TRIP relies on the high qualities translation pairs as
+the pre-training data. This is less ﬂexible than the
+traditional multilingual pre-training strategies that
+use monolingual pre-training data. While relaxing
+the quality bar for the translation pairs can still be
+effective, additional experiments should be done to
+verify this point of view.
+Ethics Statement
+We honour and support the *CL Code of Ethics.
+The datasets used in this work are well-known and
+widely used, and the dataset pre-processing does
+not use any external textual resource. In our view,
+there is no known ethical issue. We also curate
+a corpus for pre-training language models. Al-
+though we have made our best efforts in reducing
+potentially offensive and toxic data, the models are
+subjected to generating offensive context. But the
+issues mentioned above are widely known to exist
+for these models commonly. Any content generated
+does not reﬂect the view of the authors.
+5https://openai.com/blog/chatgpt/References
+Mikel Artetxe, Sebastian Ruder, Dani Yogatama,
+Gorka Labaka, and Eneko Agirre. 2020. A call
+for more rigor in unsupervised cross-lingual learn-
+ing. In Proceedings of the 58th Annual Meeting
+of the Association for Computational Linguistics ,
+pages 7375–7388, Online. Association for Compu-
+tational Linguistics.
+Guangsheng Bao, Yue Zhang, Zhiyang Teng, Boxing
+Chen, and Weihua Luo. 2021. G-transformer for
+document-level machine translation. In Proceed-
+ings of the 59th Annual Meeting of the Association
+for Computational Linguistics and the 11th Interna-
+tional Joint Conference on Natural Language Pro-
+cessing (Volume 1: Long Papers) , pages 3442–3455,
+Online. Association for Computational Linguistics.
+Mauro Cettolo, Jan Niehues, Sebastian Stüker, Luisa
+Bentivogli, Roldano Cattoni, and Marcello Federico.
+2015. The IWSLT 2015 evaluation campaign. In
+Proceedings of the 12th International Workshop on
+Spoken Language Translation: Evaluation Cam-
+paign , pages 2–14, Da Nang, Vietnam.
+Junxuan Chen, Xiang Li, Jiarui Zhang, Chulun Zhou,
+Jianwei Cui, Bin Wang, and Jinsong Su. 2020. Mod-
+eling discourse structure for document-level neural
+machine translation. In Proceedings of the First
+Workshop on Automatic Simultaneous Translation ,
+pages 30–36, Seattle, Washington. Association for
+Computational Linguistics.
+Zewen Chi, Li Dong, Shuming Ma, Shaohan Huang,
+Saksham Singhal, Xian-Ling Mao, Heyan Huang,
+Xia Song, and Furu Wei. 2021. mT6: Multilingual
+pretrained text-to-text transformer with translation
+pairs. In Proceedings of the 2021 Conference on
+Empirical Methods in Natural Language Processing ,
+pages 1671–1683, Online and Punta Cana, Domini-
+can Republic. Association for Computational Lin-
+guistics.
+Zewen Chi, Li Dong, Shuming Ma, Shaohan Huang
+Xian-Ling Mao, Heyan Huang, and Furu Wei. 2021.
+MT6: Multilingual Pretrained Text-to-Text Trans-
+former with Translation Pairs. arXiv e-prints , page
+arXiv:2104.08692.
+Sumit Chopra, Michael Auli, and Alexander M. Rush.
+2016. Abstractive sentence summarization with at-
+tentive recurrent neural networks. In Proceedings of
+the 2016 Conference of the North American Chap-
+ter of the Association for Computational Linguistics:
+Human Language Technologies , pages 93–98, San
+Diego, California. Association for Computational
+Linguistics.
+Angela Fan, Shruti Bhosale, Holger Schwenk, Zhiyi
+Ma, Ahmed El-Kishky, Siddharth Goyal, Man-
+deep Baines, Onur Celebi, Guillaume Wenzek,
+Vishrav Chaudhary, Naman Goyal, Tom Birch, Vi-
+taliy Liptchinsky, Sergey Edunov, Edouard Grave,
+Michael Auli, and Armand Joulin. 2022. Beyondenglish-centric multilingual machine translation. J.
+Mach. Learn. Res. , 22(1).
+Angela Fan, David Grangier, and Michael Auli. 2018.
+Controllable abstractive summarization. In Proceed-
+ings of the 2nd Workshop on Neural Machine Trans-
+lation and Generation , pages 45–54, Melbourne,
+Australia. Association for Computational Linguis-
+tics.
+Sebastian Gehrmann, Tosin Adewumi, Karmanya
+Aggarwal, Pawan Sasanka Ammanamanchi,
+Anuoluwapo Aremu, Antoine Bosselut, Khy-
+athi Raghavi Chandu, Miruna-Adriana Clinciu,
+Dipanjan Das, Kaustubh Dhole, Wanyu Du,
+Esin Durmus, Ond ˇrej Dušek, Chris Chinenye
+Emezue, Varun Gangal, Cristina Garbacea, Tat-
+sunori Hashimoto, Yufang Hou, Yacine Jernite,
+Harsh Jhamtani, Yangfeng Ji, Shailza Jolly, Mi-
+hir Kale, Dhruv Kumar, Faisal Ladhak, Aman
+Madaan, Mounica Maddela, Khyati Mahajan,
+Saad Mahamood, Bodhisattwa Prasad Majumder,
+Pedro Henrique Martins, Angelina McMillan-
+Major, Simon Mille, Emiel van Miltenburg, Moin
+Nadeem, Shashi Narayan, Vitaly Nikolaev, Andre
+Niyongabo Rubungo, Salomey Osei, Ankur Parikh,
+Laura Perez-Beltrachini, Niranjan Ramesh Rao,
+Vikas Raunak, Juan Diego Rodriguez, Sashank
+Santhanam, João Sedoc, Thibault Sellam, Samira
+Shaikh, Anastasia Shimorina, Marco Antonio
+Sobrevilla Cabezudo, Hendrik Strobelt, Nishant
+Subramani, Wei Xu, Diyi Yang, Akhila Yerukola,
+and Jiawei Zhou. 2021. The GEM benchmark: Nat-
+ural language generation, its evaluation and metrics.
+InProceedings of the 1st Workshop on Natural
+Language Generation, Evaluation, and Metrics
+(GEM 2021) , pages 96–120, Online. Association for
+Computational Linguistics.
+Yuchen Jiang, Tianyu Liu, Shuming Ma, Dongdong
+Zhang, Jian Yang, Haoyang Huang, Rico Sennrich,
+Ryan Cotterell, Mrinmaya Sachan, and Ming Zhou.
+2022. BlonDe: An automatic evaluation metric for
+document-level machine translation. In Proceedings
+of the 2022 Conference of the North American Chap-
+ter of the Association for Computational Linguis-
+tics: Human Language Technologies , pages 1550–
+1565, Seattle, United States. Association for Com-
+putational Linguistics.
+Mihir Kale, Aditya Siddhant, Noah Constant, Melvin
+Johnson, Rami Al-Rfou, and Linting Xue. 2021.
+nmT5 – Is parallel data still relevant for pre-training
+massively multilingual language models? arXiv e-
+prints , page arXiv:2106.02171.
+Diederik Kingma and Jimmy Ba. 2014. Adam: A
+method for stochastic optimization. International
+Conference on Learning Representations .
+Philipp Koehn. 2005. Europarl: A parallel corpus for
+statistical machine translation. In Proceedings of
+Machine Translation Summit X: Papers , pages 79–
+86, Phuket, Thailand.Philipp Koehn and Rebecca Knowles. 2017. Six chal-
+lenges for neural machine translation. In Proceed-
+ings of the First Workshop on Neural Machine Trans-
+lation , pages 28–39, Vancouver. Association for
+Computational Linguistics.
+Taku Kudo and John Richardson. 2018. SentencePiece:
+A simple and language independent subword tok-
+enizer and detokenizer for neural text processing. In
+Proceedings of the 2018 Conference on Empirical
+Methods in Natural Language Processing: System
+Demonstrations , pages 66–71, Brussels, Belgium.
+Association for Computational Linguistics.
+Faisal Ladhak, Esin Durmus, Claire Cardie, and Kath-
+leen McKeown. 2020. WikiLingua: A new bench-
+mark dataset for cross-lingual abstractive summa-
+rization. In Findings of the Association for Com-
+putational Linguistics: EMNLP 2020 , pages 4034–
+4048, Online. Association for Computational Lin-
+guistics.
+Chia-Hsuan Lee, Aditya Siddhant, Viresh Ratnakar,
+and Melvin Johnson. 2022. DOCmT5: Document-
+level pretraining of multilingual language models.
+InFindings of the Association for Computational
+Linguistics: NAACL 2022 , pages 425–437, Seattle,
+United States. Association for Computational Lin-
+guistics.
+Mike Lewis, Marjan Ghazvininejad, Gargi Ghosh, Ar-
+men Aghajanyan, Sida Wang, and Luke Zettlemoyer.
+2020a. Pre-training via paraphrasing. In Proceed-
+ings of the 34th International Conference on Neu-
+ral Information Processing Systems , NIPS’20, Red
+Hook, NY , USA. Curran Associates Inc.
+Mike Lewis, Yinhan Liu, Naman Goyal, Mar-
+jan Ghazvininejad, Abdelrahman Mohamed, Omer
+Levy, Veselin Stoyanov, and Luke Zettlemoyer.
+2020b. BART: Denoising sequence-to-sequence
+pre-training for natural language generation, trans-
+lation, and comprehension. In Proceedings of the
+58th Annual Meeting of the Association for Compu-
+tational Linguistics , pages 7871–7880, Online. As-
+sociation for Computational Linguistics.
+Chin-Yew Lin. 2004. ROUGE: A package for auto-
+matic evaluation of summaries. In Text Summariza-
+tion Branches Out , pages 74–81, Barcelona, Spain.
+Association for Computational Linguistics.
+Yinhan Liu, Jiatao Gu, Naman Goyal, Xian Li, Sergey
+Edunov, Marjan Ghazvininejad, Mike Lewis, and
+Luke Zettlemoyer. 2020. Multilingual denoising
+pre-training for neural machine translation. Transac-
+tions of the Association for Computational Linguis-
+tics, 8:726–742.
+Shuming Ma, Li Dong, Shaohan Huang, Dongdong
+Zhang, Alexandre Muzio, Saksham Singhal, Hany
+Hassan Awadalla, Xia Song, and Furu Wei. 2021.
+DeltaLM: Encoder-Decoder Pre-training for Lan-
+guage Generation and Translation by Augmenting
+Pretrained Multilingual Encoders. arXiv e-prints ,
+page arXiv:2106.13736.Sameen Maruf, André F. T. Martins, and Gholamreza
+Haffari. 2019. Selective attention for context-aware
+neural machine translation. In Proceedings of the
+2019 Conference of the North American Chapter of
+the Association for Computational Linguistics: Hu-
+man Language Technologies, Volume 1 (Long and
+Short Papers) , pages 3092–3102, Minneapolis, Min-
+nesota. Association for Computational Linguistics.
+Sameen Maruf, Fahimeh Saleh, and Gholamreza Haf-
+fari. 2021. A survey on document-level neural ma-
+chine translation: Methods and evaluation. ACM
+Comput. Surv. , 54(2).
+Kishore Papineni, Salim Roukos, Todd Ward, and Wei-
+Jing Zhu. 2002. Bleu: A method for automatic eval-
+uation of machine translation. In Proceedings of the
+40th Annual Meeting on Association for Computa-
+tional Linguistics , ACL ’02, page 311–318, USA.
+Association for Computational Linguistics.
+Jean Pouget-Abadie, Dzmitry Bahdanau, Bart van
+Merriënboer, Kyunghyun Cho, and Yoshua Bengio.
+2014. Overcoming the curse of sentence length for
+neural machine translation using automatic segmen-
+tation. In Proceedings of SSST-8, Eighth Workshop
+on Syntax, Semantics and Structure in Statistical
+Translation , pages 78–85, Doha, Qatar. Association
+for Computational Linguistics.
+Machel Reid and Mikel Artetxe. 2022. PARADISE:
+Exploiting parallel data for multilingual sequence-
+to-sequence pretraining. In Proceedings of the
+2022 Conference of the North American Chapter of
+the Association for Computational Linguistics: Hu-
+man Language Technologies , pages 800–810, Seat-
+tle, United States. Association for Computational
+Linguistics.
+Zewei Sun, Mingxuan Wang, Hao Zhou, Chengqi
+Zhao, Shujian Huang, Jiajun Chen, and Lei Li. 2022.
+Rethinking document-level neural machine transla-
+tion. In Findings of the Association for Compu-
+tational Linguistics: ACL 2022 , pages 3537–3548,
+Dublin, Ireland. Association for Computational Lin-
+guistics.
+Ilya Sutskever, Oriol Vinyals, and Quoc V . Le. 2014.
+Sequence to sequence learning with neural networks.
+InProceedings of the 27th International Conference
+on Neural Information Processing Systems - Vol-
+ume 2 , NIPS’14, page 3104–3112, Cambridge, MA,
+USA. MIT Press.
+Yuqing Tang, Chau Tran, Xian Li, Peng-Jen Chen, Na-
+man Goyal, Vishrav Chaudhary, Jiatao Gu, and An-
+gela Fan. 2021. Multilingual translation from de-
+noising pre-training. In Findings of the Association
+for Computational Linguistics: ACL-IJCNLP 2021 ,
+pages 3450–3466, Online. Association for Computa-
+tional Linguistics.
+Elena V oita, Rico Sennrich, and Ivan Titov. 2019.
+When a good translation is wrong in context:
+Context-aware machine translation improves ondeixis, ellipsis, and lexical cohesion. In Proceedings
+of the 57th Annual Meeting of the Association for
+Computational Linguistics , pages 1198–1212, Flo-
+rence, Italy. Association for Computational Linguis-
+tics.
+Elena V oita, Pavel Serdyukov, Rico Sennrich, and Ivan
+Titov. 2018. Context-aware neural machine trans-
+lation learns anaphora resolution. In Proceedings
+of the 56th Annual Meeting of the Association for
+Computational Linguistics (Volume 1: Long Papers) ,
+pages 1264–1274, Melbourne, Australia. Associa-
+tion for Computational Linguistics.
+Hao Xiong, Zhongjun He, Hua Wu, and Haifeng Wang.
+2019. Modeling coherence for discourse neural
+machine translation. In Proceedings of the Thirty-
+Third AAAI Conference on Artiﬁcial Intelligence and
+Thirty-First Innovative Applications of Artiﬁcial In-
+telligence Conference and Ninth AAAI Symposium
+on Educational Advances in Artiﬁcial Intelligence ,
+AAAI’19/IAAI’19/EAAI’19. AAAI Press.
+Linting Xue, Aditya Barua, Noah Constant, Rami Al-
+Rfou, Sharan Narang, Mihir Kale, Adam Roberts,
+and Colin Raffel. 2022. ByT5: Towards a token-free
+future with pre-trained byte-to-byte models. Trans-
+actions of the Association for Computational Lin-
+guistics , 10:291–306.
+Linting Xue, Noah Constant, Adam Roberts, Mi-
+hir Kale, Rami Al-Rfou, Aditya Siddhant, Aditya
+Barua, and Colin Raffel. 2021. mT5: A massively
+multilingual pre-trained text-to-text transformer. In
+Proceedings of the 2021 Conference of the North
+American Chapter of the Association for Computa-
+tional Linguistics: Human Language Technologies ,
+pages 483–498, Online. Association for Computa-
+tional Linguistics.
+Zhen Yang, Bojie Hu, Ambyera Han, Shen Huang, and
+Qi Ju. 2020. CSP:code-switching pre-training for
+neural machine translation. In Proceedings of the
+2020 Conference on Empirical Methods in Natural
+Language Processing (EMNLP) , pages 2624–2636,
+Online. Association for Computational Linguistics.
+Zichao Yang, Diyi Yang, Chris Dyer, Xiaodong He,
+Alex Smola, and Eduard Hovy. 2016. Hierarchical
+attention networks for document classiﬁcation. In
+Proceedings of the 2016 Conference of the North
+American Chapter of the Association for Computa-
+tional Linguistics: Human Language Technologies ,
+pages 1480–1489, San Diego, California. Associa-
+tion for Computational Linguistics.
+Biao Zhang, Ankur Bapna, Melvin Johnson, Ali Dabir-
+moghaddam, Naveen Arivazhagan, and Orhan Fi-
+rat. 2022. Multilingual document-level translation
+enables zero-shot transfer from sentences to docu-
+ments. In Proceedings of the 60th Annual Meet-
+ing of the Association for Computational Linguistics
+(Volume 1: Long Papers) , pages 4176–4192, Dublin,
+Ireland. Association for Computational Linguistics.Zaixiang Zheng, Xiang Yue, Shujian Huang, Jiajun
+Chen, and Alexandra Birch. 2020. Towards mak-
+ing the most of context in neural machine translation.
+InProceedings of the Twenty-Ninth International
+Joint Conference on Artiﬁcial Intelligence, IJCAI-
+20, pages 3983–3989. International Joint Confer-
+ences on Artiﬁcial Intelligence Organization. Main
+track.Case 1
+Source Ayakkabılarını (ve ba ˘gcıklarınla tabanlıklarını) kuruması için orta derecede ı¸ sık alan bir yere koy. Sıcak bir yere (örne ˘gin, radyatörün
+yanına) ya da do ˘grudan güne¸ s ı¸ sı ˘gına koyma çünkü bu, ayakkabılara zarar verebilir. Ayakkabılarını kurutucuya koymak tavsiye edilmez
+çünkü kurutucu, ayakkabı tabanlarını yamultabilir.
+Source (Google-translated) Put your shoes (and your laces and insoles) in a moderately light place to dry. Do not place it in a hot place (for example, near a radiator)
+or in direct sunlight as this may damage the shoes. Putting your shoes in the dryer is not recommended because the dryer can warp the
+soles of your shoes.
+Reference Air-dry your shoes.
+DeltaLM (Document-level) Allow your shoes (and laces) to dry.
+TRIP Let your shoes (and the laces) air dry.
+Case 2
+Source Bunun için ye¸ sil bir arka plan üzerindeki beyaz konu¸ sma balonuna dokun. Ana Ekranlarından birinde olması gerekir. ’ye dokun. Mesajlar
+ekranının sol üst kö¸ sesindedir. Açık bir sohbetin varsa Mesajlar menüsüne dönmek için ekranın sol üst kö¸ sesindeki < butonuna dokun. ’e
+dokun. Ekranının sa ˘g alt kö¸ sesindedir. Seçilen mesajların silinir.
+Source (Google-translated) To do this, tap the white speech bubble on a green background. It should be on one of their Home Screens. Tap It’s in the upper-left
+corner of the Messages screen. If you have an open chat, tap the < button in the upper left corner of the screen to return to the Messages
+menu. Tap . It’s in the lower right corner of your screen. The selected messages are deleted.
+Reference Open your iPhone’s messages. Tap Edit. Select each conversation you wish to delete. Tap Delete.
+DeltaLM (Document-level) Open your iPhone’s Settings . Tap Messages. Tap Delete Messages.
+TRIP Open Messages. Tap the Messages tab. Tap Delete. Tap Delete to conﬁrm.
+Case 3
+Source Bazıları için geçmi¸ s ya¸ samlar gidilecek bir yer de ˘gil, seni sen yapan ¸ seyin bir kısmıdır. ˙Insanlı ˘gın tarihi boyunca birçok kültür reenkar-
+nasyonu inançlarının merkezine koymu¸ stur. ˙Islam ve Hıristiyanlık reenkarnasyona inanmasa da, Hinduistler, bazı Museviler ve bazı
+Budistler buna inanır. En iyisi kendini bir dine tümüyle adamaktansa (çünkü dinler çok kısıtlayıcı olabilir) kendi yolunu ke¸ sfetmen.
+Kendi manevi do ˘grularını kendin bul.
+Source (Google-translated) For some, past lives are not a place to go but part of what makes you who you are. Throughout the history of humanity, many cultures
+have put reincarnation at the center of their beliefs. Although Islam and Christianity do not believe in reincarnation, Hinduists, some
+Jews, and some Buddhists do. It’s best to explore your own path rather than devote yourself entirely to a religion (because religions can
+be too restrictive). Find your own spiritual truth.
+Reference Become spiritual.
+DeltaLM (Document-level) Understand that some people believe in reincarnation. Find your own way.
+TRIP Explore your own spiritual journey.
+Table 9: Three case studies from Wikilingua (Tr !En) demonstrate that TRIP outputs better summarization.

@@ -1,0 +1,632 @@
+ 
+Intern ational Journal  of Economics and Business Administration  
+Volume VIII, Issue  2, 2020    
+ pp. 351-364 
+ An Artificial Intelligence and NLP based Islamic FinTech 
+Model Combining Zakat and Qardh -Al-Hasan  for Countering 
+the Adverse Impact of COVID 19 on SME s and Individuals    
+Submitted 20/03/20, 1st revision 05/04/20, accepted 25/04/20  
+Mohammad Haider  Syed1, Shahnawaz  Khan2,  
+Mustafa  Raza  Rabbani3, Yannis  E. Thalassinos4 
+Abstract:  
+ 
+Pursose: The ongoing Corona virus (COVID 19) pandemic  has already impacted almost  
+everyon e across the globe. The focus has now shifted from spread of the disease to the 
+economic consequences it will bring  to the society. The shortage of production will result 
+into the shortage of supply and consequently will end as loss of jobs and emp loyment for 
+millions of people around the world. Two of the most important section of our society i.e. , 
+daily wage laborers and Small and Medium Enterprises (SMEs) will have to bear the major 
+burnt of this crisis. The proposed integrated Artificial Intelli gence an d NLP based Islamic 
+FinTech Model combining Zakat (Islamic tax) and Qardh -Al-Hasan (benevolent loan) can 
+help the economy to minimize the adverse impact of COVID 19 on individuals and SMEs.  
+Design/ Methodology /Approach:  The present study explores t he possi bility of Zakat and 
+Qardh -Al-Hasan as a financing method to fight the adverse impact of Corona virus on poo r 
+individuls  and SMEs. It provides the solution by proposing an Artificial Intelligence and NLP 
+based Islamic FinTech Model combining Zakat a nd Qardh -Al-Hasan .     
+Findings : The findings of the study reveals that Islamic finance has immense potential to 
+fight any kind of situation/pandemic.  Zakat and Qardh -Al-Hasan , if combined together can 
+prove to be a deadly combination to fight the adverse effect o f COVID 19.  
+Practical Implications:  To be used as an effective way to support individuals and SMEs in 
+the period during and after  the pandemic of COVID 19.   
+Originality/value : There is no study combining Zakat and Qardh Al -Hasan to fight the 
+advers e effect  of poor individuals and SMEs. The study will contribute massively to the 
+existing literature and will help the government and civil societies in fighting the economic 
+impact of COVID 19 on individuals and SMEs.   
+ 
+Keywords : Artificial Intelligenc e, COVID 19, Islamic FinTech , Zakat , Qardh -Al-Hasan . 
+ 
+JEL codes : G3, G32,  G38.  
+Paper Type: Research article.     
+ 
+1College of Computing and Informatics, Saudi Electronic Uniersity, Dammam, Saudi Arabia, 
+e-mail:  m.haider@seu.edu.sa     
+2Department of Information Technology, University College of Bahrain , Bahrain,  
+e-mail: skhan@ucb.edu.bh  
+3Department of Finance and Accounting, College of Busines s Administration, Kingdom 
+University, Bahrain , e-mail: m.rabbani@ku.edu.bh       
+4Adjunct Lecturer, Gu lf University for Science and Technology , Kuwait,  
+e-mail: thalas sinos@hotmail.com    An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 352 
+ 
+ 1. Introduction  
+ 
+The start of this decade and first quarter of 2020 has seen everything. It started with 
+the fear of U.S. -Iran war to global pandemic i n the form of Corona v irus (COVID 
+19) have pushed the global economy into huge contraction. Covid 19 is a new kind 
+of Corona virus which was not found previously in human. The main source of this 
+virus is still unknown  but considering the previous experien ces it must have 
+trans ferred to the human from animals. Actually it is a large family of disease that 
+has common symptoms like, normal cold, flu, cough to more severe disease like 
+‘Severe Acute Respiratory Syndrome’ (SARS).   With every passing hour the 
+adverse impact of this gl obal pandemic Corona virus (COVID 19) is increasing 
+manifold. Within just four months after the first case detected in China the economic 
+impact of this crisis is already being compared with the global financial crisis of 
+2007 -08 and great depression of 19 30s. Just for the comparison the financial crisis 
+of 2007 -08 lasted for more than 3 years (Erken , 2012) where as great depression of 
+1930s lasted for around a decade (Romer , 1990).  
+ 
+With economies in lock down, closing shops, borders , people being asked t o stay 
+indoors and economic activities to a halt the global economy is in shambles and 
+looking less healthy. The stock markets are tumbling, central banks are slashing 
+interest rate, industrial production are almost zero resulting int o massive job loss and  
+a financial crisis is around the corner.  As the writing is on the wall but the amount 
+of damage to be done by this pandemic will largely depend on the amount of 
+corrective actions the government and employers take today to minimize the 
+damage. The employ ers, civil societies and government agencies are required to 
+work in coordination to help the affected and minimize the adverse impact of this 
+crisis on individuals in SMEs.  
+ 
+2. Impact  of COVID 19 on Poor  Individuals  
+ 
+Though  the death  toll and number  of infected people  from  COVID  19 are mainly  
+from  the world ’s most  developed  countries  like, U.S., Italy,  Spain , Germany,  China  
+and UK are increasing  every  minute.  It has severely  affected  the world’s  most  
+impoverished  countries  despite  their best health  care systems and other  infrastructure  
+facilities.  The impact  of this crisis  is projected  to be worse  in underdeveloped  and 
+developing  countries  due to lack of adequate  testing  facilities,  lack of accurate  data 
+and because  of patients  might  have pre-existing  conditi ons. The ongoing  global  
+pandemic  will hit hard the poor and daily  wage  laborers  in these  countries  as it is 
+estimated  that 24 million  less people  will escape  poverty  due to this pandemic  
+(World Bank, 2020 ). The World Bank further  reports that there  are around 900 
+million  people  in the underdeveloped  countries  which  are under  risk due to this 
+pandemic.  Here  in this paper  we will not talk about  the number  of death  or measures  
+to cure the infected  patients.  Our focus  will be beyond  the number  of infections  and 
+death,  we will analyze  the economic  impact  of this pandemic  on individuals  and  M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+353  
+SMEs  and how we can use Islamic  finance  tools, Zakat  and Qardh -Al-Hasan , 
+combined  with the technology  to fight  this virus  and minimize  the damage  on these 
+two important  sectio ns of the society.   
+ 
+It is estimated  that some  regions  if we take the extreme  scenario  the number  of 
+people  living  in poverty  could  increase  by 420-580 million  and it is also expected  to 
+increase  the global  poverty  to around  0.5 billion which  is around  8% of the total 
+world’s  population  (Sumner , 2020).  This situation  has arrived  first time since  1990  
+that the global  poverty  is expected  to increase.  Oxfam -a Nairobi  based  charity  
+organization  published  a report  on April  10, 2020  and their findings  revealed  that 
+this is going  to be an economic  crisis  more  severe  than the financial  crisis  of 2008.  
+The global  poverty  is expected  to increase  for the first time in 30 years  after 1990.   
+ 
+The report  further  revealed  that taking  into account  the World  Bank measure  of 
+poverty  from  being  1.90$  a day or less to a higher  poverty  line of 5.50$  a day or less, 
+under  every  scenario  there  will be a global  contraction  of income  of up to 20% and 
+that will lead into a disaster . The number  of people  living  below poverty  line will 
+increase  up to 1.2 billion  worldwide  an increase  of 434 million.  Under  the same  
+calculation  if other  measure  is taken  into consideration  i.e. the number  of people  
+living  below  poverty  line on 5.50$  a day or less. The total global  popul ation  below  
+poverty  line will increase  to a whopping  4 billion  an increase  of 548 million  (Oxfem , 
+2020).  Considering  the above  statistics  and scenario,  there  is very bleak  chance  that 
+the situation  can get any better.  In all probability  the situation  is expected  to get 
+worse  only. The only way it can be improved  is that the rich people  and government  
+around  the world  should  come  together  and join hands  to help these  deprived  section  
+of society.  Islamic  finance  has two of the most  beautiful  tools,  Qardh -Al-Hasan  and 
+Zakat , to help ummah  by advancing  cash in this pandemic  situation.  If the Islamic  
+finance  tools  are used effectively  with the technology  the Muslim  countries  can save 
+the poor individuals . 
+ 
+3. Impact of COVID 19 on SMEs  
+ 
+It is expected  that the coron avirus  pandemic  is going to kill more  the small  business  
+than human  being  (Carruthers , 2020).  Knowing  the importance  of Small  and 
+Medium  Enterprises,  it is of increasing  importan ce to analyze  the impact  of Covid  
+19 on SMEs  and find out the measures  to help them  in survival.  In UK, it is revealed  
+that the most  organizations  can be categorized  as small  on the basis  of employee  
+number.  95 percent  of business  have  employed  less than 10 people  and of course  
+when  compared  to the profit  and turnover  the data is skewed  the other  way (Day, 
+2000).  SMEs  are the backbone  of the economy  whether  you talk about  the economy  
+of a random  state or the word  economy.  Most  of the world  economy  have achieved  
+the high level  of development  due to the contribution  from  SMEs,  for exam ple, 
+Taiwan,  China  and Japan  have  achieved  high industrial  growth  due to the 
+contribution  from  their dynamic  SMEs  (Pandya , 2012).  SMEs  provided  the valuable  
+inputs  to the society  in terms  of contribution  in GDP,  generating  employment,  An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 354 
+ 
+ providing  goods  for the local  demand  and adjusting  the quality  of goods  and services  
+asper  the local  demand.  The contribution  of SME  in invaluable  to world  economy  
+and it is beyond  the scope  of this research  to describe  (Robe , 2013).   
+ 
+The SMEs  contribute  massively  to the GDP  and employment  generat ion, the 
+contribution  to GDP  from  SME  comes  around  52-57%,  where  as it contributes  to the 
+61% of employment  in developing  countries  (Abor , 2010).  According  to the world  
+bank  report  in 2020  the SME s contribute  around  40% to the GDP,  it contributes  
+around  90% of the total businesses  where  as it 50% jobs worldwide  are coming  from  
+the SME s. SMEs  are more  important  and have  more  relevance  in Islamic  countries  
+as there  are 53.2 SMEs  in Islamic  countries  as compare  to the global  average  of 25.2 
+per 1000  population  (IDB , 2020).   
+ 
+The SMEs  are in urgent  need  of funds  due to the global  pandemic  COVID  19. There  
+is travel  ban all around  the world,  complete  lockdown,  no movement  of goods  and 
+services,  industries  like, tourism  and hotel s are in compl ete disarray.  Most  of the 
+SMEs  are battling  for the survival  as it has become  really  difficult  for them  to bear 
+the operating  expenses  like, paying  salary  and rent. It has become  the question  of 
+survival  for them  as most  of the SMEs  are having  very small  capital  and they can 
+sustain  for very long if the situation  continues  for some  more  time.   
+ 
+4. Zakat as a Financing Tool during COVID 19  
+ 
+Zakat  is one of the five pillars  of Islam  along  with the Shahadah,  (Belief  that Allah  
+is on and there  is no one except  Allah to worship)  Salah , (Muslims  are required  to 
+worship  Allah,  five times  a day),   Sawm  (Muslims  are required  to fast during  the 
+month  of Ramadan,  and Hajj (an annual  Islamic  pilgrimage  to holy city of Makkah).  
+Zakat  literally  means  ‘that  which  purifies’.  All the Muslims  who are eligible  to pay 
+must  pay minimum  2.5%  of their wealth  every  year to the poor,  needy,  destitute  and 
+others.  Zakat  is a compulsory  charity  tool is Islamic  finance  that can be used for 
+various  purposes,  mainly  for eradicating  the povert y from  Muslim  communit y. Holy  
+Quran  has mentioned  at least eight  application  of Zakat,  but there  is general  
+consensus  that the most  important  application  of Zakat  can be for the eradication  of 
+poverty  by paying  it to the needy  and poor (Hasan , 2010).   Zaka t is an important  part 
+of Islam  as Allah  has mentioned  more  than 30 times  in Holy  Quran  about  Zakat .  
+ 
+Allah  says in Surah  Al-Maida , Verse  12. “Allah  says,  I am with those  who prays  to 
+Allah,  pays Zakat  and believe  in my messenger.  Allah  further  says in the same  Surah  
+that, I will honor  and assist  them  and lend a good  loan to Allah  and I will erase  their 
+sins and take them  to the Jannah  (paradise)  where  there  are gardens  and rivers  
+flowing.  If any of you disbelieved,  it means  he has gone  away  from  the straight 
+path”. (Surah  Al-Maida,  Verse  12). 
+ 
+ M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+355  
+5. Scope of Zakat for Helping Poor and Poverty Alleviation during 
+COVID 19 Pandemic  
+ 
+As mentioned  earlier  there  are eight  application s of Zakat  mentioned  in Holy  Quran  
+and five of those  application s are related  to the poverty  alleviation.  To help the poor 
+is the basic  teaching  of Islam.  Helping  the poor people  in this difficult  time will 
+bring  two benefits  to the wealthy  or rich people  as it will purify  their wealth  and 
+heart  from  greed  as promised  by Allah  and it will also contribute  in the economic  
+growth  of the country  (Embng , 2013).  Keeping  all other  objective s of paying  Zakat,  
+the most  important  of them  is to help the poor and needy  to attain  the minimum  
+standard  of life (Abu  Bakar , 2011).  Due to the COVID  19, the poor’s  and daily  wage  
+earners  are in urgent  need  of funds  and those  people  who are eligible  to pay Zakat  
+and also the Zakat  houses  and Zakat  collection  centers  can use this money  to help 
+the poor and needy  during  this difficult  time.   
+ 
+6. Zakat as a Financing Tool for SMEs during C OVID 19 Pandemic  
+ 
+Distribution  of Zakat  is a very important  and one should  be very careful  as it cannot  
+be given  to every  business.  It can only be given  to those  businesses  who are eligible  
+for it asper  the rules  laid down  by the sharia. There  is various  application  of Zakat  
+mentioned  in Holy  Quran  and as practiced  by the Zakat  institutions  and rich and 
+wealthy  individuals.  One of the most  widely  used application  of Zakat  is the 
+distribution  of Zakat  money  to the needy  people  in the form of business  capital  as a 
+source  of Islamic  micro  financing  (Ibrahim , 2014).  Zakat  can be given  to the SME  
+and it has shown  positive  correlation  between  the Zakat  and business  development  
+of SME s in Malaysia  (Sukestri , 2018).  However,  it is concluded  here that while  
+paying  Zakat to the SME s one should  be very careful  and should  check  that while  
+paying  Zakat  the recipient  shall  not become  the Sahib -Al-Nisab  (The  owner  of 
+wealth  valuing  equal  to 52.5 tola silver).   
+  
+7. Qardh Al -Hasan (QH) as a Financing Tool during COVID 19  Pandem ic 
+ 
+Qardh  Al-Hasan  is the non interest  or benevolent  loan or non-margin  loan practiced  
+since  the era of Holy  Prophet  Muhammad  ﷺ. It is one of the most  beautiful  financing  
+tool available  in Islamic  finance.  Qardh -Al-Hasan  is a loan given  by the first party  to 
+the second  party  without  expectation  of any reward.  It is served  as a bailout  fund for 
+a short  period  of time (Hannanong , 2018).  As objective  of Islamic  finance  is the 
+removal  of poverty  and eradicating  the inequality  of income.  Qardh -Al-Hasan  is 
+served  as one of the most  important  tool in Islamic  finance.  Qardh -Al-Hasan  
+financing  is a traditional  financing  method  in Islamic  finance  and it has its relevance  
+even  today  in modern  world  and if applied  properly  it can help the SME s sector  in 
+fighting  this pandemic.  Allah  has mentioned  Qardh -Al-Hasan  on six occasions  
+(Q2:245,  Q5:12,  Q57:11,  Q57:18,  Q64:17,  Q73:20).  At one of the occasions  Allah  
+says that (Surah  Al-Baqarah,  verse  No. 245).   An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 356 
+ 
+ “Who is it that would  loan Allah  a goodly  loan so He may multiply  it for him many  
+times  over?  And it is Allah  who withholds  and grants  abundance,  and to Him you 
+will be returned”.  Explanation:  The above  verses  of Holy  Qura’an  can be interpreted  
+as- Qardh -Al-Hasan  means  lending  money  to the individuals  or organization  without  
+interest.  As Allah  has promised  that you will be rewarded  on the day of judgement.  
+The word  ‘Kaseera’  is used everywhere  which  means  ‘more  and more’.  Of course,  
+Allah  is the one who gives  more  and more  and if Allah  starts  giving  the reward,  
+there  is no limit  to it (Mirakhor , 2007).   
+ 
+8. Scope of Qardh -Al-Hasan (QH) for Helping Poor and Poverty 
+Alleviation during COVID 19 Pandemic  
+ 
+The central  objective  of Islamic  finance  is to achieve  social  justice,  eradication  of 
+poverty  and overall  welfare  of the society.  Islamic  finance  principles  are based  on 
+the objective  of helping  the last man standing  in the queue  (Munner . 2019).  Qardh -
+Al-Hasan along  with the Zakat  and Sadaqah  are the Islamic  finance  tools to help the 
+poor and needy.  This can prove  to be an effective  tool in this grave  situation  of 
+COVID  19. As explained  earlier  COVID  19 has brought  disaster  for the poor and 
+Islamic  countries  and Muslims  in the other  countries  must  use Qardh -Al-Hasan  to 
+help the needy  and poor.  It is the duty of the society  to ensure  that poor including  
+women  are empowered  (Rabbani , 2020b ; Rabbani,  2020d ).  
+ 
+The importance  of Qardh -Al-Hasan  is more  than Zakat  in the sense  that there  are 
+many  people  who are not eligible  for Zakat  because  their wealth  is above  the 
+prescribed  minimum  limit  for accepting  Zakat  and these  people  can easily  accept  the 
+Qardh-Al-Hasan . The Qardh -Al-Hasan  has zero cost of borrowing  and individuals  
+who need  money  can fight  this situation  of COVID  19 and restore  their previous  
+position  and can later repay  the loan.  It is proved  that the Qardh -Al-Hasan  financing  
+is an effective  tool in empowering  the economic  activities  of the poor and needy  
+(Widyanto , 2011).  Qardh -Al-Hasan  is the tool to reinforce  the social  integrity,  
+cooperation  and harmony.  It can be always  used to help the needy  and power  to 
+empower  them  and help them  in times  of need  (Iqbal , 2015).   
+ 
+9. Scope of Qardh -Al-Hasan (QH)  for Financing the SMEs during COVID 
+19 Pandemic  
+ 
+One the biggest difference between Zakat  and QH is that Zakat  cannot be accepted 
+by everyone or everyone is not entitled to receive Zakat  where as QH can be 
+accepted by anyone who is in need of fund whether rich or  poor. It has been 
+observed that the QH loan has completely been ignored by the Islamic banks as 
+financing tool for SMEs. There are various sources of fund which can be used by the 
+government and Islamic banks to provide QH loan to the SMEs. As COVID 19 is  a 
+temporary phenomenon and most of the countries have already announced the 
+stimulus package to help their countries in fighting the adversities of COVID 19. 
+The money from these package can be used to finance the SMEs by giving QH loan M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+357  
+(Saquib , 2011). As  it will increase the customer satisfaction and customer 
+satisfaction will result into the customer loyalty (Rabbani , 2016). The banks and 
+Islamic financial institutions can use their capital to finance the SME s in this crisis 
+time by giving QH loan and i t will also not affect their liquidity as they are expected 
+to be paid soon. Another source of finance for giving the QH loan could be the 
+charity amount received by the Islamic bank during Murabaha  financing. These 
+funds are earmarked and cannot be used fo r any other purpose, but with the 
+permission from client the banks can use this fund during this pandemic to bail out 
+the SMEs from getting bankrupt (Usmani , 2008).  
+  
+10. Zakat and Qar dh-Al-Hasan Platform  
+ 
+Zakat  platform requires that each user of the system m ust be registered with the 
+Zakat  platform. There are three types of users who acts as audience of the Zakat  and 
+Qard h-Al-Hasan  platform, first type of the users are the people or organization who 
+are willing to support others by offering Qard h-Al-Hasan  or by Zakat,  as discussed 
+earlier, henceforth, this type of users are called lender in our system. The second 
+type of users are the individuals or small and medium enterprises (SMEs) which are 
+in great need of funding because of some crisis such as due to som e kind of natural 
+disaster such as pandemic, flood, war or other similar kind of situation. This type of 
+organizations or individuals usually belong to the category of self -reliant but 
+because of some external forces such as war and natural disasters etc ., which are 
+beyond the control of an individual or SMEs. Zakat platform classifies these users as 
+borrowers and henceforth, this research study will use the same term. The other 
+category of the users is those who are less fortunate or underprivileged and ar e in 
+need of support from others to fulfill basic requirements. The Zakat  system classifies 
+this category of users as eligible Zakat receiver and this research will use the same 
+term henceforth. The following Figure  1 illustrates the working of the Zakat 
+platform.  
+ 
+Each user must provide an agreement of Sharia compliance to activate his/her 
+account on Zakat  platform. The lenders have to provide the information that the 
+funds which they are going to use for the support have been earned through those 
+sources which are permissible under Sharia law. Similarly, the borrowers and the 
+eligible Zakat receiver also have to provide the sharia compliance agreement stating 
+that the use of the support funds will be used for the activities which are permissible 
+under Shar ia law. Borrower and Zakat receiver provide the proof of their needs. 
+These proofs can be in the form of textual information and/or media (audio/video). 
+The Zakat  systems use various technologies for processing of this information to 
+support the verificati on of the needs and c lassify  them into valid or invalid 
+categories. If the system classifies the need into invalid category, it is ignored and 
+will not reviewed by the system again until requested by the Zakat representative. 
+However, if the request is cla ssified as the valid category, it is reviewed by the Zakat  
+platform representative.  
+ An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 358 
+ 
+ Figure 1.  Zakat Model  
+ 
+Source:  Own.  
+ 
+The system uses machine learning, natural language process (NLP) and digital 
+image processing techniques for the analysis of the information provided by the 
+borrower or by the Zakat receiver. The text documents are processed using natural 
+language processing techniques to retrieve the important information from the 
+proofs of need document. The retrieved infor mation is used by the Zakat 
+representative to verify the needs and classify them into appropriate category. Zakat 
+platform applies a hybrid approach of natural language process using various 
+techniques in different modules. Hybrid approach uses combination  of different 
+techniques used for natural language processing.  
+ 
+Some examples of various techniques used in machine translation application 
+domain of NLP are statistical approach es in which the model is built around the 
+Bayesian probability theorem (Shahn awaz, 2013b), artificial neural network based 
+approach which is one of the most popular approach nowadays as the use of deep 
+learning is increasing (Khan, 2011; Mishra, 2012; Khan, 2019a ), rule -based methods 
+(Shahnawaz, 2013a), case -based reasoning approac h which consider s the previously 
+available data as the case base for processing future incoming information 
+(Shahnawaz, 2015) and many more.  
+ 
+Repayments  Borrowed Funds  Supportive Funds 
+Type Selection  Sharia Compliant 
+Agreement  Sharia Compliant 
+Agreement  
+Needs & Profiles  
+Proof  
+of Need  Zakat Platform  Verified Nee ds Lender  
+Zakat Payment  
+Borrower  Eligible Zakat 
+Receiver  
+ M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+359  
+However the textual information received from the borrowers sometimes is not 
+available in proper grammatical stru cture, therefore, NLP techniques are applied for 
+getting the proper information because for the efficiency of the NLP algorithms the 
+input provided to most of these algorithms must be in proper structure specifically 
+for those algorithms which generates a parse tree for extracting the information from 
+the input documents (Khan, 2018; Shahnawaz, 2011). The proposed system can also 
+be developed for automatic assessment of the images and getting the preliminary 
+information from the images and videos (Bashir, 2 017). The researchers are working 
+in the direction of developing a chatbot for the integration on Zakat platform which 
+will be available online for the automatic response of the user queries (Khan, 2020 ; 
+Khan, 2020b ).  
+ 
+However, building a chatbot requires  a lot of information as the knowledge base so 
+that it can understand the semantic meaning of the text to respond them by 
+understanding their sentiments (Khan , 2019b ; Astya, 2017). The above process of 
+information generation is very similar and can be cons idered similar to a decision 
+support system as the capability and functionality are almost identical. The Zakat 
+representative examines the needs based on the information generated by the Zakat 
+platform and approved to be published for the Zakat  users.  
+ 
+The lender can search from their dashboard any of the published profile of needs and 
+select as the beneficiary to receive the support. The lenders also have access to the 
+verified proof of need information provided by the borrowers. Zakat  system 
+recommends the information of possible beneficiaries based on the past supporting 
+history of the lenders and if they have set any interests in the dashboard for the 
+support. If none of the information is available to the lenders, in that case, of the 
+proposed system,  the Zakat  platform recommends the list of the beneficiaries. These 
+recommendations are based on the type of support selected by the lenders and are 
+generated using artificial intelligence -based recommender system. If the lenders 
+select the Zakat as the ty pe of support then the list of the beneficiaries will contain 
+the needs of eligible Zakat  receivers and if the lenders selects the Qard h-Al-Hasan  
+support then the list will contain the information for the borrowers.  
+ 
+The lenders on the Zakat platform can directly transfer the funds to the beneficiaries. 
+In some cases, if the beneficiaries does not have a linked bank account with the 
+proposed platform then the funds are received by the Zakat  system and are put into 
+the wallet, the Zakat representatives then  makes the arrangement for the transfer of 
+the funds to the intended beneficiary and funds are delivered. The Zakat 
+representative provides the contact information once the beneficiary has been 
+contacted by the Zakat  representative to make sure the selecte d beneficiary by the 
+representative is the intended beneficiary to whom the lender wanted to support. On 
+delivery of the funds, the lender is given the information about the fund transfer with 
+the contact information of the receiver for the confirmation an d the funds are 
+removed from the wallet. All the transactions are recorded to maintain the history so 
+that if the borrower wants to repay the Qard h-Al-Hasan , there will be no An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 360 
+ 
+ discrepancies related to the amount of funds received or repaid. The transaction 
+history of the eligible Zakat receiver is maintained to observe how it has uplifted the 
+status of the Zakat receiver and how much Zakat a user has received, the Zakat 
+receiver s are listed in the increasing order of Zakat amount received by a 
+beneficiary.  
+ 
+The Zakat receivers who have received least amount of the Zakat will be on the top 
+of the list. This information helps the lenders to make the decision. In the similar 
+way, the transaction records or history of the borrowers is also maintained, recorded 
+and accessible to the lenders which the lenders can analyze to make decision how 
+much and why they want to support the borrowers and can also agree to terms and 
+conditions of repayment with the borrowers. As discussed earlier, Qard h-Al-Hasan  
+is a type of fu nd which is considered as one of the highest forms of charity under 
+Sharia law. Therefore, it is up to the lenders to discuss these terms and conditions of 
+repayments. The proposed Zakat  system is an Islamic FinTech model which works 
+as the platform to bri ng all the parties together and ease the way in which these 
+services can be provided. The research studies in ( Rabbani , 2020a; Rabbani, 2020c) 
+suggest that Islamic FinTech can provide the solution of many obstacles in 
+efficiently executing the services and  obligation of the Sharia law  and create 
+innovative pathways to implement some of the most important finance related duties 
+applicable to the Muslim community. Therefore, the proposed Zakat platform can be 
+a revolutionary step in the direction of solving the issues related to transparency, 
+speed of support delivery service and fair distribution of Zakat. 
+ 
+11. Discussion  
+ 
+Based on the presentation above , it can be discussed that Islamic finance have the 
+capability to counter the threats arisen because of crisis  situations like COVID -19. 
+Zakat and Qard h-Al-Hasan  are two concepts in Sharia law which can be a valuable 
+solution in this kind of situations. Zakat  is one of the key pillars of Islamic principles 
+and it is obligatory for every Muslim to pay Zakat.  The im plementation of these 
+concepts of Islamic Finance with technology using artificial intelligence and natural 
+language processing makes it easier to reach to a wider range of audience as web -
+based platform can reach the people across the globe.  
+ 
+In this res earch study, the researchers have presented a novel model for 
+implementing these Islamic finance concepts on web -based platform using artificial 
+intelligence and natural language processing, however, other supporting 
+technologies for building the online ve rsion of the platform have not be discussed as 
+those are not in the scope of this research study. The novel ZaQaH  platform has 
+three major modules. First module is the information generation module which 
+process the proof of need information provided by th e beneficiaries. The information 
+provided in the form of textual and media data as the documents of proofs of need is 
+processed with AI and NLP to generate the key information which helps the ZaQaH 
+representatives in the decision making process for identif ying a valid or invalid M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+361  
+need. This module of the ZaQaH  platform functions similar to a decision support 
+system.  
+ 
+The second module of the system is the recommender system which helps in 
+generating the potential list of the beneficiaries for the lenders. T he proposed Islamic 
+Fintech system ZaQaH,  uses natural language processing and artificial intelligence -
+based recommender system to suggest the list of the envisioned interested parties. 
+Artificial intelligence and NLP also facilitate in the process of veri fying the needs of 
+the beneficiaries. The third module is the facilitator module which maintains the 
+record of transactions and provide functionality of communication. As the research 
+studies in ( Rabbani , 2020a; Rabbani , 2020c) suggest that Islamic FinTech  can 
+provide the solution of many obstacles in efficiently executing the services and 
+obligation of the Sharia law  and create innovative pathways to implement some of 
+the most important finance related duties applicable to the Muslim community. 
+Based on t he above discussion it can be considered that the proposed system may be 
+a revolutionary step in implementing the Zakat and Qard h-Al-Hasan principles of 
+Sharia law.  
+ 
+12. Conclusion   
+ 
+From all above it can be concluded that it is very early to exactly estimate the exact 
+amount of damage to be do ne by the global pandemic COVID 19. The views from 
+experts shows the poor individuals and SMEs are going to be worst hit by the 
+COVID 19. Like always, Islamic finance is the complete way of life and it provides 
+an effecti ve tool in terms of Zakat and Qardh -Al-Hasan  to not only help these two 
+important section s of society but also minimize the damages on them. Now, it is the 
+responsibility of the government, civil societies and rich individuals to use these 
+Islamic financin g tool s and provide the benefit to the poor individuals as well as to 
+the SMEs.  
+ 
+The study proposed an Artificial Intelligence and NLP based Islamic FinTech Model 
+combining Zakat  and Qardh -Al-Hasan  for countering the adverse impact of COVID 
+19 on SMEs and  individuals’ can prove to be a stepping stone in this direction. The 
+model uses the Artificial Intelligence and NLP to make the system more effective 
+and transparent. Islamic finance must be combined with the technology to increase 
+its reach and to achiev e the broader objective of social justice and providing quality 
+life to each and every Muslim across the globe. It is further reassured that the QH 
+and Zakat  must be used with technology to achieve the objective of Islam and 
+Islamic finance, i.e. , to treat  every member of Ummah  as brother s and sisters and 
+reach to them with right intention in terms of pandemic like COVID 19 and Allah is 
+the best to judge the intention and give the reward.   
+ 
+ 
+ 
+ An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 362 
+ 
+ References:  
+ 
+Abor, J., Quartey, P. 2010. Issues in SME developm ent in Ghana and South  
+Africa.  International research journal of finance and economics,  39(6), 215 -228. 
+Astya, P. 2017. Sentiment analysis: approaches and open issues. International Conference on  
+Computing, Communication and Automation (ICCCA), 154 -158. IEEE, DOI: 
+10.1109/CCAA.2017.8229791 . 
+Bakar, M.H.A., Abdghani, A.H.  2011. Towards achieving the quality of life in the  
+management of Zakat distribution to the rightful recipients (the poor and 
+needy).  International Journal of Business and Social Science,  2(4).  
+Bashir, T ., Imran , U., Shahnawaz , K., Junaid , Ur.R. 2017. Intelligent reorganized discrete  
+cosine transform for reduced reference image quality assessment.  Turkish Journal of 
+Electrical Engineering and Computer Sciences , 25(4), 2660 -2673.  
+Carruthers , P. 2020. How Coronavirus can kill small businesses: COVID -19. Personal  
+Finance,  (471), 8 -10. 
+Day, J. 2000. Commentary –the value and importance of the small firm to the world  
+economy.  European Journal of Marketing , 34 (9/10, 1033 -1037 . 
+Erkens, D.H., Hun g, M., Matos, P. 2012. Corporate governance in the 2007 –2008 financial  
+crisis: Evidence from financial institutions worldwide.  Journal of corporate 
+finance,  18(2), 389 -411. 
+Hannanong, I., Aris, A. 2018. Al -Qardh-Al-Hasan: Soft and Benevolent Loan Pada Ban k  
+Islam.  DIKTUM , Jurnal Syariah dan Hukum,  16(2), 171 -182.  
+Hassan, M.K., Ashraf, A. 2010. An integrated poverty alleviation model combining zakat,  
+awqaf and micro -finance. In  Seventh International Conference –The Tawhidic 
+Epistemology: Zakat and Waqf Eco nomy, Bangi, Malaysia , 261-281. 
+Ibrahim, P., Ghazali, R. 2014. Zakah as an islamic micro -financing mechanism to productive  
+zakah recipients.  Asian Economic and Financial Review,  4(1), 117.  
+Iqbal, Z., Shafiq, B. 2015. Islamic finance and the role of Qard -al-Hassan (Benevolent  
+Loans) in enhancing inclusion: A case study of AKHUWAT.  ACRN , Oxford 
+Journal of Finance and Risk Perspectives,  4(4), 23 -40. 
+Islamic Development Bank . 2020. President of the Islamic Development Bank Group:  
+Covid -19 and Micro, Small an d Medium Enterprises, Saving the Global Economy 
+from the Pandemic: Available at : https://www.isdb.org/news/president -of-the-
+islamic -development -bank -group -covid -19-and-micro -small -and-medium -
+enterprises -saving -the-global -economy -from -the-pandemic . Accessed on 4 April . 
+Khan, S. , Rabbani, M.R. 2020a. Artificial  Intelligence and NL P based Chatbot as Islamic  
+Banking and Finance Expert . International Conference on Computational 
+Linguistics and Natural Language Processing (CLNLP 2020), Seoul, South Korea 
+on July 20 -22.  
+Khan, S ., Imran , U. 2019a. A model for English to urdu an d hindi machine translation  
+system using translation rules and artificial neural network. Int. Arab J. Inf. Technol. 
+16(1), 125-131. 
+Khan, S ., Mishra , B.R. 2011.  Translation rules and ANN based model for English to Urdu  
+machine translation. INFOCOMP 10,  3, 36-47. 
+Khan, S. , Rabbani, M.R.  2020 b. Artificial Intelligence and NLP based Chabot as Islamic  
+Banking and Finance Expert . International Journal of Information Retrieval 
+Research (IJIRR), Special Issue on Optimization and Convergence of Machine 
+Learning A lgorit hms for Leveraging IoT, Block chain and Artificial Intelligence . 
+ M. Haider, S. K han, M.R. Rabbani, Y.E. Thalassinos  
+  
+363  
+Khan, S ., Thirunavukkarasu , K. 2019b. Indexing Issues in Spatial Big Data Management.  
+Available at SSRN 3387792.  
+Khan, S ., Usama , M., Salam , S.S., Sultan , A. 2018. Translat ion Divergen ce Pat terns  
+Handling in English to Urdu Machine Translation. International Journal on Artificial 
+Intelligence Tools , 27(5), 1850017.  
+Mirakhor, A. , Iqbal, Z.  2007 . Qard hasan microfinance (QHMF) . New Horizon, Global  
+Perspective on Islamic Bank ing and Fina nce, No. 164, 1-20. 
+Mishra, R.B. 2012. A neural network based approach for English to Hindi machine  
+translation. International Journal of Computer Applications 53,  18, 50-56. 
+Muneer, F., Khan, F. 2019. Qard -Al-Hassan as a Tool for Poverty Alle viation a Case of Fael  
+Khair Waqf Program in Bangladesh.  Journal of Islamic Monetary Economics and 
+Finance,  5(4), 829 -848. 
+Oxfem . 2020. Coronavirus impact: COVID -19 may push half million people into poverty,  
+says Oxfam ; Available at : https://www.oxfam.org/en/oxfams -response -covid -19. 
+Accessed on 16 April, 2020.  
+Pandya, V.M. 2012. Comparative analysis of development of SMEs in developed and  
+developing countries. International Conference on Business and  Manag ement , 6-7. 
+Rabbani, M .R., Qadri, F.A., Ishfaq, M. 2016. Service Quality, Customer Satisfaction and  
+Customer Loyalty: An Empirical Study on Banks in India. VFAST Transactions on 
+Education and Social Sciences, 11(2), 1 -9. 
+Rabbani, M. R. 2020d. Multidi mensio nal Scaling as a Tool of Positioning: Similarity based  
+Perceptual Mapping of Banks in Saudi Arabia . Internati onal Journal on Emerging 
+Technologies , 11(3) . 
+Rabbani, M .R., Khan , S. 2020a. Agility and Fintech is the Future of Islamic Finance: A  
+Study From I slamic Banks in Bahrain.  International Journal of Scientific and 
+technology Research , Vo. 9, Issue 3.  
+Rabbani, M.R., Shahnawaz, Abey. J ., Rahiman , H. 2020b. Analysis of Critical Barriers to  
+Women Entrepreneurship in Bahrain: An Exploratory study.  Internat ional Journal of 
+Scientific and Technology Research 9, 3.  
+Rabbani, M .R., Khan, S., Thalassinos , I.E. 2020c.  FinTech, Blockchain and Islamic Finance:  
+An Extensive Literature Review. International Journal of Economics and Business 
+Administration , 8(2), 65-86.  
+Robu, M. 2013. The dynamic and importance of SMEs in economy.  The USV annals of  
+economics and public admin istration,  13(17), 84 -89. 
+Romer, C.D. 1990. The great crash and the onset of the great depression.  The Quarterly  
+Journal of Economics,  105(3), 5 97-624. 
+Saqib, L.  2011 . Financing Agriculture Through Islamic Commercial Transaction  , 1st  
+ed. Lambert Academi c Publishing . 
+Shahnawaz . 2015. Conversion between Hindi and Urdu . International Conference on  
+Computing, Communication & Automation, Noida , 309 -313. 
+Shahnawaz, Mishra , B.R . 2015. An English to Urdu translation model based on CBR, ANN  
+and translation rule s. International Journal of Advanced Intelligence Paradigms 7 (1), 
+1-23. 
+Shahnawaz, Mishra , B.R . 2013 a. Rule -based approach for handling of case m arkers in  
+English to Urdu/Hindi translation. International Journal of Knowledge Engineering 
+and Soft Data Para digms , 4(2), 138-165. 
+Shahnawaz, Mishra , B.R . 2013b. Statistical machine translation system for English to Urdu.  
+International Journal of Advanc ed Intelligence Paradigms , 5(3), 182-203. 
+Shahnawaz, Mishra , B.R. 2011. ANN and rule based model for English to  Urdu -Hindi  An Artificial Intelligence and N LP based Islamic FinTech Model Combining  Zakat and 
+Qardh -Al-Hasan for Countering the Adverse Impact of COVID 19 on SMEs and Individual s       
+ 364 
+ 
+ machine translation system. In Proceedings of National Conference on Artificial 
+Intelligence and agents: Theory  & Application (AIAIA TA), 115 -121. 
+Sukesti, F., Budiman, M. 2018. The Role of Zakat in Business Development of SMEs (Study  
+on Bazna s Semarang, Central Java, Indonesia).  International Journal of Islamic 
+Business Ethics,  3(1), 401 -409.  
+Sumner, A., Hoy, C. , Juarez, E.O. 2020. E stimates of impact of COVID 19 on global  
+poverty. Wider working paper 2020/43: Available at : 
+https://www.wider.unu.edu/sites/default/files/Publ icatio ns/Working -
+paper/PDF/wp2020 -43.pdf . Accessed on 14 April, 2020.  
+Taha, R., Nor, M.N.M. 2013. Role of zakat to eradicate poverty in Malaysia.  Jurnal  
+Pengurusan (UKM Journal of Management),  39.  
+Usmani, M.T.  2008 . An Introduction to Islamic  Financial System . Maktaba Maariful  
+Qurān , Karachi , 10-221. 
+Widiyanto, W., Mutamimah, S., Hendar, H. 2011. Effectiveness of Qard al -hasan financing  
+as a poverty alleviation model.  Economic Journal of Emerging Markets,  3(1), 27 -42. 
+World Bank. 2020. Small and Medium Enterprises Finance. Avai lable at :  
+https://www.worldbank.org/en/topic/smefinance . Accessed on 14 April, 2020.  

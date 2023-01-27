@@ -1,0 +1,559 @@
+EURASIP Journal on Image
+and Video ProcessingLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 
+https://doi.org/10.1186/s13640-021-00549-3
+REVIEW OpenAccess
+Evaluatingeffectsoffocallengthand
+viewingangleinacomparisonofrecentface
+landmarkandalignmentmethods
+XiangLi1*,JianzhengLiu2,JessicaBaron1,KhoaLuu3andEricPatterson1
+*Correspondence:
+xiang5@clemson.edu
+1SchoolofComputing,Clemson
+University,304McAdamsHall,
+29630Clemson,SC,USA
+Fulllistofauthorinformationis
+availableattheendofthearticleAbstract
+Recentattentiontofacialalignmentandlandmarkdetectionmethods,particularlywith
+applicationofdeepconvolutionalneuralnetworks,haveyieldednotable
+improvements.Neithertheseneural-networknormoretraditionalmethods,though,
+havebeentesteddirectlyregardingperformancedifferencesduetocamera-lensfocal
+lengthnorcameraviewingangleofsubjectssystematicallyacrosstheviewing
+hemisphere.Thisworkusesphoto-realistic,synthesizedfacialimageswithvarying
+parametersandcorrespondingground-truthlandmarkstoenablecomparisonof
+alignmentandlandmarkdetectiontechniquesrelativetogeneralperformance,
+performanceacrossfocallength,andperformanceacrossviewingangle.Recently
+publishedhigh-performingmethodsalongwithtraditionaltechniquesarecompared
+inregardstotheseaspects.
+Keywords: Facialalignmentandlandmarking,Convolutionalneuralnetworks,Focal
+length,Viewangle,Comparison,Evaluation,Review
+1 Introduction
+Face detection, tracking, and recognition continue to be employed in a variety of ever
+more common-place biometric applications, particularly with recent integrations in
+mobile-device security and communication. Most of these applications, such as identity
+verification, pose tracking, expression analysis, and age or gender estimation, make use
+oflandmarkpointsaroundfacialcomponents.Correctlylocatingthesekeypointsiscru-
+cial as they often are used to abstract main features such as the jaw, eye-brows, eyes,
+nose shape, nostrils, and mouth [ 1]. Due to the complexity of head gestures , automatic
+localizingofcanonicallandmarksusuallyfirstinvolvesfacealignmenttoaccountforrota-
+tion,translation,andscaleduetoposeorview-directiondifferences[ 2–5].Furthermore,
+2D images photographically captured by cameras are affected by perspective and lens
+distortion,animportantaspectconsideredinthiswork.
+Thisreviewaimstocompareperformanceoffivenotablefaciallandmarkandalignment
+methods under the effects of different camera focal lengths and positions, particularly
+under conditions that have been ignored or difficult to test. Previously, Çeliktutan et
+©TheAuthor(s). 2021 OpenAccess ThisarticleislicensedunderaCreativeCommonsAttribution4.0InternationalLicense,
+whichpermitsuse,sharing,adaptation,distributionandreproductioninanymediumorformat,aslongasyougiveappropriate
+credittotheoriginalauthor(s)andthesource,providealinktotheCreativeCommonslicence,andindicateifchangeswere
+made. Theimagesorotherthirdpartymaterialinthisarticleareincludedinthearticle’sCreativeCommonslicence,unless
+indicatedotherwiseinacreditlinetothematerial. Ifmaterialisnotincludedinthearticle’sCreativeCommonslicenceandyour
+intendeduseisnotpermittedbystatutoryregulationorexceedsthepermitteduse,youwillneedtoobtainpermissiondirectly
+fromthecopyrightholder. Toviewacopyofthislicence,visit http://creativecommons.org/licenses/by/4.0/ .Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page2of18
+al. completed a thorough survey of facial landmark detection algorithms and compara-
+tive performance in 2013, which at the time primarily focused on 2D techniques such as
+ActiveShapeModel(ASM)andActiveAppearanceModel(AAM)variations[ 6].In2018,
+Johnston and Chazal published work that built on the earlier survey, noting the shift of
+interesttodeep-learningmethodsduetopotentialperformanceincreasesaswellastech-
+niques that also perform 3D alignment [ 7]. Several strong-performing neural-network
+methods have been published since; however, and in general, no performance compar-
+isonshaveincludedlens-perspectiveeffectsnorsystematicevaluationacrosstherangeof
+viewing angles. This study is not an exhaustive survey of recent methods but rather an
+investigationintheeffectsoffocallengthandviewingangleonbothtraditionalandmore
+recent neural methods (published after the 2018 article). Focal-length-based perspective
+and viewing angle are both important considerations if designing a biometric or other
+system in order to account for the lens chosen, viewing angle, and proximity necessary
+forthesystem.
+The effects a lens imparts on acquisition have often been ignored in face-related
+research.A fundamental techniquein computervision isestimatingacameraprojection
+matrixandhasbeenregardedinmanystudies;however,thedatasetsusedtotrainandtest
+landmark detection do not usually include camera meta-data (particularly large datasets
+gleanedfromtheInternetfordeep-learningapproaches),ordatasetshavebeencaptured
+inverycontrolledsituationswithasinglelens.Themostwidelyuseddatabasesintraining
+recentdeepnetworksare300W[ 8],COFW[ 3],WFLW[ 9],andAFLW[ 10].Thosecover
+large variation over age, ethnicity, skin color, expression, and pose and have been used
+by top-performing deep neural networks [ 11–15]. None of them explicitly note focal-
+length as a parameter. In short, there is no dataset published online that has considered
+focal length/field of view versus proximity for training alignment or landmark detection
+methods. We assume perspective distortions caused by focal length will likely affect the
+final annotation results. If so, training sets including camera and lens parameters could
+increaseaccuracyofasystemoratleastaidindesigningsystems.
+A few researchers have considered aspects of image distortions relative to face images
+forparticularapplications,butnotwhatwepresenthere.Dameretal.investigatedstate-
+of-the-art deep neural networks for facial landmark detection, but their main focus was
+perspective distortion due to distances between cameras and captured faces and did
+not consider the effects due to lenses and associated field of view [ 16]. Valente et al.
+investigatedbasiclenseffects;however,theyonlyanalyzedtheserelativetosimplemath-
+ematical algorithms for facial recognition (EIGENDETECT and SRC) and not those for
+facial alignment nor their effects on facial landmark detection [ 17]. Flores et al. also
+focused on perspective distortion caused by distance [ 18]. They estimated camera pose
+fromfacialimagesusingEfficientPerspectiven-Point(EPnP)ratherthanevaluatingland-
+mark location. In this work, we consider the effects of lens focal length and viewing
+angleinregardstosomeofthehighestperformingrecentfacial-landmarkingtechniques.
+Although the method of evaluation uses synthetic images, the question of performance
+relative to lens and viewing angle is also relative, and the goal is to demonstrate that all
+methods are affected to varying degree. Studying such effects without large datasets that
+include camera and lens meta-data would not currently be possible without either col-
+lecting such a dataset or creating test images synthetically as we have done. Future work
+could include design of a dataset, although it could be prohibitive to collect data on theLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page3of18
+size order of Internet-driven datasets used for deep-learning training. Furture work also
+couldconsiderimprovingsyntheticallyrenderedimagesforhigherfidelity,style-transfer,
+orin-environmentplacement,etc.
+Thecontributionsofthisworkincludeevaluationoffivedifferentfaciallandmarkdetec-
+tionmethodsinregardstovaryinglenschoiceandviewingangle.Threeofthemarefrom
+recently published deep-learning 3D facial annotating methods, and the remaining two
+are AAM implementations. We evaluate the performance of these methods across view
+anglesandfocallengthsbyusingfaceimagessynthesizedfromdetailed3Dscansofindi-
+viduals.We demonstrate that all are subject to particular performance degradation with
+lens-perspective distortion and viewing angle. This information may be used to guide
+designchoicesinbiometricorotherimagingsystemsaswellasdeveloponmethodsthat
+aremorerobusttolenschoiceandangle.
+2 Methodofcomparison
+2.1 Landmarkschemes
+There have been a variety of landmark schemes used in related projects, but a few have
+been most used in recent work and make a logical choice for comparative evaluation.
+Following the categories in [ 6], there are two major groups of facial landmarks schemes:
+primary landmarks and secondary landmarks. Primary landmarks usually define the eye
+corners,themouthcorners,andthenosetip.Thoselandmarksarelocatedat“T”sections
+between boundaries or at high curvatures on a face which may be detected by image
+processingalgorithms,e.g.,multi-resolutionshapemodels[ 19],HarrisCornerDetection
+model[20],orImageGradientOrientation(IGO)model[ 21].Secondarylandmarksout-
+line the contour of main features that are guided by primary landmarks, such as the jaw
+line, eyebrows, and nostrils. Wu et al. [ 1] provide a thorough survey on facial landmark
+databases and their corresponding landmark schemes. A common 68-point landmark is
+supportedbymanyfacedatabases,e.g.,AFLW[ 10],BU-4DFE[ 22],Helen[ 8,23],etc.For
+easiestconsistency,the68-pointschemefromMulti-PIE[ 24],andfurtherpopularizedby
+iBUG’s300W[ 8],waschosenforthisstudy.
+Sagonas et al. and Johnston et al. [ 7,8] state that primary landmarks are more easily
+detected than secondary landmarks while annotating the ground-truth reference. The
+“m7 landmarks” including the 4 eye corners, 1 nose tip, and 2 mouth corners are also
+included here in some comparisons with the idea that they provide higher importance
+information.Figure 1showsthetwolandmarksschemesusedinthispaper.
+In order to generate face images at controlled focal lengths and precise angle selec-
+tions, we synthesized photo-realistic images using detailed 3D meshes captured from a
+structured-light 3dMD system. Our facial capture participants were asked to make dif-
+ferent expressions following the Facial Action Coding System (FACS). FACS was created
+by the anatomist Carl-Herman Hjortsjö [ 25] and further developed by Ekman etc. [ 26]
+It provides a coding system which describes how to categorize facial expressions into
+Action Units (AUs) with muscle movements. We manually annotated the ground-truth
+landmarksin3Dfor84facesfromourparticipants,64fromasetofFACS-captureexpres-
+sions of two individuals and 20 of unique individuals with a range of ethnicity, age, and
+gender where the pose was neutral or a slight smile. Figure 2shows an example of FACS
+and neutral faces in our dataset. Landmark variation often occurs between in datasets,
+particularly for areas such as the jawline or eyebrows. For consistency, we keep jawlineLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page4of18
+Fig.1Twodifferentlandmarksschemes. aiBUG-68. bM7
+points evenly distributed along the chin. In some projects, eyebrow points are placed at
+thecenter,bottom,ortopofbrowarcs.Goodchoicesforlandmarkspointsincludethose
+near high curvature or boundaries on objects. Here, eyebrows are marked anatomically
+atthesupraorbitalridgeoreyebrowridge.
+2.2 Evaluationmetrics
+We use ground-truth based localization error to evaluate performance in each case via
+root mean squared error (RMSE). Accurate landmarks are generated for each synthetic
+imagebyprojectingmanual3Dlandmarkstomatchtherenderedangleandfieldofview.
+WeusethemethodproposedbyJohnstonetal.[ 7]forcalculatingtheRMSE:
+Fig.2FACSandNFACSfaces. aItisalippuckerexpressionanditscorrespondingactionunitis18[ 26].bThe
+participantprovidesaneutralexpressionLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page5of18
+RMSE =1
+KK/summationdisplay
+k=1/radicalBig/parenleftbig
+xk−˜xk/parenrightbig2+/parenleftbig
+yk−˜yk/parenrightbig2(1)
+wherexk,ykdenote each of the K predicted landmark kin an image, and ˜xk,˜ykindicate
+the corresponding ground-truth landmark. Normalizing for face size in pixels is useful
+due to the variance across images. Previously, RMSE is normalized by the ground-truth
+outercornersofthelefteyeandrighteyelandmarks(Eq. 3)[8].Theerrorperlandmarkin
+imageiisgivenas:
+/epsilon1k
+i =/radicalbigg/parenleftBig
+xk
+i−˜xk
+i/parenrightBig2
++/parenleftBig
+yk
+i−˜yk
+i/parenrightBig2
+dnormi (2)
+dnormi=/radicalBig/parenleftbig˜xle−˜xre/parenrightbig2+(˜yle−˜yre)2(3)
+where (˜xle,˜yle)and(˜xre,˜yre)are the ground-truth outer corners of the left eye and right
+eyeintheimage i.Inourcase,however,oursyntheticimagesvarywithcamerapositions.
+Thedistancesofouter-eyecornersmayhavesmallimpactsatsideanglesduetoperspec-
+tive projection. Hence, we calculate Normalized Root Mean Squared Error (NRMSE) by
+normalizingperwidthoftheheadboundingbox.Wecalculatethepercentageofaccepted
+pointsamongallpointstoshowtheperformanceforeachalgorithm:
+P(k)=1001
+II/summationdisplay
+i=1/bracketleftBig
+i:/epsilon1k
+i<Th/bracketrightBig
+(4)
+where [i:/epsilon1k
+i<Th] is a mask function that if the normalized distance /epsilon1is less than Th,
+itisacceptable,andiissetto1.Otherwise,theresultisnotacceptable,and i’svalueisset
+to0.So,theoverallperformanceoverKlandmarksineachimageforIimagesetis:
+P=1001
+K×IK/summationdisplay
+k=1I/summationdisplay
+i=1/bracketleftBig
+i:/epsilon1k
+i<Th/bracketrightBig
+(5)
+2.3 Camerapositionandfocallength
+Our coordinate system follows the typical computer-graphics right-handed coordinate
+system convention, where the X-axis points to horizontal right, Y-axis points to vertical
+up, andZ-axis perpendicular to both XandYpoints outward from the screen. In order
+to track the camera around each face, we use spherical coordinates to represent camera
+positions. Our interests are analyzing multiple viewing angles at a wide range of specific
+viewing angles. We define camera positions in spherical coordinates at (r,φ,θ),w h e r e
+φis the polar angle (also known as zenith angle) from the positive Y-axis with 45◦≤
+φ≤135◦,a t1 5◦each. We define θto be the azimuthal angle in the xy-plane from the
+positiveX-axis with 180◦≤θ≤0◦at intervals 30◦.L a s t l y ,rvaries for simulated focal
+length. Overall, we have 49 camera positions so that various front views of the face and
+some extreme camera positions could be tested. Figure 3shows the position of spherical
+coordinatesandsamplesoffaceimageswithdifferentviewingangles.
+Focallength,relativetothedimensionsofthefilmordigitalsensor,determinesthefield
+of view on a physical camera, and there are also radial distortion issues relative to physi-
+cal lenses and typical of certain optical designs such as pincushion and barrel distortion
+(thesearenotspecificallyincludedherebutcouldwarrantafollow-upstudy).Inphotog-
+raphy,acommonstandardofcomparisonoffocallengthtoexpressfieldofviewisrelative
+tothestandardofthe35-mm-filmframesizeusedformuchofthetwentiethcenturyandLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page6of18
+Fig.3Camerapositions. aRight-handedsystemsphericalcoordinates. φisthepolarangleand θisthe
+azimuthalangle. bSamplesforrealfaceimagestakenfromdifferentviewingangles
+carriedforwardintodigitalsensors.This“35-mm”framesizeof36mmacrossby24mm
+downcametobeastandardforstillphotographywhenOskarBarnackdoubledtheindi-
+vidual frame from motion-picture film (standardized by Thomas Edison) to use in still
+cameras.Therelationbetweenangleofviewandfocallengthisgivenby:
+α=2arctand
+2f(6)
+where αis the angle of view, ddenotes the size of film, and fis the focal length t. As can
+beseenbytherelationship,shorterfocallengthswidenthefieldofviewandvice-versa.To
+maintain a face of a relative size in images captured with different focal lengths, the dis-
+tancetothecameraneedstobechanged.Perspectiveeffectsaremodifiedasthisoccurs,
+ascanbenotedinFig. 4. Short focal lengths (wide-angle lenses) introduce a fair amount
+of facial distortion whereas longer lengths begin to approximate an orthographic projec-
+tionthatmaintainsrelativedistancesamonglandmarksbetter.Althoughnottestedhere,
+theseeffectscanbemorepronouncedneartheedgesofacaptureframe.Asmobilephone
+photography increases, some of the most common focal lengths relative to the standard
+of comparison noted would equate to the 28-mm to 35-mm range of focal lengths, or a
+relatively wide field of view. Interchangeable lens cameras or cameras with zoom lenses
+can vary the focal length. As can be seen from formula 6, a larger focal length lens has
+a narrower angle of view at the same camera-to-object distance which offers magnified,
+detailed photos. Focal lengths greater than 50 mm are often used in longer range pho-
+tography, long range biometric acquisition, and especially in head-and-shoulder portrait
+photography.Forthisstudy,commonfocallengthsofprimelensesusedinstillphotogra-
+phy were chosen as the range, from 24 mm (wide-angle on a 35-mm system) to 135-mm
+(slighttelephotoona35-mmsystem),withtherangecoveringtypicalfocallengthsusedin
+photography and not including extreme wide-angle lenses nor extreme telephoto lenses.
+We choose six different types of common lens focal lengths (24 mm, 28 mm, 35 mm,
+50mm,85mm,and135mm)asourtestdomainsforcomparison.Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page7of18
+Fig.4Camerafocallengths:Firstrowfromlefttoright:24mm,28mm,and35mm;secondrowfromleftto
+right:50mm,85mm,and135mm
+2.4 Facelandmarkandalignmentmethods
+Wu et al.[ 1]mentionclassifyingtechnologyasholisticmethods,constrainedlocalmodel
+methods,andregression-basedmethods.Holisticmethodstreatawholefaceimageasthe
+entireappearanceandshapetotrainmodels.Constrainedlocalmodelslocatelandmarks
+based on the global face but emphasizing local features around landmarks. Regression-
+based methods mostly are adopted for deep-learning, using regression analysis to map
+landmarks to images directly. Johnston et al. [ 7] believe that facial landmark detection
+methods can be divided into generative methods, discriminate methods, and statistical
+methods. Generative methods minimize the error between models and facial recon-
+structions.Discriminatemethodsuseadatasettotraintheregressionmodels.Statistical
+modelsareacombinationofgenerativemethodsanddiscriminatemethods.Çeliktutanet
+al. classify facial landmark detection into model-based (using the entire face region) and
+texture-based (matching landmarks to local features) [ 6]. Here we consider landmark-
+ing algorithms based on either statistical methods or deep-learning methods. Statistical
+methodscalculatethepositionsoflandmarksusingmathematicalalgorithms.Mostofthe
+traditionalmethods(e.g.,AAMandASM)canfallintothisgroup.Deeplearningmethods
+feedfacialimagestotraindeepneuralnetworkstolocatelandmarks.
+ASM and AAM models have performed among some of the best landmark-detection
+algorithms for nearly two decades. ASM, first introduced by Cootes et al., attempts to
+detect and measure the expected shape of a target in an image. ASM requires a set of
+landmarked images for training the model. The first step is using Procrustes Analysis
+to align all object images. A mean shape is calculated by Principle Component AnalysisLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page8of18
+(PCA) which applied to find eigen vectors and eigen values [ 27]. All the objects’ shapes
+canbeapproximatedas:
+x=¯x+Pb (7)
+where ¯xis the mean shape calculated over all overall training data. Pis a set of eigen
+vectors derived from the covariance matrix calculated via PCA, and bis a set of shape
+parametersgivenby:
+b=PT(x−¯x) (8)
+As an improvement of ASM, an active appearance model matches both shape and tex-
+ture simultaneously and gives an optimal parameterized model. PCA is also applied for
+textureandonceagainforfindingcombinedappearanceparametersandvectors.Menpo
+provides five different AAM versions with two main groups: Holistic AAM (HAAM)
+and Patch AAM (PAAM) [ 28]. HAAM warps appearance information using a nonlin-
+ear function, such as Thin Plate Spline (TPS), and takes the whole texture into account
+when fitting, while the PAAM uses rectangular patches around each landmark as tex-
+tureappearance.WetestbothHAAMandPAAMasseparatetechniquesforcomparison
+here. For building the AAM, we chose the widely used Helen Dataset which provides a
+high-resolution set of annotated facial images containing different ethnicities, ages, gen-
+ders, head poses, facial expressions, and skin colors, similarly used by Johnston et al. [ 7].
+In order to reduce error caused by facial detection, we extract faces from image using
+boundingboxescalculatedfromground-truthlandmarksanddilatedby5%.
+Inthepastfewyears,deep-learningbasedneural-networkmethodshaveleveragedvery
+large datasets for training and recently outperformed statistical shape and appearance
+modelsinmanyareas.Wegatheredthreerecenthigh-performingmethodswhereimple-
+mentations were available to compare in our various cases. The first method is called
+the Position Map Regression Network [ 29]. The main idea of PRNet is creating a 2D UV
+Position Map which contains the shape of an entire face to predict 3D positions. PRNet
+employs a convolutional neural network (CNN) trained 2D images along with ground
+truth 3D dense position clouds created via 3D morphable model (3DMM). 3D positions
+are projected to the UV texture-map format and used in training the CNN. The UV
+texturemappreserves3Dinformation,evenposedwithocclusions.
+The second method is the 3D Face Alignment Network (3D-FAN). Bulat and
+Tzimiropoulos use a 2D-to-3D Face Alignment Network combined with a stacked
+heat-mapsub-networktopredict Zcoordinatesalongwith2Dlandmarks[ 30].
+The third method from Bahagavatula et al. uses a 3D Spatial Transformer Network
+(3DSTN)toestimateacameraprojectionmatrixinordertoreconstruct3Dfacialgeom-
+etry. The method forms occluded faces with 2D landmark regression and predicts 3D
+landmarklocations[ 31].
+These methods were trained on 300W-LP except for 3D-FAN which was trained on
+the 230,000 + 300W-LP. It would be prohibitive to attempt to include all recent deep-
+learningmethodsinthiscomparison,butthesewerechosenbasedonstrongperformance
+in recent publications, and we believe other recent methods would very likely perform
+similarlybasedonsimilaroverallperformanceonthesamedatasets.Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page9of18
+Fig.5Flowchartofthemainprocessformeasurement
+3 Procedure
+Figure5illustrates the main work flow of our approach to evaluate facial landmark and
+alignmentalgorithms.
+TocalculatetheRMSE( 1)andNRMSE( 2),(3)onlandmarks,allmeasurementsrequire
+ground-truth as references. All facial meshes with texture were manually marked using
+landmarker.io to create these ground-truth landmarks. Figure 6shows an example of 3D
+facialannotationinlandmarker.ioasperformedonourdataset[ 28].
+Using our own Python-, Qt-, and OpenGL-based lab application, Countenance Tool,
+we render 3D facial positions given varying angles and focal lengths. Since we compare
+howviewanglesandfocallengthsaffectlandmarkmethods,wemovethevirtualcamera
+to 49 different locations shown in Fig. 3. At each location, we rasterize faces with 6 dif-
+ferent synthesized focal lengths (24 mm, 28 mm, 35 mm, 50 mm, 85 mm, and 135 mm)
+by changing the focal length parameter shown in equation 6before rendering. Overall,
+there are images at 49 angles and 6 focal lengths for each face. At the same time, we use
+the same camera matrices (varying with view of angles and focal length parameters) to
+projectthe3Dground-truthlandmarkstoyieldtheground-truth2Dlandmarksatimage
+coordinates. Figure 7shows a set of images with ground-truth landmarks of different
+focallengthsandviewingangles.
+TosummarizetheworkflowdemonstratedinFig. 5,wefirstperformedfacialgeometry
+capturewitha3dMDsystem.The3dMDsystemprovided3Dmeshesalongwithtexture
+information. We then imported those into landmarker.io to annotate each face manually
+to generate 3D ground-truth landmarks. After getting the ground-truth, we rasterized
+each face at 49 angles and 6 focal lengths and calculated the ground-truth 2D landmark
+locations.Finally,weanalyzedperformanceofeachmethodbycalculatingNRMSEerror
+betweenamethod’spredictedlandmarksandthe2Dground-truthlocations.
+Fig.63Dground-truthlandmarkingusinglandmarker.ioLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page10of18
+Fig.7Converted2Dground-truthonimages. aandbareground-truthlandmarkswith24mmand135mm
+focallengthatthecenterview,respectively. canddarerenderedlandmarksfromtopviewanddownview
+with135mmfocallength
+4 Resultsanddiscussion
+In this section, we compare the RMSE performance of the five methods with the full
+68-points scheme and the reduced m7 scheme against 6 threshold levels. Figure 8plots
+the percentage correctly accepted for each facial landmark and alignment method with
+both schemes. Generally speaking, as expected, the overall acceptance performance for
+each algorithm increases as the threshold widens. The m7 landmarking scheme tends
+to show better performance as a smaller set located at distinct “corners.” In general, the
+CNNmethodsperformbetter,butallarestillsubjecttoperformanceeffectsduetofocal
+lengths and viewing angles. It would be remiss to declare one method particularly better
+thananotherhere,particularlysince3D-FANwastrainedonanaugmenteddatasetversus
+theothers;weusedthepubliclyavailablepre-trainednetworks.Comparedtotheneural-
+network techniques,the performance oftraditionalstatisticalmethodsistypicallylower.
+AsCootesexplains[ 32],theperformanceofASMandAAMisdependentonthestartingLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page11of18
+Fig.8ResultswithM7(left)andiBUG(right)landmarksarebothplottedforcomparison.Performance
+respecttothresholdsusing68pts
+position of landmark displacement. Higher accuracy of face detection tends to improve
+landmarkdetection.
+One of the main contributions of this paper is demonstrating the effect of focal length
+on landmarking accuracy. Figure 9demonstrates lower performance with a wider field-
+of-view,associatedwithstrongperspectiveeffects,andbetterperformanceasfocallength
+increases.Thereisexpectedlevelinginperformancewithfocallengthincrease.
+In order to visualize effects on specific landmarks at different focal lengths, we drew
+the 68-point landmarks located by each method and the average of the frontal view for
+theextremes(135mmlensinbluecirclesbasedonRMSEand24mminred).Thisshows
+which landmarks are most affected by the focal-length perspective warping. Figure 10
+alsoreflectsthedatadepictedintheFig. 9.TheradiusoftheRMSEpresentshowfareach
+predicted landmark is from the ground-truth. The result shows that all of the landmarks
+thatareclosetothecenteroffaceshavemoreaccuratepredictions,whilelandmarksalong
+facial edges have lower accuracy predictions due to projective distortions; particularly,
+cornersofeyesandlipsseemaffected.
+The last consideration for this paper is systematic adjustment of the camera’s viewing
+angle across the viewing hemisphere. We place the camera at 49 different positions with
+extreme poses included. When the camera views from the center ( θ∼=90◦andφ∼=
+90◦), the performance results are better than when the camera view from the sides. The
+landmark predictions at φaround 45◦and 135◦have the lowest performances due to
+extreme viewing angles. As expected, performance drops as the view moves to the more
+extremeangles,andtherateofeffectforeachmethodareshowninFigs. 11,12,13,14,
+and15.
+Fig.9FocalLengthVarying:LefthalfofthechartusesM7,righthalfuses68pointsLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page12of18
+Fig.10RNSEdistance.BluecirclesareRMSEat135mm,redcirclesare24mm. aHAAM,bPAAM,cPRNet,d
+3DSTN,e3D-Fan,and faverageresultforallalgorithms
+Most of the facial landmark and alignment algorithms perform well at frontal views,
+and the detection precision relies on the training set variability. Attempting to delineate
+prediction differences between extreme-view cases and center view cases, we chose the
+most centered view image ( φ=90◦andθ=90◦), as well as 8 images surrounding by
+it, to be the frontal group (Fig. 16). The rest of the images are the outer group (Fig. 17).
+Front view detection can approach almost 100% accuracy especially at center view for
+deep neural networking methods. The precision rate drops more than 50% approaching
+extremeangles( θ=0◦andθ=180◦).
+Part of the set of the images used were also based on 3D captures of action units
+from FACS which taxonomizes individual physical expression of emotions. The results
+s h o w ni nF i g . 18illustrate that in general the landmark-prediction methods work better
+on neutral faces due to FACS faces having more facial expressions which increase pre-
+diction difficulties. Performance decreases across wide field of view and view angle are
+consistent.
+Fig.11PRNet:camerapositionvaryingacross φ(from45◦to135◦)andθ(from0◦to180◦)Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page13of18
+Fig.123DFan:camerapositionvaryingacross φ(from45◦to135◦)andθ(from0◦to180◦)
+Fig.133DSTN:camerapositionvaryingacross φ(from45◦to135◦)andθ(from0◦to180◦)
+Fig.14HAAM:camerapositionvaryingacross φ(from45◦to135◦)andθ(from0◦to180◦)
+Fig.15PAAM:camerapositionvaryingacross φ(from45◦to135◦)andθ(from0◦to180◦)Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page14of18
+Fig.16Camerapositionwithgroupoffrontalview.Thefrontalviewpositionswhere φ=75◦,90◦,and105◦;
+θ=60◦,90◦,and120◦
+5C o n c l u s i o n
+In conclusion 3DSTN, PRNet, and 3D-FAN methods generally work better than tradi-
+tional statistical methods. Deep-learning methods have become the prevalent research
+directionforthetimebeing,buttheyarestillsubjecttoviewinganglesandalso,particu-
+larly,lenseffectsthathaverarelybeenconsideredduringanyperformanceevaluations.
+Increasingfocallengthtendstoimprovethelandmarkandalignmentperformancesdue
+to less projection distortion. This could inform design decisions for camera system and
+lenschosenforabiometricsystem,oritcouldbeusedtoinformfuturealgorithmdesign.
+Given experimental results, all methods, as expected, work best from frontal-viewing
+angles.Itisalsointerestingtonotethattheslopeoffall-offfortheperformancedecrease
+introduced by shorter focal lengths (wider field of view) is less for the AAM based
+methods and the 3DSTN approach. This is likely due to the AAM methods being based
+on image features, and the PAAM more specifically emphasizing local image features.Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page15of18
+Fig.17Camerapositionwithgroupofouterview.Theouterviewpositionwhere φ=45◦,60◦,120◦,and
+135◦;θ=0◦,30◦,150◦,and180◦
+Fig.18FACSandnon-FACScomparison. aFACSNRMSEandnon-FACSNRMSEwithM7and bisiBUG-68
+landmarkschemesLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page16of18
+3DSTN likely does well as part of the method specifically estimates a camera projection
+matrix, which in some sense should help counteract some of the focal length introduced
+perspective issues. PRNET and 3D-FAN methods using more general 3D data are likely
+moreaffected,andthelargertrainingsetfor3D-FANlikelyassistsitsperformancehere.
+Onelimitationofstatisticalalgorithmsisthelandmarkdetectionperformanceistiedto
+theheadposevariationinthetrainingset.WhenapplyingPCA,thefirstNeigenvectors
+are chosen as the main components. Typically, these are chosen based on representing
+±3 standard deviations from the mean value. Based on this limitation, the landmarking
+performanceforextremeviewangles,asoftenshown,drops.However,theCNNmethods
+thatallincorporatesomesystemof3Dreferencetendtodobetterasviewinganglesmove
+from the center; however, they still suffer performance drops and are still affected by
+shorterfocallengths.
+Sincefocallengthvariancedoesaffectfinalfacelandmarkandalignmentperformance,
+future work could include use of this to augment training data. This could be done
+throughdatacollectionoruseofsyntheticdata.
+Meta-data from capture lenses stored in digital photographs is often removed by the
+time images reach large datasets, but it would be interesting to note such effects from
+in-the-wild photographs. In the meantime, training with synthetic data that includes
+controlled variance of viewing angle ranges as well as varying focal length, added to
+photographicdatasets,shouldlikelyimproveresults.
+In the future, image acquisition should not only cover pose, illumination, expression,
+ethnicity,skincolor,etc.,butalsoincludeconsiderationoffullcameraandlensparameters
+whenpossible.
+Abbreviations
+ASM:Activeshapemodel;AAM:Activeappearancemodel;FACS:FacialActionCodingSystem;EfficientPerspective
+n-Point(EPnP);NFACS:NonFacialActionCodingSystem;AUs:ActionUnits;RMSE:Rootmeansquarederror;NRMSE:
+Normalizedrootmeansquarederror;PCA:Principalcomponentanalysis;HAAM:Holisticactiveappearancemodel;PAAM:
+Patchactiveappearancemodel;TPS:Thinplatespline;PRNet:Positionmapregressionnetwork;CNN:convolutionalneural
+network;3DMM:3Dmorphablemodel;3D-FAN:3Dfacealignmentnetwork;3DSTN:3dspatialtransformernetwork
+Acknowledgements
+Noadditionalacknowledgements.
+Authors’contributions
+XiangLiwasprimaryauthoroftheexperimentalrenderinganddataanalysisaswellasalignmentperformedbyAAMin
+Menpo.MarcusLiuwasresponsiblefortrainingandimplementationofthePRNetand3D-FANmodelsusedfor
+alignment.KhoaLuawasresponsibleforalignmentofthedatausingthe3DSTNmethod.JessicaBaronwasresponsible
+forportionsofthesoftwareusedtocreatetherenderingaswellassomeofthenumericalanalysis.EricPattersonwasthe
+coordinatoranddesigneroftheexperimentandfinaleditorforthepaperafterprimarywritingbyXiangLi.
+Funding
+Thisworkwasnotfundedbyanyexternalbodyandthuswasnotaffectedbyanyaspectsofsuch.
+Availabilityofdataandmaterials
+Pleasecontactauthorsfordatarequests.
+Consentforpublication
+Wehaveconsenttopublishforimagesofindividualsfrom3Dscans.
+Competinginterests
+Theauthorsdeclarethattheyhavenocompetinginterests.
+Authordetails
+1SchoolofComputing,ClemsonUniversity,304McAdamsHall,29630Clemson,SC,USA.2CollegeofComputerScience
+&InformationEngineering,TianjinUniversityofScience&Technology,13thSt,BinhaiXinqu,300457Tianjin,China.
+3DepartmentofComputerScienceandComputerEngineering,UniversityofArkansas,JBHT#521,72701Fayetteville,AR,
+USA.Lietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page17of18
+Received:28February2020 Accepted:2February2021
+References
+1. Y.Wu,Q.Ji,Faciallandmarkdetection:Aliteraturesurvey.Int.J.Comput.Vis. 127(2),115–142(2018). https://doi.org/
+10.1007/s11263-018-1097-z
+2. X.P.Burgos-Artizzu,P.Perona,P.Dollár,in Proceedingsofthe2013IEEEInternationalConferenceonComputerVision,
+ICCV’13,RobustFaceLandmarkEstimationunderOcclusion(IEEEComputerSociety,USA,2013),pp.1513–1520.
+https://doi.org/10.1109/ICCV.2013.191
+3. J.Shi,A.Samal,D.Marx,Howeffectivearelandmarksandtheirgeometryforfacerecognition?.Comp.VisionImage
+Underst.102(2),117–133(2006). https://doi.org/10.1016/j.cviu.2005.10.002
+4. A.Kae,IncorporatingBoltzmannMachinePriorsforSemanticLabelinginImagesandVideos(2014). https://doi.org/
+10.7275/37zj-rc94
+5. X.Cao,Y.Wei,F.Wen,J.Sun,Facealignmentbyexplicitshaperegression.Int.J.Comput.Vis. 107(2),177–190(2014).
+https://doi.org/10.1007/s11263-013-0667-3
+6. O.Çeliktutan,S.Ulukaya,B.Sankur,Acomparativestudyoffacelandmarkingtechniques.EURASIPJ.ImageVideo
+Process.2013(1),13(2013). https://doi.org/10.1186/1687-5281-2013-13
+7. B.Johnston,P.d.Chazal,Areviewofimage-basedautomaticfaciallandmarkidentificationtechniques.EURASIPJ.
+ImageVideoProcess. 2018(1),86(2018). https://doi.org/10.1186/s13640-018-0324-4
+8. C.Sagonas,E.Antonakos,G.Tzimiropoulos,S.Zafeiriou,M.Pantic,300facesin-the-wildchallenge:Databaseand
+results.ImagevisionComput. 47,3–18(2016)
+9. W.Wu,C.Qian,S.Yang,Q.Wang,Y.Cai,Q.Zhou,LookatBoundary:ABoundary-AwareFaceAlignmentAlgorithm.
+arXiv(2018). https://arxiv.org/abs/1805.10483
+10. M.Köstinger,P.Wohlhart,P.M.Roth,H.Bischof,in 2011IEEEInternationalConferenceonComputerVisionWorkshops
+(ICCVWorkshops) ,AnnotatedFacialLandmarksintheWild:Alarge-scale,real-worlddatabaseforfaciallandmark
+localization,(2011),pp.2144–2151. https://doi.org/10.1109/ICCVW.2011.6130513 .https://ieeexplore.ieee.org/
+document/6130513
+11. X.Wang,L.Bo,L.Fuxin,in 2019IEEE/CVFInternationalConferenceonComputerVision(ICCV) ,AdaptiveWingLossfor
+RobustFaceAlignmentviaHeatmapRegression,(2019),pp.6970–6980. https://doi.org/10.1109/ICCV.2019.00707 .
+https://ieeexplore.ieee.org/document/9010657
+12. R.Valle,J.M.Buenaposada,A.Valdes,L.Baumela,in ProceedingsoftheEuropeanConferenceonComputerVision(ECCV) ,
+ADeeply-initializedCoarse-to-fineEnsembleofRegressionTreesforFaceAlignment,(2018). https://openaccess.
+thecvf.com/content_ECCV_2018/html/Roberto_Valle_A_Deeply-initialized_Coarse-to-fine_ECCV_2018_paper.html
+13. J.Su,Z.Wang,C.Liao,H.Ling,in 2019IEEE/CVFConferenceonComputerVisionandPatternRecognitionWorkshops
+(CVPRW),EfficientandAccurateFaceAlignmentbyGlobalRegressionandCascadedLocalRefinement,(2019),
+pp.267–276. https://doi.org/10.1109/CVPRW.2019.00036 .https://ieeexplore.ieee.org/document/9025428
+14. M.Kowalski,J.Naruniec,T.Trzcinski,in 2017IEEEConferenceonComputerVisionandPatternRecognitionWorkshops
+(CVPRW),DeepAlignmentNetwork:AConvolutionalNeuralNetworkforRobustFaceAlignment,(2017),
+pp.2034–2043. https://doi.org/10.1109/CVPRW.2017.254 .https://ieeexplore.ieee.org/document/8014988
+15. J.Lv,X.Shao,J.Xing,C.Cheng,X.Zhou,in 2017IEEEConferenceonComputerVisionandPatternRecognition(CVPR) ,A
+DeepRegressionArchitecturewithTwo-StageRe-initializationforHighPerformanceFacialLandmarkDetection,
+(2017),pp.3691–3700. https://doi.org/10.1109/CVPR.2017.393 .https://ieeexplore.ieee.org/document/8099876
+16. N.Damer,Y.Wainakh,O.Henniger,C.Croll,B.Berthe,A.Braun,A.Kuijper,in 201824thInternationalConferenceon
+PatternRecognition(ICPR) ,DeepLearning-basedFaceRecognitionandtheRobustnesstoPerspectiveDistortion,
+(2018),pp.3445–3450. https://doi.org/10.1109/ICPR.2018.8545037 .https://ieeexplore.ieee.org/document/8545037
+17. J.Valente,S.Soatto,in 2015IEEEConferenceonComputerVisionandPatternRecognitionWorkshops(CVPRW) ,
+Perspectivedistortionmodeling,learningandcompensation,(2015),pp.9–16. https://doi.org/10.1109/CVPRW.2015.
+7301314.https://ieeexplore.ieee.org/document/7301314
+18. A.Flores,E.Christiansen,D.Kriegman,S.Belongie,in AdvancesinVisualComputing .ed.byG.Bebis,R.Boyle,B.Parvin,
+D.Koracin,B.Li,F.Porikli,V.Zordan,J.Klosowski,S.Coquillart,X.Luo,M.Chen,andD.Gotz,Cameradistancefrom
+faceimages(Springer,Berlin,Heidelberg,2013),pp.513–522
+19. P.J.Burt, ThePyramidasaStructureforEfficientComputation .(A.Rosenfeld,ed.)(SpringerBerlinHeidelberg,Berlin,
+1984),pp.6–35. https://doi.org/10.1007/978-3-642-51590-3_2 .https://link.springer.com/chapter/10.1007/978-3-
+642-51590-3_2
+20. C.Harris,M.Stephens,in ProceedingsoftheAlveyVisionConference1988 ,ACombinedCornerandEdgeDetector
+(AlveyVisionClub,1988). https://doi.org/10.5244%2Fc.2.23 .https://core.ac.uk/display/21892060
+21. G.Tzimiropoulos,S.Zafeiriou,M.Pantic,in 2011InternationalConferenceonComputerVision ,Robustandefficient
+parametricfacealignment,(2011),pp.1847–1854. https://doi.org/10.1109/ICCV.2011.6126452 .https://ieeexplore.
+ieee.org/document/6126452
+22. X.Zhang,L.Yin,J.F.Cohn,S.Canavan,M.Reale,A.Horowitz,P.Liu,J.M.Girard,BP4D-Spontaneous:ahigh-resolution
+spontaneous3Ddynamicfacialexpressiondatabase.ImageVis.Comput. 32(10),692–706(2014). https://doi.org/10.
+1016/j.imavis.2014.06.002 .https://www.sciencedirect.com/science/article/pii/S0262885614001012?via%3Dihub
+23. V.Le,J.Brandt,Z.Lin,L.Bourdev,T.S.Huang,S.Lazebnik,P.Perona,Y.Sato,C.Schmid,in ComputerVision–ECCV
+2012.ed.byA.Fitzgibbon,InteractiveFacialFeatureLocalization(SpringerBerlinHeidelberg,Berlin,2012),
+pp.679–692. https://link.springer.com/chapter/10.1007/978-3-642-33712-3_49
+24. R.Gross,I.Matthews,J.Cohn,T.Kanade,S.Baker,Multi-pie.ImageVisionComput. 28(5),807–813(2010)
+25. C.H.Hjortsjö, Man’sFaceandMimicLanguage .(Studentlitteratur,1969). https://books.google.com/books?id=
+BakQAQAAIAAJ .https://books.google.com/books/about/Man_s_Face_and_Mimic_Language.html?id=
+BakQAQAAIAAJ
+26. CMU, FACS-FacialActionCodingSystem ,(2002).https://www.cs.cmu.edu/~face/facs.htmLietal. EURASIPJournalonImageandVideoProcessing          (2021) 2021:9 Page18of18
+27. T.F.Cootes,C.J.Taylor,D.H.Cooper,J.Graham,Activeshapemodels-theirtrainingandapplication.Comput.vision
+imageUnderst. 61(1),38–59(1995)
+28. J.Alabort-i-Medina,E.Antonakos,J.Booth,P.Snape,S.Zafeiriou,in Proceedingsofthe22ndACMInternational
+ConferenceonMultimedia ,Menpo:AComprehensivePlatformforParametricImageAlignmentandVisual
+DeformableModels(AssociationforComputingMachinery,NewYork,2014),pp.679–682. https://doi.org/10.1145/
+2647868.2654890
+29. Y.Feng,F.Wu,X.Shao,Y.Wang,X.Zhou,in ComputerVision–ECCV2018 .ed.byV.Ferrari,M.Hebert,C.Sminchisescu,
+andY.Weiss,Joint3DFaceReconstructionandDenseAlignmentwithPositionMapRegressionNetwork(Springer
+InternationalPublishing,Cham,2018),pp.557–574. https://github.com/YadiraF/PRNet .https://link.springer.com/
+chapter/10.1007%2F978-3-030-01264-9_33
+30. A.Bulat,G.Tzimiropoulos,in 2017IEEEInternationalConferenceonComputerVision(ICCV) ,HowFarareWefrom
+Solvingthe2D&3DFaceAlignmentProblem?(andaDatasetof230,0003DFacialLandmarks)(IEEE. https://doi.org/
+10.1109/iccv.2017.116 .https://arxiv.org/abs/1703.07332
+31. C.Bhagavatula,C.Zhu,K.Luu,M.Savvides,in 2017IEEEInternationalConferenceonComputerVision(ICCV) ,Fasterthan
+Real-TimeFacialAlignment:A3DSpatialTransformerNetworkApproachinUnconstrainedPoses,(2017),
+pp.4000–4009. https://doi.org/10.1109/ICCV.2017.429
+32. T.F.Cootes,G.Edwards,C.J.Taylor,in Proc.BritishMachineVisionConf ,ComparingActiveShapeModelswithActive
+AppearanceModels(BMVAPress,Durham,1999),pp.173–182. http://citeseerx.ist.psu.edu/viewdoc/summary?doi=
+10.1.1.16.524
+Publisher’sNote
+SpringerNatureremainsneutralwithregardtojurisdictionalclaimsinpublishedmapsandinstitutionalaffiliations.

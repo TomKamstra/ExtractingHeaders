@@ -1,0 +1,310 @@
+Emotion Recognition from Speech by Combining
+Databases and Fusion of Classiﬁers
+Iulia Lefter1,2, Leon J. M. Rothkrantz1,2, Pascal Wiggers1, and David. A. van
+Leeuwen3
+1Delft University of Technology, The Netherlands
+2The Netherlands Defense Academy
+3TNO Human Factors, The Netherlands
+Abstract. We explore possibilities for enhancing the generality, por ta-
+bility and robustness of emotion recognition systems by com bining data-
+bases and by fusion of classiﬁers. In a ﬁrst experiment, we in vestigate the
+performance of an emotion detection system tested on a certa in database
+given that it is trained on speech from either the same databa se, a dif-
+ferent database or a mix of both. We observe that generally th ere is a
+drop in performance when the test database does not match the training
+material, but there are a few exceptions. Furthermore, the p erformance
+drops when a mixed corpus of acted databases is used for train ing and
+testing is carried out on real-life recordings. In a second e xperiment we
+investigate the eﬀect of training multiple emotion detecto rs, and fusing
+these into a single detection system. We observe a drop in the Equal
+Error Rate ( eer) from 19.0 % on average for 4 individual detectors to
+4.2 % when fused using FoCal [5].
+1 Introduction
+Emotion recognition from speech is a ﬁeld that gains more and more attention
+from researchers. Typically, machine learning techniques are used to train models
+of features extracted from databases of emotional speech [1 5]. Even though the
+general architectures of the systems are similar, no unity c an be found within
+the components. The results are hard to compare due to incons istencies in data,
+task and labeling. Details of these problems are outlined in [17] where a call for
+standardization is being made.
+Obtaining data for training is not trivial. A recent trend is to replace acted
+emotions by real, spontaneous ones. For this purpose, diﬀer ent emotion elicita-
+tion methods are used, e.g. children interacting with a remo tely controlled pet
+robot [19].
+Recent work aims at ﬁnding the most important feature types [ 2]. The idea
+is to extract a large number of features and then reduce this ﬁ gure, keeping
+most relevant ones. However, the resulting feature set is hi ghly dependent on
+the database being used. As noted by [23], diﬀerent features are relevant in the
+case of acted and spontaneous emotions.The goal of this paper is to explore the portability of emotio n recognition
+systems and improve the robustness. Usually experiments in volve the use of sin-
+gle databases. As a ﬁrst experiment, we use four databases of emotional speech,
+three with acted emotions and one with real-life recordings from call centers.
+Our approach is to choose a ﬁxed database for testing and to us e diﬀerent data
+combinations for training. This includes training on the sa me database, on a dif-
+ferent database and on a merged database that includes or not the test database,
+in a speaker independent way. Typically models are database dependent and are
+not expected to work well on new types of data. A way to remedy t his is to
+provide a larger amount of training data. With this experime nt we examine the
+beneﬁts of using extended corpora as well as the portability of systems trained
+on acted data to real life scenarios. Research using multi-c orpus training and
+testing is presented in [18] and [21].
+Since the performance of emotion recognition systems is sti ll far from 100%
+accurate, especially when test data is from a diﬀerent datas et than the training
+one, we investigate the improvements of fusing the results o f more classiﬁers
+trained with diﬀerent feature sets on spontaneous data. We u se both utterance
+and frame level features, whose combination is expected to e nhance the recogni-
+tion as shown in [22]. Late fusion by linear combination of th e scores given equal
+weights and also weights calculated with logistic regressi on are compared. Both
+of them yield higher performance than the individual classi ﬁers.
+This paper is organized as follows. In Section 2 we introduce the emotional
+speech databases used in this work and the methodology for tr aining and testing.
+Details about the setups and the results of the ﬁrst and the se cond experiment
+are provided in Sections 3 and 4 respectively. The last secti on contains our
+conclusions.
+2 Methods and Materials
+We use four databases for training and testing: the German da tabase ( berlin )
+[6], the Danish database of emotional speech ( des) [9], the audio part of the
+eNTERFACE’05 database ( ent) [14] and the South-African Database ( sa) [12].
+Details about the characteristics of these databases can be found in Table 1.
+The idea is to use subsets of the databases that contain the sa me emotions.
+Firstly, we use only combinations of the three acted databas es and the three
+emotions they have in common: anger, happiness and sadness ( Experiment 1.a).
+Secondly, we include also the database of spontaneous speec h, and consider just
+two classes: anger and neutral (Experiment 1.b). Even thoug hentdoes not
+contain a neutral class, we have decided to use its samples fr om the anger class
+in this experiment.
+Given a ﬁxed test set, three training conditions are impleme nted for the ﬁrst
+experiment: within corpus (same database is used for training and testing), cross
+corpus (the databases for training and testing are diﬀerent), and mixed corpus
+(samples corresponding to the same emotion but belonging to diﬀerent databases
+are considered as one class, and speaker independent classi ﬁcation is performed).Table 1. Characteristics of the databases of emotional speech used
+Feature berlin des ent sa
+# anger 127 50 211 1000
+# disgust 38 211
+# fear 55 211
+# happiness 64 52 208
+# sadness 53 52 211
+# surprise 50 211
+# boredom 79
+# neutral 78 52 2000
+# speakers 10 (5 male) 4 (2 male) 46 1228
+acted/spontaneous acted acted acted spontaneous
+language German Danish English English/Afrikaans
+utterance type preset preset preset free
+mean duration (sec) 2.76 5.46 2.81 4.3
+total duration (min) 22.8 30.68 59.06 215.02
+recording condition mic mic mic telephone
+Our approach is to consider one emotion as target and the othe r emotions
+as non-target. A detector for the target emotion can make two types of errors
+that can be traded oﬀ: misses and false alarms. We asses the pe rformance of our
+detectors in terms of equal error rates ( eer) where false alarm and miss rates
+are equal.
+All experiments are implemented using speaker independent cross-validation
+withz-normalization of features on the training set in order to ac hieveµ= 0 and
+σ= 1. For berlin anddeswhich have a small number of speakers we use leave-
+one-speaker-out cross-validation. For entandsawe use 10 fold cross-validation.
+In the case of the second experiment we fuse detectors whose s cores span
+diﬀerent ranges (some are log likelihoods, some probabilit ies). It is therefore
+important to normalize the scores. For this reason we have us ed 10-fold speaker
+independent double-cross validation and an adapted form of t-normalization [1].
+The mean and standard deviation of the scores of the non-targe t development
+set are used in order to normalize the scores of the evaluatio n set.
+3 Experiment 1 - Multiple Corpus Training and Testing
+In this experiment we test the ability of models trained on on e database to
+generalize to another one. We use a prosodic, utterance leve l feature set inspired
+from the minimum required set of features proposed by [11] an d the approach of
+[20]. The feature set contains: pitch(mean, standard deviat ion, range, absolute
+slope (without octave jumps), jitter), intensity (mean, st andard deviation, range,
+absolute slope, shimmer), means of the ﬁrst 4 formants, long term averaged
+spectrum (slope, Hammarberg index, high energy) and center of gravity and
+skewness of the spectrum. These features were extracted usi ng Praat [3] and wewill refer to them as prosodic features. Classiﬁcation is pe rformed by Support
+Vector Machines ( svm) with a radial basis function ( rbf) kernel by means of
+libsvm [8]. We refer to this method as svm.
+Table 2. Results of Experiment 1.a
+Experiment Train corpus Test corpusEER
+anger happiness sadness
+within corpusberlin berlin 11.6 18.9 14.8
+des des 31.8 33.0 25.0
+ent ent 26.1 36.7 22.3
+cross corpusdes berlin 31.5 53.2 44.3
+ent berlin 44.9 45.4 19.9
+des+ent berlin 38.4 46.8 24.0
+berlin des 31.9 44.7 33.0
+ent des 29.9 34.0 13.1
+berlin +ent des 29.9* 34.5 17.5
+berlin ent 38.8 45.6 30.2
+des ent 33.2 36.9 16.8
+berlin +des ent 35.7 36.2*16.4*
+mixed corpusberlin +des+ent berlin 20.5 25.0 3.5
+berlin +des+ent des 26.5 32.5 15.5
+berlin +des+ent ent 30.1 36.2 16.3
+The results for Experiment 1.a, which uses the three acted da tabases and
+three emotions are presented in Table 2. The results for Expe riment 1.b in which
+all four databases and two classes are used are provided in Ta ble 3. The within
+corpus results can be considered as reference values. In gen eral the cross corpus
+tests result in worse eers than the reference values. Interestingly, there are also
+some exceptions which are printed in bold. Results marked wi th a star (*) in
+the cross corpus experiment highlight that there is an impro vement by merging
+databases for training. The mixed corpus approach gives an i mprovement to
+both the within- and cross corpus results for most condition s.
+Table 3. Results of Experiment 1.b
+Experiment Train corpus Test corpus EER
+within corpusberlin berlin 1.4
+des des 28.4
+sa sa 15.5
+cross corpus berlin +des+ent sa 29.9
+mixed corpusberlin +des ent +sa berlin 3.9
+berlin +des+ent+sa des 25.5
+berlin +des+ent+sa sa 16.5When all four databases are used, we are interested, for the c ross corpus
+case, in the performance of classiﬁers trained on acted and t ested on real data.
+In this case the eerof the cross corpus condition is twice that of the within-
+corpus condition. The mixed approach shows an improvement o nly in the case of
+testing on des, while for sathe result is slightly lower than the reference value.
+Theentdatabase is only used in this experiment for training, since it does not
+contain a neutral class.
+4 Experiment 2 - Fusion of Classiﬁers
+The aim of this experiment is to improve the performance of em otion detection.
+We use only the sadatabase, which is more diﬃcult since it contains free natur al
+speech as opposed to preset utterances and the convenient la b conditions are
+replaced with noisy telephone speech. We are interested in t he performance of
+diﬀerent classiﬁcation methods, as well as their fusion.
+A ﬁrst detection approach uses svmand the prosodic feature set described
+in Section 3. Further, we use three spectral feature based cl assiﬁers popular
+in speaker recognition. They are based on Relative Spectral Perceptual Linear
+Predictive ( rasta plp ) coding of speech [10]. In order to extract the features
+from the sound signal, voice activity detection is performe d based on energy
+levels. Every 16 ms, 26 coeﬃcients are extracted for a frame o f 32 ms : 12 plp
+coeﬃcients plus log energy and their derivatives.
+The Universal Background Model - Gaussian Mixture Model ( ubm-gmm )
+[16] approach models each class by a mixture of Gaussians bas ed on the rasta
+plpfeatures. We use a 512 mixtures precomputed ( ubm) trained on NIST SRE
+2008 data. This is mapadapted using either emotion or neutral speech data. We
+refer to this method as gmm.
+The third technique is a ubm-gmm-svm detector [7]. The feature supervectors
+are the means of the ubm-gmm model. These feature sets are used for svm
+classiﬁcation.
+The ﬁnal classiﬁer is known as dot-scoring ( ds) [4], and it is a linear approx-
+imation of ubm-gmm . It uses suﬃcient ﬁxed size zero and ﬁrst order statistics
+of these features. The method includes channel compensatio n, meaning that the
+impact of the communication medium is reduced.
+Two types of score level fusion are applied on the scores of th ese four clas-
+siﬁcation methods: a linear combination of the t-normalized scores with equal
+weights, and fusion by calculating the weights using linear logistic regression
+using FoCal [5]. For the second fusion type, a constant is add ed to the formula
+for calibration. This approach provides simultaneous fusi on and calibration in a
+way that optimizes discrimination and calibration. The fus ed scores tend to be
+well-calibrated detection log-likelihood-ratios.
+As we expect diﬀerent classiﬁers based on diﬀerent features to complement
+each other, we fuse in turn the svmwith prosodic features with each of the gmm-
+like approaches which are based on rasta plp features. Finally, we fuse all four
+classiﬁers by logistic regression. The results are shown in Table 4 for diﬀerentweights of each classiﬁer to the ﬁnal result. The weights diﬀ erent than 1 are
+calculated with FoCal. svmgives the highest performance from the individual
+classiﬁers and is always assigned high weights for fusion. H owever, ugswhich
+has a lower performance by itself is assigned slightly highe r weights.
+Table 4. eers for individual classiﬁers and various combinations with d iﬀerent weights
+Classiﬁer Weight
+gmm 1 13.03 3.35
+ugs 1 15.62 5.92
+ds 1 11.811.72
+svm 115.77 15.44 15.275.13
+eer(%) 21.219.819.615.511.39.910.510.111.311.04.2
+The detection error tradeoﬀ ( det) curves [13] of the individual detectors and
+their fusion are presented in Figure 1. The results show clea rly that fusion leads
+to great improvements.
+Fig. 1. detcurves for the fusion of Dot Scoring, svm,gmm andubm-gmm-svm by
+logistic regression
+5 Conclusions
+In this paper we have investigated several aspects related t o emotion recogni-
+tion in speech. First, we have investigated the ability of an emotion detector togeneralize to a diﬀerent data set. For this we use the common e motions found
+in three widely used emotion databases: berlin ,des, andentwith emotions
+anger, happiness and sadness. Surprisingly, we found that f or the destest data
+we obtained better performance for detectors trained on dat a including the ent
+database, than using training on desalone. This may be due to the fact that
+when using desfor training, only 3 actors are available, of which only 1 has the
+same gender as the test speaker. Here, the classiﬁer obvious ly can beneﬁt from a
+wider variability in speakers, even if the recording protoc ol, way of eliciting the
+emotions, or even the language of the speech used are diﬀeren t. Another aspect
+of emotion in speech is whether it results from acted or real e motion. In order
+to study this, we used data collected from a call center, wher e two emotions
+dominate calls from clients: anger and neutral. Here, we obs erve that mixing in
+acted emotions does not lead to additional performance with our baseline classi-
+ﬁer. We may presume that the emotion cause (real versus acted ) is too diﬀerent
+between the test and additional training data, although we c annot exclude that
+other sources of variation (channel, language) also preven t the emotion models
+from improving.
+As a ﬁnal experiment we have looked into methods for improvin g a single
+emotion detector tested on the natural sadata. By using additional features
+and several frame-based classiﬁers borrowed from speaker r ecognition, we could
+show a very strong improvement in performance from 19 % on ave rage for the
+4 individual detectors to 4.2 % for the fused detectors. This is consistent with
+what has been observed in speaker recognition [5], but it is i nteresting to note
+that the fusion still works so well for very short duration ut terances (2 seconds,
+compared to the 2 minutes we are used to in speaker recognitio n) and for three
+classiﬁers that are based on the same spectral features. Alt hough there still is a
+long way to go before we have robust emotion detectors that ar e not sensitive
+to spontaneity, language or recording channel, we do believ e that the methods
+and experiments presented in this paper give some insight in to what can be
+promising approaches in both technology and data collectio n.
+References
+1. R. Auckenthaler, M. Carey, and H. Lloyd-Thomas. Score Nor malization for Text-
+Independent Speaker Veriﬁcation Systems. Digital Signal Processing , 10:42–54,
+2000.
+2. A. Batliner, S. Steidl, B. Schuller, D. Seppi, T. Vogt, J. W agner, L. Devillers,
+L. Vidrascu, V. Aharonson, L. Kessous, and N. Amir. Whodunni t - Searching
+for the Most Important Feature Types Signalling Emotion-Re lated User States in
+Speech. Computer Speech and Language , 2010.
+3. P. Boersma. Praat, a System for Doing Phonetics by Compute r.Glot International ,
+5(9/10):341–345, 2001.
+4. N. Br¨ ummer. Discriminative Acoustic Language Recognit ion via Channel-
+Compensated GMM Statistics. In Proceedings of Interspeech . ISCA, 2009.
+5. N. Br¨ ummer, L. Burget, J. Cernocky, O. Glembek, F. Grezl, M. Karaﬁat, D. A.
+van Leeuwen, P. Matejka, P. Schwarz, and A. Strasheim. Fusio n of Heteroge-
+neous Speaker Recognition Systems in the STBU Submission fo r the NIST SpeakerRecognition Evaluation 2006. IEEE Transactions on Speech, Audio and Language
+Processing , 15(7):2072–2084, 2007.
+6. F. Burkhardt, A. Paeschke, M. Rolfes, W. F. Sendlmeier, an d B. Weiss. A Database
+of German Emotional Speech. Proceedings of Interspeech , pages 1517–1520, 2005.
+7. W. Campbell, D. Sturim, and D. Reynolds. Support Vector Ma chines Using GMM
+Supervectors for Speaker Veriﬁcation. IEEE Signal Processing Letters , 13(5):308–
+311, 2006.
+8. C. C. Chang and C. J. Lin. LIBSVM: a Library for Support Vector Machines ,
+2001.
+9. I. S. Engberg and A. V. Hansen. Documentation of the Danish Emotional Speech
+Database (DES). Internal AAU report, Center for Person Komm unikation, 1996.
+10. H. Hermansky, N. Morgan, A. Bayya, and P. Kohn. RASTA-PLP speech analysis
+technique. In IEEE International Conference on Acoustics, Speech, and Si gnal
+Processing , pages 121–124, 1992.
+11. P.N. Juslin and K.R. Scherer. In J. Harrigan, R. Rosenthal, and K. Scherer, (Eds.)
+- The New Handbook of Methods in Nonverbal Behavior Research , chapter Vocal
+Expression of Aﬀect, pages 65–135. Oxford University Press , 2005.
+12. I. Lefter, L. J. M Rothkrantz, P. Wiggers, and D. A. van Lee uwen. Automatic
+Stress Detection in Emergency (Telephone) Calls. Int. J. on Intelligent Defence
+Support Systems , 2010. submitted.
+13. A. Martin, G. Doddington, T. Kamm, M. Ordowski, and M. Prz ybocki. The Det
+Curve In Assessment Of Detection Task Performance. In Proceedings Eurospeech
+’97, pages 1895–1898, 1997.
+14. O. Martin, I. Kotsia, B. Macq, and I. Pitas. The eNTERFACE ’05 Audio-Visual
+Emotion Database. Data Engineering Workshops, 22nd International Conferenc e
+on, 2006.
+15. M. Pantic and L.J.M. Rothkrantz. Towards an Aﬀect-sensi tive Multimodal
+Human-Computer Interaction. Proceedings of the IEEE , pages 1370–1390, 2003.
+16. D.A. Reynolds, T.F. Quatieri, and R.B. Dunn. Speaker Ver iﬁcation Using Adapted
+Gaussian Mixture Models. Digital Signal Processing , 10:19–41, 2000.
+17. B. Schuller, S. Steidl, and A. Batliner. The INTERSPEECH 2009 Emotion Chal-
+lenge. In Proceedings of Interspeech , page 312315. ISCA, 2009.
+18. M. Shami and W. Verhelst. Automatic Classiﬁcation of Exp ressiveness in Speech:
+A Multi-corpus Study. Speaker Classiﬁcation II: Selected Projects , pages 43–56,
+2007.
+19. S. Steidl. Automatic Classiﬁcation of Emotion-Related User States in Spontaneous
+Children’s Speech . Logos Verlag, 1 edition, 2009.
+20. K. P. Truong and S. Raaijmakers. Automatic Recognition o f Spontaneous Emo-
+tions in Speech Using Acoustic and Lexical Features. In Proceedings of the 5th
+international workshop on Machine Learning for Multimodal Interaction (MLMI) ,
+pages 161–172. Springer-Verlag, 2008.
+21. L. Vidrascu and L. Devillers. Anger Detection Performan ces Based on Prosodic
+and Acoustic Cues in Several Corpora. In LREC 2008 , 2008.
+22. B. Vlasenko, B. Schuller, A. Wendemuth, and G. Rigoll. Co mbining Frame and
+Turn-Level Information for Robust Recognition of Emotions within Speech. In
+Proceedings of Interspeech , 2007.
+23. T. Vogt and E. Andre. Comparing Feature Sets for Acted and Spontaneous Speech
+in View of Automatic Emotion Recognition. In IEEE International Conference on
+Multimedia and Expo , pages 474–477, July 2005.

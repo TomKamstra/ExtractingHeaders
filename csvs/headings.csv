@@ -1,0 +1,877 @@
+,parsed_line,heading_bool,source_paper,math_bool,latin_numbered_bool,numberic_numbered_bool
+0,"Abstract
+",True,1802,False,False,True
+1,"1 Introduction
+",True,1802,False,False,True
+2,"2.1 Concepts, Notation, and Training
+",True,1802,False,False,True
+3,"2.2 Generative Sequence Models
+",True,1802,False,False,True
+4,"2.3 Overﬁtting in Machine Learning
+",True,1802,False,False,True
+221,"Abstract : With introducing and developing AI logic, this science as a branch of computer science could impact 
+",True,188130647,False,False,False
+222,"I. INTRODUCTION  
+",True,188130647,False,False,False
+223,"II. ARTIFICIAL INTELLIGENCE  (AI) 
+",True,188130647,False,False,False
+224,"III. INTELLIGENT SYSTEM  (IS) 
+",True,188130647,False,False,False
+225,"IV. EXPERT SYTEMS (ESs)  
+",True,188130647,False,False,False
+226,"V. APPLICATION IS / AI / ES IN THE LIBRARY SYSTEM   
+",True,188130647,False,False,False
+227,"VII. FINDING  
+",True,188130647,False,False,False
+617,"Abstract.  Falls are some of the most common sources of injury among the el-
+",True,2012_Book_AmbientIntelligence,False,False,True
+618,"1 Introduction 
+",True,2012_Book_AmbientIntelligence,False,False,True
+619,"2 Related Work 
+",True,2012_Book_AmbientIntelligence,False,False,True
+620,"3 Sensor Equipment 
+",True,2012_Book_AmbientIntelligence,False,False,True
+621,"4 System Architecture 
+",True,2012_Book_AmbientIntelligence,False,False,True
+622,"5 Data Preproces s
+",True,2012_Book_AmbientIntelligence,False,False,True
+623,"5.1 Inertial Data 
+",True,2012_Book_AmbientIntelligence,False,False,True
+624,"3-axis gyroscope data. It 
+",True,2012_Book_AmbientIntelligence,False,False,True
+625,"5.2 Location Data 
+",True,2012_Book_AmbientIntelligence,False,False,True
+626,"15 cm, but in practice it m a
+",True,2012_Book_AmbientIntelligence,False,False,True
+627,"6 Context Compo
+",True,2012_Book_AmbientIntelligence,False,False,True
+628,"5 
+",True,2012_Book_AmbientIntelligence,False,False,True
+629,"6.1 Body Accelerations 
+",True,2012_Book_AmbientIntelligence,False,False,True
+1141,"Article Info   ABSTRACT  
+",True,29020-59012-1-PB,False,False,True
+1142,"1. INTRODUCTION  
+",True,29020-59012-1-PB,False,False,True
+1143,"2. LIERATURE REVIEW  
+",True,29020-59012-1-PB,False,False,True
+1144,"3. METHODS  
+",True,29020-59012-1-PB,False,False,True
+1145,"3.1.  Classification and Weka Workbench  
+",True,29020-59012-1-PB,False,False,True
+1146,"3.2.  The implemented models  
+",True,29020-59012-1-PB,False,False,True
+1147,"4. COMPUTA TIONAL RESULTS AND DISCUSSION  
+",True,29020-59012-1-PB,False,False,True
+1148,"4.1.  The implemented  models  
+",True,29020-59012-1-PB,False,False,True
+1149,"5. EXPERIMENTAL DATASETS  
+",True,29020-59012-1-PB,False,False,True
+1150,"6. EXPERIMENTAL RESULTS  
+",True,29020-59012-1-PB,False,False,True
+1572,"Abstract. Generated hateful and toxic content by a portion of users
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1573,"1 Introduction
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1574,"2 Previous Works
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1575,"3 Methodology
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1576,"3.1 Fine-Tuning Strategies
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1577,"4 Experiments and Results
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1578,"4.1 Dataset Description
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1579,"4.2 Pre-Processing
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1580,"4.3 Implementation and Results Analysis
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1581,"4.4 Error Analysis
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+1582,"5 Conclusion
+",True,A BERT-Based Transfer Learning Approach for,False,False,True
+2110,"1 INTRODUCTION
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2111,"Abstractingwithcreditispermitted.Tocopyotherwise,orrepublish,topostonserversortoredistributetolists,requires
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2112,"4EmpiricalMethods inNaturalLanguageProcessing.
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2113,"6AAAI Conferenceon Artificial Intelligence.
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2114,"2.2 Deep-learning in NLP
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2115,"3 FROM IMAGETO TEXT
+",True,Adversarial Attacks on Deep-learning Models in Natural,False,False,True
+2469,Abstract ,True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2470,"I.  INTRODUCTION  
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2471,"II. R
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2472,"III. S
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2473,"IV. P
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2474,"V. EXPERIMENTS  
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+2475,"VI. C
+",True,AnalysisOfShoppingBehaviorBasedOnSurveilanceSystem,False,False,False
+3026,Abstract ,True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3027,"I. I NTRODUCTION
+",True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3028,"II. I NSTRUMENTATION AMPLIFIER DESIGN
+",True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3029,"III. M EASUREMENTS
+",True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3030,"IV. D ISCUSSION
+",True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3031,"V. C ONCLUSIONS
+",True,A_Broadband_High_Common_Mode_Rejection_Ratio_Instrumentation_Amplifier,False,False,False
+3357,"ABSTRACT Face recognition technology is a biometric technology, which is based on the identication of
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3358,"I. INTRODUCTION
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3359,"II. THE DEVELOPMENT STAGE OF FACE RECOGNITION
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3360,"IV. COMMON EVALUATION CRITERIA OF
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3361,"V. IMAGE EVALUATION SETS AND DATABASES
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3362,"VI. CONCLUSION
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3363,"VII. FUTURE WORK
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+3364,"I. Alvarez, ``NMF-SVM based CAD tool applied to functional brain
+",True,A_Review_of_Face_Recognition_Technology,False,False,False
+4353,"Abstract   
+",True,ChatbotsInABotnetWorld,False,False,True
+4354,"1. Introduction  
+",True,ChatbotsInABotnetWorld,False,False,True
+4355,"2. Methods  
+",True,ChatbotsInABotnetWorld,False,False,True
+4356,"3. Results  
+",True,ChatbotsInABotnetWorld,False,False,True
+4357,"3.1. Self-replication and self -modification  
+",True,ChatbotsInABotnetWorld,False,False,True
+4358,"3.2.  Execution and Coding Exercises  
+",True,ChatbotsInABotnetWorld,False,False,True
+4359,"3.4.  Creativity, Strategic 
+",True,ChatbotsInABotnetWorld,False,False,True
+4360,"4. Discussion  
+",True,ChatbotsInABotnetWorld,False,False,True
+4361,"5. Concl usions  
+",True,ChatbotsInABotnetWorld,False,False,True
+4722,"Abstract
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4723,"1 Introduction
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4724,"2 Related Work
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4725,"2.1 Feature Engineering for he CWI Task
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4726,"2.2 CNNs in NLP
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4727,"3 Feature-Engineering Approach
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4728,"4 Deep-Learning Approach
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4729,"4.1 Preprocessing
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4730,"4.2 Architecture of our Network
+",True,Complex Word Identification Convolutional Neural Network vs Feature Engineering,False,False,True
+4976,"DOI 10.1515/TLR.2006.009 c/circlecopyrtWalter de GruyterAbstract
+",True,conninePinnow,False,False,True
+4977,"two classes of models, abstract and episodic, that have been proposed for spo-ken word recognition. Abstract theories rely on inference processes and/or un-derspeciﬁed representations to account for spoken word recognition. Episodic
+",True,conninePinnow,False,False,True
+4978,"1. Introduction
+",True,conninePinnow,False,False,True
+4979,"2.1. Word-ﬁnal /t, d/-deletion
+",True,conninePinnow,False,False,True
+4980,"2.2. Word medial ﬂap
+",True,conninePinnow,False,False,True
+4981,"2.3. Schwa deletion
+",True,conninePinnow,False,False,True
+4982,"2.4. Nasal ﬂap
+",True,conninePinnow,False,False,True
+4983,"3. Learning phonological variants
+",True,conninePinnow,False,False,True
+4984,"4. Conclusions
+",True,conninePinnow,False,False,True
+4985,"space that represents individual occurrences of a segment. Abstractions across
+",True,conninePinnow,False,False,True
+4986,"Luce, Paul, Connor MacLennan, and Jan Charles-Luce (2003). Abstractness and speciﬁcity in
+",True,conninePinnow,False,False,True
+5266,"ABSTRACT Sarcasm is a complicated linguistic term commonly found in e-commerce and social media
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5267,"I. INTRODUCTION
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5268,"II. LITERATURE SURVEY
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5269,"III. AUTOMATIC SARCASM IDENTIFICATION
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5270,"IV. EXPERIMENTAL DESIGNS
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5271,"V. EXPERIMENTAL RESULTS AND DISCUSSIONS
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+5272,"VI. CONCLUSION
+",True,Context-Based_Feature_Technique_for_Sarcasm_Identification_in_Benchmark_Datasets_Using_Deep_Learning_and_BERT_Model,False,False,False
+6819,Abstract ,True,Cross-Lingual Transfer Learning for Complex word Identification,False,False,False
+6820,"I. I NTRODUCTION
+",True,Cross-Lingual Transfer Learning for Complex word Identification,False,False,False
+6821,"II. R
+",True,Cross-Lingual Transfer Learning for Complex word Identification,False,False,False
+6822,"III. M
+",True,Cross-Lingual Transfer Learning for Complex word Identification,False,False,False
+6823,"V. C
+",True,Cross-Lingual Transfer Learning for Complex word Identification,False,False,False
+7184,"ABSTRACT
+",True,DeepSonar,False,False,True
+7185,"must be honored. Abstracting with credit is permitted. To copy otherwise, or republish,
+",True,DeepSonar,False,False,True
+7186,"1 INTRODUCTION
+",True,DeepSonar,False,False,True
+7187,"2 RELATED WORK
+",True,DeepSonar,False,False,True
+7188,"2.1 Voice Synthesis
+",True,DeepSonar,False,False,True
+7189,"2.2 Fake Voice Detection
+",True,DeepSonar,False,False,True
+7190,"3 METHOD
+",True,DeepSonar,False,False,True
+7191,"3.1 Insight
+",True,DeepSonar,False,False,True
+7192,"3.2 Overview of DeepSonar Framework
+",True,DeepSonar,False,False,True
+7193,"3.3 Layer-wise Neuron Behaviors
+",True,DeepSonar,False,False,True
+7194,"3.4 Neuron Coverage Criteria Design
+",True,DeepSonar,False,False,True
+7195,"3.5 Fake Voice Detection
+",True,DeepSonar,False,False,True
+7196,"4 EXPERIMENTAL SETTING AND
+",True,DeepSonar,False,False,True
+7197,"4.1 Dataset
+",True,DeepSonar,False,False,True
+7726,Abstract,True,DennisVlaar_Paper,False,False,False
+7727,"I. INTRODUCTION  
+",True,DennisVlaar_Paper,False,False,False
+7728,"II. RELATED WORK  
+",True,DennisVlaar_Paper,False,False,False
+7729,"III. METHODS  
+",True,DennisVlaar_Paper,False,False,False
+7730,"IV. RESULTS  
+",True,DennisVlaar_Paper,False,False,False
+7731,"V. DISCUSSION  
+",True,DennisVlaar_Paper,False,False,False
+8209,"1 Introduction
+",True,dijkstra2002,False,False,True
+8210,"1Third, the
+",True,dijkstra2002,False,False,True
+8211,"2.6 Simulating language of previous item effects
+",True,dijkstra2002,False,False,True
+8212,"3 Limitations and problems of the BIA model
+",True,dijkstra2002,False,False,True
+8213,"4 The BIA+ model for bilingual word recognition
+",True,dijkstra2002,False,False,True
+8214,"2The system-
+",True,dijkstra2002,False,False,True
+8215,"4.3 Language nodes
+",True,dijkstra2002,False,False,True
+8216,"3The automatically operating word identi®-
+",True,dijkstra2002,False,False,True
+8217,"4.5 Non-linguistic context effects
+",True,dijkstra2002,False,False,True
+8832,"Abstract
+",True,DNNvsSecondGraders,False,False,True
+8833,"1. Introduction
+",True,DNNvsSecondGraders,False,False,True
+8834,"2The answer to the puzzle in Figure 1 is: C.
+",True,DNNvsSecondGraders,False,False,True
+8835,"2. Related works
+",True,DNNvsSecondGraders,False,False,True
+8836,"3. Proposed approach
+",True,DNNvsSecondGraders,False,False,True
+9079,"Abstract. We explore possibilities for enhancing the generality, por ta-
+",True,Emotion Recognition from Speech by Combining,False,False,True
+9080,"1 Introduction
+",True,Emotion Recognition from Speech by Combining,False,False,True
+9081,"2 Methods and Materials
+",True,Emotion Recognition from Speech by Combining,False,False,True
+9082,"4 Experiment 2 - Fusion of Classiﬁers
+",True,Emotion Recognition from Speech by Combining,False,False,True
+9083,"5 Conclusions
+",True,Emotion Recognition from Speech by Combining,False,False,True
+9341,"availableattheendofthearticleAbstract
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9342,"1 Introduction
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9343,"2 Methodofcomparison
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9344,"2.1 Landmarkschemes
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9345,"2.2 Evaluationmetrics
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9346,"2.3 Camerapositionandfocallength
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9347,"2.4 Facelandmarkandalignmentmethods
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9348,"3 Procedure
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9349,"4 Resultsanddiscussion
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9350,"3DSTN,e3D-Fan,and faverageresultforallalgorithms
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9351,"5C o n c l u s i o n
+",True,Evaluating effects of focal length and viewing angle,False,False,True
+9910,Abstract ,True,Expressive_TTS_Training_With_Frame_and_Style_Reconstruction_Loss,False,False,False
+9911,"I. I NTRODUCTION
+",True,Expressive_TTS_Training_With_Frame_and_Style_Reconstruction_Loss,False,False,False
+9912,"II. B ACKGROUND AND RELATED WORK
+",True,Expressive_TTS_Training_With_Frame_and_Style_Reconstruction_Loss,False,False,False
+9913,"III. T ACOTRON WITHFRAME AND STYLE RECONSTRUCTION
+",True,Expressive_TTS_Training_With_Frame_and_Style_Reconstruction_Loss,False,False,False
+9914,"V. C ONCLUSION
+",True,Expressive_TTS_Training_With_Frame_and_Style_Reconstruction_Loss,False,False,False
+11130,Abstract,True,GPT-paper,False,False,False
+11131,"I. INTRODUCTION   
+",True,GPT-paper,False,False,False
+11132,"II. MEHODOLOGY  
+",True,GPT-paper,False,False,False
+11133,"III. RESULTS  
+",True,GPT-paper,False,False,False
+11134,"IV. CONCLUSION AND D ISCUSSION  
+",True,GPT-paper,False,False,False
+11181,"Abstract   
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11182,"1. Introduction  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11183,"2. Datasets  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11184,"2.1. Training/Test data  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11185,"2.2. ALeXs Dataset  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11186,"3. Methods and system description  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11187,"3.1. Pre-processing  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11188,"3.2. Supervised c lassification approach  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11189,"4. Results  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11190,"5. Conclusions and future work  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11191,"6. Acknowledgements  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11192,"7. References  
+",True,Hulat - ALexS CWI Task - CWI for Language and Learning,False,False,True
+11472,Abstract ,True,i0671,False,False,True
+11473,"1I NTRODUCTION
+",True,i0671,False,False,True
+11474,"2W IDTH-FIRST-SEARCH TREESTRUCTURE
+",True,i0671,False,False,True
+11475,"2.1 Related Works
+",True,i0671,False,False,True
+11476,"2.2 WFS Tree-Structured Detector
+",True,i0671,False,False,True
+11477,"3V ECTOR BOOSTING ALGORITHM
+",True,i0671,False,False,True
+11478,"3.1 AdaBoost Algorithm
+",True,i0671,False,False,True
+11479,"3.2 Vector Boosting Algorithm
+",True,i0671,False,False,True
+11830,Abstract ,True,icst,False,False,False
+11831,"I.  INTRODUCTION  
+",True,icst,False,False,False
+11832,"II. S
+",True,icst,False,False,False
+11833,"III. S
+",True,icst,False,False,False
+11834,"IV. S
+",True,icst,False,False,False
+11835,"V. D
+",True,icst,False,False,False
+12172,Abstract,True,ieee_sinefit,False,False,False
+12173,"I. INTRODUCTION
+",True,ieee_sinefit,False,False,False
+12174,"II. T
+",True,ieee_sinefit,False,False,False
+12175,"III. THEESTIMATION ALGORITHM
+",True,ieee_sinefit,False,False,False
+12176,"IV. COMPUTER SIMULATION
+",True,ieee_sinefit,False,False,False
+12177,"V. CONCLUSION
+",True,ieee_sinefit,False,False,False
+12467,"Abstract: For an organization to be customer centric and service oriented requires that it use each
+",True,ijerph-18-05686-v2,False,False,True
+12468,"1. Introduction
+",True,ijerph-18-05686-v2,False,False,True
+12469,"2.1. Self-Health Management Services
+",True,ijerph-18-05686-v2,False,False,True
+12470,"2.2. Civic Engagement Services
+",True,ijerph-18-05686-v2,False,False,True
+12471,"2.3. Caregiver Engagement Services
+",True,ijerph-18-05686-v2,False,False,True
+12472,"2.4. Community Engagement Services
+",True,ijerph-18-05686-v2,False,False,True
+12473,"3.1. Increase Value Cycle Frequency
+",True,ijerph-18-05686-v2,False,False,True
+12474,"3.4. Building an Agile Digital Platform
+",True,ijerph-18-05686-v2,False,False,True
+12475,"3.4. Building an Agile Digital Platform 
+",True,ijerph-18-05686-v2,False,False,True
+12476,"4.1. Clients
+",True,ijerph-18-05686-v2,False,False,True
+12477,"4.2. Technologies
+",True,ijerph-18-05686-v2,False,False,True
+12478,"4.3. Value Creating Services
+",True,ijerph-18-05686-v2,False,False,True
+12479,"4.4. Value Fulﬁllment Service Modules
+",True,ijerph-18-05686-v2,False,False,True
+12480,"5. Conclusions  
+",True,ijerph-18-05686-v2,False,False,True
+12481,"5. Conclusions
+",True,ijerph-18-05686-v2,False,False,True
+12482,"6. Directions for Future Research
+",True,ijerph-18-05686-v2,False,False,True
+13501,"Abstract
+",True,iNNvestigate Neural Networks!,False,False,True
+13502,"1. Introduction
+",True,iNNvestigate Neural Networks!,False,False,True
+13503,"2iNNvestigate Neural Networks!
+",True,iNNvestigate Neural Networks!,False,False,True
+13504,"2. Library
+",True,iNNvestigate Neural Networks!,False,False,True
+13505,"1 import i n n v e s t i g a t e
+",True,iNNvestigate Neural Networks!,False,False,True
+13506,"2 model = c r e a t e ak e r a s m o d e l ( )
+",True,iNNvestigate Neural Networks!,False,False,True
+13507,"4 analyzer . f i t ( X train ) # i f needed
+",True,iNNvestigate Neural Networks!,False,False,True
+13508,"3Alber et al.
+",True,iNNvestigate Neural Networks!,False,False,True
+13509,"2.1. Details
+",True,iNNvestigate Neural Networks!,False,False,True
+13510,"3. Conclusion
+",True,iNNvestigate Neural Networks!,False,False,True
+13511,"4iNNvestigate Neural Networks!
+",True,iNNvestigate Neural Networks!,False,False,True
+13512,"5Alber et al.
+",True,iNNvestigate Neural Networks!,False,False,True
+13754,"Abstract
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13755,"1 Introduction
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13756,"2 Dynamic Bayesian networks
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13757,"3 Models
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13758,"3.1 Conversation type
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13759,"3.2 Sentence length
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13760,"3.3 Part of speech tags
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13761,"4 Experiments
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+13762,"5 Conclusion
+",True,Language_Modeling_With_Dynamic_Bayesian_Networks_U,False,False,True
+14037,Abstract ,True,lfw_paper,False,False,False
+14038,"I. I NTRODUCTION
+",True,lfw_paper,False,False,False
+14039,"II. R ELATED DATABASES
+",True,lfw_paper,False,False,False
+14040,"III. I NTENDED USES
+",True,lfw_paper,False,False,False
+14041,"IV. T RANSITIVITY AND THE IMAGE -RESTRICTED AND
+",True,lfw_paper,False,False,False
+14042,"V. T HEDETECTION -ALIGNMENT -RECOGNITION PIPELINE
+",True,lfw_paper,False,False,False
+14043,"VI. C ONSTRUCTION AND COMPOSITION DETAILS
+",True,lfw_paper,False,False,False
+14044,"VII. S UMMARY
+",True,lfw_paper,False,False,False
+15116,Abstract,True,Low-Noise MEMS Vibration Sensor,False,False,False
+15117,"I. INTRODUCTION
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15118,"II. THEORY
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15119,"III. ELECTRONICS DESIGN
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15120,"IV. S
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15121,"V. T
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15122,"VI. D
+",True,Low-Noise MEMS Vibration Sensor,False,False,False
+15472,Abstract,True,lownoise-Aug_2002,False,False,False
+15473,"I. INTRODUCTION
+",True,lownoise-Aug_2002,False,False,False
+15474,"II. F
+",True,lownoise-Aug_2002,False,False,False
+15475,"III. DESIGNCONSIDERATIONS FOR A TUNEDAMPLIFIER
+",True,lownoise-Aug_2002,False,False,False
+15476,"IV. EXPERIMENTAL RESULTS
+",True,lownoise-Aug_2002,False,False,False
+15477,"V. CONCLUSION
+",True,lownoise-Aug_2002,False,False,False
+16079,Abstract ,True,LSBert A Simple Framework for Lexical,False,False,True
+16080,"1 I NTRODUCTION
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16081,"2 R ELATED WORK
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16082,"3 L EXICAL SIMPLIFICATION FRAMEWORK
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16083,"3.1 Complex Word Identiﬁcation (CWI)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16084,"3.2 Substitute Generation (SG)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16085,"3.3 Filtering and Substitute Ranking (SR)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16086,"1:S Input Sentence
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16087,"2:t Complexity threshold
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16088,"3:ignore list Named Entity Identiﬁcation( S)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16089,"4:LSBert( S,t,ignore list)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16090,"3.4 LSBert Algorithm
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16091,"4 E XPERIMENTS
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16092,"1:complex words CWI(S,t)-ignore list
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16093,"2:ifnumber( complex words )>0then
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16094,"3:w head(complex words )
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16095,"4:subs Substitution Generation( S,w)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16096,"5:subs Substitute Ranking( subs )
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16097,"6:top head(subs )
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16098,"7: iffre(top)>fre (w)orloss (top)<loss (w)then
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16099,"8: Replace( S,w,top)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16100,"9: ignore list.add(w)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16101,"10: LSBert( S,t,ignore list)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16102,"11: else
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16103,"12: LSBert( S,t,ignore list)
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16104,"13: end if
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16105,"15: return S
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16106,"16:end if
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16107,"4.1 Experiment Setup
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16108,"6. http://ghpaetzold.github.io/data/BenchLS.zip
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16109,"4.2 Quantitative Evaluation
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16110,"4.3 Ablation Study of LSBert
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16111,"4.4 Qualitative Study
+",True,LSBert A Simple Framework for Lexical,False,False,True
+16112,"5 C ONCLUSION
+",True,LSBert A Simple Framework for Lexical,False,False,True
+17044,"Abstract
+",True,LTG at SemEval-2016 Task 11 Complex Word Identification with Classifier,False,False,True
+17045,"1 Introduction
+",True,LTG at SemEval-2016 Task 11 Complex Word Identification with Classifier,False,False,True
+17046,"2 Data
+",True,LTG at SemEval-2016 Task 11 Complex Word Identification with Classifier,False,False,True
+17047,"3.1 Classiﬁers
+",True,LTG at SemEval-2016 Task 11 Complex Word Identification with Classifier,False,False,True
+17048,"3.2 Features
+",True,LTG at SemEval-2016 Task 11 Complex Word Identification with Classifier,False,False,True
+17167,"ABSTRACT
+",True,Multi-view Face Detection Using Deep Convolutional Neural Networks,False,False,True
+17168,"ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or re-
+",True,Multi-view Face Detection Using Deep Convolutional Neural Networks,False,False,True
+17169,"1. INTRODUCTION
+",True,Multi-view Face Detection Using Deep Convolutional Neural Networks,False,False,True
+17170,"2. PROPOSED METHOD
+",True,Multi-view Face Detection Using Deep Convolutional Neural Networks,False,False,True
+17171,"2.1 Detector Analysis
+",True,Multi-view Face Detection Using Deep Convolutional Neural Networks,False,False,True
+17585,"Abstract
+",True,neekhara21a,False,False,True
+17586,"1. Introduction
+",True,neekhara21a,False,False,True
+17587,"2. Background and Related Work
+",True,neekhara21a,False,False,True
+17588,"3. Methodology
+",True,neekhara21a,False,False,True
+17589,"3.1. Speaker Encoder
+",True,neekhara21a,False,False,True
+17590,"3.2. Mel-Spectrogram Synthesizer
+",True,neekhara21a,False,False,True
+17591,"4. Experiments
+",True,neekhara21a,False,False,True
+17592,"4.1. Datasets and Training
+",True,neekhara21a,False,False,True
+17593,"2 - LSTM layers 
+",True,neekhara21a,False,False,True
+17594,"2-layer 
+",True,neekhara21a,False,False,True
+17595,"4.3. Cloning Tasks
+",True,neekhara21a,False,False,True
+17596,"4.4. Results
+",True,neekhara21a,False,False,True
+17597,"5. Broader Impact
+",True,neekhara21a,False,False,True
+17598,"6. Conclusion and Future Work
+",True,neekhara21a,False,False,True
+18213,"Abstract
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18214,"1 Introduction
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18215,"2 Related Work
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18216,"3.1 Speaker adaptation
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18217,"3.2 Speaker encoding
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18218,"3Multi -speaker 
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18219,"3.3 Discriminative models for evaluation
+",True,NeurIPS-2018-neural-voice-cloning-with-a-few-samples-Paper,False,False,True
+18444,"   Abstract   
+",True,OpenCV Geometrix Transformations,False,False,False
+18445,"I. INTRODUCTION  
+",True,OpenCV Geometrix Transformations,False,False,False
+18446,"II. LITERATURE SURVEY  
+",True,OpenCV Geometrix Transformations,False,False,False
+18447,"IV. IMAGE ROTATION AND AF FINE TRANSFORMATION USING OPENCV -PYTHON  
+",True,OpenCV Geometrix Transformations,False,False,False
+18448,"VI. IMAGE THRESHOLDING US ING OPENCV -PYTHON  
+",True,OpenCV Geometrix Transformations,False,False,False
+18449,"VII. CONCLUSION AND FUTURE  WORK  
+",True,OpenCV Geometrix Transformations,False,False,False
+18598,"Abstract
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18599,"1 Introduction
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18600,"2 Complex Word Identiﬁcation
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18601,"2.1 A User Study on Word Complexity
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18602,"2.2 A Dataset for Lexical Simpliﬁcation
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18603,"3 Substitution Generation
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18604,"3.1 Context-Aware Word Embedding Models
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18605,"1or GloVe2.
+",True,Paetzold and Specia - 2016 - Unsupervised Lexical Simplification for Non-Native (1),False,False,True
+18693,"ABSTRACT
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18694,"1. INTRODUCTION
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18695,"2. VARIOUS METHODS FOR SPAM DETECTION
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18696,"3. MATHEMATICAL ANALYSIS
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18697,"4. ANALYSIS AND ASSESSING 
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18698,"5. RESULT AND CONCLUSION
+",True,PROTECT PERSONAL PRIVACY,False,False,True
+18984,Abstract,True,pub07,False,False,False
+18985,"I. INTRODUCTION
+",True,pub07,False,False,False
+18986,"II. P
+",True,pub07,False,False,False
+18987,"III. T
+",True,pub07,False,False,False
+18988,"IV. ANALYSIS OF THE PRECORRECTED -FFT A LGORITHM
+",True,pub07,False,False,False
+18989,"V. R
+",True,pub07,False,False,False
+18990,"VI. R
+",True,pub07,False,False,False
+18991,"VII. C
+",True,pub07,False,False,False
+19850,"Abstract. We developed a learning-based question classiﬁer for question an-
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19851,"1 Introduction
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19852,"2 Related Work
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19853,"3 Choosing the Classiﬁer
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19854,"4 Features in Question Classiﬁcation
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19855,"4.1 Lexical Features
+",True,Question Classification by Weighted Combination of Lexical Syntactic and Semantic Features,False,False,True
+19972,"Abstract
+",True,Recent advances in conversational NLP,False,False,True
+19973,"1 Introduction
+",True,Recent advances in conversational NLP,False,False,True
+19974,"2 Chatbots categories
+",True,Recent advances in conversational NLP,False,False,True
+19975,"2.1 Social chatbots
+",True,Recent advances in conversational NLP,False,False,True
+19976,"2.2 Task oriented chatbots
+",True,Recent advances in conversational NLP,False,False,True
+20053,"Abstract
+",True,s11042-020-10183-2,False,False,True
+20054,"1 Introduction
+",True,s11042-020-10183-2,False,False,True
+20055,"1.1 Existingapproachesforfakenewsdetection
+",True,s11042-020-10183-2,False,False,True
+20056,"1.2 Ourcontribution
+",True,s11042-020-10183-2,False,False,True
+20057,"2 Relatedwork
+",True,s11042-020-10183-2,False,False,True
+20058,"51% for fake news detection.
+",True,s11042-020-10183-2,False,False,True
+20059,"3 Methodology
+",True,s11042-020-10183-2,False,False,True
+20060,"3.1 Wordembedding
+",True,s11042-020-10183-2,False,False,True
+20061,"3.2 GloVe
+",True,s11042-020-10183-2,False,False,True
+20062,"3.3 BERT
+",True,s11042-020-10183-2,False,False,True
+20063,"3.4 Fine-tuningofBERT
+",True,s11042-020-10183-2,False,False,True
+20064,"3.5 Deeplearningmodelsforfakenewsdetection
+",True,s11042-020-10183-2,False,False,True
+20065,"3.6 Proposedmodel:FakeBERT
+",True,s11042-020-10183-2,False,False,True
+20066,"4 Experiments
+",True,s11042-020-10183-2,False,False,True
+20067,"4.1 Datasetdescription
+",True,s11042-020-10183-2,False,False,True
+20577,"Abstract
+",True,S16-1085,False,False,True
+20578,"1 Introduction
+",True,S16-1085,False,False,True
+20579,"2 Task Description
+",True,S16-1085,False,False,True
+20580,"1. To learn which words challenge non-native En-
+",True,S16-1085,False,False,True
+20581,"2. To investigate how well one’s individual vo-
+",True,S16-1085,False,False,True
+20582,"3. To introduce a new corpus to be used in Text
+",True,S16-1085,False,False,True
+20583,"3 User Study
+",True,S16-1085,False,False,True
+20584,"3.1 Data Sources
+",True,S16-1085,False,False,True
+20702,"Abstract. Changes in relational database schemas are part of the continuous improvement process of information
+",True,sbbd_shp_07,False,False,True
+20703,"1. INTRODUCTION
+",True,sbbd_shp_07,False,False,True
+20704,"2.2 MERGING A SET OF DELTA VERSIONS
+",True,sbbd_shp_07,False,False,True
+20705,"3<version id=""3"">
+",True,sbbd_shp_07,False,False,True
+20706,"1:function schemaMerge
+",True,sbbd_shp_07,False,False,True
+20707,"3:M empty set {Set of merged changes}
+",True,sbbd_shp_07,False,False,True
+20708,"4:for each delta di2Ddo
+",True,sbbd_shp_07,False,False,True
+20709,"5: for each change c2dido
+",True,sbbd_shp_07,False,False,True
+20710,"6: addcinMap[c:object name]:values
+",True,sbbd_shp_07,False,False,True
+20711,"7: end for
+",True,sbbd_shp_07,False,False,True
+20712,"8:end for
+",True,sbbd_shp_07,False,False,True
+20713,"9:for each object name ni2Map:keys do
+",True,sbbd_shp_07,False,False,True
+20714,"10: current change null
+",True,sbbd_shp_07,False,False,True
+20894,"Abstract
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20895,"1 Introduction
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20896,"2 Task Description
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20897,"1. To learn which words challenge non-native En-
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20898,"2. To investigate how well one’s individual vo-
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20899,"3. To introduce a new corpus to be used in Text
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20900,"3 User Study
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+20901,"3.1 Data Sources
+",True,SemEval 2016 Task 11 Complex Word Identification,False,False,True
+21019,Abstract,True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21020,"I. I NTRODUCTION
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21021,"II. S
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21022,"III. D
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21023,"V. D ESIGN METHOD
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21024,"VI. M EASUREMENTS
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21025,"VII. D
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21026,"VIII. C
+",True,Systematic Design of a Transimpedance Amplifier,False,False,False
+21808,Abstract ,True,targeted_phishing,False,False,False
+21809,"I. I NTRODUCTION
+",True,targeted_phishing,False,False,False
+21810,"II. R ELATED WORK
+",True,targeted_phishing,False,False,False
+21811,"III. E XPERIMENTAL METHODOLOGY
+",True,targeted_phishing,False,False,False
+21812,"IV. A NALYSIS AND RESULTS
+",True,targeted_phishing,False,False,False
+21813,"V. F UTURE WORK
+",True,targeted_phishing,False,False,False
+21814,"VI. C ONCLUSION
+",True,targeted_phishing,False,False,False
+22303,"Abstract. The nonverbal content of speech carries information about
+",True,VoiceStress_Analysis,False,False,True
+22304,"1 Introduction
+",True,VoiceStress_Analysis,False,False,True
+22305,"2 Related Work
+",True,VoiceStress_Analysis,False,False,True
+22306,"3 Experimental Design
+",True,VoiceStress_Analysis,False,False,True
+22307,"3.2 Jitter
+",True,VoiceStress_Analysis,False,False,True
+22308,"4 Experimental Results
+",True,VoiceStress_Analysis,False,False,True
+22492,"Abstract
+",True,W18-0537,False,False,True
+22493,"1 Introduction
+",True,W18-0537,False,False,True
+22494,"2 Data
+",True,W18-0537,False,False,True
+22495,"10 non-native speakers. For the other languages,
+",True,W18-0537,False,False,True
+22496,"3 Features
+",True,W18-0537,False,False,True
+22630,"Abstract. In the human machine interaction domain adaptive life-like agents
+",True,_TSD my_eliza,False,False,True
+22631,"1 Introduction
+",True,_TSD my_eliza,False,False,True
+22632,"2 System Architecture
+",True,_TSD my_eliza,False,False,True
+22633,"3 Natural Language Processing
+",True,_TSD my_eliza,False,False,True
+22634,"4 Emotion Recognition
+",True,_TSD my_eliza,False,False,True
+22635,"4.1 Emotion Eliciting Factor Extraction
+",True,_TSD my_eliza,False,False,True
+22636,"4.2 Facial Display Selection
+",True,_TSD my_eliza,False,False,True
+22637,"5 Implementation and Future Work
+",True,_TSD my_eliza,False,False,True

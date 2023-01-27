@@ -1,0 +1,487 @@
+arXiv:2301.00665v1  [cs.CL]  30 Dec 2022Targeted Phishing Campaigns using Large Scale
+Language Models
+Rabimba Karanjai
+Department of Computer Science
+University Of Houston
+Houston, United States
+rkaranjai@uh.edu
+Abstract —Natural language models (NLMs) such as GPT-3,
+GPT-2, and other large language models have achieved impres sive
+results in various natural language processing tasks, incl uding
+language translation, summarization, and text generation . In
+recent years, there has been a growing concern about the
+potential use of NLMs to generate phishing emails, which are
+fraudulent emails that trick individuals into revealing se nsitive
+information or performing actions that beneﬁt the attacker s.
+This research paper aims to investigate the feasibility and
+effectiveness of NLMs in generating phishing emails. To thi s end,
+we propose a framework for evaluating the performance of NLM s
+in generating phishing emails based on various metrics, inc luding
+the quality of the generated text, the ability to bypass spam ﬁlters,
+and the success rate of tricking individuals into falling fo r the
+phishing attack.
+We evaluate the performance of several NLMs on a dataset
+of phishing emails and compare their results with those of a
+baseline model. Our results show that NLMs can indeed genera te
+phishing emails that are difﬁcult to detect and that have a hi gh
+success rate in tricking individuals. However, we also ﬁnd t hat
+the performance of NLMs in generating phishing emails depen ds
+on the speciﬁc NLM and the training data used, and that there
+are limitations to their effectiveness.
+Overall, our research suggests that NLMs have the potential
+to signiﬁcantly impact the landscape of phishing attacks an d
+highlights the need for further research on the ethical and
+security implications of using NLMs for malicious purposes .
+I. I NTRODUCTION
+Recent advances in natural language generation (NLG) have
+greatly improved the diversity, control, and quality of mac hine-
+generated text. However, this increased ability to quickly
+and efﬁciently create unique, manipulable, human-like tex t
+also presents new challenges for detecting the abuse of NLG
+models in phishing attacks.
+Machine-generated texts can pose various risks depending
+on the context and how they are used. For example, in the case
+of NLG models, the ability to generate legitimate texts atht
+looks like emails can lead to attacks like phishing, where th e
+attacker tricks the victim into disclosing sensitive infor mation
+by impersonating someone else.
+Another effect of machine generated text is mass dis-
+information campaigns. With the ability to generate large
+amounts of text automatically and quickly, it is possible fo r
+malicious actors to create fake news, hoaxes, and other form s
+of false or misleading information that can harm individual s,
+organizations, and even entire societies.Moreover, machine-generated texts can also raise ethical
+concerns, such as the impact on employment and the potential
+for bias and discrimination. For example, the use of NLG
+models to automate certain writing tasks may lead to job loss es
+for human writers, and the algorithms used in NLG may reﬂect
+and amplify the biases and stereotypes present in the data th ey
+are trained on.
+Abuses of NLG models, such as phishing [1],
+[2],disinformation[3], [4], [5] has been on the rise.
+Email is a common method used by phishers to deliver
+malicious links and attachments to victims. Anti-Phishing
+Working Group found over 121860 phishing email incidents
+in march 2017 and in 2016, the APWG received more than
+1313771 unique phishing reports. In the ﬁrst quarter of 2017 ,
+around 870 organizations were targeted by W2-based phishin g
+scams, a signiﬁcant increase from the 100 organizations in
+2016. These attacks are becoming more sophisticated and
+difﬁcult to detect.
+Phishers often use techniques such as bulk mailing, spam-
+ming, and including action words and links in phishing email s
+to increase their chances of success. However, these techni ques
+can be easily detected by improved statistical detection mo d-
+els. Another popular method is email masquerading, where th e
+attacker gains access to the victim’s email inbox or outbox
+and studies the content and nature of the emails to create a
+synthetic malicious email that resembles a benign one. This
+reduces the chances of detection by automated classiﬁers an d
+increases the likelihood of a successful attack. Modern lar ge
+language models have enabled users to generate text based
+on context. These models can be trained to generate text
+using predeﬁned grammars, such as the Dada Engine[1], or
+by leveraging deep learning neural networks, such as recurr ent
+neural networks (RNNs)[6], to learn and emulate the input to
+the system.
+NLG systems that use advanced deep learning neural net-
+works (DNNs) can be used by phishers to generate coherent
+and convincing sequences of text. These systems have been
+shown to be effective for generating text in various genres,
+from tweets[7] to poetry[8]. It is likely that phishers and
+spammers will soon start using email datasets, both legitim ate
+and malicious, in conjunction with DNNs to create decep-
+tive malicious emails that mimic the properties of legitima te
+emails. This makes it harder for pre-trained email detector s toidentify and block these attacks.
+In this report, we try to show a class of attacks where
+existing large-scale language models have been trained on b oth
+legitimate and malicious (phishing and spam) email data. We
+also aim to show how the generated emails can bypass existing
+production-level email protection mechanisms and propose a
+future work to detect such attacks.
+II. R ELATED WORK
+Phishing detection is a well-studied area in cybersecurity ,
+but many victims still fall for these attacks. In their work,
+Drake et al [9] provide a detailed analysis of the structure
+and tactics used in phishing emails. In this section, we
+review previous research on natural language generation, d eep
+learning, and their applications in generating and detecti ng
+phishing attacks.
+Natural language generation techniques have been widely
+used to synthesize unique pieces of text. Previous work by
+Reiter and Dale et al [10] relied on pre-constructed templat es
+for speciﬁc purposes, while the fake email generation syste m
+in Baki et al[1] used manually constructed rules to deﬁne the
+structure of fake emails. Recent advances in deep learning
+have enabled the generation of creative and equitable text
+with enough training data. RNN(Recurrent Neural Networks)
+language models are used to generate a range of genres,
+including poetry by Ghazvininejad et al [8], fake reviews by
+Yao et al [6], tweets [7], and geographical information by
+Turner et al [11], among others.
+III. E XPERIMENTAL METHODOLOGY
+The section is divided into four subsections. The ﬁrst
+subsection (Section 3.1) describes the nature and source of the
+training and evaluation data. The second subsection (Secti on
+3.2) discusses the pre-processing steps applied to the data . The
+third subsection (Section 3.3) presents the system setup an d
+experimental settings used in the study.
+A. Data Description
+To create a legitimate looking phishing email we ﬁrst need
+to start from actually benign and legitimate emails. The tex t
+generation algorithms must be trained in legitimate emails .
+Hence it was imperative to have valid benign emails in the
+dataset used for training. However, since the goal here is to
+create emails that even though can serve as a phishing email,
+should still look like legitimate emails, a mix of legitimat e and
+bad emails was used as a dataset for training and augmenting
+the models.
+For legitimate datasets, instead of using one dataset on our
+own, we use pre-trained models from Meta and Google to cre-
+ate benign emails. The pre-trained models utilized are Robe rta,
+The Pile, and PushShift.io Reddit. Since training these lar ge
+language models is almost impossible in normal infrastruct ure,
+we utilize [12] to generate the texts. This has been augmente d
+with [13] to have email generation capabilities. Python cle an
+text [14] has been used to remove email, and phone numbers
+from the dataset.For malicious datasets, we primarily use two datasets to
+augment the benign email data. Notably, the Phishing emails
+from Jose Nazario’s Phishing corpus [15] and [16] along with
+the Enron email dataset [17].
+B. Data Processing
+Most of the pre-processing was done by trying to remove
+personal information using Python clean text [14]. As well a s
+Removal of special characters like , #, $, % as well as common
+punctuations from the email body.
+However, as we have realized later generating emails was
+not perfect.
+C. Experimental Setup
+The experimental setup has been designed with certain
+different methods in mind. We primarily focused on
+•Using GPT-2 to generate emails. Augmented with email
+dataset [18]
+•GPT-3 to generate emails without any training
+•Contextual support for GPT-3 with da-vinci-beta which
+has been trained in email by openai
+•The DADA engine [1]
+•Word based RNN’s proposed by Xie et al [19], Das et al
+[20]
+•Augmenting Open Pre-trained Transformer Language
+Models[12] on [13]
+While using the general large language models were
+interesting in trying to produce emails.
+The spam and phishing email datasets used for train-
+ing the models to produce malicious looking email
+produced better results. The Jose Nazario dataset has
+32,000 spams and 415 phishing email. These are all
+in Unix mbox formatted dataset which were cleaned
+using clean-text.
+The Enron corpus was email dataset from Enron
+Corporation. It has been used in email research for
+quite some time and was made public during their legal
+investigation. This however gives us a rare glimpse
+in the working of legitimate email data of a big
+corporation. It consists of 619446 emails from 158
+users. It has folders like ”discussion threads, ”notes
+inbox” and more in its outlook inboxes. These were
+created by default for most of the users but were nota
+ctively used for tagging. The ”All Documents” folder
+present also had large number of duplicates present
+from inbox. To further clean our dataset, these all were
+removed. The cleaned corpus has 200399 emails from
+158 users.
+We have tried to validate our ways with existing ﬁnd-
+ings available here https://github.com/egmp777/basic
+data cleaning enron case study. But our purpose
+was different than exploratory analysis.D. Experiment
+A PoC was done to evaluate if we can auto-detect any emails
+from the generated text. GPT3 API, GPT2, OPT, Chatbot
+and our trained models were all used to generate the texts.
+Some samples have been provided below. In our test we had
+generated 100 samples using each. However some of these
+gave us inconsistent result for a same prompt. We also had
+sample fo real phishing email (only one for that topic) to
+compare it with.
+A variety fo prompts were used to see what kind of emails
+the AI’s are more comfortable generating.
+We applied the GPT-3 davinci model with default sampling
+parameters (temperature=1, top p=1, presence penalty=0, fre-
+quency penalty=0) to predict the log probabilities for the ﬁrst
+100 tokens in each sample using all the preceding tokens as
+the prompt. We then calculated the actual token’s probabili ty,
+absolute rank, contextual entropy, and whether it matched
+the predicted token by the GPT-3 API. To account for the
+maximum of 100 log probabilities returned by the API, we
+masked out any outliers with an absolute rank greater than
+100. We also normalized the results if there were less than
+100 tokens in a sample.
+IV. A NALYSIS AND RESULTS
+1) Example Results generated: ChatGPT : The following
+was generated with the prompt Can you generate an email that
+will be from The President of a University asking its student s
+to ﬁll up course completion survey form
+Dear Students,
+As the academic year comes to a close, we would
+like to gather your feedback on your experiences and
+courses at the University. To help us improve our
+programs and support your learning, we encourage
+you to take a few minutes to complete the course
+completion survey form.
+Your honest and thoughtful responses will be greatly
+appreciated and will help us better understand your
+needs and expectations. The survey form is available
+online and can be accessed through your student portal.
+We thank you in advance for your participation and
+look forward to hearing from you.
+Best regards,
+[Name], President [University]
+GPT3 da-vinci : The following was generated with the
+prompt Can you generate an email that will be from The
+President of a University asking its students to ﬁll up cours e
+completion survey formHello,
+As the President of the University, I am writing to
+request your help in completing a course completion
+survey form. This form will help us to understand how
+well our students are doing in their courses and how
+we can improve our offerings.
+I would greatly appreciate it if you could take a few
+minutes to ﬁll out the form. You can access the form
+at the following link:
+[insert form URL here]
+Thank you for your time and assistance.
+Sincerely,
+[Your Name]
+GPT2 : The following was generated with the prompt of
+Hello, As the President of the University, I am writing to
+request your help in completing a course completion survey
+form.
+Hello,
+As the President of the University, I am writing to
+request your help in completing a course completion
+survey form. As requested, we would like your answer
+by May NUMBER, NUMBER. The survey should
+only take a few minutes of your time (it takes only
+about NUMBER minutes to complete the survey). All
+survey responses are anonymous and conﬁdential, and
+will not be shared outside of our University commu-
+nity. If you have
+OPT : The following was generated with the prompt of
+Hello, As the President of the University, I am writing to
+request your help in completing a course completion survey
+form.
+(¡PROMPT¿ Hello, As the President of the University,
+I am writing to request your help in completing a
+course completion survey form.¡END-OF-PROMPT¿
+The purpose of this survey is to gather feedback
+from ¡NUMBER¿ current and former students on their
+experiences at UofH. Please complete the survey no
+later than Friday, October 00th by sending it back to
+me via fax no. ¡PHONE¿. Thank you very much for
+your time. Best Regards,
+UofH Ofﬁce of Admissions ¡EMAIL¿ (See attached
+ﬁle: uofh0000 sample.pdf))
+The most interesting part of this prompt was the ending
+where it signed off as UofH Ofﬁce of admissions and a sample
+pdf. Whereas our prompt never indicates those details[21].
+Further testing with the GPT2 dataset produced the
+following output from the same prompt [21]Hello,
+As the President of the University, I am writing to
+request your help in completing a course completion
+survey form. By completing this form, you are wel-
+come to access the COMPANY Club website and ask
+additional questions about the UCLA Club and our
+events. To access the website you may click the link
+at the top of this page.If you prefer to not complete
+this form at this time, please let me know and I will
+Notably, UCLA was not present in the prompt. This shows
+us that with enough clever prompt discovery it is probably
+possible to extract meaningful information from the traine d
+dataset even with safeguards in place.
+2) Training Parameters: The training parameters used for
+the HF opt model was
+•learning rate:6e−5
+•train batch size: 8
+•eval batch size: 8
+•seed: 42
+•distributed type: GPU
+•gradient accumulation steps: 16
+•total train batch size: 128
+•optimizer: Adam with betas = (0.9, 0.999) and epsilon =
+1e−8
+•lrscheduler type: cosine
+•lrscheduler warmup ratio: 0.03
+•num epochs: 8
+And the training parameters used for HF postbot GPT2
+•learning rate: 0.001
+•train batch size: 16
+•eval batch size: 16
+•seed: 42
+•distributed type: multi-GPU
+•gradient accumulation steps: 8
+•total train batch size: 128
+•optimizer: Adam with betas = (0.9, 0.999) and epsilon =
+1e−8
+•lrscheduler type: cosine
+•lrscheduler warmup ratio: 0.02
+•num epochs: 3
+V. F UTURE WORK
+Research on the risks of using natural language generation
+(NLG) models suggests that being able to detect machine-
+generated text is useful for reducing the harm caused by abus e
+of these models. When we want to detect machine-generated
+text, it can be treated as a binary classiﬁcation problem. We
+train a classiﬁer to differentiate between machine-genera ted
+and human-generated text [22].
+We can use generative models without ﬁne-tuning to detect
+their own outputs or the outputs of other similar models.
+Autoregressive generative models like GPT-2, GPT-3 are uni -
+directional, where each token has an embedding that depends
+on the embeddings of the tokens that come before it. Thisshows us that an embedding can be created if we add a token
+at the end of an input sequence, thus creating a sequence
+of tokens. This now can be used as a new feature vector.
+Now once we have these newly created features, they can be
+utilized along with human data to train a layer of neurons for
+classiﬁcation.
+Research on how to detect machine-generated text has
+looked at the problem of detecting text when a different
+dataset was used to train RoBERTa than GPT-2. But here,
+it was observed that just tuning the detection model with
+couple of hundred different attack samples provided by doma in
+esperts had a signiﬁcant effect on the detector’s performan ce
+on different domains[23].
+One another possibility is when an attacker decides to gener -
+ate the attack from an existing hand-written content. Much l ike
+how we have started in this email generation problem. Using
+human like sample but tweaking the generating parameters to
+closely meet his goals. Analysis showed that making these
+targeted changes to texts reduces the effectiveness of GPT- 2
+or RoBerta-based detectors [24].
+A generalized solution to this is trying to differentiate
+between human and machine generated text. Giant Language
+Model Test Room is a software developed to improve the
+detection of machine-generated text by adding human review
+in the pipeline. The tool helps humans classify text by high-
+lighting texts based on how likely of them being chosen by the
+Transformer model. However, this tool was designed to targe t
+GPT-2, which was found to be easier for untrained human
+evaluators to detect. In addition, GLTR uses ”top-k” sampli ng
+to determine the likelihood of a word being selected, but thi s
+method has been largely replaced by nucleus sampling, which
+is used in GPT-3 and other works that build on the GPT-
+2 architecture. While highlighting words based on sampling
+likelihood may improve human classiﬁcation ability, it is c lear
+that it still will pose a problem when they have to detect the
+more advanced models and sampling methods of today.
+In long term, we want to propose a framework that can
+differentiate NLG-generated emails from human-generated
+emails. Prior work has already been done trying to determine
+machine-generated text, however speciﬁcally for email and
+malicious emails, there are distinct characteristics we ha ve
+observed that can be exploited to augment prior works to be
+more effective. Few of these are homogeneous to what we
+have seen in language models [25], but some are signiﬁcantly
+distinct and should be explored more.
+VI. C ONCLUSION
+The more we experimented with large language models
+and prior works by Das et al [20], Baki et al [1] it became
+clear that prior RNN-based models and DIDA engines, even
+though show some malicious intent in their generation, don’ t
+actually pose threat to be understood as real malicious emai l.
+All of them went past Gmail and outlook when sent from
+a legitimate email id. The emails generated by GPT3 and
+OPT signiﬁcantly pose a larger threat to be believed as real
+emails when generated in mass using tools and bulk emailedwith targeted intent. Especially with targeted email datas et
+training and keywords in prompts, the models generated very
+convincing-looking emails. Even with safeguards in place f or
+GPT3, we were able to generate these emails and chatGPT
+was a very interesting contender in the tests. Even though
+chatgpt didn’t let us generate the email directly in one go, w e
+were able to ﬁnd creative ways by ’conversing’ with it and
+giving it a plausible context to overcome its barriers. Here we
+identify how these new language models can be weaponized
+to be used as phishing and scamming tools which gets past our
+present email systems like Gmail and Outlook. However, that ’s
+hardly surprising considering they look legitimate. We wan t to
+further this work by integrating it with tools like PhEmail[ 26]
+which makes sending NLG generated emails to targeted bulk
+userbase a keypress away.
+REFERENCES
+[1] S. Baki, R. Verma, A. Mukherjee, and O. Gnawali, “Scaling and
+effectiveness of email masquerade attacks: Exploiting nat ural language
+generation,” in Proceedings of the 2017 ACM on Asia Conference on
+Computer and Communications Security , 2017, pp. 469–482.
+[2] A. Giaretta and N. Dragoni, “Community targeted phishin g,” in Inter-
+national Conference in Software Engineering for Defence Ap plications .
+Springer, 2018, pp. 86–93.
+[3] K. Shu, S. Wang, D. Lee, and H. Liu, “Mining disinformatio n and fake
+news: Concepts, methods, and recent advancements,” in Disinformation,
+misinformation, and fake news in social media . Springer, 2020, pp. 1–
+19.
+[4] H. Stiff and F. Johansson, “Detecting computer-generat ed disinforma-
+tion,” International Journal of Data Science and Analytics , vol. 13, no. 4,
+pp. 363–383, 2022.
+[5] R. Zellers, A. Holtzman, H. Rashkin, Y . Bisk, A. Farhadi, F. Roesner,
+and Y . Choi, “Defending against neural fake news,” Advances in neural
+information processing systems , vol. 32, 2019.
+[6] Y . Yao, B. Viswanath, J. Cryan, H. Zheng, and B. Y . Zhao, “A uto-
+mated crowdturﬁng attacks and defenses in online review sys tems,” in
+Proceedings of the 2017 ACM SIGSAC conference on computer an d
+communications security , 2017, pp. 1143–1158.
+[7] P. Sidhaye and J. C. K. Cheung, “Indicative tweet generat ion: An extrac-
+tive summarization problem?” in Proceedings of the 2015 Conference on
+Empirical Methods in Natural Language Processing , 2015, pp. 138–147.
+[8] M. Ghazvininejad, X. Shi, Y . Choi, and K. Knight, “Genera ting topical
+poetry,” in Proceedings of the 2016 Conference on Empirical Methods
+in Natural Language Processing , 2016, pp. 1183–1191.
+[9] C. E. Drake, J. J. Oliver, and E. J. Koontz, “Anatomy of a ph ishing
+email.” in CEAS , 2004.
+[10] M. A. Covington, “Building natural language generatio n systems,”
+Language , vol. 77, no. 3, pp. 611–612, 2001.
+[11] R. Turner, S. Sripada, and E. Reiter, “Generating appro ximate geo-
+graphic descriptions,” in Empirical methods in natural language gen-
+eration . Springer, 2009, pp. 121–140.
+[12] S. Zhang, S. Roller, N. Goyal, M. Artetxe, M. Chen, S. Che n, C. Dewan,
+M. Diab, X. Li, X. V . Lin et al. , “Opt: Open pre-trained transformer
+language models,” arXiv preprint arXiv:2205.01068 , 2022.
+[13] R. Zhang and J. Tetreault, “This email could save your li fe: In-
+troducing the task of email subject line generation,” arXiv preprint
+arXiv:1906.03497 , 2019.
+[14] (2022) clean-text · pypi. [Online]. Available:
+https://pypi.org/project/clean-text/
+[15] H. Gonzalez, K. Nance, and J. Nazario, “Phishing by form : The abuse
+of form sites,” in 2011 6th International Conference on Malicious and
+Unwanted Software . IEEE, 2011, pp. 95–101.
+[16] (2000) Jose malicious email dataset:
+https://monkey.org/ jose/wiki/doku.php Link Deprecated ,
+Uploaded to my own github. [Online]. Available:
+https://monkey.org/ ∼jose/wiki/doku.php
+[17] J. Shetty and J. Adibi, “The enron email dataset databas e schema and
+brief statistical report,” Information sciences institute technical report,
+University of Southern California , vol. 4, no. 1, pp. 120–128, 2004.[18] (2022) email-blog — kaggle:
+https://www.kaggle.com/datasets/mikeschmidtavemac/e mailblog. [On-
+line]. Available: https://www.kaggle.com/datasets/mik eschmidtavemac/emailblog
+[19] Z. Xie, “Neural text generation: A practical guide,” arXiv preprint
+arXiv:1711.09534 , 2017.
+[20] A. Das and R. Verma, “Automated email generation for tar geted attacks
+using natural language,” arXiv preprint arXiv:1908.06893 , 2019.
+[21] (2022) rabimba/email-gen-nlg: https://github.com/ rabimba/email-gen-
+nlg. [Online]. Available: https://github.com/rabimba/e mail-gen-nlg
+[22] E. Crothers, N. Japkowicz, H. Viktor, and P. Branco, “Ad versarial
+robustness of neural-statistical features in detection of generative trans-
+formers,” arXiv preprint arXiv:2203.07983 , 2022.
+[23] J. Rodriguez, T. Hay, D. Gros, Z. Shamsi, and R. Srinivas an, “Cross-
+domain detection of gpt-2-generated technical text,” in Proceedings of
+the 2022 Conference of the North American Chapter of the Asso ciation
+for Computational Linguistics: Human Language Technologi es, 2022,
+pp. 1213–1233.
+[24] M. M. Bhat and S. Parthasarathy, “How effectively can ma chines
+defend against machine-generated fake news? an empirical s tudy,” in
+Proceedings of the First Workshop on Insights from Negative Results in
+NLP, 2020, pp. 48–53.
+[25] S. Gehrmann, H. Strobelt, and A. M. Rush, “GLTR: statist ical detection
+and visualization of generated text,” CoRR , vol. abs/1906.04043, 2019.
+[Online]. Available: http://arxiv.org/abs/1906.04043
+[26] (2022) dionach/phemail: Phemail is a python open sourc e phishing
+email tool that automates the process of sending phishing
+emails as part of a social engineering test. [Online]. Avail able:
+https://github.com/Dionach/PhEmail

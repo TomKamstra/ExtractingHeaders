@@ -1,0 +1,476 @@
+Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics:shortpapers , pages 496–501,
+Portland, Oregon, June 19-24, 2011. c/circlecopyrt2011 Association for Computational Linguistics
+Putting it Simply: a Context-Aware Approach to Lexical Simpliﬁcation
+Or Biran
+Computer Science
+Columbia University
+New York, NY 10027
+ob2008@columbia.eduSamuel Brody
+Communication & Information
+Rutgers University
+New Brunswick, NJ 08901
+sdbrody@gmail.comNo´emie Elhadad
+Biomedical Informatics
+Columbia University
+New York, NY 10032
+noemie@dbmi.columbia.edu
+Abstract
+We present a method for lexical simpliﬁca-
+tion. Simpliﬁcation rules are learned from a
+comparable corpus, and the rules are applied
+in a context-aware fashion to input sentences.
+Our method is unsupervised. Furthermore, it
+does not require any alignment or correspon-
+dence among the complex and simple corpora.
+We evaluate the simpliﬁcation according to
+three criteria: preservation of grammaticality,
+preservation of meaning, and degree of sim-
+pliﬁcation. Results show that our method out-
+performs an established simpliﬁcation base-
+line for both meaning preservation and sim-
+pliﬁcation, while maintaining a high level of
+grammaticality.
+1 Introduction
+The task of simpliﬁcation consists of editing an in-
+put text into a version that is less complex linguisti-
+cally or more readable. Automated sentence sim-
+pliﬁcation has been investigated mostly as a pre-
+processing step with the goal of improving NLP
+tasks, such as parsing (Chandrasekar et al., 1996;
+Siddharthan, 2004; Jonnalagadda et al., 2009), se-
+mantic role labeling (Vickrey and Koller, 2008) and
+summarization (Blake et al., 2007). Automated sim-
+pliﬁcation can also be considered as a way to help
+end users access relevant information, which would
+be too complex to understand if left unedited. As
+such, it was proposed as a tool for adults with
+aphasia (Carroll et al., 1998; Devlin and Unthank,
+2006), hearing-impaired people (Daelemans et al.,
+2004), readers with low-literacy skills (Williams and
+Reiter, 2005), individuals with intellectual disabil-
+ities (Huenerfauth et al., 2009), as well as healthINPUT: In 1900, Omaha was the center of a national
+uproar over the kidnapping of Edward Cudahy, Jr., the
+son of a local meatpacking magnate .
+CANDIDATE RULES:
+{magnate→king}{magnate→businessman}
+OUTPUT: In 1900, Omaha was the center of a national
+uproar over the kidnapping of Edward Cudahy, Jr., the
+son of a local meatpacking businessman .
+Figure 1: Input sentence, candidate simpliﬁcation rules,
+and output sentence.
+consumers looking for medical information (El-
+hadad and Sutaria, 2007; Del ´eger and Zweigen-
+baum, 2009).
+Simpliﬁcation can take place at different levels of
+a text – its overall document structure, the syntax
+of its sentences, and the individual phrases or words
+in a sentence. In this paper, we present a sentence
+simpliﬁcation approach, which focuses on lexical
+simpliﬁcation.1The key contributions of our work
+are (i) an unsupervised method for learning pairs of
+complex and simpler synonyms; and (ii) a context-
+aware method for substituting one for the other.
+Figure 1 shows an example input sentence. The
+word magnate is determined as a candidate for sim-
+pliﬁcation. Two learned rules are available to the
+simpliﬁcation system (substitute magnate with king
+or with businessman ). In the context of this sen-
+tence, the second rule is selected, resulting in the
+simpler output sentence.
+Our method contributes to research on lexical
+simpliﬁcation (both learning of rules and actual sen-
+tence simpliﬁcation), a topic little investigated thus
+far. From a technical perspective, the task of lexi-
+cal simpliﬁcation bears similarity with that of para-
+1Our resulting system is available for download at
+http://www.cs.columbia.edu/ ob2008/496phrase identiﬁcation (Androutsopoulos and Malaka-
+siotis, 2010) and the SemEval-2007 English Lexi-
+cal Substitution Task (McCarthy and Navigli, 2007).
+However, these do not consider issues of readabil-
+ity and linguistic complexity. Our methods lever-
+age a large comparable collection of texts: En-
+glish Wikipedia2and Simple English Wikipedia3.
+Napoles and Dredze (2010) examined Wikipedia
+Simple articles looking for features that characterize
+a simple text, with the hope of informing research
+in automatic simpliﬁcation methods. Yatskar et al.
+(2010) learn lexical simpliﬁcation rules from the edit
+histories of Wikipedia Simple articles. Our method
+differs from theirs, as we rely on the two corpora as a
+whole, and do not require any aligned or designated
+simple/complex sentences when learning simpliﬁca-
+tion rules.4
+2 Data
+We rely on two collections – English Wikipedia
+(EW) and Simple English Wikipedia (SEW). SEW
+is a Wikipedia project providing articles in Sim-
+ple English, a version of English which uses fewer
+words and easier grammar, and which aims to be
+easier to read for children, people who are learning
+English and people with learning difﬁculties. Due to
+the labor involved in simplifying Wikipedia articles,
+only about 2% of the EW articles have been simpli-
+ﬁed.
+Our method does not assume any speciﬁc align-
+ment or correspondance between individual EW and
+SEW articles. Rather, we leverage SEW only as
+an example of an in-domain simple corpus, in or-
+der to extract word frequency estimates. Further-
+more, we do not make use of any special properties
+of Wikipedia (e.g., edit histories). In practice, this
+means that our method is suitable for other cases
+where there exists a simpliﬁed corpus in the same
+domain.
+The corpora are a snapshot as of April 23, 2010.
+EW contains 3,266,245 articles, and SEW contains
+60,100 articles. The articles were preprocessed as
+follows: all comments, HTML tags, and Wiki links
+were removed. Text contained in tables and ﬁgures
+2http://en.wikipedia.org
+3http://simple.wikipedia.org
+4Aligning sentences in monolingual comparable corpora has
+been investigated (Barzilay and Elhadad, 2003; Nelken and
+Shieber, 2006), but is not a focus for this work.was excluded, leaving only the main body text of
+the article. Further preprocessing was carried out
+with the Stanford NLP Package5to tokenize the text,
+transform all words to lower case, and identify sen-
+tence boundaries.
+3 Method
+Our sentence simpliﬁcation system consists of two
+main stages: rule extraction and simpliﬁcation. In
+the ﬁrst stage, simpliﬁcation rules are extracted from
+the corpora. Each rule consists of an ordered word
+pair{original→simpliﬁed}along with a score indi-
+cating the similarity between the words. In the sec-
+ond stage, the system decides whether to apply a rule
+(i.e., transform the original word into the simpliﬁed
+one), based on the contextual information.
+3.1 Stage 1: Learning Simpliﬁcation Rules
+3.1.1 Obtaining Word Pairs
+All content words in the English Wikipedia Cor-
+pus (excluding stop words, numbers, and punctua-
+tion) were considered as candidates for simpliﬁca-
+tion. For each candidate word w, we constructed a
+context vector CVw, containing co-occurrence infor-
+mation within a 10-token window. Each dimension
+iin the vector corresponds to a single word wiin
+the vocabulary, and a single dimension was added to
+represent any number token. The value in each di-
+mensionCVw[i]of the vector was the number of oc-
+currences of the corresponding word wiwithin a ten-
+token window surrounding an instance of the candi-
+date wordw. Values below a cutoff (2 in our exper-
+iments) were discarded to reduce noise and increase
+performance.
+Next, we consider candidates for substitution.
+From all possible word pairs (the Cartesian product
+of all words in the corpus vocabulary), we ﬁrst re-
+move pairs of morphological variants. For this pur-
+pose, we use MorphAdorner6for lemmatization, re-
+moving words which share a common lemma. We
+also prune pairs where one word is a preﬁx of the
+other and the sufﬁx is in {s, es, ed, ly, er, ing}. This
+handles some cases which are not covered by Mor-
+phAdorner. We use WordNet (Fellbaum, 1998) as
+a primary semantic ﬁlter. From all remaining word
+pairs, we select those in which the second word, in
+5http://nlp.stanford.edu/software/index.shtml
+6http://morphadorner.northwestern.edu497its ﬁrst sense (as listed in WordNet)7is a synonym
+or hypernym of the ﬁrst.
+Finally, we compute the cosine similarity scores
+for the remaining pairs using their context vectors.
+3.1.2 Ensuring Simpliﬁcation
+From among our remaining candidate word pairs,
+we want to identify those that represent a complex
+word which can be replaced by a simpler one. Our
+deﬁnition of the complexity of a word is based on
+two measures: the corpus complexity and the lexical
+complexity . Speciﬁcally, we deﬁne the corpus com-
+plexity of a word as
+Cw=fw,English
+fw,Simple
+wherefw,cis the frequency of word win corpusc,
+and the lexical complexity asLw=|w|, the length
+of the word. The ﬁnal complexity χwfor the word
+is given by the product of the two.
+χw=Cw×Lw
+After calculating the complexity of all words par-
+ticipating in the word pairs, we discard the pairs for
+which the ﬁrst word’s complexity is lower than that
+of the second. The remaining pairs constitute the
+ﬁnal list of substitution candidates.
+3.1.3 Ensuring Grammaticality
+To ensure that our simpliﬁcation substitutions
+maintain the grammaticality of the original sentence,
+we generate grammatically consistent rules from
+the substitution candidate list. For each candidate
+pair (original, simpliﬁed) , we generate all consis-
+tent forms (fi(original ),fi(substitute ))of the two
+words using MorphAdorner. For verbs, we create
+the forms for all possible combinations of tenses and
+persons, and for nouns we create forms for both sin-
+gular and plural.
+For example, the word pair (stride, walk) will gen-
+erate the form pairs (stride, walk), (striding, walk-
+ing), (strode, walked) and(strides, walks) . Signiﬁ-
+cantly, the word pair (stride, walked) will generate
+7Senses in WordNet are listed in order of frequency. Rather
+than attempting explicit disambiguation and adding complex-
+ity to the model, we rely on the ﬁrst sense heuristic, which is
+know to be very strong, along with contextual information, as
+described in Section 3.2.exactly the same list of form pairs, eliminating the
+original ungrammatical pair.
+Finally, each pair (fi(original),fi(substitute)) be-
+comes a rule{fi(original )→fi(substitute )},
+with weight Similarity(original, substitute) .
+3.2 Stage 2: Sentence Simpliﬁcation
+Given an input sentence and the set of rules learned
+in the ﬁrst stage, this stage determines which words
+in the sentence should be simpliﬁed, and applies
+the corresponding rules. The rules are not applied
+blindly, however; the context of the input sentence
+inﬂuences the simpliﬁcation in two ways:
+Word-Sentence Similarity First, we want to en-
+sure that the more complex word, which we are at-
+tempting to simplify, was not used precisely because
+of its complexity - to emphasize a nuance or for its
+speciﬁc shade of meaning. For example, suppose we
+have a rule{Han→Chinese}. We would want to
+apply it to a sentence such as “In 1368 Han rebels
+drove out the Mongols” , but to avoid applying it to
+a sentence like “The history of the Han ethnic group
+is closely tied to that of China” . The existence of
+related words like ethnic andChina are clues that
+the latter sentence is in a speciﬁc, rather than gen-
+eral, context and therefore a more general and sim-
+pler hypernym is unsuitable. To identify such cases,
+we calculate the similarity between the target word
+(the candidate for replacement) and the input sen-
+tence as a whole. If this similarity is too high, it
+might be better not to simplify the original word.
+Context Similarity The second factor has to do
+with ambiguity. We wish to detect and avoid cases
+where a word appears in the sentence with a differ-
+ent sense than the one originally considered when
+creating the simpliﬁcation rule. For this purpose, we
+examine the similarity between the rule as a whole
+(including both the original and the substitute words,
+and their associated context vectors) and the context
+of the input sentence. If the similarity is high, it is
+likely the original word in the sentence and the rule
+are about the same sense.
+3.2.1 Simpliﬁcation Procedure
+Both factors described above require sufﬁcient
+context in the input sentence. Therefore, our sys-
+tem does not attempt to simplify sentences with less
+than seven content words.498Type Gram. Mean. Simp.
+Baseline 70.23(+13.10)% 55.95% 46.43%
+System 77.91(+8.14)% 62.79% 75.58%
+Table 1: Average scores in three categories: grammatical-
+ity (Gram.), meaning preservation (Mean.) and simpliﬁ-
+cation (Simp.). For grammaticality, we show percent of
+examples judged as good , with okpercent in parentheses.
+For all other sentences, each content word is ex-
+amined in order, ignoring words inside quotation
+marks or parentheses. For each word w, the set of
+relevant simpliﬁcation rules {w→x}is retrieved.
+For each rule{w→x}, unless the replacement
+wordxalready appears in the sentence, our system
+does the following:
+•Build the vector of sentence context SCV s,win a
+similar manner to that described in Section 3.1,
+using the words in a 10-token window surround-
+ingwin the input sentence.
+•Calculate the cosine similarity of CVwand
+SCV s,w. If this value is larger than a manually
+speciﬁed threshold (0.1 in our experiments), do
+notuse this rule.
+•Create a common context vector CCV w,xfor the
+rule{w→x}. The vector contains all fea-
+tures common to both words, with the feature
+values that are the minimum between them. In
+other words, CCV w,x[i] =min(CVw[i],CV x[i]).
+We calculate the cosine similarity of the common
+context vector and the sentence context vector:
+ContextSim =cosine (CCV w,x,SCV s,w)
+If the context similarity is larger than a threshold
+(0.01), we usethis rule to simplify.
+If multiple rules apply for the same word, we use
+the one with the highest context similarity.
+4 Experimental Setup
+Baseline We employ the method of Devlin and
+Unthank (2006) which replaces a word with its most
+frequent synonym (presumed to be the simplest) as
+our baseline. To provide a fairer comparison to our
+system, we add the restriction that the synonyms
+should not share a preﬁx of four or more letters
+(a baseline version of lemmatization) and use Mor-
+phAdorner to produce a form that agrees with that
+of the original word.Type Freq. Gram. Mean. Simp.
+Base High 63.33(+20)% 46.67% 50%
+Sys. High 76.67(+6.66)% 63.33% 73.33%
+Base Med 75(+7.14)% 67.86% 42.86%
+Sys. Med 72.41(+17.25)% 75.86% 82.76%
+Base Low 73.08(+11.54)% 53.85% 46.15%
+Sys. Low 85.19(+0)% 48.15% 70.37%
+Table 2: Average scores by frequency band
+Evaluation Dataset We sampled simpliﬁcation
+examples for manual evaluation with the following
+criteria. Among all sentences in English Wikipedia,
+we ﬁrst extracted those where our system chose to
+simplify exactly one word, to provide a straightfor-
+ward example for the human judges. Of these, we
+chose the sentences where the baseline could also
+be used to simplify the target word (i.e., the word
+had a more frequent synonym), and the baseline re-
+placement was different from the system choice. We
+included only a single example (simpliﬁed sentence)
+for each rule.
+The evaluation dataset contained 65 sentences.
+Each was simpliﬁed by our system and the baseline,
+resulting in 130 simpliﬁcation examples (consisting
+of an original and a simpliﬁed sentence).
+Frequency Bands Although we included only a
+single example of each rule, some rules could be
+applied much more frequently than others, as the
+words and associated contexts were common in the
+dataset. Since this factor strongly inﬂuences the
+utility of the system, we examined the performance
+along different frequency bands. We split the eval-
+uation dataset into three frequency bands of roughly
+equal size, resulting in 46 high, 44med and 40 low.
+Judgment Guidelines We divided the simpliﬁca-
+tion examples among three annotators8and ensured
+that no annotator saw both the system and baseline
+examples for the same sentence. Each simpliﬁcation
+example was rated on three scales: Grammaticality
+-bad,ok, orgood ;Meaning - did the transforma-
+tion preserve the original meaning of the sentence;
+andSimpliﬁcation - did the transformation result in
+8The annotators were native English speakers and were not
+the authors of this paper. A small portion of the sentence pairs
+were duplicated among annotators to calculate pairwise inter-
+annotator agreement. Agreement was moderate in all categories
+(Cohen’s Kappa = .350−.455for Simplicity, .475−.530for
+Meaning and .415−.425for Grammaticality).499a simpler sentence.
+5 Results and Discussion
+Table 1 shows the overall results for the experiment.
+Our method is quantitatively better than the base-
+line at both grammaticality and meaning preserva-
+tion, although the difference is not statistically sig-
+niﬁcant. For our main goal of simpliﬁcation, our
+method signiﬁcantly ( p < 0.001) outperforms the
+baseline, which represents the established simpliﬁ-
+cation strategy of substituting a word with its most
+frequent WordNet synonym. The results demon-
+strate the value of correctly representing and ad-
+dressing content when attempting automatic simpli-
+ﬁcation.
+Table 2 contains the results for each of the fre-
+quency bands. Grammaticality is not strongly inﬂu-
+enced by frequency, and remains between 80-85%
+for both the baseline and our system (considering
+theokjudgment as positive). This is not surpris-
+ing, since the method for ensuring grammaticality is
+largely independent of context, and relies mostly on
+a morphological engine. Simpliﬁcation varies some-
+what with frequency, with the best results for the
+medium frequency band. In all bands, our system is
+signiﬁcantly better than the baseline. The most no-
+ticeable effect is for preservation of meaning. Here,
+the performance of the system (and the baseline) is
+the best for the medium frequency group. However,
+the performance drops signiﬁcantly for the low fre-
+quency band. This is most likely due to sparsity of
+data. Since there are few examples from which to
+learn, the system is unable to effectively distinguish
+between different contexts and meanings of the word
+being simpliﬁed, and applies the simpliﬁcation rule
+incorrectly.
+These results indicate our system can be effec-
+tively used for simpliﬁcation of words that occur
+frequently in the domain. In many scenarios, these
+are precisely the cases where simpliﬁcation is most
+desirable. For rare words, it may be advisable to
+maintain the more complex form, to ensure that the
+meaning is preserved.
+Future Work Because the method does not place
+any restrictions on the complex and simple corpora,
+we plan to validate it on different domains and ex-
+pect it to be easily portable. We also plan to extendour method to larger spans of texts, beyond individ-
+ual words.
+References
+Androutsopoulos, Ion and Prodromos Malakasiotis.
+2010. A survey of paraphrasing and textual entail-
+ment methods. Journal of Artiﬁcial Intelligence
+Research 38:135–187.
+Barzilay, Regina and Noemie Elhadad. 2003. Sen-
+tence alignment for monolingual comparable cor-
+pora. In Proc. EMNLP . pages 25–32.
+Blake, Catherine, Julia Kampov, Andreas Or-
+phanides, David West, and Cory Lown. 2007.
+Query expansion, lexical simpliﬁcation, and sen-
+tence selection strategies for multi-document
+summarization. In Proc. DUC .
+Carroll, John, Guido Minnen, Yvonne Canning,
+Siobhan Devlin, and John Tait. 1998. Practical
+simplication of english newspaper text to assist
+aphasic readers. In Proc. AAAI Workshop on Inte-
+grating Artiﬁcial Intelligence and Assistive Tech-
+nology .
+Chandrasekar, R., Christine Doran, and B. Srinivas.
+1996. Motivations and methods for text simpliﬁ-
+cation. In Proc. COLING .
+Daelemans, Walter, Anja Hthker, and Erik
+Tjong Kim Sang. 2004. Automatic sentence
+simpliﬁcation for subtitling in Dutch and English.
+InProc. LREC . pages 1045–1048.
+Del´eger, Louise and Pierre Zweigenbaum. 2009.
+Extracting lay paraphrases of specialized expres-
+sions from monolingual comparable medical cor-
+pora. In Proc. Workshop on Building and Using
+Comparable Corpora . pages 2–10.
+Devlin, Siobhan and Gary Unthank. 2006. Help-
+ing aphasic people process online information. In
+Proc. ASSETS . pages 225–226.
+Elhadad, Noemie and Komal Sutaria. 2007. Mining
+a lexicon of technical terms and lay equivalents.
+InProc. ACL BioNLP Workshop . pages 49–56.
+Fellbaum, Christiane, editor. 1998. WordNet: An
+Electronic Database . MIT Press, Cambridge,
+MA.
+Huenerfauth, Matt, Lijun Feng, and No ´emie El-
+hadad. 2009. Comparing evaluation techniques500for text readability software for adults with intel-
+lectual disabilities. In Proc. ASSETS . pages 3–10.
+Jonnalagadda, Siddhartha, Luis Tari, J ¨org Haken-
+berg, Chitta Baral, and Graciela Gonzalez. 2009.
+Towards effective sentence simpliﬁcation for au-
+tomatic processing of biomedical text. In Proc.
+NAACL-HLT . pages 177–180.
+McCarthy, Diana and Roberto Navigli. 2007.
+Semeval-2007 task 10: English lexical substitu-
+tion task. In Proc. SemEval . pages 48–53.
+Napoles, Courtney and Mark Dredze. 2010. Learn-
+ing simple wikipedia: a cogitation in ascertaining
+abecedarian language. In Proc. of the NAACL-
+HLT Workshop on Computational Linguistics and
+Writing . pages 42–50.
+Nelken, Rani and Stuart Shieber. 2006. Towards
+robust context-sensitive sentence alignment for
+monolingual corpora. In Proc. EACL . pages 161–
+166.
+Siddharthan, Advaith. 2004. Syntactic simpliﬁca-
+tion and text cohesion. Technical Report UCAM-
+CL-TR-597, University of Cambridge, Computer
+Laboratory.
+Vickrey, David and Daphne Koller. 2008. Apply-
+ing sentence simpliﬁcation to the CoNLL-2008
+shared task. In Proc. CoNLL . pages 268–272.
+Williams, Sandra and Ehud Reiter. 2005. Generating
+readable texts for readers with low basic skills. In
+Proc. ENLG . pages 127–132.
+Yatskar, Mark, Bo Pang, Cristian Danescu-
+Niculescu-Mizil, and Lillian Lee. 2010. For the
+sake of simplicity: Unsupervised extraction of
+lexical simpliﬁcations from wikipedia. In Proc.
+NAACL-HLT . pages 365–368.501

@@ -1,0 +1,354 @@
+Voice Stress Analysis
+L.J.M. Rothkrantz, P. Wiggers, J.W.A. van Wees, R.J. van Vark
+Data and Knowledge Systems Group
+Delft University of Technology
+Mekelweg 4, 2628 CD Delft, The Netherlands
+l.j.m.rothkrantz@ewi.tudelft.nl
+p.wiggers@ewi.tudelft.nl
+Abstract. The nonverbal content of speech carries information about
+the physiological and psychological condition of the speaker. Psycholog-
+ical stress is a pathological element of this condition, of which the cause
+is accepted to be “workload”. Objective, quantiﬁable correlates of stress
+are searched for by means of measuring the acoustic modiﬁcations of the
+voice brought about by workload. Diﬀerent voice features from the speech
+signal to be inﬂuenced by stress are: loudness, fundamental frequency,
+jitter, zero-crossing rate, speech rate and high-energy frequency ratio. To
+examine the eﬀect of workload on speech production an experiment was
+designed. 108 native speakers of Dutch were recruited to participate in
+a stress test (Stroop test). The experiment and the analysis of the test
+results will be reported in this paper.
+1 Introduction
+Although speech is a vocal activity of which much is verbal, there are a number
+of human vocalizations that are essentially non-linguistic. Nonverbal aspects of
+speech are intonation, voice quality, prosody, rhythm and pausing. These phe-
+nomena stand for a non-verbal signaling system, which intertwines with the
+verbal or linguistic system. The non-verbal content of the voice carries, among
+other things, information about the physiological and psychological state of the
+speaker. Human beings are able to identify diﬀerent emotional states, because
+these are characterized by clearly perceptible (non-verbal) behavior. Part of this
+non-verbal communication takes place via other modalities like body movements
+and facial expressions [9]. The question that remains is how much of this infor-
+mation can be recovered from non-verbal vocalizations only.
+One of the most interesting research areas concerning non-verbal communi-
+cation in relation to a person’s psychological state is the search for objective,
+quantiﬁable correlates of stress. In the past this search focused primarily on
+physiological measures, but over the last years a broader range of behaviors has
+been examined, especially non-verbal behavior. The advantage being that stress
+indexes from non-verbal vocalizations can be obtained non-intrusively. From a
+practical point of view this is critical in a situation in which co-operation for
+physiological measurement is precluded, for example in the case of negotiatingwith terrorists. However, even when co-operation is possible, the presence of
+monitoring devices needed for physiological measurement can be stressful and
+anxiety arousing or simply not practical.
+Psychological stress is a pathological element of the physiological and psycho-
+logical condition of the speaker, of which the cause is accepted to be “workload”
+[14]. Objective, quantiﬁable correlates of stress are searched for by means of
+measuring the acoustic modiﬁcations of the voice brought about by workload.
+These changes in the acoustic speech signal due to stress are mainly caused
+by the physiological changes that accompany the stress-reaction. These changes
+also aﬀect the organs of speech, such as the respiration and muscle tension (vocal
+cords) and therefore the speech signal. Hence, it should be possible to establish
+whether a person is stressed just by analyzing his voice.
+2 Related Work
+Much work on stress analysis in real life situations concentrates on air-ground
+communication in aviation and space ﬂight under dangerous conditions. In many
+of these studies [8, 21] an increase of the fundamental frequency (F0) of the voice
+in situations of increasing danger is reported. Williams and Stevens [21] also re-
+ported an increase in F0 range and abrupt ﬂuctuations of F0 contour, with
+increasing stress. In a Russian study [16] the voices of astronauts are examined
+and changes in spectral energy distribution (spectral centroid moving to higher
+frequency) are reported. Increase of the energy of high frequency components,
+has also been reported by [11] in a study involving pilot communication. Scherer
+et al. found depressive patients speak with higher F0 and a larger proportion of
+high frequency components, just before the admission at a psychiatric hospital
+[13]. Jones [7] found increases in fundamental frequency and statistically signif-
+icant decreases of the vocal jitter in recordings obtained from pilots training in
+a simulated AWACS environment.
+In many laboratory studies, stress is brought about by showing unpleasant
+or disgusting slides or ﬁlms, or by placing the subject in situations that pro-
+duce unpleasant emotions, such as stage fright. The degree of stress perceived
+will vary from person to person depending on the persons experience and arous-
+ability. Apart from these individual diﬀerences, some studies show an increase
+in intensity, increased fundamental frequency [17, 12], stronger concentration of
+energy above 500 Hz [12] and an increase in speech rate [15].
+More recently, many experiments were conducted in which cognitive or achieve-
+ment tasks were used to induce stress on a subject [6, 2]. When persons were sub-
+jected to a psychomotor task [5], the speaking fundamental frequency showed
+an increase when the task became more diﬃcult. In addition, word duration
+increased during the task, but decreased again when the task became more com-
+plex. Brenner [3] also found an increase in average amplitude when subjects
+where performing a tracking task.
+Table 1 summarizes the parameters that have been shown to be indicators
+of the vocal expression of emotion, emotional disturbance or stress.Table 1. Overview of major acoustic parameters [13]
+Parameter Description
+F0 mean Fundamental frequency (vibration of the vocal folds as
+averaged over a speech utterance)
+F0 range Diﬀerence between highest and lowest F0 in an utterance
+F0 variability Measure of dispersion of F0
+F0 perturbation or jitter Slight variations in the duration of glottal cycles
+F0 contour Fundamental frequency values plotted over time
+F1 mean Frequency of ﬁrst formant averaged over an utterance
+F2 mean Mean frequency of the second formant
+Intensity mean Energy values for a speech sound wave averaged over an
+utterance
+Intensity range Diﬀerence between highest and lowest intensity value in
+an utterance
+Intensity variability Measure of dispersion of the intensity values
+High frequency energy Relative proportion of energy in the upper region
+Speech rate Length of an utterance
+Spectral noise A-periodic energy components in the spectrum
+Zero crossings Number of times a sound wave graph crosses the zero
+line
+3 Experimental Design
+To study the correspondence between human stress levels and speech produc-
+tion and to assess the relevance of the features listed in Table 1, an exploring
+experiment has been conducted. 108 native speakers of Dutch were subjected
+to several tasks that have been designed to place a cognitive workload on the
+subject. Cognitive workload is deﬁned as the information-processing load placed
+on the human operator while performing a particular task [14]. This information
+processing load is considered to be correlated with the amount of attention that
+must be directed to a task. It is assumed that cognitive workload increases with
+the diﬃculty of the task. In the present investigation subjects performed three
+tasks. In the ﬁrst test subjects had to play a computer game that gradually
+became more diﬃcult. The second task required to simultaneously engage in
+two attention-demanding activities. Finally, the participants were subjected to a
+psychological stress test. During all tasks and during a controlled rest-condition
+before the tasks, the subjects produced utterances. Acoustical analyses of all
+utterances were made and compared with the control condition and with the
+acoustical analyses of the other utterances produced during the same task.
+The psychological stress test, an instance of the Stroop test, proved to be
+the most demanding task for the subjects thus providing the clearest results.
+Therefore we will concentrate on the results of this task for the remainder of the
+paper.3.1 Stroop Test
+The Stroop test is a well-known psychological test [18] that exploits the fact
+that for experienced readers, the reading of a word has become an automatism.
+In its native form this test consisted of three cards: on the ﬁrst card a great
+number of little squares are drawn in the colors red, blue, green and yellow. On
+the second card the words red, blue, green and yellow in black ink are placed on
+the corresponding positions. On the third card, the conﬂict card, the same words
+as on the second card are placed, but now using a non-corresponding ink-color.
+It turns out that the time needed to name the colors on the conﬂict card is much
+higher than the time taken for naming them on the ﬁrst card. Furthermore, the
+subjects tend to make more mistakes reading the third card and show signs of
+tension (movement, sudden laughs).
+In the current experiment a variation on the Stroop-test was used, in which
+a gradual increase of the level of diﬃculty is incorporated. The names of the
+colors (printed in diﬀerent colored ink) were put on a computer screen one by
+one. The diﬃculty of the task increased as the time between the appearances of
+the colors was shortened every minute with half a second, thus decreasing from
+two and a half seconds at the start to half a second in the ﬁnal minute.
+3.2 Jitter
+During the experiments fundamental frequency, variation of fundamental fre-
+quency, jitter, energy, high frequency energy ratio, duration and the number
+of zero crossings were monitored as candidate vocal stress correlates. Of those
+features, jitter may require some explanation.
+Jitter is the perturbation in the vibration of the vocal chords. This results
+in a cycle-to-cycle variation of the fundamental frequency. [19] reported that
+about 20 cycles are enough for jitter analysis. Formally the term perturbation
+implies a deviation from steadiness or regularity [10]. Let aibe any cyclic pa-
+rameter (amplitude, pitch period, etc.) in the ithcycle of the waveform. Then
+the steady value of this parameter over a span of Ncycles can be estimated from
+its arithmetic mean:
+a=1
+NN/summationdisplay
+i=1ai (1)
+And the zeroth-order perturbation function as the arithmetic diﬀerence:
+p0
+i=ai−a, i = 1, . . . , N (2)
+Where the superscript gives the order of the perturbation function. Higher-order
+perturbation functions can be obtained by alternately taking backward and for-
+ward diﬀerences of lower order functions. We will consider the ﬁrst-order per-
+turbation function:
+p1
+i=p0
+i−p0
+i−1=ai−ai−1, i = 1, . . . , N (3)The ﬁrst order perturbation function can be used to determine the fundamen-
+tal frequency perturbation if in Equation 3 aiis taken to be the fundamental
+frequency. The fundamental frequency is computed only for the voiced parts of
+speech. The fundamental frequency perturbation is deﬁned as the average of the
+absolute values of all these diﬀerences normalised to percentage:
+jitter =100
+(N−1)aN/summationdisplay
+i=2|ai−ai−1| (4)
+4 Experimental Results
+In this section the results of statistical analysis of the acoustical data are de-
+scribed. Table 2 reports the averages and standard deviations of the data col-
+lected during the Stroop test. The conditional eﬀects in relation to the observed
+eﬀects in the features will now be discussed from condition to condition. The ﬁrst
+minute is considered to represent normal conditions and is used for comparison.
+Table 2. Results of the Stroop Test
+Feature Time Mean Std. dev.
+Duration 1 454.74 136.16
+2 438.05 106.89
+3 437.77 101.46
+4 487.66 199.72
+5 475.00 134.17
+Energy 1 922.18 1386.65
+2 1012.19 1307.81
+3 1202.56 1651.32
+4 884.97 1192.68
+5 998.17 1584.43
+F0 1 114.28 25.26
+2 119.52 26.98
+3 115.70 24.19
+4 122.20 27.63
+5 119.86 29.22
+F0 1 7.36 12.57
+variance 2 7.38 14.12
+3 8.59 16.42
+4 9.86 14.78
+5 10.11 24.05Feature Time Mean Std. dev.
+High 1 52.85 15.39
+Frequency 2 45.06 18.50
+3 49.97 14.44
+4 32.26 17.48
+5 40.30 19.07
+Jitter 1 1.24 0.51
+2 1.05 0.49
+3 1.05 0.55
+4 1.04 0.49
+5 0.94 0.43
+Zero 1 3494.79 1471.62
+Crossings 2 3535.42 1530.14
+3 3522.53 1324.35
+4 3716.09 1404.14
+5 3445.05 1390.16Stroop 2. During the second minute of the Stroop test an increase in the funda-
+mental frequency and a decrease of the duration and jitter can be observed, as
+can be expected. However, the high frequency energy shows a decrease, which is
+even more surprising when regarding the increase in the fundamental frequency
+and zero crossings. Fundamental frequency variation stays approximately the
+same.
+Stroop 3. The fundamental frequency shows a decrease compared to the previous
+condition, but is still slightly higher than the ﬁrst minute. Duration, zero crossing
+and jitter are stable at this point, but the high frequency energy ratio is still
+low. Fundamental frequency variation shows an increase.
+Stroop 4. A steep increase in fundamental frequency and F0 variation and zero
+crossings is observed and still a stable jitter ratio, but high frequency is very low
+here. Also an increase in the duration can be witnessed, which may be because
+the color names diﬀer signiﬁcantly in the fourth minute of the test.
+Stroop 5. A signiﬁcant decrease in jitter ratio is observed in the last and most
+intense minute of the test. Fundamental frequency and F0 variation are still
+signiﬁcantly higher than at the beginning of the test and duration and high
+frequency energy are still oppositely signed from the expected diﬀerences.
+In summary the jitter ratio and partially the fundamental frequency show
+expected results and especially the high frequency energy shows the total op-
+posite of what is presumed, showing an overall decrease where an increase is
+expected. Fundamental frequency variation shows a consistent increase towards
+the end of the test. However, before any conclusions are drawn the eﬀect of the
+color names on the diﬀerent conditions will be examined.
+In Table 3 the mean values are repeated but now they are split per color. Several
+things can be noticed from these tables. The color yellow shows an overall de-
+crease in duration even when other colors show an increase. In all cases the jitter
+shows a decrease. In practically all cases the fundamental frequency shows an
+increase, but diﬀerences in increase vary among the colors, which is less the case
+with jitter. Blue is the only color, which shows an increase in high frequency
+energy ratio. HF diﬀerences of the same colors are all closely together, which
+may point to dependence of the high frequency ratio on the verbal content, for
+example through intonational patterns. However, when looking separately at the
+HF’s per color, there appears a reasonable consistent increase in HF over the
+conditions toward the end.
+It can be concluded that the high frequency energy is highly dependent on
+the name of the color, and the jitter the least dependent. The duration is highly
+variable, but does show some consistency for the word yellow .
+5 Conclusions
+In this work the inﬂuence of stress on the human voice has been investigated.
+Stress is thought of as being caused by the workload a human is confrontedTable 3. Scores of Stroop conditions 2,3,4 and 5
+Stroop 2 Stroop 3
+Color Words Duration F0 Jitter HF
+Blue 58 -10.00 2.37 -0.13 0.42
+Red 4 -85.00 1.75 -0.49 -16.01
+Green 0
+Yellow 24 -11.25 5.45 -0.11 -22.80
+Brown 0
+Misses 2 -20.00 4.00 -0.79 -12.27
+Total 88 -15.68 4.41 -0.18 -7.79Color Words Duration F0 Jitter HF
+Blue 56 5.18 -1.72 -0.23 1.22
+Red 22 -51.36 6.63 -0.21 -11.48
+Green 1 370.00 8.00 -0.13 -7.28
+Yellow 0
+Brown 4 45.00 5.00 -4.47 -0.13
+Misses 5 -25.00 -9.00 0.72 -12.24
+Total 88 -18.30 0.62 -0.20 -2.92
+Stroop 4 Stroop 5
+Color Words Duration F0 Jitter HF
+Blue 4 235.00 9.50 -0.22 -7.88
+Red 0
+Green 21 25.71 12.53 -0.05 -34.78
+Yellow 41 -8.05 4.49 -0.29 -20.66
+Brown 15 24.49 2.46 -0.05 -5.85
+Misses 7 241.43 7.67 -0.29 -21.39
+Total 88 31.60 6.84 -0.19 -20.63Color Words Duration F0 Jitter HF
+Blue 16 47.50 0.60 -0.35 3.24
+Red 1 80.00 14.00 -1.00 -3.23
+Green 12 1.67 10.73 -0.28 -37.26
+Yellow 21 36.50 2.11 -0.26 -16.54
+Brown 32 10.33 2.59 -0.23 -6.10
+Misses 6 238.33 10.50 -0.39 -28.46
+Total 88 17.93 5.08 -0.32 12.37
+with and involves a series of physiological and psychological changes. The phys-
+iological changes will among others aﬀect speech production organs and thus
+the voice. Whether or not this physiological reaction pattern is to some extent
+person speciﬁc is still a point of discussion. It seems that the impact of a stressor
+is determined by his experience and physique, but this only implies that some
+persons can become more stressed than others.
+Shifting towards the search for objective quantiﬁable vocal stress correlates, it
+turns out that a number of non-verbal vocal characteristics are subject to change
+when a person is speaking in a stressful situation. Among these are fundamental
+frequencies, duration, intensity, jitter, high frequency energy and formant posi-
+tions. The experiments discussed here have shown that the most important and
+promising stress correlates are the fundamental frequency and the fundamental
+frequency perturbation or jitter. The latter is especially useful as it is, unlike
+other features such a the high frequency energy ratio, relatively insensitive to
+prosodic patterns already present is speech, thus allowing assessment of stress
+levels without knowledge of the words that are being spoken. As the ultimate
+goal of our research is to develop a stress-o-meter based on non-intrusive tech-
+niques such as speech recognition we are planning to assess how well the vocal
+stress features correlate with physiological measurements [20].
+References
+1. Banse, R., Scherer, K.R., Acoustic proﬁles in vocal emotion expression, J. Person-
+ality Social Psychol. vol 70, no 3, pp. 614-636, 1996.2. Brenner, M., Branscomb, H.H., Schwartz, G.E., Psychological stress evaluator:
+Two tests of a vocal measure, Psychophysiology, 1979.
+3. Brenner, M., Shipp, T., Voice stress analysis: Mental state estimation (Construck,
+J.R., ed.), NASA conf. pub. 2504, 1987.
+4. Cowie, R., Douglas-Cowie, E., Tsapatsoulis N., Votsis G., Kollias S, Fellenz, W.,
+Taylor, J.G., Emotion recognition in human-computer interaction, IEEE Signal
+Processing Mag., vol 18, pp. 32-80, jan. 2001.
+5. Griﬃn, G.R., Williams C.E., The eﬀects of diﬀerent levels of task complexity on
+three vocal measures, Aviation, Space and Environmental Medicine, 1987; 58:1165-
+70.
+6. Hecker, M.H.L., von Bismarck, G., Williams, C.E., Manifestations of task induced
+stress in the acoustical speech signal, Journal of the Acoustical Society of America,
+1968; 44:993-1001.
+7. Jones, W.A., An evaluation of voice stress analysis techniques in a simulated
+AWACS environment. Master’s thesis Texas A.&M. University, 1990.
+8. Kuroda, I., Fujiwara, O., Okamura, N., Utsuki, N., Method for determining pilot
+stress through analysis of voice communication, Aviation, Space and Environmen-
+tal Medicine, 1976; 47:528-533.
+9. Pantic, M. , Rothkrantz L.J.M., Towards an Aﬀect-Sensitive Multimodal Human-
+Computer Interaction, in Proc. of the IEEE, vol. 91, no. 9, pp. 1370-1390, Septem-
+ber 2003.
+10. Pinto, N.B., Titze, I.R., Uniﬁcation of pertubation measures in speech signals,
+Journal of the Acoustical Society of America, 1990; 87:1278-89.
+11. Roesller, R., Lester J.W., Vocal patterns in anxiety, in Fann, W.E., Phenomenology
+and treatment of anxiety, 1979.
+12. Scherer, K.R., The eﬀects of stress on the fundamental frequency of the voice,
+Journal of the Acoustical Society of America, 1977.
+13. Scherer, K.R., Tolkmitt, F., The eﬀect of stress and task variation on formant
+location, Journal of the Acoustical Society of America, 1979.
+14. Sheridan, T.B., Stassen, H.G., Deﬁnitions, models and measures of human work-
+load, in N. Moray (ed.), Mental Workload: Its Theory and Measurement, 1979,
+New York, Plenum.
+15. Siegmann, A.W., Paraverbal and non-verbal indicators of stress, In Goldberger,
+L., Handbook of Stress, 1992.
+16. Simonov, P.V., Frolov, M.V., Utilization of human voice for estimation of man’s
+emotional stress and state of attention, Aerospace Medicine, 1973.
+17. Streeter, L.A., et al., Pitch change during attempted deception, Journal of Person-
+ality and Social Psychology, 1977.
+18. Stroop, J.R., Studies of interference in serial verbal reactions, Journal of Experi-
+mental Psychology, 1935, 28, 643-662.
+19. Titze, I.R., Liang, H., Comparison of F0extraction methods for high-precision
+voice pertubation measurements Journal of Speech and Hearing Research, Volume
+36, 1993.
+20. Vark, R.J. van, Knowledge based behaviour feedback system using physiological
+data, TU Delft graduation thesis, 1993.
+21. Williams, C.E., Stevens, K.N., On determining the emotional state of pilots during
+ﬂight, An exploratory study, Aerospace Medicine, 1969.

@@ -1,0 +1,1324 @@
+Transformers Go for the LOLs:
+Generating (Humourous) Titles from Scientiﬁc Abstracts End-to-End
+Yanran Chen, Steffen Eger
+Natural Language Learning Group (NLLG)
+Faculty of Technology
+Bielefeld University
+ychen@techfak.uni-bielefeld.de
+steffen.eger@uni-bielefeld.de
+Abstract
+We consider the end-to-end abstract-to-title
+generation problem, exploring seven recent
+transformer based models (including Chat-
+GPT) ﬁne-tuned on more than 30k abstract-
+title pairs from NLP and machine learning
+venues. As an extension, we also consider
+the harder problem of generating humorous pa-
+per titles. For the latter, we compile the ﬁrst
+large-scale humor annotated dataset for scien-
+tiﬁc papers in the NLP/ML domains, compris-
+ing almost 2.5k titles. We evaluate all mod-
+els using human and automatic metrics. Our
+human evaluation suggests that our best end-
+to-end system performs similarly to human au-
+thors (but arguably slightly worse). Generat-
+ing funny titles is more difﬁcult, however, and
+our automatic systems clearly underperform
+relative to humans and often learn dataset arte-
+facts of humor. Finally, ChatGPT, without any
+ﬁne-tuning, performs on the level of our best
+ﬁne-tuned system.1
+1 Introduction
+Computer-assisted writing is an important and long-
+standing use case of natural language processing
+(NLP) and natural language generation (NLG). A
+popular early scenario involved machine transla-
+tion, where the success of an MT system was mea-
+sured in the number of human edits required to
+transform system output into an adequate trans-
+lation (Krings, 2001); the HTER metric, which
+measures this, has remained an important metric
+until recently (Specia and Farzindar, 2010; Spe-
+cia et al., 2021). The recent success of large-scale
+language models (LLMs), such as the GPT gen-
+eration of NLG models, has made the goal even
+more realistic and promises full-scale automatic
+text generation, without any human intervention.
+1Our paper title is a (modiﬁed) merge of a funny and
+unfunny title suggested by ChatGPT. Our paper logo is drawn
+by DALL-E.In this work, we concern ourselves with auto-
+matic text generation in the scientiﬁc domain. Sam-
+ple scenarios in this general context involve (semi-
+)automatically generating reviews for scientiﬁc pa-
+pers (Yuan et al., 2022), e.g., as a response to high
+reviewing load in the face of exploding submission
+numbers; and generating captions for tables that re-
+quire reasoning capabilities (Moosavi et al., 2021).
+Our goal is much more modest: we ask whether
+language models can generate adequate titles given
+a human authored abstract as an input; we refer to
+this task as A2T (abstract-to-title generation). Title
+generation is important as titles are the ﬁrst access
+point to paper; a good title may thus attract more
+readers and consequently increase a paper’s impact,
+e.g., in terms of citation numbers (Falagas et al.,
+2013).
+We approach the problem as a standard sequence-
+to-sequence text generation problem, where we
+ﬁne-tune pre-trained language models on more than
+30k abstract-title pairs from the ML and NLP com-
+munities. Besides generating titles per-se, we also
+aim for generating humorous title, an inherently
+difﬁcult problem due to small sample size — in
+our corpus, less than 5% of human titles are esti-
+mated to be funny. Generating funny titles may be
+relevant, as a funny title may attract more readers
+and thus garner (even) more citations (Heard et al.,
+2022).
+Our contributions:
+•To our knowledge, we provide the ﬁrst publicly
+available humor annotated dataset for scientiﬁc
+titles in the NLP and ML domain, encompassing
+2,441 humor annotated titles annotated by 2 an-
+notators with decent levels of agreement (kappa
+0.65).
+•We explore 6 recently popular text generation
+systems on the A2T task, ﬁnding one of them
+to be competitive to human titles, according to
+automatic and human evaluation involving 15arXiv:2212.10522v1  [cs.CL]  20 Dec 2022annotators.
+•We analyze the problem and ﬁnd that the A2T
+task is to some degree ill-posed as a good title
+may leverage more than the abstract alone (we
+argue that the problem framing is still a legitimate
+and efﬁcient approximation).
+•For humor generation, we ﬁnd that our models
+clearly underperform relative to humans and in-
+stead often learn dataset artefacts.
+•We ﬁnally analyze ChatGPT on a small scale and
+ﬁnd that it may be competitive (albeit slightly
+weaker) to our best ﬁne-tuned model without any
+task-speciﬁc ﬁne-tuning at all.
+We release data and code under https://
+github.com/cyr19/A2T .
+2 Related Work
+Title generation and evaluation Mishra et al.
+(2021) perform A2T with pre-trained GPT-2 ﬁne-
+tuned on arxiv papers and subsequent (rule-based)
+modules of title selection and reﬁnement. We com-
+pare many more text generation models for the
+task, use better evaluation (excluding low-quality
+outdated surface-level metrics such as BLEU; in-
+cluding more comprehensive human evaluation),
+do not make use of rule-based selection and also
+consider humor in title generation. Putra and Kho-
+dra (2017) classify sentences from paper abstracts
+into rhetorical categories, retain those relating to
+methods and results and then generate titles using
+templates. They further note the relationship be-
+tween the task of summarization (Nenkova et al.,
+2011) and A2T, as a title can be seen as a summary
+of the research paper. We also leverage the relation-
+ship to summarization by considering pre-trained
+models ﬁne-tuned on summarization datasets. In
+contrast to Putra and Khodra (2017) and Mishra
+et al. (2021), we only consider end-to-end models
+that do not involve error-prone pipelines.
+Beyond title generation, related ﬁelds of text
+generation for science are related work generation
+(Li et al., 2022) and, outside of science, headline
+generation e.g. for news (Tan et al., 2017). Tan
+et al. (2017) use a coarse-to-ﬁne approach which
+ﬁrst identiﬁes important sentences and then con-
+verts them into a headline. In this way, the model is
+not confused by ‘too much’ irrelevant information.
+In A2T, the ﬁrst summarization step is apparently
+not necessary, as the abstract is already a summary
+of the scientiﬁc paper. Yuan et al. (2022) exploreautomatically generating reviews for scientiﬁc arti-
+cles.
+How titles should be (and are) structured has
+been researched for a long time, e.g., Hartley
+(2005); Lewison and Hartley (2005). Hartley
+(2008) gives a categorization of title types, dis-
+tinguishing 13 title classes, e.g., those that state
+results vs. methods.
+Humor identiﬁcation and generation Humor
+detection is a niche area in NLP but nonethe-
+less with a rich history. For example, Mihalcea
+and Strapparava (2006) distinguish funny from
+non-funny sentences (heuristically scraped from
+the Web) using features and traditional classiﬁers.
+Simpson et al. (2019) focus on efﬁciently anno-
+tating humor and inducing classiﬁers from crowd-
+sourced data. Recently, Peyrard et al. (2021) show
+that transformers are strong at distinguishing funny
+from non-funny sentences on minimal pairs of satir-
+ical news headlines. In the scientiﬁc domain, Heard
+et al. (2022) annotate a dataset of more than 2k ti-
+tles from ecology using a ﬁne-grained Likert scale.
+The majority were labeled as non-funny and anno-
+tators exhibited low agreements.
+There is considerably less work on humor gen-
+eration. As one exception, He et al. (2019) gener-
+ate puns by a retrieve-and-edit approach based on
+word2vec, thus circumventing the problem of little
+training data for puns.
+3 Data
+We use the dataset released by Beese et al. (2022),
+which contains title-abstract pairs and correspond-
+ing meta-information such as the publication year
+and venue. Beese et al. (2022) extracted the data
+from two sources: ACL Anthology (from 1984
+to 2021) and machine learning conferences (from
+1989 to 2021); we refer to the datasets from these
+two sources as NLP andMLrespectively, following
+the original paper.
+Filtering (1) We restrict the data to the main con-
+ference papers (e.g., EMNLP, ACL), to ensure data
+quality. (2) As Figure 1 shows, most abstracts
+have less than 400 words; by introspection, we ﬁnd
+that extremely long abstracts often contain extra
+sections other than abstracts, due to limitations of
+Allen AI’s Science Parse2which was used to auto-
+matically extract the paper structures by Beese et al.
+2https://github.com/allenai/
+science-parse/Figure 1: Histogram of the length of abstracts. We de-
+ﬁne the length of a text as the length of the list split by
+spaces for each text.
+(2022). As a consequence, we limit the data to ab-
+stracts of length smaller than 400 . (3) In addition,
+we only leverage the data of papers published after
+the year 2000 (which form the majority anyway).
+After ﬁltering, 32,952 abstract-title pairs remain in
+our dataset.
+Title Label
+Learning to learn by gradient descent by
+gradient descent (Andrychowicz et al.,
+2016)FUNNY
+CancerEmo: A Dataset for Fine-Grained
+Emotion Detection (Sosea and Caragea,
+2020)FUNNY medium
+Global Encoding for Abstractive Summa-
+rization (Lin et al., 2018):FUNNY
+Table 1: Example of the annotated titles.
+Humor Annotation + Classiﬁcation To gener-
+ate humorous titles from the abstracts, in addition
+to the abstract-title pairs, we need labels regarding
+the humorousness of the titles. Thus, we train hu-
+mor classiﬁers to automatically label the titles as
+FUNNY ,FUNNY medium , and:FUNNY (denoted
+as 2, 1 and 0 respectively; examples see Table 1).
+Two co-authors participated in the annotation. We
+made no guidelines and asked annotators to refer
+to their intuition for a notion of humor. To measure
+annotation quality, we calculate Cohen’s Kappa
+agreement (Cohen, 1960) between them several
+times during the whole procedure.
+Stage 1 : The two annotators initially anno-
+tated 1,730 titles, obtaining 0.650 Kappa agree-
+ment on the commonly annotated 300 titles, where
+1,603 titles were labeled as :FUNNY , 106 as
+FUNNY medium , and 21 as FUNNY . Since funny
+titles ( FUNNY orFUNNY medium ) make up only7.3% of the annotated data, we randomly gen-
+erate 11 different data splits, where the train set
+of each split consists of 100 funny or medium
+funny titles and 200 not funny titles (all randomly
+drawn), while the remaining 27 funny titles and 27
+not funny titles compose the dev set. From those
+data splits, we train 11 classiﬁers to construct an
+ensemble classiﬁer (checkpoints selected based on
+the macro F1 on each dev set). To evaluate the clas-
+siﬁer performance, the two annotators annotated
+another 315 titles jointly, obtaining 0.639 Kappa
+agreement. Our best ensemble classiﬁer leverages
+the sum of the label values assigned by the 11 indi-
+vidual classiﬁers to predict humorousness, yielding
+4.8% improvement of macro F1 compared to the in-
+dividual classiﬁers (62.4% vs. 57.6%). We relegate
+details to Section B.
+Stage 2 : To ﬁnd more funny title candidates to
+annotate, the two annotators annotated the funni-
+est 396 titles in the original dataset from Beese
+et al. (2022), predicted by the ensemble classiﬁer
+developed in Stage 1; 75.8% (300 titles) were la-
+beled as FUNNY orFUNNY medium , which is sub-
+stantially higher than the proportion of funny titles
+in the annotated data of Stage 1 (7.3%), bringing us
+300 more funny titles. Thus, the annotated data
+expands to 2,441 titles ( 1;730 + 315 + 396 =
+2;441), where 1,893 are labeled as :FUNNY , 492
+asFUNNY medium and 56 as FUNNY . Subsequently,
+we re-train 11 classiﬁers on newly generated 11
+data splits from the expanded data of 2,441 titles;
+now the train set of each split is composed of 400
+funny or medium funny titles and 800 not funny
+titles. As before, the 11 classiﬁers are then used to
+construct an ensemble classiﬁer by means of the
+optimal ensemble strategy identiﬁed in Stage 1.
+We test the classiﬁers from both stages on a held-
+out test set containing 197 titles annotated by the
+two annotators, who obtain 0.649 Kappa on this
+evaluation data. The macro F1 scores of those clas-
+siﬁers are presented in Table 3. As FUNNY titles
+are rare in the whole dataset, we also evaluate the
+classiﬁers on the corresponding binary classiﬁca-
+tion task, where FUNNY andFUNNY medium are
+merged to one category. We observe that: (1) en-
+semble classiﬁer performs better than the individual
+ones. (2) Classiﬁers from Stage 2 are superior com-
+pared to the ones from Stage 1, indicating larger
+size of the training data is beneﬁcial. (3) The best
+three-way classiﬁer achieves only 58% macro
+F1, whereas it has 88% macro F1 on the binaryAbstract Title Label
+The move from hand-designed features to learned features in machine learning has been
+wildly successful.[...] We demonstrate this on a number of tasks, including simple convex
+problems, training neural networks, and styling images with neural art.Learning to learn by
+gradient descent by
+gradient descentFUNNY
+Table 2: Example of the instance in our dataset. Each instance contains the abstract, title, and the label regarding
+the title’s humor degree for a certain paper. This instance contains the data for paper Andrychowicz et al. (2016).
+three-way binary
+Stage 1Individuals 52.2% 81.5%
+Ensemble 54.1% 85.1%
+Stage 2Individuals 55.1% 84.7%
+Ensemble 57.7% 88.1%
+Table 3: Average macro F1 over the 11 individual clas-
+siﬁers and macro F1 of the ensemble classiﬁers from
+both stages on the held-out test set (where the two an-
+notators obtain 0.649 kappa agreement). We bold the
+highest macro F1 for both classiﬁcation tasks.
+classiﬁcation, implying that the three-way classi-
+ﬁcation is hard, but the classiﬁers can handle the
+binary classiﬁcation task. Besides, we see a con-
+sistent improvement of human annotation quality:
+the two annotators achieve 0.01-0.1 higher Kappa
+agreement when their annotations are down-scaled
+to binary ones (see Table 14 in Appendix B). As
+a consequence, we use the ensemble classiﬁer
+from Stage 2 as the humor classiﬁer in further
+experiments .
+Humor labelTotalSource
+:FUNNY FUNNY NLP ML
+train 30,741 1,011 31,752 16,141 15,611
+dev 400 200 600 480 120
+test 400 200 600 480 120
+total 31,541 1,411 32,952 17,101 15,851
+Table 4: Distribution of the source (NLP or ML) and
+humor labels ( FUNNY or:FUNNY ) of the instances
+in our dataset.
+Final Dataset To obtain the ﬁnal dataset, we
+use our humor classiﬁer to automatically label
+the rest of the data (not annotated). Considering
+the difﬁculty of the three-way classiﬁcation task
+for both human annotators and automatic classi-
+ﬁers, we only consider two humor levels in further
+generation experiments: (1) FUNNY (for funny
+and medium funny titles) and (2) :FUNNY (for
+not funny titles). Therefore, we collect 31,541
+instances ( >95%) with FUNNY and 1,411 with:FUNNY titles, where each instance now consists
+of the abstract-title pair and the humor label for the
+title, as illustrated in Table 2. Subsequently, we
+split the resulting data to train, dev, and test sets,
+ensuring that (1) the data with human-annotated
+titles remains in the train set, as the humor classi-
+ﬁer trained and evaluated on it will be used as an
+automatic humor evaluator; (2) 80% of the data in
+dev/test is from NLP and 20% from MLbecause our
+annotators are more knowledgable for NLP papers,
+and (3) the ratio of FUNNY data to:FUNNY data
+is 1:2.3As:FUNNY data is only a small portion
+of the whole dataset, we only keep 600 instances in
+the dev/test sets, whereas the remaining data serves
+as the training data. In Table 4, we summarize the
+statistics of the ﬁnal dataset.
+Examples of human annotated funny instances
+are in the appendix. We note that FUNNY medium of-
+ten contain acronyms for datasets or models, while
+FUNNY typically contain a ‘genuine’ humor com-
+ponent.
+4 Title Generation
+In the ﬁrst phrase of the experiments, we explore
+whether existing state-of-the-art Seq2Seq models
+manage to generate human-level titles from ab-
+stracts. Hence, we do not include humor constraints
+in the inputs of the generation systems.
+4.1 Baseline Models
+We experiment with the following six generation
+models: (i) BART base ( BART base) (Lewis et al.,
+2020), (ii) GPT2 ( GPT2 ) (Radford et al., 2019),
+(iii) T5 small (Raffel et al., 2020) ( T5), and (iv)
+PEGASUS large (Zhang et al., 2019) ﬁnetuned on
+Extreme Summarization (XSUM) dataset (Narayan
+et al., 2018) ( PEGASUS xsum). Noting the similarity
+between text summarization and our A2T genera-
+tion task, we additionally inspect two BART large
+models ﬁnetuned on (v) XSUM ( BART xsum) and
+(vi) CNN dailymail (CNNDM) (See et al., 2017)
+3This aims to more easily compare the system-generated
+funny titles with the human-generated ones and does not relate
+to controlling the quality of titles in the test set.(BART cnn), respectively.4XSUM and CNNDM
+contain document-summary pairs, where XSUM
+has one-sentence summaries, while each summary
+in CNNDM consists of multiple sentences.
+4.2 Fine-tuning
+For all baseline models, we continue ﬁne-tuning
+them on the abstract-title pairs from our dataset5
+with AdamW Optimizer (Loshchilov and Hutter,
+2019) and linear learning rate scheduler, and sub-
+sequently use beam search (Vijayakumar et al.,
+2016) as the sampling strategy to generate the out-
+put candidates. The optimal checkpoint for each
+model is selected based on the ROUGE1/2/L (Lin,
+2004) scores on the dev set. We relegate the (hy-
+per)parameter settings for training and beam search
+to Appendix C.
+4.3 Evaluation
+We assess the performance of the generation sys-
+tems on 230 abstracts using both automatic evalu-
+ation metrics and human evaluation. Besides the
+six automatic generation systems, we also include
+the human-generated titles in the evaluation; the
+respective system is denoted as ‘ HUMAN ’.
+4.3.1 Automatic Evaluation
+As there are no A2T task-speciﬁc evaluation met-
+rics, we use the following existing evaluation met-
+rics designed for other NLG tasks such machine
+translation or summarization: BERTScore (Zhang
+et al., 2020), MoverScore (Zhao et al., 2019),
+COMET (Rei et al., 2020), BARTScore (Yuan et al.,
+2021), MENLI (Chen and Eger, 2022). In the eval-
+uation, we employ all considered metrics in both
+reference-based and -free settings. In the reference-
+based setup, the metrics compare the system ti-
+tles with the original ones (human-generated titles),
+while in the reference-free evaluation, the system
+titles are directly compared to the abstracts. Fur-
+ther, we examine whether those evaluation metrics
+are reliable to evaluate the titles’ quality, based on
+the human evaluation results.
+4.3.2 Human Evaluation
+The human evaluation is conducted in the reference-
+free setup: 15 annotators6were asked to select two
+4We obtain all model checkpoints from Hugging Face
+https://huggingface.co/models .
+5The dataset used here is slightly different from the one
+introduced above, as we recreate the dataset for humor title
+generation. This does not affect the evaluation of humor
+generation.
+6Most annotators are Master students, with an additional
+senior researcher and two Bachelor students.best and two worst titles among six titles from
+different systems (including HUMAN ), given the ab-
+stract. Each instance (an abstract and its six titles)
+was evaluated by two to ﬁve annotators. The aver-
+age percentage agreement over all annotator pairs
+is50%, implying that each two annotators agree
+on one selection among the two selected best/worst
+titles, on average.
+Then, we use best-worst scaling to obtain the
+ﬁnal human score for each title. The ﬁnal human
+score ( BWS ) is calculated as:
+BWS =Nbest Nworst
+Nannotators(1)
+where Nbest/worst refers to the number of times that
+the title was selected as one of the best/worst two
+titles and Nannotators indicates the number of an-
+notators responsible for that instance. Therefore,
+BWS ranges from -1 to 1.
+4.3.3 Results
+(a) Reference-based Evaluation
+system MoverS BERTS COMET BARTS MENLI
+BART xsum 0.410 0.912 -0.283 -3.816 0.076
+PEGASUS xsum 0.404 0.906 -0.371 -3.964 0.005
+BART base 0.405 0.907 -0.373 -3.986 0.036
+GPT2 0.400 0.902 -0.461 -4.114 -0.020
+T5 0.381 0.898 -0.501 -4.177 -0.025
+BART cnn 0.282 0.907 -0.634 -3.747 0.133
+HUMAN 1.000 1.000 1.072 -0.608 0.898
+(b) Reference-free Evaluation
+system BWS MoverS BERTS BARTS COMET MENLI
+BART xsum 0.197 -0.025 0.889 -2.583 0.060 -0.214
+PEGASUS xsum 0.022 -0.036 0.887 -2.819 0.060 -0.263
+BART base 0.015 -0.034 0.887 -2.709 0.059 -0.226
+GPT2 -0.013 -0.087 0.881 -3.090 0.060 -0.285
+T5 -0.039 -0.055 0.889 -2.735 0.057 -0.265
+BART cnn -0.384 0.046 0.880 -2.982 0.047 -0.159
+HUMAN 0.181 -0.062 0.873 -3.508 0.061 -0.029
+Table 5: Evaluation Results of the baseline models. We
+underlie the best performance among all generation sys-
+tems including human. We bold the best performance
+among all automatic generation systems excluding hu-
+man.
+We present the reference-based evaluation re-
+sults in Table 5(a). HUMAN obtains the highest
+scores using all metrics, which is unsurprising, as
+the metrics use the human-generated titles as the
+anchor text. Among the six automatic generation
+systems, BART xsum is best , being selected by 3 out
+of 5 evaluation metrics, followed by BART cnn.
+Table 5(b) shows the reference-free evaluation
+results (including human evaluation). In contrastto reference-based evaluation, only two evaluation
+metrics (COMET and MENLI) select HUMAN as
+the best generation system. BART xsum is still the
+best among the six automatic generation systems,
+obtaining best results on 4 out of 6 evaluation met-
+rics (including BWS). Surprisingly, it outperforms
+HUMAN even in the human evaluation (0.197 vs.
+0.181 BWS). Nevertheless, as Figure 2(a) shows,
+HUMAN was still most frequently selected as among
+the two best titles (23.2%) among all generation
+systems, whereas the best neural generation system
+BART xsum was selected in 16.9% of the cases as
+one of the best two titles. However, we observe that
+HUMAN was also more often selected as among the
+two worst titles (14.1% vs. 9.3% BART xsum; see
+Figure 2(b)), explaining why BART xsum is better
+thanHUMAN in human evaluation. We analyzed
+cases in which the human title was selected as
+among the two worst. Introspection shows that
+this is mostly due to words in the title which do not
+appear in the abstract. As a consequence, human
+annotators may believe that the model is hallucinat-
+ing.
+Figure 2: Distribution of generation systems of the ti-
+tles selected as the BEST /WORST ones in human eval-
+uation; percentages indicate the proportion of the gen-
+eration systems being selected over all selections.
+Overall, we thus believe that there is a (slight)
+mismatch in our task deﬁnition: human authors
+may leverage the whole paper when designing their
+titles, not only the abstracts. However, paper2title
+generation would not only be a challenge for the
+text generation models (which are often limited
+in text length) but also for the human annotation
+process. We argue that framing the problem as
+abstract2title generation is a simpliﬁcation with
+overall good tradeoffs between problem complexity
+and model and annotator capacity.
+4.4 Analysis of Evaluation Metrics
+4.4.1 Correlation
+To inspect the reliability of the used metrics, we
+calculate Pearson correlation with system-level hu-Metric230 instances 35 instances
+ref-based ref-free ref-free
+BARTS 0.389 -0.044 0.177
+BERTS 0.442 0.079 0.389
+MoverS 0.575 -0.677 -0.457
+MENLI 0.345 0.139 -0.051
+COMET 0.580 0.929 0.618
+A2TMetric - - 0.821
+Table 6: Pearson correlation of evaluation metrics with
+system-level human judgements for the 230 instances
+(1380 titles; left block ) and the 3 5 instances (210 titles;
+right block ). We bold the highest correlation in each
+block.
+man judgements, i.e., average BWS per system, on
+the 1380 titles (230 instances 6 titles =1380
+titles). From Table 6 (left block), we observe that:
+(1) most metrics perform better in the ref-based
+setup compared to ref-free, except for COMET;
+(2) only ref-free COMET correlates well with hu-
+man judgements (0.929 vs. -0.7-0.58), indicating
+thatthe majority of the examined metrics are not
+adequate for A2T generation.
+4.4.2 A2TMetric
+Based on the above ﬁndings, we develop the ﬁrst
+supervised A2T generation-speciﬁc evaluation
+metric , using the human judgments collected in
+the evaluation for the 230 instances. Since hu-
+man is included in the evaluation as a generation
+system, and the metrics will later be used to evalu-
+ate system-generated humorous titles, which may
+vastly differ from the original ones, we argue that a
+ref-free metric will better suit our needs.
+Dataset We split the data of 230 instances to train
+(170 instances), dev (25 instances), and test (35 in-
+stances) set. We note that many titles receive a
+BWS of 0 when the number of annotators is small
+(because they were never selected as the best or
+worst two titles), which may be problematic to
+directly train a regression model. Besides, the hu-
+man evaluation was similar to the ranking process.
+Therefore, we convert BWS in the train and dev set
+to relative-ranking judgements (Ma et al., 2018).
+I.e., if two titles for one abstract obtain different
+BWS, this title pair is considered as one relative-
+ranking judgement. Each instance then contains
+one abstract, a “better” title, a “worse” title, and the
+score difference between the two titles in addition.
+As a consequence, our train set consists of 2245
+instances, whereas the dev set has 309 instances.Framework We adopt a similar framework to
+the ranking-based variant of COMET to train the
+A2T metrics but in a ref-free setup. During train-
+ing, the model optimizes the embedding space so
+that (1) the sentence embedding of the abstract
+(a) is closer to that of the “better” title ( t+) than
+to that of the “worse” title ( t ) (using the Triplet
+Margin loss (Schroff et al., 2015)) and (2) the dif-
+ference between d(a; t+)andd(a; t )is close to
+the difference in BWS human scores for the two
+titles (using the MSE loss), where d(u; v)refers
+to the Euclidean distance between uandv. Dur-
+ing predicting, the metrics calculate the Euclidean
+distance between the sentence embeddings of the
+abstract and the title.
+Evaluation As Table 6 (right block) shows, our
+best A2TMetric substantially outperforms the exist-
+ing ref-free metrics on the test set (0.821 vs. -0.457-
+0.618 Pearson). Besides, we notice that the correla-
+tion of COMET drops from 0.929 to 0.618 when
+evaluated only on a portion of the data (test set),
+which may indicate that the BWS human scores
+are inconsistent across different batches of evalua-
+tion data, especially when the number of annotators
+changes. We use the A2TMetric reported here in
+further experiments.
+5 Humorous Title Generation
+In the second phase of the experiments, we
+use the optimal model identiﬁed previously, i.e.,
+BART xsum, to generate titles with constraints on
+humor level. The input of the generation systems is
+formulated as “ humor level [SEP] abstract ”, where
+humor level is either 0 (for :FUNNY ) or 1 (for
+FUNNY ).
+Fine-tuning We ﬁne-tune generation systems
+here using AdamW optimizer with linear learn-
+ing rate scheduler and obtain the titles with beam
+search as in Section 4.2: (1) we ﬁne-tune a
+BART xsum on the abstract-title pairs in the train
+set with humor constraints. (2) We continue ﬁne-
+tuning the model from (1) on self-generated pseudo
+data.
+The motivation of (2) is that we observe that the
+systems tend to ignore the humor constraints in
+the input and generate identical titles for different
+constraints in the initial experiment. We assume
+that to expose the systems to titles with different
+humor levels for the same abstract during training
+can encourage the models to pay more attention tothe humor constraints. To obtain the pseudo data,
+we perform the following steps:
+(i)We generate titles for abstracts in the train set
+but with “opposite” humor constraints com-
+pared to the original titles. For instance, if the
+original title for a certain abstract has label
+“0” for humor, we then generate a pseudo title
+with constraint “1” for this abstract, utilizing
+the model obtained from (1).
+(ii)We keep only the pseudo titles having the cor-
+rect humor labels assigned by the humor clas-
+siﬁer.
+(iii) We ﬁlter out the titles labeled as FUNNY con-
+taining extremely frequent N-grams, in order
+to encourage the systems to generate more
+diverse titles.7
+(iv) We ﬁnally merge the ﬁltered pseudo data with
+the original data. Thus, in the training data of
+(2), each abstract has two titles, one with label
+FUNNY and the other with:FUNNY .
+The training hyperparameters can be found in Ap-
+pendix D. To monitor the models’ ability to gen-
+erate titles on correct humor levels, we use macro
+F1between the expected humor labels (i.e., the
+humor constraints given to the inputs) and the hu-
+mor labels assigned to the generated titles by the
+humor classiﬁer as the performance indicator, with
+which on the dev set we select the optimal model
+checkpoints of the two systems.
+5.1 Evaluation
+5.1.1 Automatic Evaluation
+Based on the analysis results for the automatic eval-
+uation metrics in Section 4.4, we only leverage
+COMET and our supervised metric A2TMetric
+here to evaluate the titles’ quality. To evaluate the
+systems’ ability to generate titles on correct hu-
+mor levels, we use the following three metrics: (1)
+F1macro between the expected humor labels and
+those assigned by the humor classiﬁer. (2) System
+accuracy of generating titles on correct humor lev-
+els, denoted as ACC FUNNY andACC:FUNNY . (3)
+The ratio of the cases that the systems generate the
+7In initial experiments, we found that using the not ﬁltered
+pseudo data can lead the system to generate many titles with
+identical non-sense n-grams. In a particular case, half of the
+generated titles labeled as FUNNY have the text “What’s in a
+name:”.F1macro ACC:FUNNY ACC FUNNY Ratio SAME
+BART xsum 0.647 94.5% 40.2% 6.5%
+BART xsum+pseudo 0.856 93.6% 77.8% 4.7%
+Table 7: Automatic evaluation for the systems’ ability
+to generate titles with correct humor constraints. We
+bold the best performance.
+Metric COMET A2TMetric
+humor constraint :FUNNY FUNNY :FUNNY FUNNY
+BART xsum 0.0598 0.0582 -2.3014 -2.3173
+BART xsum+pseudo 0.0593 0.0541 -2.3130 -2.3736
+HUMAN 0.0586 -2.3566
+Table 8: Automatic evaluation for titles’ quality. We
+bold the best performance assessed by each metric.
+“Humor constraint” refers to the constraints given to the
+input of the generation systems.
+same titles for both humor constraints to all genera-
+tion cases ( Ratio SAME ); lower ratio indicates better
+performance.
+We generate titles with constraint on both humor
+levels for all abstracts in the test set. Thus, we
+compute the automatic evaluation on 1200 titles in
+total.
+Results From Table 7, we observe that: (1) af-
+ter continued training on the pseudo data, the
+system ( BART xsum+pseudo ) achieves substan-
+tially higher F1 macro (from 0.647 to 0.856) and
+ACC FUNNY (from 40.2% to 77.8%), and slightly
+better Ratio SAME (from 6.5% to 4.7%), implying
+the effectiveness of this training procedure. (2)
+However, ACC :FUNNY drops slightly compared
+toBART xsum (94.5% vs. 93.6%), indicating that
+both systems have good performance on generat-
+ing:FUNNY titles and the ﬁne-tuning on pseudo
+data only beneﬁts to improve the system’s ability
+to generate FUNNY titles.
+We then present the quality evaluation results
+in Table 8. Both BART neural systems can obtain
+better results than HUMAN , which is in line with
+the observation in Section 4.3.3, especially when
+generating:FUNNY titles, achieving higher scores
+thanHUMAN on both evaluation metrics (0.0593 to
+0.0598 vs. 0.0586 on COMET, and -2.3130 to -
+2.3014 vs. -2.3566 on A2TMetric). However, we
+observe a consistent performance drop after train-
+ing on the pseudo data (values in the ﬁrst row vs.
+those in the second row). Further, we also note
+that the system generated :FUNNY titles have bet-
+ter quality than the FUNNY ones (values in the
+left column vs. those in the right column for eachevaluation metric).
+5.1.2 Human Evaluation
+We randomly sample 50 abstracts from the test
+set with controls on the source of the papers (80%
+from NLP and 20% from ML) and on the humor
+label of the original titles (50% FUNNY and 50%
+:FUNNY ), to generate the titles for human evalua-
+tion. Each of two annotators evaluates 25 instances
+separately; each instance contains one abstract and
+its ﬁve titles: 1 original title + 4 system titles (2
+generation systems 2 humor levels).8During
+evaluation, the annotators rank the 5 titles on two
+criteria: general quality andhumor degree , based
+on the abstract, being unaware of generation sys-
+tems and humor constraints; soft ranking is allowed
+here, i.e., the annotators can assign identical ranks
+to multiple titles if they can not differentiate the
+titles according to the evaluation criterion.
+Results In Table 9, we compare the two BART-
+based generation systems. Similar to automatic
+evaluation, we observe (1) a general quality drop
+but a performance boost regarding humor genera-
+tion after training on the pseudo data and (2) that
+the:FUNNY titles have better quality compared
+to the FUNNY ones.
+system humor constraint humor quality
+BART xsum:FUNNY 3.06 2.48
+FUNNY 1.80 3.00
+BART xsum+pseudo:FUNNY 3.20 2.88
+FUNNY 1.54 3.46
+Table 9: Average rank of the system titles for all ab-
+stracts in the human evaluation of general quality and
+humor degree; smaller values denotes higher ranks.
+“Humor constraint” refers to the constraints given to the
+input of the generation systems.
+Further, we compare the system titles with the
+original human generated titles in Table 10. HUMAN
+is consistently ranked ﬁrst almost across all evalua-
+tion criteria: human generated titles arefunnier
+(1.52 vs. 1.72 to 1.88) and have better quality
+(2.60 vs. 2.72 to 3.20 for FUNNY and 2.08 vs.
+2.32 to 2.68 for:FUNNY titles) than the system
+generated ones; the latter observation contradicts
+with the conclusion from the automatic evaluation,
+where the system-generated :FUNNY titles obtain
+higher scores compared to the human generated.
+8We calculate the inter-annotator agreement between the
+two annotators on other 31 instances, obtaining 0.523 Kappa
+for humor and 0.605 Kappa for quality ranking.humor constraint/label FUNNY:FUNNY
+system humor quality humor quality
+BART xsum 1.88 2.72 3.04 2.32
+BART xsum+pseudo 1.72 3.20 2.96 2.68
+HUMAN 1.52 2.60 2.52 2.08
+Table 10: Average rank of the system titles for the
+abstracts with original titles labeled as FUNNY and
+:FUNNY separately in the human evaluation of gen-
+eral quality and humor degree; smaller values denotes
+higher ranks. “Humor constraint/label” refers to the
+constraints given to the input of the generation systems
+and the humor labels of the original titles.
+On introspection, we ﬁnd that the models often
+overﬁt to example patterns seen in the training data
+when generating humorous titles which may not ﬁt
+in the context of a speciﬁc paper’s title, e.g., “Don’t
+do X” where X is irrelevant to the current paper
+and/or directly taken from the training data.
+6 Comparison with ChatGPT
+system humor constraint humor rank quality rank
+BART xsumFUNNY 1.66 2.73
+:FUNNY 2.77 2.31
+ChatGPTFUNNY 1.54 3.95
+:FUNNY 3.31 2.45
+Table 11: Average ranks of the titles for the 48 ab-
+stracts from EMNLP 2022 handbook in the human
+evaluation of quality and humorousness; smaller values
+denote higher ranks. We bold the highest ranks.
+We compare our ﬁne-tuned BART xsum (without
+training on pseudo data) with the recent popular
+ChatGPT9model.
+Firstly, we use the two models to generate funny
+and not funny titles for 48 abstracts from the recent
+EMNLP 2022 handbook10which ChatGPT could
+not have seen in its training data. The prompt used
+for ChatGPT here is “I want a funny title and a not-
+funny title for the following abstract: [abstract]” ;
+then the model will return two titles with an indica-
+tion of which is the funny or not funny title. The
+ranking-based human evaluation conducted here is
+identical to that described in Section 5.1.2. The two
+evaluators initially assess 10 instances, obtaining
+Kappa scores of 0.783 and 0.347 for humorousness
+9https://chat.openai.com/
+10We manually collect the abstracts and titles
+from https://drive.google.com/file/d/
+1OlPv6QBeo62VVTughj2jkiLeyHd1WnUt/viewand quality ranking, respectively, indicating poten-
+tially low agreement on quality ranking. However,
+when we only consider the best and worst titles
+selected, the percentage agreement on quality as-
+sessment rises to a satisfactory level (69.2%). We
+then use the average ranks over the two evaluators
+as the ﬁnal ranks for the titles in the ﬁrst 10 in-
+stances. Subsequently, each evaluator separately
+assesses another 19 instances.
+The average rank per system with humor con-
+straint is presented in Table 11. We observe that
+ChatGPT generates funnier but lower-quality ti-
+tles compared to BART xsum. Nevertheless, in the
+quality ranking of :FUNNY titles, compared to
+ChatGPT ,BART xsum is better in 23 out of 43
+cases, while it is worse in 20 out of 43 cases (in 5
+out of 48 cases the titles from these two systems
+rank equally.). Hence, we conclude that ChatGPT
+without any ﬁne-tuning may already perform sim-
+ilarly to our ﬁne-tuned BART xsum, acknowledg-
+ing the small-scale of our human annotation, how-
+ever.11
+Evaluation results suggest that system-generated
+funny titles tend to rank lower in the quality eval-
+uation, compared to the not funny ones. Exam-
+ples of the system-generated titles with high humor
+ranks but low quality ranks are shown in Appendix
+E. As before, we note that those titles frequently
+incorporate phrases unrelated to the content and
+demonstrate deﬁciencies in terms of information
+correctness and coverage.
+7 Conclusion
+We considered the abstract-to-title generation prob-
+lem using end-to-end models. To do so, we trained
+six recent text-to-text generation systems on more
+than 30k NLP and ML papers. We evaluated the
+systems using an array of state-of-the-art automatic
+metrics as well as human evaluation. Our evalu-
+ation indicates that some current text generation
+models can generate titles with similar quality than
+humans, but human authors are apparently still
+superior. We also considered the humorous title
+generation problem as an extension, compiling the
+ﬁrst dataset in the NLP/ML domain in this context,
+comprising almost 2.5k titles annotated by two an-
+notators with acceptable agreement. We ﬁnd that
+11As the prompt may play a role, we evaluate another 20
+instances from EMNLP 2022 handbook with ChatGPT using
+a different prompt and obtain the same results, indicating that
+the minor ﬂaw in prompt words for ChatGPT may not affect
+its ability to perform the A2T generation task.our systems struggle with generating humorous ti-
+tles and instead overﬁt to frequent patterns in the
+data, indicating much scope for future research.
+References
+Marcin Andrychowicz, Misha Denil, Sergio Gomez,
+Matthew W Hoffman, David Pfau, Tom Schaul,
+Brendan Shillingford, and Nando De Freitas. 2016.
+Learning to learn by gradient descent by gradient de-
+scent. Advances in neural information processing
+systems , 29.
+David Balduzzi, Marcus Frean, Lennox Leary,
+JP Lewis, Kurt Wan-Duo Ma, and Brian
+McWilliams. 2017. The shattered gradients
+problem: If resnets are the answer, then what is the
+question?
+Dominik Beese, Begüm Altunba¸ s, Görkem Güzeler,
+and Steffen Eger. 2022. Detecting stance in scien-
+tiﬁc papers: Did we get more negative recently?
+Yanran Chen and Steffen Eger. 2022. Menli: Robust
+evaluation metrics from natural language inference.
+ArXiv , abs/2208.07316.
+Jacob Cohen. 1960. A coefﬁcient of agreement for
+nominal scales. Educational and psychological mea-
+surement , 20(1):37–46.
+Matt Crane. 2018. Questionable answers in question
+answering research: Reproducibility and variability
+of published results. Transactions of the Association
+for Computational Linguistics , 6:241–252.
+Aleksandra Edwards, Jose Camacho-Collados, Hélène
+De Ribaupierre, and Alun Preece. 2020. Go sim-
+ple and pre-train on domain-speciﬁc corpora: On
+the role of training data for text classiﬁcation. In
+Proceedings of the 28th International Conference
+on Computational Linguistics , pages 5522–5529,
+Barcelona, Spain (Online). International Committee
+on Computational Linguistics.
+Matthew E Falagas, Angeliki Zarkali, Drosos E Kara-
+georgopoulos, Vangelis Bardakas, and Michael N
+Mavros. 2013. The impact of article length on the
+number of future citations: a bibliometric analysis of
+general medicine journals. PLoS One , 8(2):e49476.
+Jonas Geiping, Liam Fowl, W. Ronny Huang, Woj-
+ciech Czaja, Gavin Taylor, Michael Moeller, and
+Tom Goldstein. 2020. Witches’ brew: Industrial
+scale data poisoning via gradient matching.
+James Hartley. 2005. To attract or to inform: What are
+titles for? Journal of Technical Writing and Com-
+munication , 35(2):203–213.
+James Hartley. 2008. Academic writing and publishing:
+A practical handbook . Routledge.He He, Nanyun Peng, and Percy Liang. 2019. Pun gen-
+eration with surprise. In Proceedings of the 2019
+Conference of the North American Chapter of the
+Association for Computational Linguistics: Human
+Language Technologies, Volume 1 (Long and Short
+Papers) , pages 1734–1744, Minneapolis, Minnesota.
+Association for Computational Linguistics.
+Stephen B. Heard, Chloe A. Cull, and Easton R. White.
+2022. If this title is funny, will you cite me? citation
+impacts of humour and other features of article titles
+in ecology and evolution. bioRxiv .
+Hermann Hild, Johannes Feulner, and Wolfram Men-
+zel. 1991. Harmonet: A neural net for harmonizing
+chorales in the style of j. s. bach. In Advances in
+Neural Information Processing Systems , volume 4.
+Morgan-Kaufmann.
+Pei Ke, Haozhe Ji, Siyang Liu, Xiaoyan Zhu, and Min-
+lie Huang. 2020. SentiLARE: Sentiment-aware lan-
+guage representation learning with linguistic knowl-
+edge. In Proceedings of the 2020 Conference on
+Empirical Methods in Natural Language Process-
+ing (EMNLP) , pages 6975–6988, Online. Associa-
+tion for Computational Linguistics.
+Hans P Krings. 2001. Repairing texts: Empirical in-
+vestigations of machine translation post-editing pro-
+cesses , volume 5. Kent State University Press.
+Mike Lewis, Yinhan Liu, Naman Goyal, Mar-
+jan Ghazvininejad, Abdelrahman Mohamed, Omer
+Levy, Veselin Stoyanov, and Luke Zettlemoyer.
+2020. BART: Denoising sequence-to-sequence pre-
+training for natural language generation, translation,
+and comprehension. In Proceedings of the 58th An-
+nual Meeting of the Association for Computational
+Linguistics , pages 7871–7880, Online. Association
+for Computational Linguistics.
+Grant Lewison and James Hartley. 2005. What’s in a
+title? numbers of words and the presence of colons.
+Scientometrics , 63(2):341–356.
+Pengcheng Li, Wei Lu, and Qikai Cheng. 2022. Gen-
+erating a related work section for scientiﬁc papers:
+an optimized approach with adopting problem and
+method information. Scientometrics , 127(8):4397–
+4417.
+Chin-Yew Lin. 2004. Rouge: A package for automatic
+evaluation of summaries. In Text summarization
+branches out , pages 74–81.
+Junyang Lin, Xu Sun, Shuming Ma, and Qi Su. 2018.
+Global encoding for abstractive summarization. In
+Proceedings of the 56th Annual Meeting of the As-
+sociation for Computational Linguistics (Volume 2:
+Short Papers) , pages 163–169, Melbourne, Aus-
+tralia. Association for Computational Linguistics.
+Ilya Loshchilov and Frank Hutter. 2019. Decoupled
+weight decay regularization. In International Con-
+ference on Learning Representations .Qingsong Ma, Ond ˇrej Bojar, and Yvette Graham. 2018.
+Results of the WMT18 metrics shared task: Both
+characters and embeddings achieve good perfor-
+mance. In Proceedings of the Third Conference on
+Machine Translation: Shared Task Papers , pages
+671–688, Belgium, Brussels. Association for Com-
+putational Linguistics.
+Rada Mihalcea and Carlo Strapparava. 2006. Learn-
+ing to laugh (automatically): Computational models
+for humor recognition. Computational Intelligence ,
+22(2):126–142.
+Prakhar Mishra, Chaitali Diwan, Srinath Srinivasa, and
+G Srinivasaraghavan. 2021. Automatic title gener-
+ation for text with pre-trained transformer language
+model. In 2021 IEEE 15th International Conference
+on Semantic Computing (ICSC) , pages 17–24. IEEE.
+Naﬁse Sadat Moosavi, Andreas Rücklé, Dan Roth,
+and Iryna Gurevych. 2021. Scigen: a dataset for
+reasoning-aware text generation from scientiﬁc ta-
+bles. In Thirty-ﬁfth Conference on Neural Informa-
+tion Processing Systems Datasets and Benchmarks
+Track (Round 2) .
+Shashi Narayan, Shay B. Cohen, and Mirella Lapata.
+2018. Don’t give me the details, just the summary!
+Topic-aware convolutional neural networks for ex-
+treme summarization. In Proceedings of the 2018
+Conference on Empirical Methods in Natural Lan-
+guage Processing , Brussels, Belgium.
+Ani Nenkova, Kathleen McKeown, et al. 2011. Auto-
+matic summarization. Foundations and Trends® in
+Information Retrieval , 5(2–3):103–233.
+Ulrike Padó. 2016. Get semantic with me! the useful-
+ness of different feature types for short-answer grad-
+ing. In Proceedings of COLING 2016, the 26th Inter-
+national Conference on Computational Linguistics:
+Technical Papers , pages 2186–2195, Osaka, Japan.
+The COLING 2016 Organizing Committee.
+Giorgio Patrini, Richard Nock, Paul Rivera, and
+Tiberio Caetano. 2014. (almost) no label no cry. In
+Advances in Neural Information Processing Systems ,
+volume 27. Curran Associates, Inc.
+Charuta Pethe and Steve Skiena. 2019. The trumpi-
+est trump? identifying a subject’s most character-
+istic tweets. In Proceedings of the 2019 Confer-
+ence on Empirical Methods in Natural Language
+Processing and the 9th International Joint Confer-
+ence on Natural Language Processing (EMNLP-
+IJCNLP) , pages 1653–1663, Hong Kong, China. As-
+sociation for Computational Linguistics.
+Maxime Peyrard, Beatriz Borges, Kristina Gligoric,
+and Robert West. 2021. Laughing heads: Can trans-
+formers detect what makes a sentence funny? In
+Proceedings of the Thirtieth International Joint Con-
+ference on Artiﬁcial Intelligence, IJCAI 2021, Vir-
+tual Event / Montreal, Canada, 19-27 August 2021 ,
+pages 3899–3905. ijcai.org.Jan Wira Gotama Putra and Masayu Leylia Khodra.
+2017. Automatic title generation in scientiﬁc arti-
+cles for authorship assistance: a summarization ap-
+proach. Journal of ICT Research and Applications ,
+11(3):253–267.
+Alec Radford, Jeff Wu, Rewon Child, David Luan,
+Dario Amodei, and Ilya Sutskever. 2019. Language
+models are unsupervised multitask learners.
+Colin Raffel, Noam Shazeer, Adam Roberts, Kather-
+ine Lee, Sharan Narang, Michael Matena, Yanqi
+Zhou, Wei Li, and Peter J. Liu. 2020. Exploring
+the limits of transfer learning with a uniﬁed text-to-
+text transformer. Journal of Machine Learning Re-
+search , 21(140):1–67.
+Pranav Rajpurkar, Robin Jia, and Percy Liang. 2018.
+Know what you don’t know: Unanswerable ques-
+tions for SQuAD. In Proceedings of the 56th An-
+nual Meeting of the Association for Computational
+Linguistics (Volume 2: Short Papers) , pages 784–
+789, Melbourne, Australia. Association for Compu-
+tational Linguistics.
+Sudha Rao and Joel Tetreault. 2018. Dear sir or
+madam, may I introduce the GYAFC dataset: Cor-
+pus, benchmarks and metrics for formality style
+transfer. In Proceedings of the 2018 Conference of
+the North American Chapter of the Association for
+Computational Linguistics: Human Language Tech-
+nologies, Volume 1 (Long Papers) , pages 129–140,
+New Orleans, Louisiana. Association for Computa-
+tional Linguistics.
+Ricardo Rei, Craig Stewart, Ana C Farinha, and Alon
+Lavie. 2020. COMET: A neural framework for MT
+evaluation. In Proceedings of the 2020 Conference
+on Empirical Methods in Natural Language Process-
+ing (EMNLP) , pages 2685–2702, Online. Associa-
+tion for Computational Linguistics.
+Alan Ritter, Stephen Soderland, Doug Downey, and
+Oren Etzioni. 2008. It’s a contradiction – no, it’s not:
+A case study using functional relations. In Proceed-
+ings of the 2008 Conference on Empirical Methods
+in Natural Language Processing , pages 11–20, Hon-
+olulu, Hawaii. Association for Computational Lin-
+guistics.
+Florian Schroff, Dmitry Kalenichenko, and James
+Philbin. 2015. Facenet: A uniﬁed embedding for
+face recognition and clustering. In 2015 IEEE Con-
+ference on Computer Vision and Pattern Recognition
+(CVPR) , pages 815–823.
+Abigail See, Peter J. Liu, and Christopher D. Manning.
+2017. Get to the point: Summarization with pointer-
+generator networks. In Proceedings of the 55th An-
+nual Meeting of the Association for Computational
+Linguistics (Volume 1: Long Papers) , pages 1073–
+1083, Vancouver, Canada. Association for Computa-
+tional Linguistics.Edwin Simpson, Erik-Lân Do Dinh, Tristan Miller, and
+Iryna Gurevych. 2019. Predicting humorousness
+and metaphor novelty with Gaussian process prefer-
+ence learning. In Proceedings of the 57th Annual
+Meeting of the Association for Computational Lin-
+guistics (ACL 2019) , pages 5716–5728.
+Tiberiu Sosea and Cornelia Caragea. 2020. Cancer-
+Emo: A dataset for ﬁne-grained emotion detection.
+InProceedings of the 2020 Conference on Empirical
+Methods in Natural Language Processing (EMNLP) ,
+pages 8892–8904, Online. Association for Computa-
+tional Linguistics.
+Lucia Specia, Frédéric Blain, Marina Fomicheva,
+Chrysoula Zerva, Zhenhao Li, Vishrav Chaudhary,
+and André FT Martins. 2021. Findings of the wmt
+2021 shared task on quality estimation. In Proceed-
+ings of the Sixth Conference on Machine Translation ,
+pages 684–725.
+Lucia Specia and Atefeh Farzindar. 2010. Estimating
+machine translation post-editing effort with HTER.
+InProceedings of the Second Joint EM+/CNGL
+Workshop: Bringing MT to the User: Research on
+Integrating MT in the Translation Industry , pages
+33–43, Denver, Colorado, USA. Association for Ma-
+chine Translation in the Americas.
+Jiwei Tan, Xiaojun Wan, and Jianguo Xiao. 2017.
+From neural sentence summarization to headline
+generation: A coarse-to-ﬁne approach. In IJCAI ,
+volume 17, pages 4109–4115.
+Raphael Tang, Jaejun Lee, Ji Xin, Xinyu Liu, Yao-
+liang Yu, and Jimmy Lin. 2020. Showing your work
+doesn’t always work. In Proceedings of the 58th An-
+nual Meeting of the Association for Computational
+Linguistics , pages 2766–2772, Online. Association
+for Computational Linguistics.
+Lifu Tu, Richard Yuanzhe Pang, Sam Wiseman, and
+Kevin Gimpel. 2020. ENGINE: Energy-based infer-
+ence networks for non-autoregressive machine trans-
+lation. In Proceedings of the 58th Annual Meet-
+ing of the Association for Computational Linguistics ,
+pages 2819–2826, Online. Association for Computa-
+tional Linguistics.
+Ashwin K. Vijayakumar, Michael Cogswell, Ram-
+prasaath R. Selvaraju, Qing Sun, Stefan Lee, David J.
+Crandall, and Dhruv Batra. 2016. Diverse beam
+search: Decoding diverse solutions from neural se-
+quence models. CoRR , abs/1610.02424.
+Alex Wang, Jan Hula, Patrick Xia, Raghavendra Pappa-
+gari, R. Thomas McCoy, Roma Patel, Najoung Kim,
+Ian Tenney, Yinghui Huang, Katherin Yu, Shuning
+Jin, Berlin Chen, Benjamin Van Durme, Edouard
+Grave, Ellie Pavlick, and Samuel R. Bowman. 2019.
+Can you tell me how to get past sesame street?
+sentence-level pretraining beyond language model-
+ing. In Proceedings of the 57th Annual Meeting
+of the Association for Computational Linguistics ,
+pages 4465–4476, Florence, Italy. Association for
+Computational Linguistics.William Yang Wang and Kathleen McKeown. 2010.
+“got you!”: Automatic vandalism detection in
+Wikipedia with web-based shallow syntactic-
+semantic modeling. In Proceedings of the 23rd
+International Conference on Computational Lin-
+guistics (Coling 2010) , pages 1146–1154, Beijing,
+China. Coling 2010 Organizing Committee.
+Xinrun Wang, Bo An, Martin Strobel, and Fookwai
+Kong. 2018. Catching captain jack: Efﬁcient time
+and space dependent patrols to combat oil-siphoning
+in international waters. In Proceedings of the Thirty-
+Second AAAI Conference on Artiﬁcial Intelligence
+and Thirtieth Innovative Applications of Artiﬁcial In-
+telligence Conference and Eighth AAAI Symposium
+on Educational Advances in Artiﬁcial Intelligence ,
+AAAI’18/IAAI’18/EAAI’18. AAAI Press.
+Joachim Wermter and Udo Hahn. 2006. You can’t beat
+frequency (unless you use linguistic knowledge) –
+a qualitative evaluation of association measures for
+collocation and term extraction. In Proceedings of
+the 21st International Conference on Computational
+Linguistics and 44th Annual Meeting of the Associa-
+tion for Computational Linguistics , pages 785–792,
+Sydney, Australia. Association for Computational
+Linguistics.
+Weizhe Yuan, Pengfei Liu, and Graham Neubig. 2022.
+Can we automate scientiﬁc reviewing? Journal of
+Artiﬁcial Intelligence Research , 75:171–212.
+Weizhe Yuan, Graham Neubig, and Pengfei Liu. 2021.
+Bartscore: Evaluating generated text as text gener-
+ation. Advances in Neural Information Processing
+Systems , 34:27263–27277.
+Guangtao Zeng, Wenmian Yang, Zeqian Ju, Yue Yang,
+Sicheng Wang, Ruisi Zhang, Meng Zhou, Jiaqi
+Zeng, Xiangyu Dong, Ruoyu Zhang, Hongchao
+Fang, Penghui Zhu, Shu Chen, and Pengtao Xie.
+2020. MedDialog: Large-scale medical dialogue
+datasets. In Proceedings of the 2020 Conference
+on Empirical Methods in Natural Language Process-
+ing (EMNLP) , pages 9241–9250, Online. Associa-
+tion for Computational Linguistics.
+Jingqing Zhang, Yao Zhao, Mohammad Saleh, and Pe-
+ter J. Liu. 2019. Pegasus: Pre-training with ex-
+tracted gap-sentences for abstractive summarization.
+Tianyi Zhang, Varsha Kishore*, Felix Wu*, Kilian Q.
+Weinberger, and Yoav Artzi. 2020. Bertscore: Eval-
+uating text generation with bert. In International
+Conference on Learning Representations .
+Wei Zhao, Maxime Peyrard, Fei Liu, Yang Gao, Chris-
+tian M. Meyer, and Steffen Eger. 2019. MoverScore:
+Text generation evaluating with contextualized em-
+beddings and earth mover distance. In Proceedings
+of the 2019 Conference on Empirical Methods in
+Natural Language Processing and the 9th Interna-
+tional Joint Conference on Natural Language Pro-
+cessing (EMNLP-IJCNLP) , pages 563–578, Hong
+Kong, China. Association for Computational Lin-
+guistics.FUNNY
+(Almost) No Label No Cry (Patrini et al., 2014)
+The Trumpiest Trump? Identifying a Subject’s Most Characteristic Tweets (Pethe and Skiena, 2019)
+Questionable Answers in Question Answering Research: Reproducibility and Variability of Published Results (Crane, 2018)
+Know What You Don’t Know: Unanswerable Questions for SQuAD (Rajpurkar et al., 2018)
+Dear Sir or Madam, May I Introduce the GYAFC Dataset: Corpus, Benchmarks and Metrics for Formality Style Transfer
+(Rao and Tetreault, 2018)
+Can You Tell Me How to Get Past Sesame Street? Sentence-Level Pretraining Beyond Language Modeling (Wang et al.,
+2019)
+HARMONET: A Neural Net for Harmonizing Chorales in the Style of J. S. Bach (Hild et al., 1991)
+Showing Your Work Doesn’t Always Work (Tang et al., 2020)
+"Got You!": Automatic Vandalism Detection in Wikipedia with Web-based Shallow Syntactic-Semantic Modeling (Wang and
+McKeown, 2010)
+It’s a Contradiction - no, it’s not: A Case Study using Functional Relations (Ritter et al., 2008)
+FUNNY medium
+MedDialog: Large-scale Medical Dialogue Datasets (Zeng et al., 2020)
+Catching Captain Jack: Efﬁcient Time and Space Dependent Patrols to Combat Oil-Siphoning in International Waters (Wang
+et al., 2018)
+The Shattered Gradients Problem: If resnets are the answer, then what is the question? (Balduzzi et al., 2017)
+Go Simple and Pre-Train on Domain-Speciﬁc Corpora: On the Role of Training Data for Text Classiﬁcation (Edwards et al.,
+2020)
+SentiLARE: Sentiment-Aware Language Representation Learning with Linguistic Knowledge (Ke et al., 2020)
+Get Semantic With Me! The Usefulness of Different Feature Types for Short-Answer Grading (Padó, 2016)
+Witches’ Brew: Industrial Scale Data Poisoning via Gradient Matching (Geiping et al., 2020)
+ENGINE: Energy-Based Inference Networks for Non-Autoregressive Machine Translation (Tu et al., 2020)
+You Can’t Beat Frequency (Unless You Use Linguistic Knowledge) - A Qualitative Evaluation of Association Measures for
+Collocation and Term Extraction (Wermter and Hahn, 2006)
+OntoGUM: Evaluating Contextualized SOTA Coreference Resolution on 12 More Genres (Zhu et al., 2021)
+Table 12: Examples of funny titles in the annotated data.
+Yilun Zhu, Sameer Pradhan, and Amir Zeldes. 2021.
+OntoGUM: Evaluating contextualized SOTA coref-
+erence resolution on 12 more genres. In Proceed-
+ings of the 59th Annual Meeting of the Association
+for Computational Linguistics and the 11th Interna-
+tional Joint Conference on Natural Language Pro-
+cessing (Volume 2: Short Papers) , pages 461–467,
+Online. Association for Computational Linguistics.
+A Examples of funny titles
+Table 12 shows 20 titles labeled as FUNNY or
+FUNNY medium by human annotators.
+B Humor annotation + classiﬁation
+The two annotators ﬁrst annotated the same 230
+titles independently, obtaining only 0.397 Kappa
+agreement, which indicates a relatively bad anno-
+tation quality. To improve the inter-agreement be-
+tween the annotators, they then discussed the rea-
+sons leading to disagreement. Subsequently, they
+annotated another 300 titles independently, achiev-
+ing a decent 0.650 Kappa for a task as subjective
+as humor. As a consequence, we use the maxi-
+mal label value among the two annotations for
+each title as its ﬁnal label for the 300 titles , i.e., if
+one annotator labels a title with 1 ( FUNNY medium
+), while the other labels with 0 ( :FUNNY ), weassign label 1 to the title. Each annotator then la-
+beled 600 different titles separately, bringing 1,730
+(230 + 300 + 6002 = 1730 ) annotated titles in
+total, where 1,603 titles labeled as :FUNNY , 106
+asFUNNY medium and 21 as FUNNY .
+As the funny titles (labeled as Funny ) are very
+few compared to the not funny ones (labeled with
+0), we generate 11 different data splits, where the
+train set of each split consists of 100 funny titles
+and 200 not funny ones (randomly sampled from
+the 1730 titles), while the remaining 27 funny ti-
+tles and other 27 not funny ones compose the dev
+set. From the 11 different data splits, we obtain
+11 classiﬁers (checkpoints selected based on the
+macro F1 on each dev set).We then evaluate the
+ensembles of the 11 classiﬁers on 315 newly an-
+notated titles by the two annotators, who obtain
+0.639 Kappa agreement this time. With this step,
+we study the optimal ensemble of the classiﬁers.
+and also obtain more funny titles from the whole
+data by annotating the funniest titles selected by
+the ensemble classiﬁers. We design two types of
+ensemble classiﬁers:
+•EnsMV , which relies on the majority vote of
+the 11 classiﬁers. Speciﬁcally, each title re-
+ceives 11 labels from the 11 classiﬁers: ifthe number of:FUNNY labels exceeds 5,
+the title is labeled as :FUNNY ; if not, the
+title is labeled as FUNNY when the num-
+ber of FUNNY labels exceeds the number of
+FUNNY medium labels, otherwise it is labeled
+asFUNNY medium .
+•EnsSUM i;j, which depends on the sum of
+the label values. The sum of the label val-
+ues for each title ranges from 0 (11 classiﬁers
+0 for:FUNNY ) to 22 (11 classiﬁers 2
+forFUNNY ). We then select a threshold ifor
+FUNNY medium andjforFUNNY : if sum < i,
+the title is labeled as :FUNNY ; otherwise it
+is labeled as FUNNY medium (when sum < j)
+orFUNNY (when sumj).
+IndividualsEnsembles
+EnsMV EnsSUM 7,16
+F1 57.6% 61.4% 62.4%
+Table 13: Average macro F1 over the 11 individual clas-
+siﬁers and macro F1 of the ensemble classiﬁers from
+stage 1 on the evaluation data of 315 titles (where the
+two annotators obtain 0.639 kappa). We bold the high-
+est macro F1 score.
+Table 13 shows the evaluation results of Stage
+1; we only present the performance of EnsSUM i;j
+with optimal iandjhere, i.e., EnsSUM 7;16. We
+observe that: (1) both ensembles perform better
+than the individual ones (+4-5% macro F1) and (2)
+EnsSUM 7,16is slightly better than EnsMV (62.4%
+vs. 61.4% macro F1).
+Kappa
+#titles three-way binary
+Stage 1230 0.397 0.513
+300 0.650 0.754
+315 0.639 0.709
+Stage 2 197 0.649 0.661
+Table 14: Kappa agreements between the two annota-
+tors on several data pieces. “#titles” refers to the num-
+ber of titles in a certain piece of data. We bold the
+higher Kappa on the same data.
+C Parameters for title generation
+Table 15 displays the hyperparameter used in Sec-
+tion 4.2 for training the six models and Table 16
+shows the parameters used for beam search.D Parameters for humor generation
+We train BART xsum on our train set using the
+AdamW optimizer with weight decay 0.01 and
+learning rate 4e-05 for 5 epochs. Then we con-
+tinue to train it on the pseudo data for one epoch
+to obtain BART xsum+pseudo . We use the default
+settings in Huggingface’s Trainer API for the other
+hyperparameters.
+E Examples of low-quality
+system-generated funny titles
+Table 17 shows 10 system-generated low-quality
+funny titles, of which 5 are from ChatGPT and
+5 from BART xsum. They obtain good results in
+the humor ranking but bad results in the quality
+ranking according to our human evaluation.learning rate batch size epochs gradient accumulation steps
+BART xsum 3e-05 3 3 8
+PEGASUS xsum 6e-04 3 3 8
+BART base 3e-04 8 3 8
+GPT2 3e-04 2 3 8
+T5 3e-04 8 3 8
+BART cnn 3e-04 4 3 8
+Table 15: Training hyperparameter for title generation. We use the AdamW optimizer with a weight decay of 0.01
+and keep the other settings as default in Huggingface’s Trainer API.
+max length 30
+min length 3
+repetition penalty 2
+length penalty 10
+num beams 5
+num return sequences 5
+Table 16: Parameter settings for beam search.
+BART xsum
+Don’t Invite Adversaries to Poison Your Data: Exploiting Federated Learning for Adversarial Backdoor Attacks
+Don’t Take the Easy Way Out: Generating Adversarial Negative Responses with Large-Scale Language Models for Dialogue
+Selection
+Don’t Give Up on Style: Learn to Generate Stylistically-Diverse Summaries with Multiple Decoders
+CKD: Curriculum Knowledge Distiller for Cross-Lingual Sentiment Analysis with Emoji
+Successive Prompting: Learning to Break Down Complex Questions into As Simple As Possible
+ChatGPT
+Graphin’ It Up: A Humorous Guide to Generative Knowledge Construction
+Tiny Tasks, Big Results: A Hilarious Guide to Few-Shot Relation Extraction
+Revealing the Magic Behind Transformer Language Models: A Lighthearted Investigation
+Ask and You Shall Receive: A Whimsical Approach to Automatic Question Generation
+Federated Learning: The More You Poison, the More You Win!
+Table 17: Examples of system-generated low-quality funny titles, which obtain high humor ranks but low quality
+ranks in the human evaluation.

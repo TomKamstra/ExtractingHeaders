@@ -1,0 +1,410 @@
+J Electr Eng Technol.2016; 11(5): 1235-1241 
+http://dx.doi.org/10.5370/JEET.2016.11.5 .1235  
+ 1235
+Copyright ⓒ The Korean Institute of Electrical Engineers 
+This is an Open-Access article distributed under the terms of the Creative Commons Attribution Non-Commercial License (http://c reativecommons.org/ 
+licenses/by-nc/3.0/) which permits unrestricted non-commercial use, distribution, and reproduction in any medium, provided the original work is properly cited.  Bearing Fault Detection of  IPMSMs using Zoom FFT 
+ 
+ 
+June-Seok Lee*, Tae-Min Yoon** and Kyo-Beum Lee† 
+ 
+Abstract  – This paper presents a bearing fault detection method for permanent magnet synchronous 
+motors (PMSMs). Owing to its good characteris tics, PMSM usage has increased; however, a 
+substantial number of motor failures are also reported. Many studies have focused on bearing fault detection using vibration sensors. However, current sensors are already installed in many industries, and therefore, if bearing faults can be detected using these sensors, there would be no need to install additional sensors. A frequency analysis is perfor med to detect bearing faults and fast Fourier 
+transform (FFT)-based methods can be used for the same. FFT needs to have a high resolution to be able to differentiate between the frequencies of be aring faults from those of the stator current. 
+However, FFT requires extensive data and high co mputational cost to achieve this high resolution. 
+Therefore, the zoom FFT (ZFFT) algorithm is impl emented to minimize the computational cost and to 
+increase the resolution. The experimental results verify the effectiveness of the proposed method by comparing FFT and ZFFT waveforms. 
+ 
+Keywords : Bearing fault detection, Permanent magnet synchronous motor, Frequency analysis, 
+Zoom FFT   
+ 
+ 
+ 
+1. Introduction 
+ 
+Permanent magnet synchronous motors (PMSMs) are 
+used in a variety of applicatio ns. Fig. 1 shows a generalized 
+structure of an IPMSM. Becaus e the rotor of the PMSM is 
+a permanent magnet, it does not require an external power 
+source to generate the flux. This helps minimize power consumption and improve system efficiency [1, 2]. Thus, PMSMs compare well to other motors. As PMSM usage increases, motor failures are also expected. Accordingly, several researchers have conducted motor reliability studies. The results of severa l studies show that bearing 
+faults cause more than 40% of all machine failures [3]. Thus, it is critical to monitor the condition of bearings in electrical machines. 
+In many studies, a popular approach has been to measure 
+bearing condition using a vibration sensor. This is because bearing faults cause radial movement between the stator and rotor, and bearing fault characteristics are reflected in the machine vibration [4]. Ho wever, an accelerometer or 
+vibration velocity transducer has to be attached to the bearing or bearing support housing directly. Further, additional system cost is incurred because of the additional vibration sensor. 
+As a result, monitoring bearing condition through the 
+stator current has been studied for many decades. Many researchers have determined that motor vibration frequencies are reflected in the stator current [5-7]. Therefore, monitoring 
+the stator current provides information about bearing faults. In general, current sensors are already installed in many industries and therefore, there is no need to install additional sensors to monitor the stator current. Thus, monitoring the stator current to detect bearing faults provides economic and implementation benefits. 
+Frequency analysis of the stator current has to be 
+performed to detect frequencies through bearing faults. The traditional frequency analysis method is the fast Fourier transform(FFT). The FFT can provide frequency information via a simplified Fourier transform algorithm. However, there are several frequencies in  the stator current and it is 
+difficult to differentiate between these frequencies and those of the bearing faults [8]. Thus, it is necessary to increase the resolution of the FFT to detect the bearing 
+fault frequencies. Because the resolution of the FFT 
+depends on the sampling frequency, when the number of 
+†  Corresponding Author: Dept. of Elec trical and Computer Engineering, 
+Ajou University, Suwon, Korea. (kyl@ajou.ac.kr). 
+* Railroad Safety Research Division, Korea Railroad Research 
+Institute, Uiwang, Kor ea. (ljs@krri.re.kr). 
+** LG electronics, Gasan, Korea. (taemin.yoon@lge.com) 
+Received: March 1, 2015; Accepted: April 14, 2016 ISSN(Print)  1975-0102ISSN(Online) 2093-7423
+ 
+Fig. 1 . Equivalent model of IPMSMs Bearing Fault Detection of  IPMSMs using Zoom FFT 
+ 1236  │ J Electr Eng Technol.2016; 11(5): 1235-1241  samples is the same, FFT-based methods require a large 
+amount of data and high computational costs to increase the resolution. However, it is not always possible to satisfy the requirement of extensive data because of hardware limitations. 
+The short time Fourier transform (STFT) can be used 
+to achieve robustness and simplicity to overcome the limitations of the FFT [9]. However, the STFT is dependent on the type and the length of the window, and therefore, a tradeoff between time and frequency resolution is needed. 
+In fact, because the frequency of the bearing fault is 
+present in specific frequency bins, and the high frequency resolution and narrow frequency band are needed, it is more efficient to expand the frequency region of interest. Therefore, the zoom FFT (Z FFT) algorithm has been 
+studied to decrease the amount of data and computational cost [10, 11]. The ZFFT is the preferred method to magnify the frequency band centered on an arbitrary frequency. Therefore, the ZFFT can increase frequency resolution while keeping the same sampling frequency and number of samples. 
+This paper presents an efficient method to detect bearing 
+fault by monitoring the stator current using ZFFT analysis. To generate bearing faults and scrutinize the validity of the ZFFT, equipment for generating oscillation is used. Because the ZFFT is efficient regarding the computational cost, the proposed method can give effective way to find out the bearing fault. 
+  
+2. Stator Current Spectral Analysis 
+ 
+There are several reasons that can cause bearing faults. 
+For example, an installation problem can cause  the bearing 
+to be unbalanced on the shaft or in the housing. Fig. 2 shows four types of bearing misalignments. Further, a prolonged period of motor drive leads to abrasion in bearings that produce motor vi bration. Since ball bearings 
+support the rotor, any bearing fault or unbalance causes a radial movement to the rotor and the stator. The relationship between the bearing vibration and the 
+stator current can be described by the air gap eccentricity. Because of the air gap eccentri city, anomalies are produced 
+in the air gap flux density an d the predictable frequencies 
+are reflected in the stator  current. These predictable 
+frequencies, 
+bngf, are given by [3] 
+ 
+ bng f cff fm f=± , (1) 
+ 
+where 1, 2, 3, ,f mf="  is the fundamental frequency and 
+cff is one of the characteristic  bearing fault frequencies. 
+The characteristic frequencies for a bearing fault 
+depend on bearing dimensions as shown in Fig. 3. These frequencies can be described by three practicable forms [3]. First, the ball spin frequency is produced by the rotation of each ball. Since the ball makes contact with the inner and outer raceway upon each rotation, the vibration frequency in the stator current is twice the spin frequency and is given by 
+ 
+ 
+2
+1c o sbs mrPD BDffBD PDβ⎡ ⎤ ⎛⎞=−⎢ ⎥ ⎜⎟⎝⎠⎢ ⎥ ⎣ ⎦,  (2) 
+ 
+where PD is the bearing pitch diameter, BD is the ball 
+diameter, β is the contact angle of the balls on the races 
+and mrf is the mechanical rotor speed in Hertz. 
+Next, the outer and inner raceway frequencies need to be 
+identified. These frequencies are produced when each ball 
+touches a defect in the outer or inner raceway. If the number of balls is n, the vibration occurs n-times in the total cycle. Therefore, the outer and inner raceway frequencies are described as 
+ 
+ 
+1c o s2om rnB DffPDβ⎡ ⎤=−⎢ ⎥⎣ ⎦ (3) 
+ 
+Fig. 3 . Ball bearing dimensions 
+ Fig. 2. Four types of rolling-el ement bearing misalignmentJune-Seok Lee, Tae-Min Yoon and Kyo-Beum Lee 
+ http://www.jeet.or.kr │1237 1c o s2im rnB DffPDβ⎡⎤=+⎢⎥⎣⎦. (4) 
+ 
+The three practicable forms of bearing fault frequency 
+— (2), (3), and (4) — require bearing dimensions to calculate the exact result. However, the characteristic 
+frequencies can be approximated with forms where bearing dimensions are unnecessary [3]. 
+ 
+ 
+0.4om rf nf=× ×  (5) 
+ 0.6im rf nf=× × . (6) 
+ 
+These simplified equations can be used for bearings 
+between six and twelve balls and allow users to detect bearing faults without accura te understanding about bearing 
+dimensions. Therefore, bearing fault analysis can be performed easily by monitoring the stator current. 
+  
+3. Basic Theory of ZFFT 
+ 
+3.1 Theory of ZFFT 
+ 
+As stated in section II, th e characteristic bearing fault 
+frequency is predictable. For frequency analysis of the stator current, FFT-based methods can be implemented. However, the magnitude of these frequencies is much less compared to that of other fre quencies, such as a cyclical 
+load torque variation and the fundamental frequency [8]. In addition, because the bearing fault frequencies are already 
+known, a specific frequency band is only necessary to detect the bearing fault. A ccordingly, a high-resolution 
+frequency analysis technique is required to distinguish these frequencies. 
+To increase resolution in the FFT, the sampling time and 
+the number of samples need to be increased. However, these methods can lead to an increase in the computational cost. Further, if we only ne ed the particular frequency 
+region and high resolution, FFT-based methods require unnecessarily excessive calcu lations. The ZFFT algorithm 
+has been studied taking this into consideration. 
+The ZFFT is a useful algorithm to expand the narrow 
+frequency band centered on any frequency. This is closely related to multi-rate filtering and is the same compared to 
+the single sideband modulation [12]. In real applications on DSP-based systems, memory li mitations exist and the size 
+of matrices in the FFT prevents augmenting the number of 
+samples. Compared with FFT, the ZF FT algorithm can 
+provide a direct reduction of sampling frequency while maintaining the same sa mpling time and number of 
+samples, thus increasing the frequency resolution. 
+A process of the ZFFT algorithm is shown in Fig. 4. Let 
+us consider the system of N samples and the sampling frequency, 
+sampf , to compare the re solution between the 
+ZFFT and the FFT. First, because the FFT is cal culated on th e condition of 
+the power of two, the input signal is sampled at 2nN=. 
+Then, the frequency resolution is fΔ=sampf/ N. The 
+frequency transition is performed to expand a narrow span centered on interested frequency 
+cf. This process can be 
+conducted by multiplyi ng the real number by cos(2 )cftπ  
+and the complex number by sin(2 )cftπ . This is expressed 
+as  
+ 
+ [][] e x p (2 ) ( )
+[ ] e x p ( 2) [ ] c o s ( 2) s i n ( 2)cc
+cc cxk j ft X f f
+xkj f t x k f t j f tπ
+ππ π↔−
+=+. (7) 
+ 
+The signal []xk is obtained after the process of 
+sampling the signal. The complex signal after the frequency transition is  filtered by a low-pass filter with a 
+bandwidth 
+Bp and [ fc, fc+Bp] is the frequency band of 
+interest. 
+Second, the filter output signal []Lxk is undersampled. 
+This process is called decima tion. In this process, the 
+signal []Lxk is extracted for the Mth time where M is a 
+decimation factor. Owing to the Mth time sampling, the number of samples reduces to 
+N/ M  and the sampling 
+frequency also reduces to sampf/ . M Therefore, the 
+frequency resolution is fΔ=samp(f / ) / ( / ) M NM  and this 
+is the same frequency resolution of  that of the first process. 
+Finally, the decimation signal []Mxk is filled with zeros 
+at the end of this signal in th e time domain. This process is 
+called zero padding. The number  of zeros that fills the 
+ 
+Fig. 4 . Block diagram of the ZFFT process Bearing Fault Detection of  IPMSMs using Zoom FFT 
+ 1238  │ J Electr Eng Technol.2016; 11(5): 1235-1241  matrix of []Mxk is the number of si gnals reduced in the 
+decimation process, that is ()/ NN M−  and can be 
+described as 
+ 
+ [ ]
+[]
+()/
+/The number of zerosKThe number of samples inthe decimation
+NN M
+NM=
+⎡⎤−⎣⎦=,  (8) 
+ 
+where K is the zero padding factor. 
+If zeros of the zero padding process are filled with the 
+end of a matrix []Mxk in the time domain, zeros of K are 
+inserted in the intervals of each sample in the frequency 
+domain. As a result, the number of inserted zeros does not affect the sampling, the sampling frequency is 
+sampf/ M 
+identically and the frequency resolution is fΔ= 
+samp(f / ) / M N. Thus, it is evident th at the ZFFT increases 
+the resolution M times more than the FFT. 
+When the ZFFT and FFT have the same frequency 
+resolution, N ZFFT and N FFT required to the ZFFT and FFT 
+are calculated as  
+ 
+ samp
+sampf/
+fZFFT
+FFTMNf
+Nf=Δ
+=Δ.  (9) 
+ 
+The computation (C) comparison between the ZFFT and 
+FFT is represented as  
+ 
+ samp samp
+22
+samp samp
+22f/ f/log log
+fflog logZFFT ZFFT ZFFT
+FFT FFT FFTM MCN Nf f
+CN Nff==ΔΔ
+==ΔΔ.  (10) 
+ 
+Depending on the value of M, C ZFFT can become smaller 
+than C FFT. 
+ 
+3.2 Application of Equipment for Bearing Fault 
+ 
+Bearing faults are classified into single-point defects and 
+generalized roughness faults. Single-point defects are defined as a single, localized defect on an otherwise relatively undamaged bearing surface, for example, a pit or spall [7]. Under single-point  defects, the characteristic 
+bearing fault frequencies are produced depending on which surface of the bearing contains the faults as described in section II. 
+Generalized roughness faults are a type of fault where 
+the condition of a bearing surf ace has degraded considerably 
+over a large area and has become rough, irregular, or deformed, for example th e overall surface roughness 
+produced by a contamination or loss of lubricant [7]. These generalized roughness faults do not exhibit the normal 
+frequency characteristic as that of the characteristic bearing fault frequencies. Since they ar e difficult to identify, many 
+studies are being conducted to identify these faults. 
+Therefore, in this study, the equipment for producing 
+bearing faults are installed to prove the validity of the 
+ZFFT algorithm for detecting bearing faults under single-
+point defects. Fig. 5 shows a model of the equipment for producing bearing faults. As shown in Fig. 5, four bars are installed at the axis of rota tion of a motor and an obstacle 
+is raised under the bars so that harmonic frequencies are produced when the motor rota tes. The mechanical rotation 
+frequency is based on the motor speed in rpm as 
+ 
+ 
+120mr p mPfω=× , (11) 
+ 
+where P is the number of poles. 
+The harmonic frequencies of the line current produced 
+by an obstacle are the quadruple frequency of the mechanical rotation frequency calculated in (11) and the multiple harmonics of the quad ruple frequency as described 
+in (12) and (13). 
+ 
+ 
+hm o s cf fm f=+×  (12) 
+ 4osc mf f=×, (13) 
+ 
+where oscf is the quadruple frequen cy of the mechanical 
+rotation frequency. 
+The harmonic frequencies of the line current produced by 
+an obstacle in (12) have the same form as the characteristic bearing fault frequencies generate d by a single-point defect 
+described from (1) to (4). Thus, the validity of the ZFFT algorithm for detecting bearin g faults under single-point 
+defects can be proved through the equipment. 
+In this study, the ZFFT algo rithm is conducted via the q-
+axis current in a synchronous reference frame. Because oscillation is produced by th e axis of rotation and the 
+torque is related to the q-axis current, the quadruple frequency of the mechanical rotation frequency can be detected by the q-axis curr ent without co nsidering the 
+ 
+Fig. 5 . Model of the bearing fault equipment June-Seok Lee, Tae-Min Yoon and Kyo-Beum Lee 
+ http://www.jeet.or.kr │1239mechanical rotation frequency. 
+  
+4. Experimental Results 
+ The experiment is implemented using a digital signal 
+processor (DSP) TMS320F28335. The model of the equipment for producing bearing faults is realized as Fig. 6. To test the proposed method for bearing fault detection, bearing fault signals are generated from the equipment as the motor rotates at 50 rpm. Line currents of the motor are measured by current sensors to monitor the harmonic frequencies and the amplitude spectrum is calculated to 
+show the result of the FFT and ZFFT. The exact parameters of the bearing fault signals are shown in Table 1. 
+From (12) and (13), the quadruple frequency of the 
+mechanical rotation frequency  is 10/3 Hz and its first 
+harmonic frequency is 20/3 Hz. Because the frequency resolution is 0.25 Hz/sample,  the quadruple frequency of 
+the mechanical rotation freq uency and its first harmonic 
+frequency will appear at th e 13th and 26th samples, 
+respectively. 
+Since ordinal numbers of the bearing fault signal can be 
+calculated, bearing faults can be detected. However, the magnitude of bearing fault frequency is unknown and it is possible that unrelated noises  exist at the corresponding 
+bearing fault frequency. Therefore, when an ordinal number of the bearing fault frequency is derived from (12) and (13), the proposed method monitors at a corresponding ordinal number and calculates the average value of its magnitude during a set period. 
+Fig. 7 shows the waveform of the FFT. Experiment 
+parameters are the same as that in Table 1 to compare the waveform with the ZFFT. The FFT is conducted using an 
+a-phase current and the process of frequ ency transition is applied. The quadruple frequency  of the mechanical rotation 
+frequency appears at the 3rd sample and its harmonic frequencies appear at the 7th and 10th samples. Because the frequency resolution of th e FFT is 1 Hz/sample, the 
+quadruple frequency and its harmonic frequencies are calculated at 3 Hz, 7 Hz, and 10 Hz. Therefore, the errors of each frequency are approximately 0.33 Hz, 0.33 Hz, and 0 Hz. This is because the 10th sample, 30/3 Hz can be divided by the frequency resolution which is 1 Hz/sample and the other samples, 10/3 Hz and 20/3 Hz, cannot be divided. 
+Fig. 8 shows the waveform of the ZFFT. The ZFFT is 
+also conducted for an a-ph ase current. The quadruple 
+frequency of the mechanical rotation frequency is shown at the 13th sample and its harmonic frequencies appear at the 26th and 40th samples. Because the frequency resolution is 4 Hz/sample, the quadruple frequency and its harmonic frequencies are each calculated at 13/4 Hz, 26/4 Hz, and 40/4 Hz. The errors of each frequency are approximately 
+0.08 Hz, 0.16 Hz, and 0 Hz. Therefore, the ZFFT is more accurate than the FFT when the number of samples and the sampling frequency are the same. 
+Fig. 9 shows waveforms of the q-axis current and its 
+frequency analysis on an oscilloscope. Because of the quadruple frequency of the m echanical rotation frequency 
+ 
+Fig. 6 . Experiment setup of the bearing fault equipment 
+ 
+Table 1 . Motor specifications 
+Motor speed 50 rpm 
+Number of poles 6 
+Mechanical rotation frequency 5/6 Hz 
+Number of samples 512 
+Sampling frequency 512 Hz 
+Decimation factor 4  
+ 
+Fig. 7 . FFT spectrum of a-phase current 
+ 
+ 
+Fig. 8 . ZFFT spectrum of  a-phase current Bearing Fault Detection of  IPMSMs using Zoom FFT 
+ 1240  │ J Electr Eng Technol.2016; 11(5): 1235-1241  by the equipment fo r producing bearing faults, oscillation 
+is shown in the q-axis current. The expected harmonic frequencies that are the quadruple frequency and its multiple harmonic frequencies from (12) and (13) can be 
+detected by FFT with an osc illoscope and the magnitude of 
+multiple harmonic frequencies decreases as the frequency of those increases. 
+Fig. 10 shows waveforms of the a-phase current and 
+ZFFT of the q-axis current. The sampling period shows the number of total samples, which is 512 in this experiment. 
+In the waveform of th e ZFFT, multiple harmonic 
+frequencies appear as described above. The first frequency of the ZFFT is the quadruple frequency of the mechanical 
+rotation frequency and its ordinal number is 13. The other frequencies are the harmonic frequencies of the quadruple frequency. The ordinal numbers of each frequency are 26, 40, and 52, and those frequencies calculated by frequency resolution are 20/3 Hz, 30/3 Hz, and 40/3 Hz. Therefore, frequency analysis of the ZFFT is accurate. 
+Fig. 11 shows waveforms of the a-phase current under 
+no-load and load conditions a nd the ZFFT of  the q-axis 
+current for the healthy machin e. The a-phase current is 
+constant and there are no frequencies except noise in the ZFFT spectrum. 
+Fig. 12 shows waveforms of the a-phase current under 
+no-load and load conditions a nd the ZFFT of  the q-axis 
+current for the faulty  machine. The a-phase current changes 
+with the motor oscillation and there are harmonic frequencies at 10/3 Hz, 20/3 Hz, and 30/3 Hz. The amplitude of the ZFFT under load condition for the faulty 
+machine is smaller than that of the ZFFT under no load 
+condition. This is because the fault signals in the q-axis 
+current are related to torque an d the load is applied in the 
+opposite direction. 
+Table 2 shows the computational time of the ZFFT and 
+FFT measured at the experiment. The ZFFT and FFT are the same frequency resolution. Since M of the ZFFT is 4, 
+the ZFFT has the short com putational time four times 
+longer than the FFT. 
+ 
+Table 2 . Computational time of ZFFT and FFT 
+ZFFT FFT 
+4 us 16 us 
+  
+5. Conclusion 
+ This paper proposes the bearing faults detection method 
+using ZFFT algorithm. The ZFFT algorithm is very suitable to detect the bearing faults because it analyzes frequencies in narrow frequency band with high frequency resolution which corresponds to  requirements for detecting 
+the bearing faults. Additionally , in comparison with the 
+FFT algorithm, the ZFFT algor ithm needs smaller data and 
+computational cost which are shown in experimental results. Therefore, the proposed method using ZFFT 
+algorithm can be applied with motor control algorithms at a 
+DSP unit.  
+In experiment, the equipment for producing bearing 
+faults is designed to prove  the validity of the ZFFT 
+algorithm. The harmonic frequencies caused by the equipment have the same form as characteristic bearing fault frequencies. According to the experimental results, we know that the proposed method exactly detects these fault frequencies and those results shows validity of the proposed bearing faults detection.  
+  
+Acknowledgment 
+ This work was supported in part by the Basic Science 
+Research Program through the National Research Foundation of Korea (NRF) funded by the Ministry of Education (No. 2013R1A1A2A10006090) and in part by the R&D Program of the Korea Railroad Research Institute, 
+Republic of Korea 
+  
+References  
+ 
+[1] Yi-Kyu Kang, Hae-Gwang Jeong, Kyo-Beum Lee, 
+Dong-Choon Lee, and Jang-Mok Kim, “Simple Estimation Scheme for In itial Rotor Position and 
+Inductances for Effective MTPA-Operation in Wind-
+Power Systems using an IPMSM,” Journal of Power Electronics, vol. 10, no. 4, pp. 396-404, July 2010. 
+[2]
+ Hyun-Woo Sim, June-Seok Lee, and Kyo-Beum Lee, 
+“On-line Parameter Estimati on of Interior Permanent 
+Magnet Synchronous Motor Using an Extended Kalman Filter,” Journal of Electrical Engineering & Technology, vol. 9, no. 2, pp. 600-608, March 2014. 
+[3]
+ Randy R. Schoen, Thomas G. Habetler, Farrukh 
+Kamran, and Robert G. Bartheld, “Motor Bearing Damage Detection Using Stator Current Moni-toring,” IEEE Tran sactions on Industry Applications, 
+vol. 31, no. 6, November/December 1995. 
+[4]
+ Bo Li, Mo-Yuen Chow, Yodyium Tipsuwan, and 
+James C. Hung, “Neural-network based motor rolling bearing fault diagnosis,” IEEE Transactions on Industrial Electronics, vol. 47, no. 5, pp. 1060-1068, October 2000. 
+[5]
+ Subhasis Nandi, Hamid A. Toliyat, and Xiaodong Li, 
+“Condition Monitoring an d Fault Diagnosis of 
+Electrical Motors-A Review,” IEEE Transactions on Energy Conversion, vol. 20, no. 4, pp. 719-729, De-cember 2005. 
+[6]
+ Fabio Immovilli, Alberto Bellini, Riccardo Rubini, 
+and Carla Tassoni, “Diagnos is of Bearing Faults in 
+Induction Machines by Vibration or Current Signals : A Critical Comparison,” IEEE Transactions on June-Seok Lee, Tae-Min Yoon and Kyo-Beum Lee 
+ http://www.jeet.or.kr │1241Industry Application, vol. 46, no. 4, pp. 1350-1359, 
+July/August 2010. 
+[7] Jason R. Stack, Thomas G. Habetler, and Ronald G. 
+Harley, “Fault Classification and Fault Signature Production for Rolling Elem ent Bearing in Electric 
+Machines,” IEEE Transac tions on Industry Appli-
+cation, vol. 40, no. 3, pp. 735-739, May/June 2004. 
+[8]
+ Jason R. Stack, Thomas G. Habetler, and Ronald G. 
+Harley, “Bearing Fault Detection via Autoregressive Stator Current Modeling,” IEEE Transactions on Industry Application, vol. 40, no. 3, pp. 740-747, May/June 2004. 
+[9]
+ Birsen Yazici, and Gerald B. Kliman, “An Adaptive 
+Statistical Time-Frequency Method for Detection of Broken Bars and Bearing Faults in Motors Using 
+Stator Current,” IEEE Transactions on Industry Application, vol. 35, no. 2, pp. 442-452, March/April 1999. 
+[10]
+ P. C. Y . YIP, “Some Aspects of the Zoom Transform,” 
+IEEE Transactions on Computers, vol. C-25, no. 3, pp. 287-296, March 1976. 
+[11]
+ Elmer A. Hoyer, and Ronald F. Stork, “The zoom 
+FFT using complex modulation,” IEEE International Conference on Acoustics, Speech, and Signal Pro-cessing, vol. 2, pp. 78-81, 1977. 
+[12]
+ Alberto Bellini, Amine Yazi di, Fiorenzo Filippetti, 
+Claudio Rossi, Gerard-Andre Capolino, “High Fre-quency Resolution Techniques for Rotor Fault Detection of Induction Machines,” IEEE Trans-actions on Industrial Elect ronics, vol. 55, no. 12, pp. 
+4200-4209, December 2008. 
+ 
+ 
+June-Seok Lee  received the B.S., M.S., 
+and Ph.D. degrees in electrical and computer engineering from Ajou University, Suwon, Korea, in 2011, 
+2013, and 2015, respectively. Since 2015, he has been with the Korea Railroad Research Institute, Uiwang, Korea. His research interests include 
+grid-connected systems, multil evel inverter and reliability. 
+  
+Tea-Min Yoon  received the B.S and 
+M.S degree in electrical and computer engineering from Ajou University, Korea, in 2013 and 2015. He is currently working for LG electronics. His research interests include electric machine drives. Kyo-Beum Lee  received the B.S. and 
+M.S. degrees in electrical and elec-tronic engineering from the Ajou University, Korea, in 1997 and 1999, respectively. He received the Ph.D. degree in electrical engineering from 
+the Korea University , Korea in 2003. 
+From 2003 to 2006, he was with the 
+Institute of Energy Technology, Aalborg University, Aalborg, Denmark. From 2006 to 2007, he was with the Division of Electronics a nd Information Engineering, 
+Chonbuk National University, Jeonju, Korea. In 2007 he joined the School of Electrical  and Computer Engineering, 
+Ajou University, Suwon, Korea.  He is an associated editor 
+of the IEEE Transactions on Power Electronics, the Journal 
+of Power Electronics, and the Journal of Electrical Engineering & Technology. His research interests include 
+electric machine drives, rene wable power generations, and 
+electric vehicle applications. 
+   

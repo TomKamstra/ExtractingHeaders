@@ -1,0 +1,989 @@
+Received June 30, 2020, accepted July 17, 2020, date of publication July 21, 2020, date of current version August 10, 2020.
+Digital Object Identifier 10.1 109/ACCESS.2020.301 1028
+A Review of Face Recognition Technology
+LIXIANG LI
+1,2,3, XIAOHUI MU1,3, SIYING LI1,3, AND HAIPENG PENG
+1,3
+1State Key Laboratory of Networking and Switching Technology, Information Security Center, Beijing University of Posts
+and Telecommunications, Beijing 100876, China
+2School of Computer Science and Technology, Henan Polytechnic University, Jiaozuo 454003, China
+3National Engineering Laboratory for Disaster Backup and Recovery, Beijing University of Posts and Telecommunications, Beijing 100876, China
+Corresponding author: Lixiang Li (lixiang@bupt.edu.cn)
+This work was supported in part by the National Natural Science Foundation of China under Grant 61771071, Grant 61972051,
+and Grant 61932005.
+ABSTRACT Face recognition technology is a biometric technology, which is based on the identication of
+facial features of a person. People collect the face images, and the recognition equipment automatically
+processes the images. The paper introduces the related researches of face recognition from different
+perspectives. The paper describes the development stages and the related technologies of face recognition.
+We introduce the research of face recognition for real conditions, and we introduce the general evaluation
+standards and the general databases of face recognition. We give a forward-looking view of face recognition.
+Face recognition has become the future development direction and has many potential application prospects.
+INDEX TERMS Face recognition, image processing, neural network, articial intelligence.
+I. INTRODUCTION
+Face recognition is a subdivision problem of visual pattern
+recognition. Humans are recognizing visual patterns all the
+time, and we obtain visual information through our eyes. This
+information is recognized by the brain as meaningful con-
+cepts. For a computer, whether it is a picture or a video, it is
+a matrix of many pixels. The machine should nd out what
+concept a certain part of the data represents in the data. This
+is a rough classication problem in visual model recognition.
+For face recognition, it is necessary to distinguish who the
+face belongs to in the part of the data that all machines think
+of the face. This is a subdivision problem.
+Face recognition in a broad sense includes related tech-
+nologies for building a face recognition system. It includes
+face detection, face position, identity recognition, image pre-
+processing, etc. Face detection algorithm is to nd out the
+coordinate system of all faces in one image. This is the
+process of scanning the entire image to determine whether
+the candidate area is a face. The output of the face coordinate
+system can be square, rectangular, etc. The face position
+is the coordinate position of the face feature in the face
+detection coordinate system. The deep learning framework
+basically implements some current good positioning tech-
+nologies. Compared with face detection, the calculation time
+of face positioning algorithm is much shorter.
+The associate editor coordinating the review of this manuscript and
+approving it for publication was Thomas Canhao Xu
+ .In 2016, an articial intelligence (AI) product called
+AlphaGo which was developed by a team led by Deep-
+Minda's Demis Hassabis came out. And it beat Ke Jie
+who was the No. 1 player in Go level in May 2017.
+In October 2017, the DeepMind team announced the
+strongest version of AlphaGo, named AlphaGo Zero [1].
+The essence of chess playing and face recognition is to nd
+suitable transform function. Although their principles are the
+same, the complexity of face recognition transformation is far
+greater than the complexity of nding the optimal solution in
+the chessboard. We expect to nd the ideal transformation
+function so as to achieve the optimal recognition effect, but
+the search process is very tough.
+From the application layout of face recognition technology,
+it is most widely used in attendance access control [2], secu-
+rity [3] and nance, while logistics, retail, smartphone, trans-
+portation, education, real estate, government management,
+entertainment advertising, network information security [4]
+and other elds are starting to get involved. In the eld of
+security, both the early warning of suspicious situations and
+the trace of suspects can be completed with the assistance
+of face recognition. It represents a great progress of arti-
+cial intelligence technology, which means that we require
+more accurate, more exible and more faster recognition
+technology.
+This paper will describe the development stages and
+related technologies of face recognition, including early algo-
+rithms, articial features and classiers, deep learning and
+139110This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/VOLUME 8, 2020L. Liet al.: Review of Face Recognition Technology
+FIGURE 1. The development stage of face recognition, related
+technologies and characteristics of different stages of face recognition.
+other stages. After that, we will introduce the research on
+face recognition for real conditions. Finally, we introduce
+the general evaluation criteria and general databases of face
+recognition.
+II. THE DEVELOPMENT STAGE OF FACE RECOGNITION
+AND RELATED TECHNOLOGIES
+A. EARLY ALGORITHM STAGE
+In the 1950s, people began to study how to make machines
+recognize faces. In 1964, the applied research of face recogni-
+tion engineering ofcially began, mainly using face geometry
+for recognition. But it has not been applied in practice.
+1) PRINCIPAL COMPONENT ANALYSIS (PCA)
+Principal component analysis (PCA) is the most widely used
+data dimensionality reduction algorithm. In face recognition
+algorithms, PCA implements feature face extraction. In 1991,
+Turk and Pentland of MIT Media Laboratory introduced the
+principal component analyses into face recognition [5].
+PCA is usually used to preprocess the data before other
+analyses. In the face data with more dimensions, it can
+remove redundant information and noise, retain the essen-
+tial characteristics of data, greatly reduce the dimensions,
+improve the processing speed of data, and save a lot of time
+and cost [6], [7]. Therefore, this algorithm is usually used for
+the dimensionality reduction and the multi-dimensional data
+visualization.
+FIGURE 2. PCA is combined with KNN face recognition process.
+In PCA based feature extraction algorithms, the eigen-
+face is one of the classical algorithms [8]. Figure 2 isa simple process of feature extraction where PCA is combined
+with face recognition by using K-Nearest-Neighbor (KNN)
+algorithm. We get the eigenvalues and the eigenvectors of
+the covariance matrix from sampling data, and select the
+principal component, which is the eigenvector with the largest
+eigenvalue. At the same time, the feature matrix of the test-
+ing data is obtained by the same dimensionality reduction
+process. Finally, the face image category of the testing set is
+detected by the KNN classier.
+Although PCA is efcient in dealing with large data
+sets [9]. Its biggest drawback is that its training data set
+must be large enough [10]. For example, the number of
+original photos in the face recognition system must be at least
+thousands, so the results of principal component analysis are
+meaningful. However, when the persons' facial expressions
+are different, there are obstacles blocking the face, or the light
+is too strong or too weak, and it is difcult to get good low-
+dimensional data.
+2) LINEAR DISCRIMINATE ANALYSIS (LDA)
+For face recognition dataset with labels, we can use linear
+discriminate analysis (LDA) [11]. It is used to face classica-
+tion [12]. PCA requires the data variance after dimensionality
+reduction to be as large as possible so that the data can be
+divided as widely as possible, while LDA requires the vari-
+ance within the same category of data groups after projection
+to be as small as possible, and the variance between groups
+to be as large as possible [8], as is shown in Fig. 3. This
+means that LDA has supervised the dimensionality reduction
+and it should use the label information to separate different
+categories of data as much as possible.
+FIGURE 3. (Color online) Comparation between PCA and LDA. (a) PCA,
+(b) LDA.
+B. ARTIFICIAL FEATURES AND CLASSIFIER STAGE
+1) SUPPORT VECTOR MACHINE (SVM)
+In 1995, the support vector machine (SVM) was proposed by
+Vapnik and Cortes. Support vector machine is an algorithm
+specically for small sample, high dimensional facial recog-
+nition problem [13]. It is a classier developed from general-
+ized portrait algorithm. Because of its excellent performance
+in text classication, it soon becomes the mainstream tech-
+nology of machine learning [14]. In face recognition, we use
+VOLUME 8, 2020 139111L. Liet al.: Review of Face Recognition Technology
+the extracted face features and SVM to nd the hyperplane
+for distinguishing different faces.
+Suppose there is a two-dimensional space with many train-
+ing data. SVM should nd a set of straight lines to clas-
+sify the training data correctly. Due to the limitation of the
+number of training data, the samples outside the training
+set may be closer to the segmentation line than the data in
+the training set. So we choose the line furthest from the
+nearest data point, namely the support vector. Such a segmen-
+tation method has the strongest generalization ability, as is
+shown in Fig. 4. The above method distinguishes the data on
+two-dimensional plane, but this theory can also be applied to
+three-dimensional or even higher-dimensional space, only the
+boundary to be found becomes a plane or hyperplane.
+FIGURE 4. Support vector.
+2) ADABOOST
+The original boosting algorithm was proposed by Schapire.
+It is used for face detection. Boosting algorithm can improve
+the accuracy of any given learning algorithm. The main idea is
+to integrate different classiers into a stronger nal classier
+through some simple rules so that the overall performance is
+higher [15].
+There are two problems for face recognition in the boosting
+algorithm. One is how to adjust the training set, and the
+other is how to combine the weak classier to form a strong
+classier. Adaboost [16] has improved these problems, and
+it has been proved to be an effective and practical boosting
+algorithm in face recognition. Adaboost uses the weighted
+training data instead of randomly selected training samples
+to focus on the relatively difcult training data samples.
+Adaboost uses the weighted voting mechanism instead of the
+average voting mechanism which makes the weak classier
+with good classication effect have larger weight [17].
+Adaboost classier can be understood as a function (please
+see Fig. 5). It inputs the characteristic value xand returns
+FIGURE 5. (Color online) Adaboost adjusts the sample weight. (a) The
+result of the first classification, and wrong samples are marked with red
+circle. (b) The classifier which is retrained after adjusting the weight of
+the first misclassification sample.
+the value G(x). In the adaboost classier, multiple weak
+classiers Giare combined into a strong classier, and each
+weak classier has weight wi, which is shown as follows
+G(x)Dsign(nX
+iD1wiG(x i))
+In face recognition, using the adaboost algorithm should
+take Haar features for each image. This feature reects the
+gray level change of the image [18].
+FIGURE 6. Adaboost cascading structure.
+Haar classier is a cascading application of the adaboost
+algorithm [19]. The structure of the cascade classier is
+shown in Fig. 6. Each cascading classier contains several
+weak classiers, and the structure of each weak classication
+is also a decision tree. Figure 7 shows a weak classier in the
+form of decision tree to determine whether a picture is a face.
+3) SMALL SAMPLES
+The small sample problem refers to the fact that the number
+of training samples for face recognition is too small, which
+causes most face recognition algorithms to fail to achieve
+their ideal recognition performance [20].
+In order to effectively retain image information, maintain
+the relationship between samples, reduce the impact of noise,
+and further enhance the face recognition effect, many studies
+have been done. Howland et al. proposed a method which
+139112 VOLUME 8, 2020L. Liet al.: Review of Face Recognition Technology
+FIGURE 7. Tree structure of the weak classifier.
+combined the linear discriminant analysis with generalized
+singular value decomposition (GSVD) to solve the small sam-
+ples size problem [21]. He et al. presented a way to improve
+the performance of linear discriminant analysis methods on
+small samples by using the Householder QR decomposition
+process in different spaces [22]. Wang et al. proposed a expo-
+nential locality preserving projections (ELPP) method for
+the small sample problem faced by the locality preserving
+projections (LPP) technology [23]. Wan et al. proposed a
+generalized discriminant local median pre-serving projection
+(GDLMPP) algorithm based on DLMPP [24], which can
+effectively solve the small sample size problem. These studies
+have greatly improved the performance of facial recognition.
+4) NEURAL NETWORKS
+Neural network is an algorithm designed to simulate human
+brain for face recognition [25]. As one of the most con-
+cerned recognition methods for biometrics, face recognition
+has become one of the research focuses in the eld of neural
+networks.
+FIGURE 8. (Color online) Structure of single layer hidden layer neural
+network. The left is the input layer, the middle is the hidden layer and the
+right is called the output layer. Here, the output layer has only one output
+neuron or multiple output neurons.
+A typical neural network structure is shown in Fig. 8.
+Each neuron is composed of a linear function and a nonlinear
+activation function, as is shown in Fig. 9.
+FIGURE 9. The neuron of neural network. The linear function here refers
+to that each neuron links the transmitted signal with weight
+(z(x)DwxCb), while the activation function deals with the output of the
+neuron. The ideal activation function will map the result to `0' or `1' . Early,
+the Sigmoid function is more popular, and it can squeeze the output in a
+large range into the range of [0; 1]. Now the most commonly used
+function is the rectified linear unit (ReLu).
+FIGURE 10. Classification of deep learning in face recognition
+applications.
+C. DEEP LEARNING
+Deep learning is a branch of machine learning. Deep learning
+can nd out the features needed for classication automati-
+cally in the training process without feature extraction steps.
+That is to force network learning to obtain more effective
+features for distinguishing different face. The eld of face
+recognition has been completely transformed by deep learn-
+ing [26]. Deep learning is widely used in face recognition and
+is divided into the following aspects.
+A face recognition method based on convolutional neural
+networks (CNN) is the rst aspect. CNN uses the locality
+of data and other features to optimize the model structure
+by combining local perception areas, shared weights, and
+down-sampling of face images [27]. CNN is very similar
+to ordinary neural networks. They consist of neurons with
+learnable weights and bias values. A dot product calculation
+for each neuron is performed after receiving input data. Then
+output the scores of each classication. It is the most widely
+used deep learning framework [28], [29]. Figure 11 [30]
+clearly delineates the structure of CNN [31].
+VOLUME 8, 2020 139113L. Liet al.: Review of Face Recognition Technology
+FIGURE 11. (Color online) The structure of CNN. CNN is composed of
+input layer, convolution layer, pooling layer (lower sampling layer), full
+connection layer and output layer. And the convolution layer and the
+pooling layer are alternately set.
+Deep nonlinear face shape extraction method is the second
+aspect. Face shape extraction or face alignment plays a very
+important role in tasks such as face recognition, expression
+recognition, and face animation synthesis. The difculty in
+face recognition lies in the high complexity of face shape and
+texture. In order to further improve the nonlinear regression
+ability of the algorithm to obtain robustness to changes such
+as shape, Zhang et al. [32] proposed a deep nonlinear face
+shape extraction method from coarse to ne (coarse-to-ne
+auto- encoders networks, CFAN).
+Face recognition based on deep learning video surveillance
+is the third aspect. In an intelligent monitoring environment,
+the identication of suspicious characters is an important
+use of face recognition. Recognizing the identity of people
+in video accurately and quickly is very important for video
+search and video surveillance. Schoeld et al. proposed a
+deep convolution neural network method, which could auto-
+matically detect, track and record human faces in video, and
+could be used to study the animal behavior [33], [34].
+Low-resolution face recognition based on deep learning is
+the fourth aspect. In practical applications, the collected face
+images have a variety of posture changes, and the image reso-
+lution is low, causing the face image recognition performance
+to decline rapidly. In [35], the low-resolution face data set was
+studied, the most advanced supervised discriminant learning
+method was adopted, and the generative confrontation net-
+work pre-training method and full convolution structure were
+introduced to improve the low-resolution face recognition
+effect. Many deep learning models focus on the optimization
+of training methods and processes. However, the accuracy of
+low-resolution face recognition is constantly improved, and
+the running time is also reduced accordingly, so that it can be
+better put into practical applications.
+With the development of more comprehensive deep learn-
+ing models [36][39], there are not only deep models that can
+adapt to large-scale data, but also processing methods that
+can adapt to the small data set in some specic scenarios.
+One method is to use synthetic data, the other one is to
+use the currently popular generative adversarial network to
+generate the data [40]. However, deep learning also has some
+shortcomings. For example, it takes long time to train the
+model, which requires continuous iteration to optimize the
+model, and it cannot guarantee the global optimal solution.
+These are also needed to be explored in the future.III. FACE RECOGNITION BASED ON REAL CONDITIONS
+With the deepening of the research on face recognition,
+the researchers began to pay attention to the face recognition
+problem in real conditions, mainly including the following
+aspects of research. First, we analyze and study the factors
+that affect face recognition. Second, the study of using the
+new feature representation. Third, the study of using new data
+sources. As is shown in Table 1.
+TABLE 1. Classification of face recognition based on real conditions.
+A. FACTORS AFFECTING FACE RECOGNITION
+1) PIE PROBLEM
+At present, the face recognition technology has been quite
+mature under the condition of controllable illumination
+and little intra class change. However, the performance of
+face recognition in non-ideal condition is still needed be
+improved. PIE problem [41] is the non-ideal condition that
+face recognition should solve especially the problem of vari-
+able illumination, posture and expression. The researchers
+proposed a method based on invariant features, which used
+the features of the face image that did not vary with the change
+of lighting conditions to process, that is, to nd the light
+insensitive features [42][46]. At present, the representative
+method is the quotient image (QI) [46]. In addition, a 3D
+linear subspace can be used to represent the face image with
+light change without considering shadow. The typical method
+is the light cone method [47].
+Due to the difference of human posture, the facial expres-
+sion features extracted from the non-positive face image and
+the positive face image collected by the researchers will
+also be quite different. If we do not deal with the attitude
+factors, it will inevitably affect the accuracy. According to
+different features processed in the attitude normalization,
+Zhu et al. [48] divided facial expression features into two
+methods, i,e. feature level normalization method [49], [50]
+and image level normalization method [51].
+There are some new research results recently. In 2017,
+Xiet al. proposed a multi-task CNN for face recogni-
+tion based on multi-task learning. They proposed a pose-
+directed multi-task CNN by grouping different poses to
+learn pose-specic identity features, simultaneously across
+all pose [52]. Mahantes et al. proposed a transform domain
+approach to solve the PIE problem in face recognition [53].
+Zhang et al. proposed a supervised feature extraction algo-
+rithm named collaborative representation discriminant pro-
+jections (CRDP) [54]. Huan et al. proposed an end-to-end
+139114 VOLUME 8, 2020L. Liet al.: Review of Face Recognition Technology
+network to generate normalized albedo images with neutral
+expression and frontal pose for the input face images [55].
+With the research on the factors affecting face recognition,
+face recognition technology has been greatly improved.
+B. USE NEW FEATURE REPRESENTATIONS
+1) MANUAL DESIGN FEATURES
+In a constrained environment, deep learning can learn face
+features, which can make complex feature extraction easier,
+and can learn some hidden rules and rules in face images.
+One facial feature is Local Binary Patterns (LBP).
+Ojala et al. proposed the Local Binary Patterns (LBP) in
+the research of texture image classication [56]. In 2004,
+Ahonen et al. [57] used LBP to extract face image fea-
+tures, which started the research of LBP in face recognition.
+Tanet al. proposed Local Ternary Patterns (LTP) [58] for the
+noise sensitivity of LBP. Wolf et al. [59] proposed three local
+binary patterns and four local binary patterns to capture the
+differences between the local small areas of the face image.
+LBP based face image features also include poem [60],
+le [61], lark [62], lhs [63], etc.
+Another typical face feature is Gabor feature. Daugman
+rst presented the Gabor wavelet theory in 1985 [64]. Elastic
+bunch graph matching [65] is the rst research work to extract
+facial features by using Gabor lter. It extracts Gabor lter
+convolution response at key points, and obtains good expres-
+sion, posture and noise robustness. Liu and Wechsler [66] also
+used Gabor lter to extract face image features. This method
+does not need to detect key points, but directly uses Gabor
+lter to extract multi-scale and multi-directional features in
+each pixel position of face image, and obtains better recog-
+nition effect. In addition, the famous scale invariant feature
+transform (SIFT) [67] and the histogram of the oriented gra-
+dient (HOG) [68] have been applied to the feature extraction
+of face recognition [69][72].
+2) NONNEGATIVE MATRIX FACTORIZATION (NMF)
+The nonnegative matrix factorization algorithm (NMF) was
+proposed by Lee and Seung in 1999 [73]. NMF realizes
+the application of matrix decomposition in digital image
+processing and realizes the feature decomposition in face
+recognition.
+FIGURE 12. The nonnegative matrix factorization algorithm (NMF).
+Among them, Vis the original matrix, Wis the base matrix, and His the
+feature matrix.
+As is shown in Fig. 12, the idea of NMF is to divide a matrix
+into two matrix products. One matrix is the base matrix, andthe other matrix represents the characteristic matrix. From
+the dimension reduction point of view, these two matrices
+are determined by NMF itself at the same time, so the fea-
+ture matrix is not the projection of the original matrix on
+the base matrix, and NMF realizes nonlinear dimensionality
+reduction.
+At present, NMF has been successfully applied in the
+image for face recognition [13], [74][78]. Using some new
+functional representations, the application of face recognition
+technology has been improved.
+C. USE NEW DATA SOURCES
+1) ADVERSARIAL SAMPLE ATTACK
+Traditional face recognition methods can be easily trained
+and learned in small-scale data, such as PCA and LDA. But
+for massive data, the training process of these methods is
+difcult. Adversarial samples can obtain data sources for face
+recognition. The so-called adversarial sample is to slightly
+modify the input data so that the face recognition algorithm
+gives wrong classication results to the input [79]. In many
+cases, these changes are so subtle that human observers will
+not even notice them, but the classier will make mistakes.
+Moreover, the attacker can attack the machine learning sys-
+tem and disturb the result without knowing the basic model
+of face recognition. As is shown in Fig. 13, taking the classic
+bi-classication problem as an example, the machine learning
+model learns a segmentation plane by training on the samples
+in face recognition.
+FIGURE 13. (Color online) Principle of the adversarial sample attack. The
+points on one side of the segmentation plane are recognized as
+Category 1, and the points on the other side are recognized as Category 2.
+When generating attack samples, we use some algorithm to calculate the
+change amount for the specified samples.
+At present, generative adversarial networks (GAN) are one
+of the effective ways to resist attacks. Generative adversar-
+ial network was proposed by Ian Goodfellow in 2014 [80].
+It was applied to deep learning neural network. As is shown
+in Fig. 14, GAN is a generative model. It is most com-
+monly used for image generation on data generation. GAN
+is also a model of unsupervised learning, so it is widely
+used in unsupervised learning and semi-supervised learn-
+ing [81], [82]. At present, an interesting application is to use
+GAN in image style migration, image noise reduction and
+repair, image super-resolution, which have better results in
+face recognition. Using new data sources, face recognition
+VOLUME 8, 2020 139115L. Liet al.: Review of Face Recognition Technology
+FIGURE 14. The model of GAN. The main functions of GandDare
+presented as follows. Gis a generative network, which receives a random
+noise zand generates an image through this noise. Dis a discrimination
+network, which judges whether a picture is ``real'' . Its input parameter is
+x, which represents a picture, and the output D(x) represents the
+probability that xis a real picture. If it is 1, it represents 100% of the real
+picture. If it is 0, which represents the impossible picture.
+technology under real conditions has been continuously
+studied.
+IV. COMMON EVALUATION CRITERIA OF
+FACE RECOGNITION
+Accuracy (ACC ), Receiver Operating Characteristic (ROC )
+curve and Area Under Curve (AUC ) value are important
+indexes to evaluate the performance of the face recognition
+algorithm [83]. In face recognition tasks, ACC is a common
+index. Assuming that the testing set contains Nimages and
+the number of correctly recognized images is M. The deni-
+tion of ACC is given as follows
+ACCDM=N
+The higher the ACC value is, the better the algorithm
+performance is. In the face recognition task, in order to
+determine whether two images (also known as sample pairs)
+come from the same person, ROC rst calculates the distance
+measurement or the similarity between images, and then
+completes the recognition according to the threshold. The
+abscissa of ROC curve represents false positive rate (FPR),
+and the ordinate represents recall rate or true positive rate
+(TPR) [84]. The denitions of FPR andTPR are given as
+follows
+TPRDTP=(TPCFN)
+FPRDFP=(FPCTN)
+TPrefers to the positive sample pair correctly predicted
+by the model, FNrefers to the positive sample pair wrongly
+predicted by the model, TNrefers to the negative sample
+pair correctly predicted by the model, and FPrefers to
+the negative sample pair wrongly predicted by the model.
+By changing different thresholds, different TPR values and
+FPR values can be obtained, and ROC curves can be gen-
+erated (https://blog.csdn.net/). As is shown in Fig. 15, red
+curve and blue curve respectively represent the TPR FPR
+curve of two different classiers, and the point on the curve
+corresponds to a threshold value, which is ROC curve. The
+closer the ROC curve is to the upper left corner, the better the
+performance of the algorithm is. In other words, it can achieve
+FIGURE 15. TPR FPR curve of two different classifiers.
+a high recall rate when the error recognition rate is very small.
+AUC value is a scalar to measure the merits of the model,
+which refers to the area below the ROC curve. Obviously,
+the larger the AUC value is, the better the performance of the
+algorithm is (https://blog.csdn.net/).
+V. IMAGE EVALUATION SETS AND DATABASES
+OF FACE RECOGNITION
+LFW is a public benchmark for face recognition, also known
+as pair matching. In Table 2, we get the performance of
+some famous algorithms on LWF website (http://vis-www.cs.
+umass.edu/lfw/).
+TABLE 2. Face recognition on the dataset.
+As is shown in Table 3, there are seven common face image
+databases, including Yale A, AR, Extended Yale B, Georgia
+Tech, FERET, LFW and CAS-PEAL-R1 [104], [105]. These
+databases have greatly promoted the progress of face recog-
+nition technology.
+Yale A [106] is a simple database, which contains
+165 images from 15 persons. The AR database [104] contains
+2600 images of 120 persons. The image in the Extended
+139116 VOLUME 8, 2020L. Liet al.: Review of Face Recognition Technology
+TABLE 3. Common face image databases.
+Yale B database [107] contains 9 postures and 64 light
+changes. The database is divided into 5 subsets according
+to the angle between the light direction and the camera axis.
+Georgia Tech database [108], established by Georgia Insti-
+tute of technology, contains 750 images from 50 persons. The
+FERNT database [84], published by the National Institute
+of standards and technology, contains 13539 images from
+1565 individuals and six subsets. LFW is one of the most
+important face image evaluation sets in the eld of face
+recognition. It was released by the Computer Vision Labora-
+tory of the University of Massachusetts in 2007 [109]. LFW
+database [110] is a more complex and challenging face image
+database, and it is mainly used for face recognition in uncon-
+trolled environment. LFWa [111] is an alignment version of
+LFW database, in which the images are aligned by commer-
+cial software. MegaFace is also one of the most authoritative
+and popular indicators to evaluate the performance of face
+recognition [112]. Even though the evaluation of MegaFace
+still does not calculate the time cost, compared with LFW
+data set, MegaFace is more difcult and closer to practical
+applications [113], [114]. The CAS-PEAL-R1 database [105]
+was established and released by the Chinese Academy of
+Sciences. In September 2018, Sogou image technology team
+won the rst place in the competition with 99.939% recog-
+nition accuracy. In this MegaFace competition, the massive
+and high-quality face image resources accumulated by Sogou
+image search, and the powerful computing platform of Sogou
+also provides data guarantee and computing power guarantee
+for recognition effect [115], [116].
+VI. CONCLUSION
+With the development of science and technology, the face
+recognition technology has made great achievements, but
+there is still room for its improvement in practical application.
+In the future, there may be a special camera for face recogni-
+tion, which can improve the image quality and solve the prob-
+lems of image ltering, image reconstruction [117], [118],denoising [119][121] etc. We can also use 3D technology
+to supplement 2D images to solve some problems such as
+rotation and occlusion.
+VII. FUTURE WORK
+Face recognition technology has been widely used in security
+and nancial elds because of its convenience. With the rapid
+development of science and technology, the application of
+faces will be more developed, and the application scenarios
+will be more diverse. However, face recognition will eas-
+ily cause technical, legal, and ethical problems. Due to the
+automated features of face recognition technology, similar
+related information may be processed or decided through
+automation, lacking transparency and not easy to supervise,
+and even in the event of errors or discrimination. It is difcult
+to trace back. For example, the face recognition informa-
+tion is used to achieve non-recognition purposes such as
+judging an individual's sexual orientation, race, or religion.
+How to enhance the interpretability of algorithms to avoid
+discriminatory algorithms or incomplete information that will
+lead to decision errors? How to promote the development of
+new technologies related to face applications while ensuring
+public safety and personal rights? These problems remain to
+be discussed in depth.
+AUTHOR CONTRIBUTIONS
+Lixiang Li and Xiaohui Mu wrote the article. Siying Li and
+Haipeng Peng modied the article.
+CONFLICTS OF INTEREST
+The authors declare no conict of interest.
+ACKNOWLEDGMENT
+Thanks to the reviewers for their comments which are very
+helpful to improve this article.
+REFERENCES
+[1] D. Silver, J. Schrittwieser, K. Simonyan, I. Antonoglou, A. Huang,
+A. Guez, T. Hubert, L. Baker, M. Lai, A. Bolton, Y. Chen, T. Lillicrap,
+F. Hui, L. Sifre, George van den Driessche, T. Graepel, and D. Hassabis,
+``Mastering the game of go without human knowledge,'' Nature, vol. 550,
+no. 7676, p. 354, 2017.
+[2] V. S. Manjula and L. D. S. S. Baboo, ``Face detection identication and
+tracking by PRDIT algorithm using image database for crime investiga-
+tion,'' Int. J. Comput. Appl., vol. 38, no. 10, pp. 4046, Jan. 2012.
+[3] K. Lander, V. Bruce, and M. Bindemann, ``Use-inspired basic research
+on individual differences in face identication: Implications for criminal
+investigation and security,'' Cognit. Res., Princ. Implications, vol. 3, no. 1,
+pp. 113, Dec. 2018.
+[4] Y. Hu, H. An, Y. Guo, C. Zhang, T. Zhang, and L. Ye, ``The development
+status and prospects on the face recognition,'' in Proc. 4th Int. Conf.
+Bioinf. Biomed. Eng., Jun. 2010, pp. 14.
+[5] R. Gottumukkal and V. K. Asari, ``An improved face recognition tech-
+nique based on modular PCA approach,'' Pattern Recognit. Lett., vol. 25,
+no. 4, pp. 429436, Mar. 2004.
+[6] D. C. Hoyle and M. Rattray, ``PCA learning for sparse high-dimensional
+data,'' Europhys. Lett. (EPL), vol. 62, no. 1, pp. 117123, Apr. 2003.
+[7] K. Vijay and K. Selvakumar, ``Brain FMRI clustering using interaction K-
+means algorithm with PCA,'' in Proc. Int. Conf. Commun. Signal Process.
+(ICCSP), Apr. 2015, pp. 09090913.
+VOLUME 8, 2020 139117L. Liet al.: Review of Face Recognition Technology
+[8] J. Li, B. Zhao, H. Zhang, and J. Jiao, ``Face recognition system using
+SVM classier and feature extraction by PCA and LDA combination,''
+inProc. Int. Conf. Comput. Intell. Softw. Eng., Dec. 2009, pp. 14.
+[9] F. Vogt, B. Mizaikoff, and M. Tacke, ``Numerical methods for accelerat-
+ing the PCA of large data sets applied to hyperspectral imaging,'' Proc.
+SPIE, vol. 4576, pp. 215226, Feb. 2002.
+[10] C. Ordonez, N. Mohanam, and C. Garcia-Alvarado, ``PCA for large
+data sets with parallel data summarization,'' Distrib. Parallel Databases,
+vol. 32, no. 3, pp. 377403, Sep. 2014.
+[11] S. Chintalapati and M. V. Raghunadh, ``Automated attendance manage-
+ment system based on face recognition algorithms,'' in Proc. IEEE Int.
+Conf. Comput. Intell. Comput. Res., Dec. 2013, pp. 15.
+[12] J. Lu, K. N. Plataniotis, and A. N. Venetsanopoulos, ``Face recognition
+using LDA-based algorithms,'' IEEE Trans. Neural Netw., vol. 14, no. 1,
+pp. 195200, Jan. 2003.
+[13] C. Cortes and V. Vapnik, ``Support-vector networks,'' Mach. Learn.,
+vol. 20, no. 3, pp. 273297, 1995.
+[14] A. Sun, E.-P. Lim, and Y. Liu, ``On strategies for imbalanced text classi-
+cation using SVM: A comparative study,'' Decis. Support Syst., vol. 48,
+no. 1, pp. 191201, Dec. 2009.
+[15] Y. Freund, R. Iyer, E. R. Schapire, Y. Singer, and G. T. Dietterich, ``An
+efcient boosting algorithm for combining preferences,'' J. Mach. Learn.
+Res., vol. 4, no. 6, pp. 170178, 2004.
+[16] G. Rätsch, T. Onoda, and K.-R. Müller, ``Soft margins for AdaBoost,''
+Mach. Learn., vol. 42, no. 3, pp. 287320, 2001.
+[17] Y. Cao, Q.-G. Miao, J.-C. Liu, and L. Gao, ``Advance and prospects
+of AdaBoost algorithm,'' Acta Automatica Sinica, vol. 39, no. 6,
+pp. 745758, Mar. 2014.
+[18] Q. W. Wang, Z. L. Ying, and L. W. Huang, ``Face recognition algo-
+rithm based on Haar-like features and gentle AdaBoost feature selection
+via sparse representation,'' Appl. Mech. Mater., vol. 742, pp. 299302,
+Mar. 2015.
+[19] L. I. Xiang-Feng, Z. Wei-Kang, D. Xin-Yuan, L. Kun, and Z. Dun-Wen,
+``Vehicle detection algorithm based on improved AdaBoost and Haar,''
+Meas. Control Technol., Feb. 2019.
+[20] M. Qiu, J. Zhang, J. Yang, and L. Ye, ``Fusing two kinds of virtual samples
+for small sample face recognition,'' Math. Problems Eng., vol. 2015,
+pp. 110, Mar. 2015.
+[21] P. Howland, J. Wang, and H. Park, ``Solving the small sample size
+problem in face recognition using generalized discriminant analysis,''
+Pattern Recognit., vol. 39, no. 2, pp. 277287, Feb. 2006.
+[22] Y. He, ``An efcient method to solve small sample size problem of LDA
+using householder QR factorization for face recognition,'' in Proc. Int.
+Conf. Comput. Inf. Sci., Oct. 2011, pp. 7982.
+[23] S.-J. Wang, H.-L. Chen, X.-J. Peng, and C.-G. Zhou, ``Exponential local-
+ity preserving projections for small sample size problem,'' Neurocomput-
+ing, vol. 74, no. 17, pp. 36543662, Oct. 2011.
+[24] M.-H. Wan and Z.-H. Lai, ``Generalized discriminant local median pre-
+serving projections (GDLMPP) for face recognition,'' Neural Process.
+Lett., vol. 49, no. 3, pp. 951963, Jun. 2019.
+[25] A. S. Pandya and R. R. Szabo, Neural Networks for Face Recognition.
+Boca Raton, FL, USA: CRC Press, 1999.
+[26] W. Wang, Y. Jie, J. Xiao, L. Sheng, and D. Zhou, ``Face recognition based
+on deep learning,'' in Proc. Int. Conf. Hum. Centered Comput., 2014,
+pp. 812820.
+[27] Y. Li and S. Cha, ``Implementation of robust face recognition system
+using live video feed based on CNN,'' in Proc. Comput. Vis. Pattern
+Recognit., 2018. [Online]. Available: https://arxiv.org/abs/1811.07339
+[28] A. Krizhevsky, I. Sutskever, and G. E. Hinton, ``Imagenet classication
+with deep convolutional neural networks,'' in Proc. Adv. Neural Inf.
+Process. Syst., 2012, pp. 10971105.
+[29] V. Sze, Y.-H. Chen, T.-J. Yang, and J. S. Emer, ``Efcient processing
+of deep neural networks: A tutorial and survey,'' Proc. IEEE, vol. 105,
+no. 12, pp. 22952329, Dec. 2017.
+[30] Y. Lecun, L. Bottou, Y. Bengio, and P. Haffner, ``Gradient-based learn-
+ing applied to document recognition,'' Proc. IEEE, vol. 86, no. 11,
+pp. 22782324, Nov. 1998.
+[31] S. Hershey et al., ``CNN architectures for large-scale audio clas-
+sication,'' in Proc. Sound, 2016. [Online]. Available: https://arxiv.
+org/abs/1609.09430
+[32] J. Zhang, S. Shan, M. Kan, and X. Chen, ``Coarse-to-ne auto-encoder
+networks (CFAN) for real-time face alignment,'' in Proc. Eur. Conf.
+Comput. Vis., 2014, pp. 116.[33] D. Schoeld, A. Nagrani, A. Zisserman, M. Hayashi, T. Matsuzawa,
+D. Biro, and S. Carvalho, ``Chimpanzee face recognition from videos
+in the wild using deep learning,'' Sci. Adv., vol. 5, no. 9, Sep. 2019,
+Art. no. eaaw0736.
+[34] E.-J. Cheng, K.-P. Chou, S. Rajora, B.-H. Jin, M. Tanveer, C.-T. Lin,
+K.-Y. Young, W.-C. Lin, and M. Prasad, ``Deep sparse representation
+classier for facial recognition and detection system,'' Pattern Recognit.
+Lett., vol. 125, pp. 7177, Jul. 2019.
+[35] P. Li, L. Prieto, D. Mery, and P. J. Flynn, ``On low-resolution face
+recognition in the wild: Comparisons and new techniques,'' IEEE Trans.
+Inf. Forensics Security, vol. 14, no. 8, pp. 20002012, Aug. 2019.
+[36] Y. Duan, J. Lu, and J. Zhou, ``UniformFace: Learning deep equidis-
+tributed representation for face recognition,'' in Proc. IEEE/CVF Conf.
+Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019, pp. 34153424.
+[37] X. Yin, X. Yu, K. Sohn, X. Liu, and M. Chandraker, ``Feature trans-
+fer learning for face recognition with under-represented data,'' in Proc.
+IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2019,
+pp. 57045713.
+[38] Y. Li, X. Wu, and J. Kittler, ``L1-2D2PCANet: A deep learning network
+for face recognition,'' Proc. SPIE, vol. 28, no. 2, p. 23016, 2019.
+[39] K. Zhao, J. Xu, and M.-M. Cheng, ``RegularFace: Deep face recognition
+via exclusive regularization,'' in Proc. IEEE/CVF Conf. Comput. Vis.
+Pattern Recognit. (CVPR), Jun. 2019, pp. 11361144.
+[40] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley,
+S. Ozair, A. Courville, and Y. Bengio, ``Generative adversarial nets,'' in
+Proc. Adv. Neural Inf. Process. Syst., 2014, pp. 26722680.
+[41] J. M. Voas, ``PIE: A dynamic failure-based technique,'' IEEE Trans.
+Softw. Eng., vol. 18, no. 8, pp. 717727, Aug. 1992.
+[42] C. Sagonas, Y. Panagakis, S. Zafeiriou, and M. Pantic, ``Robust statisti-
+cal face frontalization,'' in Proc. IEEE Int. Conf. Comput. Vis. (ICCV),
+Dec. 2015, pp. 38713879.
+[43] X. Yin, X. Yu, K. Sohn, X. Liu, and M. Chandraker, ``Towards large-pose
+face frontalization in the wild,'' in Proc. IEEE Int. Conf. Comput. Vis.
+(ICCV), Oct. 2017, pp. 39903999.
+[44] R. Huang, S. Zhang, T. Li, and R. He, ``Beyond face rotation: Global and
+local perception GAN for photorealistic and identity preserving frontal
+view synthesis,'' in Proc. IEEE Int. Conf. Comput. Vis. (ICCV), Oct. 2017,
+pp. 24392448.
+[45] L. Tran, X. Yin, and X. Liu, ``Disentangled representation learning GAN
+for pose-invariant face recognition,'' in Proc. IEEE Conf. Comput. Vis.
+Pattern Recognit. (CVPR), Jul. 2017, pp. 14151424.
+[46] A. Shashua and T. Riklin-Raviv, ``The quotient image: Class-based re-
+rendering and recognition with varying illuminations,'' IEEE Trans. Pat-
+tern Anal. Mach. Intell., vol. 23, no. 2, pp. 129139, Feb. 2001.
+[47] K.-C. Lee, J. Ho, and D. J. Kriegman, ``Acquiring linear subspaces for
+face recognition under variable lighting,'' IEEE Trans. Pattern Anal.
+Mach. Intell., vol. 27, no. 5, pp. 684698, May 2005.
+[48] X. Zhu, Z. Lei, J. Yan, D. Yi, and S. Z. Li, ``High-delity pose and
+expression normalization for face recognition in the wild,'' in Proc. IEEE
+Conf. Comput. Vis. Pattern Recognit. (CVPR), Jun. 2015, pp. 787796.
+[49] O. Rudovic, I. Patras, and M. Pantic, ``Coupled Gaussian process regres-
+sion for pose-invariant facial expression recognition,'' in Computer
+VisionECCV Springer, 2010, pp. 350363.
+[50] S. Eleftheriadis, O. Rudovic, and M. Pantic, ``Discriminative shared
+Gaussian processes for multiview and view-invariant facial expression
+recognition,'' IEEE Trans. Image Process., vol. 24, no. 1, pp. 189204,
+Jan. 2015.
+[51] T. Hassner, S. Harel, E. Paz, and R. Enbar, ``Effective face frontalization
+in unconstrained images,'' in Proc. IEEE Conf. Comput. Vis. Pattern
+Recognit. (CVPR), Jun. 2015, pp. 42954304.
+[52] X. Yin and X. Liu, ``Multi-task convolutional neural network for pose-
+invariant face recognition,'' IEEE Trans. Image Process. , vol. 27, no. 2,
+pp. 964975, Feb. 2018.
+[53] K. Mahantesh and H. J. Jambukesh, ``A transform domain approach to
+solve PIE problem in face recognition,'' in Proc. Int. Conf. Recent Adv.
+Electron. Commun. Technol. (ICRAECT), Mar. 2017, pp. 270274.
+[54] D. Zhang and S. Zhu, ``Face recognition based on collaborative represen-
+tation discriminant projections,'' in Proc. Int. Conf. Intell. Transp., Big
+Data Smart City (ICITBS), Jan. 2019, pp. 264266.
+[55] H. Tu, K. Li, and Q. Zhao, ``Robust face recognition with assistance of
+pose and expression normalized albedo images,'' in Proc. 5th Int. Conf.
+Comput. Artif. Intell. (ICCAI), 2019, pp. 9399.
+[56] M. Pietikãinen, ``Local binary patterns,'' Scholarpedia, vol. 5, no. 3,
+p. 9775, 2010.
+139118 VOLUME 8, 2020L. Liet al.: Review of Face Recognition Technology
+[57] T. Ahonen, A. Hadid, and M. Pietikäinen, ``Face recognition with
+local binary patterns,'' in Computer VisionECCV. Springer, 2004,
+pp. 469481.
+[58] X. Tan and B. Triggs, ``Enhanced local texture feature sets for face recog-
+nition under difcult lighting conditions,'' IEEE Trans. Image Process.,
+vol. 19, no. 6, pp. 16351650, Jun. 2010.
+[59] L. Wolf, T. Hassner, and Y. Taigman, ``Descriptor based methods in the
+wild,'' Tech. Rep., Oct. 2008.
+[60] N.-S. Vu and A. Caplier, ``Enhanced patterns of oriented edge magnitudes
+for face recognition and image matching,'' IEEE Trans. Image Process.,
+vol. 21, no. 3, pp. 13521365, Mar. 2012.
+[61] Z. Cao, Q. Yin, X. Tang, and J. Sun, ``Face recognition with learning-
+based descriptor,'' in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern
+Recognit., Jun. 2010, pp. 27072714.
+[62] H. J. Seo and P. Milanfar, ``Face verication using the LARK representa-
+tion,'' IEEE Trans. Inf. Forensics Security, vol. 6, no. 4, pp. 12751286,
+Dec. 2011.
+[63] G. Sharma, S. ul Hussain, and F. Jurie, ``Local higher-order statis-
+tics (LHS) for texture categorization and facial analysis,'' in Computer
+VisionECCV. Springer, 2012, pp. 112.
+[64] J. G. Daugman, ``Complete discrete 2-D Gabor transforms by neural
+networks for image analysis and compression,'' IEEE Trans. Acoust.,
+Speech, Signal Process., vol. 36, no. 7, pp. 11691179, Jul. 1988.
+[65] L. Wiskott, N. Krüger, N. Kuiger, and C. von der Malsburg, ``Face
+recognition by elastic bunch graph matching,'' IEEE Trans. Pattern Anal.
+Mach. Intell., vol. 19, no. 7, pp. 775779, Jul. 1997.
+[66] C. Liu and H. Wechsler, ``Gabor feature based classication using the
+enhanced Fisher linear discriminant model for face recognition,'' IEEE
+Trans. Image Process., vol. 11, no. 4, pp. 467476, Apr. 2002.
+[67] D. G. Lowe, ``Distinctive image features from scale-invariant keypoints,''
+Int. J. Comput. Vis., vol. 60, no. 2, pp. 91110, Nov. 2004.
+[68] N. Dalal and B. Triggs, ``Histograms of oriented gradients for human
+detection,'' in Proc. IEEE Comput. Soc. Conf. Comput. Vis. Pattern
+Recognit. (CVPR), vol. 1, Jun. 2005, pp. 886893.
+[69] A. Albiol, D. Monzo, A. Martin, J. Sastre, and A. Albiol, ``Face recog-
+nition using HOGEBGM,'' Pattern Recognit. Lett., vol. 29, no. 10,
+pp. 15371543, Jul. 2008.
+[70] O. Déniz, G. Bueno, J. Salido, and F. De la Torre, ``Face recognition using
+histograms of oriented gradients,'' Pattern Recognit. Lett., vol. 32, no. 12,
+pp. 15981603, Sep. 2011.
+[71] C. Shu, X. Ding, and C. Fang, ``Histogram of the oriented gradient for
+face recognition,'' Tsinghua Sci. Technol., vol. 16, no. 2, pp. 216224,
+Apr. 2011.
+[72] P. Dreuw, P. Steingrube, H. Hanselmann, H. Ney, and G. Aachen, ``Surf-
+face: Face recognition under viewpoint consistency constraints,'' in Proc.
+BMVC, 2009, pp. 111.
+[73] D. D. Lee and H. S. Seung, ``Learning the parts of objects by non-negative
+matrix factorization,'' Nature, vol. 401, no. 6755, p. 788, 1999.
+[74] A. M. S. Ang and N. Gillis, ``Accelerating nonnegative matrix factor-
+ization algorithms using extrapolation,'' Neural Comput., vol. 31, no. 2,
+pp. 417439, Feb. 2019.
+[75] F. Rousset, F. Peyrin, and N. Ducros, ``A semi nonnegative matrix fac-
+torization technique for pattern generalization in single-pixel imaging,''
+IEEE Trans. Comput. Imag., vol. 4, no. 2, pp. 284294, Jun. 2018.
+[76] M. Sun, Y. Li, J. F. Gemmeke, and X. Zhang, ``Speech enhancement under
+low SNR conditions via noise estimation using sparse and low-rank NMF
+with KullbackLeibler divergence,'' IEEE/ACM Trans. Audio, Speech,
+Lang. Process., vol. 23, no. 7, pp. 12331242, Jul. 2015.
+[77] D. Yu, N. Chen, F. Jiang, B. Fu, and A. Qin, ``Constrained NMF-based
+semi-supervised learning for social media spammer detection,'' Knowl.-
+Based Syst., vol. 125, pp. 6473, Jun. 2017.
+[78] P. Padilla, M. Lopez, J. M. Gorriz, J. Ramirez, D. Salas-Gonzalez, and
+I. Alvarez, ``NMF-SVM based CAD tool applied to functional brain
+images for the diagnosis of Alzheimer's disease,'' IEEE Trans. Med.
+Imag., vol. 31, no. 2, pp. 207216, Feb. 2012.
+[79] Z. Wang, M. Gu, and J. Hou, ``Sample based fast adversarial attack
+method,'' Neural Process. Lett., vol. 50, pp. 27312744, Jun. 2019.
+[80] M. Salvaris, D. Dean, and W. H. Tok, ``Generative adversarial networks,''
+inProc. Mach. Learn., 2018, pp. 187208.
+[81] J. T. Springenberg, ``Unsupervised and semi-supervised learning with
+categorical generative adversarial networks,'' 2015, arXiv:1511.06390.
+[Online]. Available: http://arxiv.org/abs/1511.06390[82] T. Salimans, I. Goodfellow, W. Zaremba, V. Cheung, A. Radford, and
+X. Chen, ``Improved techniques for training GANs,'' in Proc. Adv. Neural
+Inf. Process. Syst., 2016, pp. 22342242.
+[83] D. N. Jayasekara and M. R. Sooriyarachchi, ``A simulation based study
+for comparing tests associated with receiver operating characteristic
+(ROC) curves,'' Commun. Statist.-Simul. Comput., vol. 43, no. 10,
+pp. 24442467, Nov. 2014.
+[84] C. Rallings, M. Thrasher, C. Gunter, P. J. Phillips, and P. J. Rauss,
+``The feret database and evaluation procedure for face-recognition algo-
+rithms,'' Image Vis. Comput. J, vol. 16, no. 5, pp. 295306, 1998.
+[85] Y. Taigman, M. Yang, M. Ranzato, and L. Wolf, ``DeepFace: Closing the
+gap to human-level performance in face verication,'' in Proc. IEEE Conf.
+Comput. Vis. Pattern Recognit., Jun. 2014, pp. 17011708.
+[86] F. Schroff, D. Kalenichenko, and J. Philbin, ``FaceNet: A unied embed-
+ding for face recognition and clustering,'' in Proc. IEEE Conf. Comput.
+Vis. Pattern Recognit. (CVPR), Jun. 2015, pp. 815823.
+[87] O. M. Parkhi, A. Vedaldi, and A. Zisserman, ``Deep face recognition,'' in
+Proc. Brit. Mach. Vis. Conf., vol. 1, Jan. 2015, pp. 41.141.12.
+[88] Y. Sun, X. Wang, and X. Tang, ``Deeply learned face representations are
+sparse, selective, and robust,'' in Proc. IEEE Conf. Comput. Vis. Pattern
+Recognit. (CVPR), Jun. 2015, pp. 28922900.
+[89] Y. Wen, K. Zhang, Z. Li, and Y. Qiao, ``A discriminative feature learn-
+ing approach for deep face recognition,'' in Computer VisionECCV.
+Springer, 2016, pp. 499515.
+[90] J. Liu, Y. Deng, T. Bai, Z. Wei, and C. Huang, ``Targeting ultimate accu-
+racy: Face recognition via deep embedding,'' 2015, arXiv:1506.07310.
+[Online]. Available: http://arxiv.org/abs/1506.07310
+[91] W. Liu, Y. Wen, Z. Yu, M. Li, B. Raj, and L. Song, ``SphereFace:
+Deep hypersphere embedding for face recognition,'' in Proc. IEEE Conf.
+Comput. Vis. Pattern Recognit. (CVPR), Jul. 2017, pp. 212220.
+[92] E. Zhou, Z. Cao, and Q. Yin, ``Naive-deep face recognition: Touching
+the limit of LFW benchmark or not?'' 2015, arXiv:1501.04690. [Online].
+Available: http://arxiv.org/abs/1501.04690
+[93] Z. Zhu, P. Luo, X. Wang, and X. Tang, ``Recover canonical-view faces in
+the wild with deep neural networks,'' 2014, arXiv:1404.3543. [Online].
+Available: http://arxiv.org/abs/1404.3543
+[94] Y. Sun, Y. Chen, X. Wang, and X. Tang, ``Deep learning face repre-
+sentation by joint identication-verication,'' in Proc. Adv. Neural Inf.
+Process. Syst., 2014, pp. 19881996.
+[95] C. Lu and X. Tang, ``Surpassing human-level face verication perfor-
+mance on LFW with GaussianFace,'' in Proc. 29th AAAI Conf. Artif.
+Intell., 2015, pp. 19.
+[96] Y. Sun, D. Liang, X. Wang, and X. Tang, ``DeepID3: Face recognition
+with very deep neural networks,'' 2015, arXiv:1502.00873. [Online].
+Available: http://arxiv.org/abs/1502.00873
+[97] P. Baranyi. Tp Toolbox. Accessed: 2019. [Online]. Available: http://vis-
+www.cs.umass.edu/lfw/results.html
+[98] K. Simonyan, O. Parkhi, A. Vedaldi, and A. Zisserman, ``Fisher vector
+faces in the wild,'' in Proc. Brit. Mach. Vis. Conf., vol. 2, 2013, p. 4.
+[99] C. Huang, S. Zhu, and K. Yu, ``Large scale strongly supervised ensemble
+metric learning, with applications to face verication and retrieval,'' 2012,
+arXiv:1212.6094. [Online]. Available: http://arxiv.org/abs/1212.6094
+[100] N. Kumar, A. C. Berg, P. N. Belhumeur, and S. K. Nayar, ``Attribute
+and simile classiers for face verication,'' in Proc. IEEE 12th Int. Conf.
+Comput. Vis., Sep. 2009, pp. 365372.
+[101] Z. Lei, M. Pietikainen, and S. Z. Li, ``Learning discriminant face descrip-
+tor,'' IEEE Trans. Pattern Anal. Mach. Intell., vol. 36, no. 2, pp. 289302,
+Feb. 2014.
+[102] P. Li, Y. Fu, U. Mohammed, J. H. Elder, and S. J. D. Prince, ``Probabilistic
+models for inference about identity,'' IEEE Trans. Pattern Anal. Mach.
+Intell., vol. 34, no. 1, pp. 144157, Jan. 2012.
+[103] Y. Taigman, L. Wolf, and T. Hassner, ``Multiple one-shots for utilizing
+class label information,'' in Proc. Brit. Mach. Vis. Conf., vol. 2, 2009,
+pp. 112.
+[104] A. Martínez and R. Benavente, ``The AR face database, 1998,'' CVC
+Tech. Rep. 24, 1998.
+[105] W. Gao, B. Cao, S. Shan, X. Chen, D. Zhou, X. Zhang, and D. Zhao,
+``The CAS-PEAL large-scale chinese face database and baseline evalua-
+tions,'' IEEE Trans. Syst., Man, Cybern. A, Syst. Humans, vol. 38, no. 1,
+pp. 149161, Jan. 2008.
+[106] P. N. Belhumeur, J. P. Hespanha, and D. J. Kriegman, ``Eigenfaces vs.
+Fisherfaces: Recognition using class specic linear projection,'' IEEE
+Trans. Pattern Anal. Mach. Intell., vol. 19, no. 7, pp. 711720, Jul. 1997.
+VOLUME 8, 2020 139119L. Liet al.: Review of Face Recognition Technology
+[107] A. S. Georghiades, P. N. Belhumeur, and D. J. Kriegman, ``From few
+to many: Illumination cone models for face recognition under variable
+lighting and pose,'' IEEE Trans. Pattern Anal. Mach. Intell., vol. 23, no. 6,
+pp. 643660, Jun. 2001.
+[108] Y. Xu, X. Li, J. Yang, Z. Lai, and D. Zhang, ``Integrating conventional
+and inverse representation for face recognition,'' IEEE Trans. Cybern.,
+vol. 44, no. 10, pp. 17381746, Oct. 2014.
+[109] G. B. Huang, H. Lee, and E. Learned-Miller, ``Learning hierarchical
+representations for face verication with convolutional deep belief net-
+works,'' in Proc. IEEE Conf. Comput. Vis. Pattern Recognit., Jun. 2012,
+pp. 25182525.
+[110] G. B. Huang, M. Ramesh, T. Berg, and E. Learned-Miller, ``Labeled
+faces in the wild: A database for studying face recognition in uncon-
+strained environments,'' Univ. Massachusetts Amherst, Amherst, MA,
+USA, Tech. Rep. 0749, 2007, vol. 2, p. 3.
+[111] L. Wolf, T. Hassner, and Y. Taigman, ``Similarity scores based on back-
+ground samples,'' in Proc. Asian Conf. Comput. Vis., 2009, pp. 8897.
+[112] D. G. Miller, I. Kemelmachershlizerman, and S. M. Seitz, ``MegaFace:
+A million faces for recognition at scale,'' in Proc. Comput. Vis. Pattern
+Recognit., 2015. [Online]. Available: https://arxiv.org/abs/1505.02108
+[113] K. He, X. Zhang, S. Ren, and J. Sun, ``Deep residual learning for
+image recognition,'' in Proc. IEEE Conf. Comput. Vis. Pattern Recognit.
+(CVPR), Jun. 2016, pp. 770778.
+[114] K. Simonyan and A. Zisserman, ``Very deep convolutional networks
+for large-scale image recognition,'' 2014, arXiv:1409.1556. [Online].
+Available: http://arxiv.org/abs/1409.1556
+[115] P. J. Phillips, A. N. Yates, Y. Hu, C. A. Hahn, E. Noyes,
+K. Jackson, J. G. Cavazos, G. Jeckeln, R. Ranjan, S. Sankaranarayanan,
+and J. C. Chen, ``Face recognition accuracy of forensic examiners,
+superrecognizers, and face recognition algorithms,'' Proc. Nat. Acad.
+Sci. USA, vol. 115, no. 24, pp. 61716176, 2018.
+[116] C. Xu, Y. Zhao, and J.-F. Zhang, ``Information security protocol based
+system identication with binary-valued observations,'' J. Syst. Sci. Com-
+plex., vol. 31, no. 4, pp. 946963, Aug. 2018.
+[117] K. Jiang, Z. Wang, P. Yi, G. Wang, T. Lu, and J. Jiang, ``Edge-enhanced
+GAN for remote sensing image superresolution,'' IEEE Trans. Geosci.
+Remote Sens., vol. 57, no. 8, pp. 57995812, Aug. 2019.
+[118] K. Jiang, Z. Wang, P. Yi, G. Wang, K. Gu, and J. Jiang, ``ATMFN:
+Adaptive-threshold-based multi-model fusion network for compressed
+face hallucination,'' IEEE Trans. Multimedia, early access, Dec. 18, 2019,
+doi:10.1109/TMM.2019.2960586.
+[119] S. Bharadwaj, H. Bhatt, M. Vatsa, R. Singh, and A. Noore, ``Quality
+assessment based denoising to improve face recognition performance,''
+inProc. CVPR Workshops, Jun. 2011, pp. 140145.
+[120] E. Zangeneh, M. Rahmati, and Y. Mohsenzadeh, ``Low resolution face
+recognition using a two-branch deep convolutional neural network archi-
+tecture,'' Expert Syst. Appl., vol. 139, Jan. 2020, Art. no. 112854.
+[121] Z. Wang, G. Wang, B. Huang, Z. Xiong, Q. Hong, H. Wu, P. Yi, K. Jiang,
+N. Wang, Y. Pei, H. Chen, Y. Miao, Z. Huang, and J. Liang, ``Masked face
+recognition dataset and application,'' 2020, arXiv:2003.09093. [Online].
+Available: http://arxiv.org/abs/2003.09093
+LIXIANG LI received the M.S. degree in circuit
+and system from Yanshan University, Qinhuang-
+dao, China, in 2003, and the Ph.D. degree in
+signal and information processing from the Bei-
+jing University of Posts and Telecommunications,
+Beijing, China, in 2006. She visited the Potsdam
+Institute for Climate Impact Research, Germany,
+from July 2011 to June 2012. She is currently a
+Professor with the School of Cyberspace Security,
+Beijing University of Posts and Telecommunica-
+tions. She has published more than 100 articles. Her research interests
+include compressive sensing, complex networks, swarm intelligence, and
+network security. She received the National Excellent Doctoral Theses,
+the New Century Excellent Talents in University, the Henry Folk Education
+Foundation, the Hong Kong Scholar Award, the Beijing Higher Education
+Program for Young Talents, and the Outstanding Youth Award of the Chinese
+Association for Cryptology Research.
+XIAOHUI MU received the M.S. degree in com-
+puter technology from the Qilu University of Tech-
+nology, Jinan, China, in 2013. She is currently
+pursuing the Ph.D. degree in computer science and
+technology with the Beijing University of Posts
+and Telecommunications, Beijing. Her research
+interests include neural networks, deep learning,
+and data mining.
+SIYING LI was born in 1995. She is currently pur-
+suing the master's degree in computer technology
+with the Beijing University of Posts and Telecom-
+munications. Her research interests include image
+processing and matrix factorization.
+HAIPENG PENG received the M.S. degree in
+system engineering from the Shenyang University
+of Technology, Shenyang, China, in 2006, and
+the Ph.D. degree in signal and information pro-
+cessing from the Beijing University of Posts and
+Telecommunications.
+139120 VOLUME 8, 2020

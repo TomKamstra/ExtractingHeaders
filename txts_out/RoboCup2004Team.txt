@@ -1,0 +1,245 @@
+ 
+The Dutch AIBO Team 2004 
+ 
+Stijn Oomes1, Pieter Jonker2, Mannes Poel3,  
+Arnoud Visser4, Marco Wiering5
+ 
+1 March 2004 
+ 
+1 DECIS Lab, Delft Cooperation on Intelligent Systems  
+2 Quantitative Imaging Group, Depar tment of Applied Physics, Delft University of Technology  
+3 Human Media Interaction, Department of Computer Science, University of Twente  
+4 Intelligent Autonomous Systems, Department of Computer Science, University of Amsterdam  
+5 Intelligent Systems Group, Department of Co mputer Science, University of Utrecht 
+ 
+http://aibo.cs.uu.nl 
+stijn.oomes@decis.nl  
+ 
+ 
+1.  Introduction 
+ 
+At the end of last year, several institutes in the Netherlands have joined forces and formed 
+The Dutch AIBO Team.  We are a group of researchers and students from the universities of 
+Amsterdam, Delft, Twente and Utrecht, and the DECIS Lab. Our goal is to stimulate 
+research, teaching, and applications in the fields of artificial intelligence and collaborative 
+robotics in the Netherlands by joining the international RoboCup community. 
+ 
+Our team combines a group of senior researchers with a strong research record and a long experience in robot soccer competitions, with a diverse group of the most talented students in the country. Since we are distributed across the Netherlands, we have chosen a modular 
+architecture that allows us to develop our innovations in parallel. 
+ 
+This paper explains that our team has the right qualifications to compete in the Four-legged 
+Robot League of RoboCup 2004. We have chosen a promising approach to the AIBO team architecture which will position us as a serious competitor. 
+ 
+ 
+2.  Team 
+ 
+Since we consider our project to be a long term endeavor, we have set up a professional project organization. The Dutch AIBO Team consists of different sub-teams that all have their 
+specific goals and responsibilities. The coordination of all activities is in the hands of the 
+people at the DECIS Lab. Since this lab is itself a cooperation of multiple institutes, there is a lot of experience and know-how on coordinating large multi-partner projects. 
+ 
+The research  team consists of the authors of this paper and our job is to keep an eye on the 
+long term research goals. We all have well established positions and research programs at our respective institutions. Though using the AIBO as a platform is new for most of us, we have a long joint experience in robot soccer competitions (see Appendix A). Here we summarize our research programs and relevant courses: 
+ 
+Amsterdam 
+The Intelligent Autonomous Systems group st udies methodologies to create intelligent 
+autonomous systems, which perceive their environment through sensors and use that 
+information to generate intelligent, goal-directed behavior. This work includes formalization, 
+generalization, and learning of goal-directed be havior in autonomous systems. The focus is on 
+perception for autonomous systems, learning and neuro-computing, principles of autonomous systems and hardware and software systems. In this year’s Autonomous Systems course, 10 
+students divided into 2 teams worked full-time for 4 weeks on understanding and programming 
+the AIBO ERS-7. 
+ 
+Delft 
+The Quantitative Imaging Group (formerly know n as Pattern Recognition Group) studies a 
+wide variety of methodologies and applications in the field of image processing and pattern 
+recognition. Within the fields of industrial in spection and robot vision, we focus on the themes 
+"vision based motion & motion based vision", "sensor data fusion", and "hardware 
+architectures for real-time imaging". Within the AIBO project we have assigned one MSc 
+student (~1 year) on the subject of high speed ro bust color vision. Furthermore a second year 
+BSc project is assigned to the project (4 months, 6 students) with the task to look at: inventory 
+and testing of all available AIBO motions, dynam ic system simulations of AIBO motions, and 
+suitability of AIBO's for 1st y ear programming practical work. 
+ 
+Twente 
+The Human Media Interaction group studies the interaction between men and machines. 
+Computers operate in every day life as unive rsal media machines presenting multi-media 
+information and as communication devices connecting people. The interface is what presents 
+users with information and what allow users to manipulate and command the machine. This 
+has become a prominent topic of concern to researchers and designers. One of our research 
+streams is intelligent agents and collaborative autonomous systems. We use AIBOs in our courses on process control & robotics, and on mult i agent systems, and in thesis assignments. 
+ 
+Utrecht 
+The main focus of the research group is on logic and multi-agent systems. The group has 
+developed its own agent-programming language, call ed 3APL, which provides a logical basis 
+for building (communicating) agents. Other area s of research are reinforcement learning, 
+neural networks, and genetic algorithms. Both approaches to AI are currently being tested in a 
+number of different robots. This year's Software Project course has assigned 9 BSc students 
+to work on the motion modules for 20 hours a week, from February until the end of June.  
+ 
+DECIS 
+This cooperation between the universities of  Delft and Amsterdam, the Netherlands 
+Organisation for Applied Research, and Thales Re search & Technology focus their research 
+on collaborative decision making, and collaborat ive cognition and robotics. The application 
+domains are for example disaster response, the virtual office, and traffic control.  
+ 
+Those of us with appointments at universities use the AIBOs as a robot platform in our 
+courses and thesis assignments. This allows us to easily recruit talented students for The 
+Dutch AIBO Team . Our development  team consists of these (groups of) students that, due 
+to the modular architecture approach, focus on different aspects of the system (see the 
+detailed description in the next section). Students therefore compete against each other to 
+come up with the best solution for a particular problem, e.g. dribbling with the ball. The best 
+code will end up in the next competition version of our overall implementation. 
+ 
+The competition  team, the people that are actually taking part in RoboCup 2004, will be 9 
+students and one team leader. The selection of students from the development team is based on the premise that everyone who is joining the team has to bring something special 
+to the team; we use the available slots as a motivator for the students. In this way, we aim to 
+build a proper team of developers that will be able to truly collaborate during the tense days of the competition. 
+ 
+In summary, the strength of our team is that we combine the experience and stability of 
+senior researchers with the enthusiasm and creativity of students. Because of multiple 
+institutions we are able to tap into a large pool of bright students. The activities of our team are embedded both in our research & development programs and our academic curricula. 3.  Approach 
+ 
+In the spirit of RoboCup, we take full advantage of the availability of the code of last year’s 
+contestants. Because of the similar organization of the GermanTeam 2003, we decided to use their approach in our first year to allow us a kick start. Since we have acquired 14 ERS-7 AIBO robots, we had to port the code that was developed for ERS-210 AIBOs to the new platform. In order to gain some wider experience, we also ported the code from CMUPack 2003 to the ERS-7. 
+ 
+Presently, we are in the situation that we have successfully ported the code to the ERS-7 and are now in the process of dividing tasks among the project partners. Depending on the interest of the different groups, they will work on different modules. Our method will be to give the same problem to different groups (usually a few students). We will then choose the 
+best solution(s) to be a part of the official version of our code. 
+ 
+In the current architecture, the main modules are: vision, localization, behavior control, and 
+motion. We will combine the solutions that are implemented in the GermanTeam code with the ideas and experiences in the different labs on other platforms (mainly middle sized and simulation leagues). The main expertise and goals of the different labs are: 
+ 
+Amsterdam 
+The Intelligent Autonomous Systems group is interested to formalize the information 
+acquisition on the objects in the soccer wo rld, which allows learning, and adapting the 
+methods that combine the measurements from different sources, locations and moments. 
+ 
+Delft 
+The focus of the Quantitative Imaging Group is on calibrationless color segmentation based on 
+emergent behavior, sensor data fusion for ambi ent intelligence and dynamic system modeling 
+and reinforcement learning to pre-train vision based robot motions with a simulator and post-
+train the robots on the field. We will start with calibrationless color vision. 
+ 
+Twente 
+Focus of the Human Media Interaction group is  on methods and models for action selection, 
+decision making, multi agent planning, and coopera tion. Furthermore, adaptivity is a research 
+topic, especially learning in multi agent systems in order to increase the effectiveness of the 
+team by, among other things, learning opponent behavior models. 
+ 
+Utrecht 
+We focus on intelligent behavior of the team of robots. This covers making the translation from 
+a world model to a set of desirable actions, and communication between agents. We will use the predictive decision model of UvA Trilearn (winner of the RoboCup Simulation League in 
+2003) to improve the cooperation between the ro bots. Furthermore, we also aim to enhance 
+the movement techniques, making AIBOs move and kick faster and more efficiently. 
+ 
+DECIS 
+The interest of the DECIS Lab is in collaborative  behavior of the group of AIBOs, with a focus 
+on flexible role assignment, inference of opponent’s  strategy, strategy or tactics switching. 
+ 
+We are attending the German Open 2004 and are planning to evaluate and benchmark the 
+performance of the currently available solutions. 
+ 
+The strength of our proposed approach is that we combine the available implementation of 
+the GermanTeam 2003, the experience that we have gained in other leagues, and a pool of talented students that are already well informed about the ins- and outs of both the German 
+and the CMU code. The modular approach allows us to develop and improve components of 
+the architecture in different labs simultaneously. Appendix A - Competitions 
+ 
+Amsterdam 
+Soccer Simulation League  (team: UvA Trilearn)  
+RoboCup 2003, 1st place 
+American Open 2003, 1st place 
+German Open 2003, 1st place 
+RoboCup 2002, 4th place 
+German Open 2002, 1st place 
+RoboCup 2001, 4th place 
+German Open 2001, 5th place 
+RoboCup 1999, 9th place 
+RoboCup 1998, 3rd place 
+ 
+Rescue Simulation League (team: UvA C2003) 
+RoboCup 2003, 16th place 
+German Open 2003, 2nd place 
+ 
+Delft & Amsterdam 
+Soccer Middle Size League (team: Clockwork Orange) 
+German Open 2003, quarter final 
+German Open 2002, 4th place 
+RoboCup 2001, quarterfinal 
+German Open 2001, quarterfinal 
+European Championship 2000, quarterfinal 
+ 
+Twente 
+Mirosot Middle Size League (team: MiroSot ?) 
+FIRA World Championship 2004 
+FIRA European Championship 2003, 4th place 
+ 
+Utrecht 
+Rescue Simulation League  (team: BanzAI)  
+RoboCup 2003, 18th place 
+ 
+DECIS & Amsterdam 
+Robot Rescue League (team: Zeppelins) 
+RoboCup 2003, Round Robin 
+ 
+ 
+Appendix B - Publications 
+ 
+J. Kok, Multi-robot decision making using co ordination graphs, Proceedings of the 11th 
+International Conference on Advanced Ro botics, Coimbra, Portugal, 2003.      
+ 
+F.C.A. Groen, M.T.J. Spaan, and N.  Vlassis. Robot soccer game or science. In M. Ivanescu, 
+editor, Proceedings CNR-2002, p. 92-98. Edit ura Universitaria Craiova, October 2002. 
+ISBN:973-8043-165-5. 
+ 
+Nikos Vlassis and Matthijs T. J. Spaan. A fast point-based algorithm for  
+POMDPs. In Benelearn 2004: Proceedings of the Annual Machine Learning  
+Conference of Belgium and the Netherlands, pages 170-176, Brussels,  
+Belgium, January 2004 
+ 
+Roland Bunschoten and Ben Kröse. Visual odometry from an omnidirectional  
+vision system. In Proceedings of the International Conference on  
+Robotics and Automation ICRA'03, pages 577-583, Taipei, Taiwan, 2003.  
+ISBN 0-7803-7737-0 
+ 
+J. Caarls, P.P. Jonker, and S. Persa,  Sensor Fusion for Augmented  Reality, in: Emile Aarts, Rene Collier, Evert van Loenen, Boris de  
+Ruyter (eds.), Ambient Intelligence (P roc. 1st European Symposium EUSAI  
+2003, Veldhoven, Netherlands, Nov.3-4) , Lecture Notes in Computer  
+Science, vol. 2875, Springer Verlag, Berlin, 2003, 160-176 
+ 
+W. Caarls, P.P. Jonker, and H. Co rporaal, Benchmarks for SmartCam  
+Development, Proceedings of Acivs 2003, Advanced Concepts for  
+Intelligent Vision Systems (Ghent, Sep.2-5), Ghent University, Ghent, B,  
+2003, 81-86 
+ 
+P.P. Jonker and W. Caarls, App lication Driven Design of Embedded  
+Real-Time Image Processors, Proceedings of Acivs 2003, Advanced Concepts  
+for Intelligent Vision Systems (Ghent, Sep.2-5), Ghent University,  
+Ghent, B, 2003, 1-8 
+ 
+P.P. Jonker, S. Persa, J. Caar ls, F. de Jong, and R.L. Lagendijk,  
+Philosophies and technologies for ambient aware devices in wearable  
+computing grids, Computer Communicati ons, vol. 26, no. 11 (Special Issue  
+on Ubiquitous Computing, Edited by T. Pfeifer), 2003, 1145-1158 
+ 
+Jelle R. Kok, Matthijs T.J. Spaan,  and Nikos Vlassis. Multi-robot  
+decision making using coordination graphs. In A.T. de Almeida and U.  
+Nunes, editors, Proceedings of the 11th International Conference on  
+Advanced Robotics, ICAR'03, pages 11 24-1129, Coimbra, Portugal, June  
+30-July 3 2003. IEEE Pr ess. ISBN 972-96889-9-0 
+ 
+S. Persa and P.P. Jonker, Real-time computer vision system for mobile  
+robot, in: David P. Casasent, Ernest L. Hall (eds.), Intelligent Robots  
+and Computer Vision XX: Algorithms, Techniques, and Active Vision (Proc.  
+Conf. Boston, USA, Oct.28-Nov.2), Pr oc. SPIE, vol. 4572, 2001, 105-114 
+ 
+J.M. Porta and B.J.A. Kröse. Visi on-based localization for mobile  
+platforms. In E. Aarts, R. Collie r, E. van Loenen, and B.D. Ruyter,  
+editors, Proceedings of the First European Symposium on Ambience  
+Intelligence (EUSAI), pages 208-219, Eindhoven, The Netherlands,  
+November 2003. Springer. ISBN 3-540-20418-0 
+ 
+Josep M. Porta, Bas Terwijn, and Ben Kröse. Efficient entropy-based  
+action selection for appearance-based robot localization. In Proceedings  
+of the International Conference on Robotics and Automation ICRA'03,  
+pages 2842-2847, Taipei, Taiwan, 2003. ISBN 0-7803-7737-0 
+ 
+ 

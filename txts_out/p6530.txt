@@ -1,0 +1,214 @@
+1 Introduction
+Throughout the history of Western art one encounters frequent systematic deviationsfrom true linear perspective. It is debated whether these are due to unfamiliarity (before
+the `invention' of linear perspective in the early Renaissance, Alberti 1435 ^ 1436/1970)
+or are intentional digressions (as in modern art). In this paper we show that many ofsuch deviations reflect a hitherto hardly undocumented trait of human vision (Kepler1604/2000; Helmholtz 1896; Koenderink et al 2000; Cuijpers et al 2000, 2001; Jameset al 2001; Kappers and te Pas 2001; Koenderink et al 2009): although the eye samplesthe radiance at its entrance pupil from many optical directions converging on thatvantage point, the `visual rays' corresponding to these directions are experienced as a
+mutually parallel pencil (as predicted by theories of visual space
+öKoenderink and van
+Doorn 2008). As a consequence, and perhaps surprisingly, human observers commitcharacteristic deviations from veridicality of up to 100 deg in the visual estimation ofthe relative spatial attitudes of objects distributed in a scene. Mutually parallel, congruentobjects in the space in front of the observer are perceived as mutually rotated over anangle roughly equal to the angular separation of their respective optical directions.Apparently spatial attitude is referred to the local visual ray, rather than the geometry
+of the scene, leading to large systematic deviations in wide-angle views (Koenderink
+et al 2009).
+In retrospect, there turn out to exist many suggestive threads relating to this topic,
+in both the arts and the sciences. Consider figure 1, a 15th century illumination byJean Fouquet (ca 1460), which shows systematic deviations from true linear perspective.This is especially evident from the rendering of the tiled ground plane. That this is not
+due to Fouquet's ignorance of technique is evident because he renders the `pavimento'
+according to linear perspective in other (including earlier) works. Quite similar devia-tions are encountered throughout art history, a well known more recent example beingVincent van Gogh's Bedroom at Arles, Saint-Re ¨mieof 1889. There exists an earlier drawingVisual rays are parallelPerception, 2010, volume 39, pages 1163 ^ 1171
+Jan Koenderinkô#, Andrea van Doorn½, Huib de Ridder½, Stijn Oomes#
+ôThe Flemish Centre for Science and the Arts (VLAC), Koninklijke Vlaamse Academie van Belgie «
+voor Wetenschappen en Kunsten, Paleis der Academie «n, Hertogsstraat 1, 1000 Brussels, Belgium;
+½ Delft University of Technology, Faculty of Industrial Design, Landbergstraat 15, 2628 CE Delft,The Netherlands; # Delft University of Technology, Faculty of EEMCS, Mekelweg 4,2628 CD Delft, The Netherlands; e-mail: jan.koenderink@telfort.nlReceived 27 July 2009, in revised form 22 July 2010
+Abstract. We show that human observers using monocular viewing treat the pencil of `visual
+rays' that diverges from the vantage point as experientally parallel. This oddity becomes verynoticeable in the case of wide-angle presentations, where the angle subtended by a pair of visualrays may be as large as the angular size of the display. In our presentations such angles sub-tended over 100 deg. There are various ways to demonstrate the effect; in this study we measurethe attitudes of pictorial objects that appear to be situated in mutually parallel attitudes inpictorial space. Our finding is that such objects appear parallel if they are similarly oriented withrespect to the local visual rays. This leads to `errors' in the judgment of mutual orientations of
+up to 100 deg. Although this appears to be the first quantitative study of the effect, we trace
+it to qualitative reports by Helmholtz (late 19th century) and Kepler (early 17th century) as wellas speculation by early authors (
+AD500). The effect has apparently been noticed by visual artists
+from the late middle ages to the present day.doi:10.1068/p6530(van Gogh 1888) of the view without the curvatures of the front oparallels of the floor-
+boards, again proving that also van Gogh applied such curvatures intentionally .
+One wonders what goes on here: apparently the artists (at least from the mid-15th
+to the late-19th centuries) are well aware of the `correct' way of rendering wide-angle
+views, yet they chose to apply systematic `errors' . No doubt the intent is to increase
+the sense of `realism' experienced by the intended viewers of the picture. Thus the finalcause is apparently the peculiar structure of generic human visual experience.
+There exists at least anecdotal evidence for such an interpretation. For instance, both
+Kepler and Helmholtz, each of them exceptionally good and analytic observers, remarkon the observation that, although the visual field is very wide (about a half-space,corresponding to the field of view of a `fisheye lens'
+ösee below), it actually appears to
+be much smaller than a half-space. Everything looks like it being situated `in front ofthe observer'. Thus Kepler (1604/2000) spontaneously notes his surprise that:
+‘‘I have often seen, to my amazement, both the sun and my shadow, as if the two were
+out in front and not opposite each other. ''
+This is evidently the surprise of a genius, for apparently no one in the history
+of mankind noticed this fact before, yet it is there frequently enough for all to see!
+Likewise, Helmholtz (1896) notices that
+‘‘... the visual globe, which in the geometrical sense embraces a horizontal angle of about
+one hundred eighty degrees, seems indeed to be much narrower than this. [But] on looking
+up at the sky, the bright field in front of us appears to have an angular diameter of aboutninety degrees ... ''
+Thus, Helmholtz estimates the apparent field of view, which he knows to subtend
+about a half-space, as more like a right angle. This corresponds to the width of the
+`visual cone' of the ancient authors. For instance, Heliodorus of Larissa (ca 500) holdsthe visual field to subtend exactly 90 deg. However, this is not an observation , but a
+philosophical conclusion: since the visual field must be perfect, it subtends a perfect rightcircular cone and (being perfect) it can be neither acute nor obtuse, hence hasto be
+a right angle. We believe the remarks of Kepler and Helmholtz to result from actual
+observations though, not from merely echoing classical ideas.
+Figure1. [Incolouronline,see http://dx.doi.org/10.1068/p6530 ]JeanFouquet: l'Entre ¨edel'Empereur
+Charles IV Saint-Denis (ca1460). Notice the curvature of the frontoparallels in the tiled floor plane.
+Jean Fouquet was perfectly able to construct a true perspective `pavimento' as is evident from many
+of his works. The curvatures no doubt are used intentionally.1164 J Koenderink, A van Doorn, H de Ridder, S Oomes2 Experiment
+If the pencil of convergent optical directions is indeed experienced as a pencil of more-or-less parallel visual directions, one would expect apparent rotations of objectivelyparallel objects. This would be a very important effect, a peculiar kind of blindnesscommon to the human condition. However, at present no more than such anecdotal
+evidence exists. We put this expectation to the empirical test.
+2.1Methods
+Observers sat in front of a large (about 1 m wide) flat display. The viewing distancewas very short (24 cm); thus the angular width of the display was about 130 deg. Theviewing was monocular, from a fixed vantage point. Because the observers neededboth lateral eye movements and minor head rotations about the vertical, special mea-sures were taken to ascertain the constancy of the vantage point. (Observers pressed
+the inferior rim of their orbit against a rigid support.) This is important because
+we need to ensure that the vantage point coincides with the perspective centre. Themonocular cues for the distance and slant of the display in the various directionsare monocular parallax, accommodation, and texture gradients (due to the pixelationof the screen). Thus the observers were indeed aware of the plane of the display;they could vaguely make out its frame in the semi-darkened room. We have reason toassume that none of these conditions is especially relevant, given previous experiences
+(Cuijpers et al 2000, 2001).
+The display contained renderings of two cubes; one of these could be rotated about
+the vertical under the observer's control. During the setting, the two cubes werecontinually visible. The cubes appeared at a number of predetermined positions,equally distributed over the (horizontal extent of the) visual field and including thestraight-ahead direction.
+The task was to make the cubes appear as being in mutually parallel attitudes in
+(pictorial) space. Ambiguities were avoided by colouring the six faces of the cubes
+differently. The cubes were placed in random attitudes so as to prevent the use of(trivial) two-dimensional cues. This is a very important condition. The random attitudes(random rotation about a random axis of rotation) render the task far from trivial.In a canonical attitude, eg with a frontally faced face, the task can be done in a two-dimensional manner: simply make that face a square (or diamond, etc) on the screen.Then a comparison isn't even required
+öthe task can be done with a single cube.
+(This was the case in the first experiment described by James et al 2001, for example.)
+We have good reasons to believe that (granted their random spatial attitudes) the
+cubes yield results similar to those for any other sufficiently generic objects. For instance,we show below (figure 3) that human figures yield essentially the same results. In thelatter case, the apparent rotations are also seen in the scene, not just in the picture ofthe scene (the illusion reported by James et al 2001).
+The stimulus parameter was the attitude of the fixed cube and the response param-
+eter the adjusted attitude of the variable cube. Results were averaged over trials inwhich the role of the fixed and variable cube was exchanged and over repeats withdifferent random attitudes of the cubes.
+2.2Results
+We find that signs of apparent rotations are readily apparent if one looks for thembecause the deviations from veridicality are very large, values of up to 100 deg are
+easily demonstrated. In the main experiment we compare the mutual spatial attitudes
+of two mutually congruent objects (cubes in random spatial attitudes) seen in differentoptical directions. The observers view a display on which the objects are rendered andthus experience them in `pictorial space' . The rendering is in perfect linear perspective ofa (virtual) scene. In this scene the objects are placed on a horizontal, frontoparallel line.Visual rays are parallel 1165One of the objects can be rotated about the vertical and the task is to set it parallel
+to the fiducial object in the scene. We measure the attitude difference, an angular
+rotation about the vertical, as a function of the angular separation of the objects with
+respect to the vantage point.
+The result is shown in figure 2. It may be concluded that normal visual observers
+of all ages and genders effectively ignore optical direction when comparing spatialattitudes of congruent objects in a scene. The slope of the linear regression is 0.84,only slightly shallower than the prediction for the case of perfect neglect of opticaldirections (the line at unit slope) and very different from the prediction for veridicalperception (the horizontal line).
+2.3Consequences for rendering and display
+These effects are sufficiently large that they give rise to the visually striking effects
+that are frequently categorised as `the distortions of wide-angle lenses', despite the
+fact that such lenses yield perfect linear perspective by design. An example is shown infigure 3 top (made with a well corrected lens, horizontal visual field 104 deg, `correct'viewing distance 39% of the picture width). In order to obtain a rendering of a rowof people in strict military order on a frontoparallel row, one needs to place them ona circular arc about the camera and have each face the camera (thus destroying theactual but bringing about the apparent military order). This will still look somewhat
+deformed because the persons at each end will look `fat' (horizontally dilated), an
+effect that can be avoided by using the equiangular (Postel, see Barre et al 1967) projec-tion realised in many `fisheye' lenses (figure 3 bottom). [So-called `fisheye lenses' derivefrom the famous Hill (1926) lens. It covers 180 deg yielding a 62 mm diameter imageof the whole visible sky. Typical modern designs for 35 mm cameras use equiangularprojection.] This projection is very similar to that applied by Jean Fouquet andVincent van Gogh. Its formal description was possibly pioneered by Leonardo da Vinci135
+90
+45
+0
+ÿ45
+ÿ90
+ÿ135Apparent rotation =8
+ÿ135ÿ90ÿ45 04590135
+Angular separation =8ignoring optical direction
+veridical direction
+Figure 2. The attitude difference of two congruent objects appearing in parallel attitudes in the
+scene as a function of their angular separation in the visual field. The circles show the median
+values, the dashes the 25% and 75% quartiles. Notice that the circle at the origin is obtained`for free' (not an actual observation). The drawn line shows the prediction for the case of perfectneglect of true optical directions, whereas the dashed line shows the prediction for veridical perception.This result is based on sixteen observers of all ages, matched for gender.1166 J Koenderink, A van Doorn, H de Ridder, S Oomes(White 1957) and was popularised by Barre et al 1967 (compare Hauck 1879) as a
+means to render wide architectural scenes. As we have shown here, such a projectionperfectly fits the visual experience of generic human observers. [Technically this is nota `projection' at all, but it refers to `Riemann (1867) normal coordinates' .]
+In a follow-up experiment we asked naive observers which photograph (figure 3
+top or bottom) ``looks most as a row of people arranged in a frontoparallel line in
+strict military order'' . The result
+öas expected öis that the overwhelming majority
+(17 out of 20; thus 85%) immediately goes for the lower figure. The remaining threewere puzzled by the curvilinear architectural details. The linear perspective renderings(figure 4) look unnatural as viewed from normal reading distance, but the apparentorientations look mutually parallel. This remains the case if the photographs are viewedfrom the perspective centre, which is about a third of the picture width.
+Although rarely (if ever) mentioned, the effect is by no means isolated. A striking
+example is Ferdinand Hodler's (1892) large painting Die Lebensmu «denat the Neue
+Pinakothek, Munich. It shows five persons on a bench in frontoparallel arrangement,much as the arrangement in figure 3 top. The figures have been rotated as in figure 3bottom, though the bench is rendered in perfect linear perspective. The figures at eachend appear severely rotated with respect to the bench, offering the example of a strikinglocal inconsistency. Once this inconsistency has been pointed out (few people appearto notice it spontaneously) it sticks out as a sore thumb. We explore the perspective
+of this particular painting in the appendix.
+A reviewer of this paper suggested that the effect will only occur for pictures, but
+not for real objects. We have good reasons to doubt this, as closely related effectshave been reported to apply in the case of physical space (Koenderink et al 2000;Cuijpers et al 2000, 2001; Kappers and te Pas 2001). Moreover, in taking the photo-graphs (figure 3) the effect was clearly apparent to the photographer. One study thatsuggests the effect does not occur at all is by James et al (2001) which was done with
+Figure 3. Top: linear perspective of a frontoparallel row of people in strict military order (see
+figure 5 top). Notice that people at each end are seen in profile, they look `rotated' with respectto the `straight ahead' direction. Bottom: equiangular projection of a circular (about the camera)row of people, all facing the camera (see figure 5 bottom). Although the curvature of the rendering
+of straight lines is apparent, the row of people looks frontoparallel and in strict military order.Visual rays are parallel 1167real objects. We are at a loss to explain this report because these authors evidently
+observed the effect described here. In their discussion they remark:
+‘‘We should note that the two-cube set-up leads to a compelling visual illusion. The illusion
+is best seen when a pair of identically oriented cubes is placed with first cube centred and itsfront face perpendicular to the line of sight and the second cube in a peripheral position.
+When one looks at these two cubes, they do not appear to have the same orientation
+in three-dimensional space. For example, the peripheral cube appears to be rotated toofar to the right if it is on one's right. Like other visual illusions, knowing that the two cubesare oriented the same in space does not appear to change the magnitude of the illusion. ''(page 3453)
+This `illusion' is clearly our `effect'. However, in their formal results these authors
+find no sign of the illusion at all, they report `veridical' results. The striking discrepancybetween eye measure and formal data must be due to the precise methodology followed;we don't venture an explanation. Apparently the issue calls for further, detailed, study.
+This striking result at first blush might seem very odd; one wonders how people
+might negotiate the world successfully? A likely answer is that vision is just an inter-
+face, not necessarily `veridical' in the naive sense (Hoffman 2009). Moreover, spatialattitudes can often be referred to the local context (eg a car being parked to the curb).Perhaps sur prisingly, local inconsistencies can often be found in the visual arts albeit
+apparently rarely noticed by either the artist or the viewers.
+This seemingly odd finding is not specific to the visual faculty, for there exists a
+close parallel in haptic perception (Kappers 1999), where (blindfolded) observers ignore
+the rotation of their arm in the shoulder joint and judge the relative spatial attitudes
+of two mutually congruent objects presented at a laterally diverse location in their reachspace according to their hand frames. The deviations from veridicality in the haptic caseare as large as those in the optical case. Until quite recently such huge haptic effects
+öas
+in the optical case öwent undocumented.
+Figure 4. Top: linear perspective of a circular (about the camera) row of people, all facing the
+camera (see figure 5 bottom). Notice the apparent strong size differences. Bottom: linear perspective
+of a frontoparallel row of people facing the camera (see figure 5 centre). Notice the strong per-spective distortions. The equiangular projection yields by far the most convincing impression ofa strict military order as viewed from normal reading distance.1168 J Koenderink, A van Doorn, H de Ridder, S OomesReferences
+Alberti L B, 1435 ^ 36/1970 On Painting (first printed 1956; original appeared 1435 ^ 1436) translated
+with introduction and notes by John R Spencer (New Haven, CT: Yale University Press)
+Barre A, Flocon A, Bouligand G, 1967 La perspective curviligne: de l'espace visuel a ©l'image
+construite (Paris: Flammarion)
+Cuijpers R H, Kappers A M L, Koenderink J J, 2000 ``Large systematic deviations in visual
+parallelism'' Perception 291467 ^ 1482
+Cuijpers R H, Kappers A M L, Koenderink J J, 2001 ``In the role of external reference frames
+on visual judgements of parallelity'' Acta Psychologica 108283 ^ 302
+Fouquet J, ca1460 l'Entre ¨e de l'Empereur Charles IV Saint-Denis from Les Grandes Chroniques de
+France Bibiliothe ©que Nationale de France, Paris BN Fr 646 fol 42
+Gogh Vincent van, 1888 Letter Sketches, Arles: 17 October, 1888 Pierpont Morgan Library New York
+F:B22, JH:1610; see: http://www.vangoghgallery.com/catalog/Letter%20Sketches/2075/Vincent s
+-Bedroom.html
+Gogh Vincent van, 1889 Bedroom at Arles, Saint-Re ¨mieArt Institute of Chicago; see: http://commons.
+wikimedia.org/wiki/File:VanGogh Bedroom Arles.jpg
+Hauck G, 1879 Die subjektive Perspektive und die horizontalen Curvaturen des dorischen Stils, eine
+perspektivische ^ aesthetische Studie (Stuttgart: K Wittwer)
+Figure 5. The actual setups, for the photographs shown in figures 3 and 4. At top the actors
+are lined up in perfect military order; this yields the photograph shown in figure 3 top. Theactors are mutually parallel though they don't look it. At bottom the actors are arranged on acircular arc concentric with the camera. Moreover, they all face the camera, thus are in no way
+arranged parallel to each other in space. This yields the photograph shown at figure 3 bottom
+and figure 4 top. The actors are far from being mutually parallel though they do look it. In thepicture at centre the actors are lined up in frontoparallel, but face the camera. This is the caseof the photograph in figure 4 bottom.Visual rays are parallel 1169Heliodorus of Larissa, ca AD500; see: G ten Doesschate 1962 ``Oxford and the revival of optics
+in the thirteenth century'' Vision Research 1313 ^ 342, page 314
+Helmholtz H von, 1896 Handbuch der Physiologischen Optik volume 2 (revised edition) (Hamburg:
+Voss), in the English translation [translated by J P C Southall, 2005, volume III (New Y ork:
+Minneola)] pp 184 ^ 185
+Hill R, 1926 ``A lens for whole-sky photography'' Proceedings of the Optical Convention 2878 ^ 883
+and British pat no 225 398/1923
+Hodler F, 1892 Die Lebensmu «denNeue Pinakothek, Munich; see: http://commons.wikimedia.org/wiki/File:
+Ferdinand Hodler DieLebensmu «den.jpg
+Hoffman D, 2009 ``The interface theory of perception: Natural selection drives true perception
+to swift extinction'', in Object Categorization: Computer and Human Vision Perspectives
+Eds S Dickinson, M Tarr, A Leonardis, B Schiele (Cambridge: Cambridge University Press)
+pp 148 ^ 165
+James F M K, Whitehead S, Humphrey G K, Banks M S, Vilis T, 2001 ``Eye position sense
+contributes to the judgement of slant'' Vision Research 413447 ^ 3454
+Kappers A M L, 1999 ``Large systematic deviations in the haptic perception of parallelity''
+Perception 281001 ^ 1012
+Kappers A M L, te Pas S F, 2001 ``Deformation of visual space at the ECVP in Groningen''
+Perception 301275 ^ 1276
+Kepler J, 1604/2000 Optics, Paralipomena to Witelo & Optical Part of Astronomy (translated by
+W H Donahue) (Santa Fe: NM: Green Lion Press) page 186
+Koenderink J J, Doorn A J van, Lappin J S, 2000 ``Direct measurement of curvature of visual
+space'' Perception 2969 ^ 79
+Koenderink J J, Doorn A J van, 2008 ``The structure of visual spaces'' Journal of Mathematical
+Imaging and Vision 31171 ^ 187
+Koenderink J J, Doorn A J van, Todd J T, 2009 ``Wide distribution of external local sign in the
+normal population'' Psychological Research 7314 ^ 22
+Riemann Bernhard, 1867 ``U ëber die Hypothesen, welche der Geometrie zu Grunde liegen'' (published
+by Richard Dedekind after Riemann's death in Abhandlungen der Ko «niglichen Gesellschaft der
+Wissenschaften zu Go «ttingen 13; translation by William Kingdon Clifford, 1873 ``On the hypotheses
+which lie at the bases of geometry'') Nature 81 4^1 7 ,3 6 , 3 7
+White J, 1957 The Birth and Rebirth of Pictorial Space (London: Faber and Faber)
+Appendix: Analysis of a painting by Ferdinand Hodler
+The painting Die Lebensmu «den(see figure A1) is apparently in perfect one-point perspec-
+tive. It may be assumed that the seat of the bench is rectangular, from the left and
+right ends one immediately finds the vantage point VP. It lies slightly above the topof the painting (about a head's height) and a little to the right of the middle, abovethe left (hanging) hand of the central person. This allows one to draw the horizon.In order to do actual measurements one additionally needs to calib rate the depth
+(eg establish the distance points).
+Apart from the central figure all figures are sitting on the bench with the upper
+parts of their legs in the sagittal plane of their bodies, which again are aligned with
+the bench. This accentuates the bilateral symmetry of the figures that helps greatly tomake this such a striking picture. It allows us to infer the fore ^ aft axes of the figures.In the perspective these are vertical lines that do not converge on the main vanishingpoint on the horizon (as they should if the figures were arranged in perfect militaryorder) but in a common point at a very large, effectively infinite, distance above thehorizon. This indicates that the figures are not at all lined up in parallel fashion, but
+it does not allow us to read off the angle. However, it does show that the mutual angle
+of rotation of any two figures is equal to their angular separation, which is the mainmessage of the paper, even independently of any calibration. Such a calibration is perhapsdesirable because it would serve to put a numerical magnitude on the deviations.
+In order to achieve such a calibration one needs to establish a fiducial length as
+the unit in the depth dimension. One possibility is to use the fact that the depth of abench tends to equal the width of the average person. For example, seats of kitchen-chairs1170 J Koenderink, A van Doorn, H de Ridder, S Oomestend to be square. This immediately allows one to draw a diagonal and find a distance
+point DP on the horizon (figure A1), the point at top far right. This again allows oneto attach a nonlinear azimuth scale to the horizon. The horizontal angular width ofthe painting, that is the extent of the field of view, then can be read off. It is about48 deg of visual angle, roughly the width of a photograph taken with a `normal' or
+`standard' lens.
+From the fore ^ aft body axes of the two outermost figures we find that they mutually
+subtend an angle of about 38 deg.
+Here we have perhaps slightly underestimated the various angles, just to stay on
+the safe side. The `error'
+öperhaps an unfortunate term because no doubt the arrange-
+ment was intentional by the painter öis thus very appreciable, about an angle of
+40 deg. The painter did something very similar to what we did in the photographs,
+thus greatly augmenting the impact of the composition.
+37.5 deg
+48 deg
+ÿ26 degÿ21 deg 0 VP 16.5 deg 22 deg DP 45 deg
+Figure A1. [In colour online] The painting Die Lebensmu «den, by Ferdinand Hodler (1892, oil-tempera
+on canvas, 149.7 cm 6294.0 cm, Neue Pinakothek, Munich), overlaid with a perspective calibration
+grid. The vanishing point of the one-point perspective of the bank is VP, the right distance pointis estimated on the horizon at DP. The planes of bilateral symmetry are indicated by the vertical lines.
+ß 2010 a Pion publicationVisual rays are parallel 1171ISSN 0301-0066 (print)
+Conditions of use. This article may be downloaded from the Perception website for personal research
+by members of subscribing organisations. Authors are entitled to distribute their own article (in printedform or by e-mail) to up to 50 people. This PDF may not be placed on any website (or other onlinedistribution system) without permission of the publisher.www.perceptionweb.comISSN 1468-4233 (electronic)N:/psfiles/banners/
+final-per.3d

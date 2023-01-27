@@ -1,0 +1,602 @@
+994 IEEE JOURNAL OF SOLID-STATE CIRCUITS, VOL. 37, NO. 8, AUGUST 2002
+A Noise Optimization Technique for Integrated
+Low-Noise Amplifiers
+Jung-Suk Goo , Member, IEEE , Hee-Tae Ahn , Member,IEEE , Donald J. Ladwig, Zhiping Yu , Senior Member,IEEE ,
+Thomas H. Lee , Member, IEEE , and Robert W. Dutton , Fellow, IEEE
+Abstract— Based on measured four-noise parameters and
+two-port noise theory, considerations for noise optimization ofintegrated low-noise amplifier (LNA) designs are presented. Ifarbitrary values of source impedance are allowed, optimal noise
+performance of the LNA is obtained by adjusting the source
+degeneration inductance. Even for a fixed source impedance,the integrated LNA can achieve near
+/109/105/110by choosing an
+appropriatedevicegeometryalongwithanoptimalbiascondition.An 800-MHz LNA has been implemented in a standard 0.24-
+m
+CMOS technology. The amplifier possesses a 0.9-dB noise figurewith a 7.1-dBm third-order input intercept point, while drawing7.5 mW from a 2.0-V power supply, demonstrating that theproposed methodology can accurately predict noise performanceof integrated LNA designs.
+Index Terms— Amplifier noise, induced gate noise, low-noise
+amplifier, microwave amplifier, MOSFET amplifier, noise figure,random noise, semiconductor device noise.
+I. INTRODUCTION
+THE FIRST stage of a receiver is typically a low-noise
+amplifier (LNA). The LNA design involves tradeoffs
+between many figures of merit, such as gain, noise, power,
+impedance matching, stability, and linearity. Since the primary
+roleoftheLNAistolowertheoverallnoisefigureoftheentirereceiver, noise optimization is one of the most critical steps intheLNAdesignprocedure.Intraditionalmonolithicmicrowave
+integrated circuit (MMIC) design, active devices are given
+with fixed geometries and characteristics. For the given biasand frequency conditions, a source impedance
+is selected
+to minimize the noise figure [1]. Since the optimum source
+impedance for noise ( ) differs from the power-match
+conditionin general,thistechniqueoftenresults inlargepowerconsumption or input mismatching. Even in full custom ICs,despite an important option that the designer can choose the
+desireddevicegeometries,mostdesignersstillrelyonthesame
+optimization techniques [2]–[4] because no explicit guidanceis generally available on how to best exercise the IC designer’sfreedom in tailoring device geometries. They can achieve
+an optimum noise figure with acceptable input mismatching
+ManuscriptreceivedJanuary23,2001;revisedApril15,2002.Thisworkwas
+initiated by the Defense Advanced Research Projects Agency under Contract
+Army-DABT63-94-C-0055 and supported by Texas Instruments Incorporated
+through customized research under SRC Contract 99-NJ-695.
+J.-S.GooiswithAdvancedMicroDevices,Sunnyvale,CA94088-3453USA
+(e-mail: goojs@gloworm.stanford.edu).
+H.-T. Ahn is with Qualcomm, San Diego, CA 92121-1714 USA.
+D.J.LadwigiswithTexasInstrumentsIncorporated,Dallas,TX75243USA.Z.Yu,T.H.Lee,andR.W.DuttonarewiththeCenterforIntegratedSystems,
+Stanford University, Stanford, CA 94305-4075 USA.
+Publisher Item Identifier 10.1109/JSSC.2002.800956.(typically dB) but do not fully exploit the potential
+of integrated LNAs. Recently proposed noise optimization
+techniques for CMOS RF circuits permit greater flexibilityin the selection of device geometries as well as matchingelements and biasing conditions to minimize the noise figure
+for a specified gain or power dissipation [5], [6]. However,
+they use simplified small-signal models as well as constantnoise characteristics. These techniques also rely heavily onmathematical derivations that provide limited intuitive design
+guidance.
+This paper presents considerations for noise optimization
+of LNAs based directly on measured noise parameters andtwo-port noise theory; the approach requires neither sophisti-
+cated noise modeling nor circuit simulation to be used. All the
+analyses arebased onMOSFET designs,butthe same method-ologycanbeappliedtootherICtechnologies,suchasBiCMOSor heterojunction bipolar transistors (HBT). Section II reviews
+thebasicconceptofthenoisefigureandfour-noiseparameters.
+It also discusses the intrinsic noise model of the MOSFET andits relation to the measured noise performance of amplifiers.Section III explains how the noise performance of the LNA
+differs from that of the intrinsic device; design considerations
+for a CMOS-tuned LNA with power constraints are presented.SectionIVpresentsexperimentalresultsforanimplementationusing integrated CMOS technology to realize an LNA.
+II. F
+UNDAMENTAL NOISETHEORY FOR CMOS C IRCUITS
+A. Concept of the Four-Noise Parameters
+The noise performance of a circuit is usually characterized
+by a parameter called noise factor ()o rnoise figure (
+) that represents how much the given system degrades
+the signal-to-noise ratio [1].
+(1)
+TotalOutput Noise Power
+Output Noise Power bySource Impedance(2)
+Atonefrequency,thenoisefactorofalinearcircuitshowsapar-
+abolic dependence on the source impedance driving the given
+circuit. This behavior results in constant noise circles on the
+Smith chart and can be characterized in terms of the four-noiseparameters [7] as follows:
+(3)
+0018-9200/02$17.00 © 2002 IEEEGOOet al.: NOISE OPTIMIZATION TECHNIQUE FOR INTEGRATED LOW NOISE AMPLIFIERS 995
+where istheminimumnoisefactor, andarerealand
+imaginary parts, respectively, of the source admittance (
+);and arerealandimaginaryparts,respectively,
+oftheoptimumsourceadmittance( ,alsoknown
+asthenoise-matchingcondition),and istheequivalentnoise
+resistance. When is adjusted to , the circuit yields the
+bestachievablenoiseperformance .Ifdiffersfrom ,
+itsimpacton isamplifiedby .Evenif issufficiently
+low, large and a poor proximity between andresult
+in an unacceptably large noise figure in the actual circuit. Thisproblem becomes acute for MOSFET circuits because the re-
+flection coefficient
+1for optimum noise ( ) is nearly 1 and
+is3–10timeslargerthanforhighelectronmobilitytransistor
+(HEMT) devices [8].
+B. High-Frequency Noise in MOSFETs
+The thermal fluctuations of channel charge in the MOSFET
+produceeffectsthataremodeledbydrainandgatecurrentnoise
+generators[9].Thesecurrentsarepartiallycorrelatedwitheachotherbecausetheyshareacommonoriginandpossessaspectralpower given by
+(4)
+(5)
+(6)
+where is the drain output conductance under zero drain
+bias, is the real part of gate-to-source
+admittance,and ,,andarebias-dependentfactors.Forlong-
+channel MOSFETs, ,, andare, respectively, 2/3, 4/3, and
+0.395 in the saturation region, but short-channel MOSFETs
+exhibitlargervalues[5],[10].Theseexpressionsimplythatthespectral power density scales with the device width
+.
+C. Scaling of the Noise Parameters
+In realizing a custom IC design of the LNA, one of the key
+issues is to understand the device scaling effects on the noise
+parameters. The four-noise parameters can be derived2from
+current noise spectral power, given in (4)–(6), as follows:
+(7)
+(8)
+(9)
+(10)
+Equation(7)suggeststhatdeviceswithshorterchannellength
+yield better noise figures because the angular cutoff frequency
+1Defined as /0 /61/40 /89 /0 /89 /41 /61 /40 /89 /43 /89 /41, where /89is the characteristic ad-
+mittance of the transmission line.
+2Exactexpressionscanbederivedbasedonthetwo-porttheory[11],[12].The
+approximated (7)–(10) neglect the distributed and Miller effects. Their deriva-
+tions are found in [10].is proportional to while becomes
+at most 6.5 times larger than the long-channel case, down to0.25
+m [6]. Likewise, (8) also suggests that shorter devices
+improve . Therefore, the selection of device geometries for
+theLNAdesignrequireswidthscalingofthedevice,consistentwiththeshortestchannellengththatcanberealized.In(7)–(10),
+,,and scalelinearlywiththedevicewidth ,while
+noisefactors ,,,andarewidthindependent.Theseresults
+thus suggest the dependence of the four-noise parameters withrespect to the device width as follows:
+no width dependence (11)
+(12)
+(13)
+(14)
+Equations (3) and (12) imply that the larger device width
+offersthebestchanceof loweringnoisefigure.Theupperlimitofthewidthissetbytheconstrainedpowerbudgetinintegrated
+circuit implementations. When the supply voltage and power
+consumption aregiven, the device width of the input stage cor-respondingtoeachbiasconditioncanbeeasilycalculatedfromthe current density. In other words, for a fixed drain current,
+lower gate biasingallows a larger device width and higher gate
+biasing demands to decrease the device width.
+D. Noise Analysis of the Amplifier
+This paper utilizes the two-port theory [11], [12] instead
+of analytical equations. The four-noise parameters and
+-parameters were measured from a 0.24- m nMOSFET with
+m, using the ATN NP5B system. The frequency
+range was from 0.5 to 6.0 GHz with 0.5-GHz step and the gate
+and drain bias conditions were from 0.5 to 2.5 V with 0.2-Vstep, respectively. The resulting data were then smoothed forthe frequency as well as the bias dependences and used in the
+following analyses. The tuned amplifier illustrated in Fig. 1(a)
+is one of the most broadly used LNA architectures because itoffers the potential of achieving the best noise performance[5], [6], [10]. To evaluate its noise performance, the amplifier
+isdivided intothree cascadingstagesas illustrated in Fig.1(b).
+An admittance noise matrix for the first stage (
+)i s
+found from the following network parameters:
+(15)
+This noise matrix is then transformed to the represen-
+tation ( ).
+In the second stage, an noise matrix of
+is obtained from the measured four-noise parameters and then
+transformed to the impedance noise matrix ( ). The total
+noiseofthesecondstage( )isthesumof andthe
+oneforthesourceinductorcomponent( ).Asdoneforthe
+first stage, an representation ( ) is obtained by a
+transformation.
+Finally, the noise matrix of the third stage ( )
+is acquired from the four-noise parameters of the996 IEEE JOURNAL OF SOLID-STATE CIRCUITS, VOL. 37, NO. 8, AUGUST 2002
+(a)
+(b)
+Fig.1. (a)TunedLNAarchitectureemployinginductivesourcedegeneration.
+(b) Noise performance evaluation sequence for an amplifier.
+common-gate-mode MOSFET. Alternatively, it can be ac-
+quired through a conversion process presented in [13]. Note
+that the noise contribution from needs to be subtracted
+from the second stage and added to the third stage.
+Thenoiseperformanceoftheentireamplifierisgivenbycas-
+cading the three stages, as follows:
+(16)
+(17)
+III. DESIGNCONSIDERATIONS FOR A TUNEDAMPLIFIER
+For the topology illustrated in Fig. 1(a), the desired input
+impedance of the amplifier is obtained for a narrow frequency
+bandbychoosing andindependently.When ,itis
+approximated as follows [5]:
+(18)
+Itisknownthatthesourcedegenerationinductance controls
+the noise performance of the given architecture [14], but the
+reasons are not well understood.
+Supposeapowersupplyhavingaconjugatelymatchedsource
+impedance isconnectedtotheLNAasillustratedinFig.1(a).
+This can mean that and ,o r
+thatandtransformagiven tobeconjugatelymatched
+to. Assuming the noise from passive components is negli-
+gible,basedonthedefinitionin(2),thenoisefactorofthegiventopology can be expressed as [6]
+(19)
+(20)
+Fig. 2. Dependence of output noise power components on /60 /91 /90 /93where /90
+istheinputimpedanceatthegateelectrodeof /77.Aconjugatepowermatchis
+assumed.
+(21)
+(22)
+(23)
+(24)
+(25)
+(26)
+(27)
+(28)
+(29)
+(30)
+(31)
+where denotes the real part of a complex number, and
+,, and arecurrent noise power components at the
+output of the LNA contributed by ,, and , respec-
+tively. In Fig. 2, the device size and bias condition are fixed,
+then the impact of different are examined. The
+result shows that each component has a different dependenceon
+. Since the feedback of reduces the current gain,
+asincreases, the output noise contributions from the source
+resistance and the induced gate noise of
+monotonically decrease, but their slopes are different due to
+different feedback gains. On the other hand, the contributionfromtheinducedgatenoiseof
+isnegligiblysmall.
+Thecontributionsfromdraincurrentnoise( and )
+have almost unity gain, and thus result in an -independent
+term. Hence, the LNA yields the best noise figure whenthe
+-dependent term ( ) and -independent term
+( ) give equal contributions, as illustrated in
+Fig. 2 by two dashed lines.
+Thefour-noiseparametersofferamoreintuitivemeansofex-
+planation for the phenomenon discussed above. The four-noiseGOOet al.: NOISE OPTIMIZATION TECHNIQUE FOR INTEGRATED LOW NOISE AMPLIFIERS 997
+(a)
+(b)
+Fig.3. NoiseperformanceoftheLNAforvarying /76.Thenoisecontributions
+of /77substrate and /77are excluded and /67 /61/48. (a) Optimum source
+impedance. (b) Noise figure.
+parametersoftheLNAarecalculatedfordifferentvaluesof
+using in Section II-D. Fig. 3(a) plots the power-
+matching condition ( ) and noise-matching condi-
+tion ( ) together on the Smith chart for varying
+from 0.1 to 10 nH. As increases, the real part of pro-
+portionally increases and the power-matching condition movesdownward counterclockwise. On the other hand,
+dramati-
+cally changes the noise-matching condition as well, but it ex-
+hibits atotally independenttrajectorytothe left.Aninterestingfactisthatthosetwoconditionscancomeintoagoodproximitybyanappropriateamountofthesourcedegeneration.Sincethe
+proximitymeans
+innoiseperformancecalculation,
+a better proximity essentially leads to a lower noise figure.
+Fig. 3(b) shows the noise figure when the source impedance
+() is chosen to providing a perfect power match. The
+best achievable noise figure is obtained when brings
+and to the point where they are in the closest proximity;
+those conditions are marked as and in
+Fig. 3(a). This fact implies that an accurate calculation of the
+input impedance is critical in the noise optimization process;
+approximate values are of limited use. Another beneficialimpact of using a source inductance is that it substantiallylowers
+and slightly improves as well. Thus, the LNA
+can potentially achieve a better noise figure than of the
+MOSFET alone if coincides with .
+Since isafunctionofthedevicesizeandbiascondition,
+so is the optimum . Fig. 4(a) demonstrates the optimum
+(a)
+(b)
+Fig.4. (a)Optimum /76yieldingthebestnoisefigureoftheLNAforthegiven
+biasconditionunderthepowerconstraint.(b)BestnoisefigureoftheLNAwith
+optimum /76.Thenoisecontributionsof /77substrateand /77areexcludedand
+/67 /61/48.
+isbias dependent and scales linearlywith the specifiedcurrent.
+However,thenoisefigureachievedbyoptimizing isindepen-
+dent of the current specification and very close to the intrinsic
+, as shown in Fig. 4(b).
+A. Input Transistor Optimization
+To achieve for noise minimization, the designer
+has two options. The first approach is to adjust the sourceimpedance to a predetermined
+, which is set by a given
+MOSFET. The other approach is to adjust to a prefixed
+by changing the geometries of the transistors, primarily
+the input device. The second option is very useful since thesource impedance has a fixed value of 50
+in many RF
+applications; also, the linearity specification often limits the
+choice of , which sets the real part of the input impedance.
+Thus,selection of theinput device is theprimary considerationin noise optimization of integrated circuits.
+This section assumes that the source impedance is fixed to
+50
+andseekstheoptimumsizeoftheinputtransistor.Fordif-
+ferentgatebiasrangingfrom0.6to1.5V,thewidthoftheinputdevice
+with the shortest channel length is first adjusted to
+satisfythegivenpowerconstraintateachgatebias.Tomakethe
+LNAbeinapower-matchcondition,theinductor ischosento
+providea50- realpartoftheinputimpedancefortheLNAand
+thenthevalueof isadjustedtocanceloftheimaginarypartof
+the input impedance. For better accuracy, the input impedance998 IEEE JOURNAL OF SOLID-STATE CIRCUITS, VOL. 37, NO. 8, AUGUST 2002
+(a) (b)
+(c) (d)
+Fig.5. Power-constrainednoiseperformanceof theLNAwhen /82 /61 /90 /61/53 /48 /10.Thenoise contributionsof /77substrateand /77areincludedand /67 /61/48.
+(a) Optimum source impedance at /102 /61/52GHz. (b) Optimum source impedance at /102 /61 /56/48/48MHz. (c) Equivalent noise resistance. (d)Noise figure.
+is calculated based on the methodology in [13]. In that case,
+while the power-match condition is fixed to 50 , the
+noise-match condition moves as shown in Fig. 5(a) and
+(b).Asdiscussedintheprevioussection,theproximityof
+to 50determines the noise figure. Even if somewhat
+deviates from 50 , however, this deviation does not substan-
+tially degrade the noise figure since the noise resistance of theLNAisreducedbyafactorofasmuchas5incomparisontotheMOSFET by itself, as shown in Fig. 5(c). In general, the cur-
+rentspecificationdirectlyscalestheallowabledevicewidthand
+loweringgatebiasgrantstousealargerdevicewidthforafixeddraincurrent.Asthenoiseresistanceisinverselyscaledwiththedevicewidth,itisevidentthathigherdraincurrentspecification
+and lower gate biasing make the noise figure less sensitive to a
+noise mismatch.
+Fig.5(d)clearlyshowstheoptimumgatebiasfornoise.Italso
+demonstrates that resulting noise figures are close to
+.
+The valley-shaped noise figure profile can be described by an
+analytical expression as follows [6]:
+(32)
+The second and third terms include the drain conductance .
+Since it is linearly scaled with the width, it becomes smaller
+as the gate bias increases for a fixed current specification. Inthe second term,
+suggests that this term originates from the
+drain noise; in the numerator implies that this term is dom-inant when the gate bias is low due to width scaling. On the
+otherhand,inthethirdterm, suggeststhatthistermoriginates
+from the induced gate noise; in the denominator proposes
+that this term is dominant when the gate bias is high. In otherwords, the given formula has two independent noise compo-
+nentsthathavetheoppositegatebiasdependencetoeachother.
+Thenoisefigurethushasminimawheretheycontributeequallytothenoise figure.This facthighlights theimportanceof accu-rate gate noise modeling for circuit design.
+B. Cascode Stage Design
+The cascode stage has a relatively small impact on the
+overall noise figure if the input stage is not optimal. However,to squeeze out the best noise figure, it needs to be optimized as
+well. In fact, in Fig. 5(d), the difference between the minima
+of the noise figure valley and
+is primarily limited by
+the extra noise contribution from the cascode stage which isalso subject to the given power constraint. Thus, the second
+step of the noise optimization is choosing a proper size for
+the cascode stage. For the topology shown in Fig. 5(b),
+exhibits a larger deviation from the power-match condition.It is caused not by the operating frequency, but by the poorly
+optimized cascode stage. While it is known that increasing the
+width of the cascode device monotonically improves shieldingfromtheoutput,itsimpactonthenoiseperformanceisnotwellunderstood.GOOet al.: NOISE OPTIMIZATION TECHNIQUE FOR INTEGRATED LOW NOISE AMPLIFIERS 999
+Fig. 6. Impact of the cascode transistor on the overall noise figure under the
+power constraint. /82 /61 /90 /61/53 /48 /10.
+Thebiasofthecascodestageistightlylinkedtoitssize.The
+widthcanincreaseuntilthebiasofthecascodestageapproaches
+the threshold voltage, or it can decrease until the input device
+reaches the linear region. In this section, the gate bias and sizeof the input device is fixed to the optimum values found in
+Fig. 5(d) and the width of the cascode stage device is swept
+with the minimum channel length. The inductors
+and
+are readjusted to keep the input impedance to 50 . As the
+width of the cascode stage ( ) increases, the generated noise
+powerfromthecascodestagealsoincreases.Intuitively,thisfact
+suggests that smaller improves the noise figure monotoni-
+cally by reducing the noise contribution of as well as the
+capacitanceattheintermediatenodebetween and.Due
+totheMillereffect,however,therequired for
+increases as becomes smaller. Consequently, smaller
+yields a different noise-match condition as well as larger value
+of. Eventually,the noise figure becomes worse if istoo
+small.AnoptimalwidthexistsasshowninFig.6.Forthegiven
+topology, with , the cascode stage introduces 40%
+extra noise power to the input stage, which, in turn, increases
+by about 0.5 dB.
+C. Pad Capacitance
+In the process of practical LNA design, as illustrated in
+Fig. 1(a), the bonding pad introduces an extra ac current path
+to ground. In silicon technology, this can severely deteriorate
+the noise figure if the path contains a resistive component,such as the conductive substrate [15]. However, if the resistivecomponent is suppressed by replacing the bottom plate of the
+pad capacitor from the substrate to a metal layer [15], the
+bonding capacitance simply increases the required inductancevalue for the designated input impedance. This consequentlybrings the noise-match condition closer to
+and also
+diminishes the noise resistance further. In this section, the
+input device optimization process presented in Section III-A isperformed again with the presence of the pad capacitance. Anarbitrary value
+3ofis chosen first and then andare
+adjusted to make . Fig. 7(a) and (b) demonstrates
+that the bonding pad capacitance mitigates the strong gate
+3This is a part of the design rules in many cases.
+(a)
+(b)
+Fig.7. Power-constrainednoiseperformanceoftheLNAwhen /82 /61 /90 /61
+/53/48 /10fordifferentpadcapacitance.Thenoisecontributionsof /77substrateand
+/77are included. (a) Noise figure. (b) Gain.
+bias dependence of the noise figure. However, it is a tradeoff
+between the noise figure and gain.
+IV. EXPERIMENTAL RESULTS
+To evaluate the LNA performance, a single-ended LNA in-
+tended to achieve 1.0 dB of noise figure was designed using a
+0.24-m silicideCMOStechnology. The diephoto ofthe LNA
+isgiveninFig.8.First,theminimumsizepadwasimplementedusingmetal-5andmetal-1layerstosuppressextranoise,giving47fFofcapacitance.Thesupplyvoltagewaschosentobe2.0V
+to provide a voltage headroom for the cascode transistor.
+4The
+analysis in Fig. 5(d) suggests that at least 3.75 mA of bias cur-rent is required to achieve below 1.0 dB of noise figure. Thegatebiaswassetto0.7Vtoachievethebestnoisefigurebased
+onthecharacteristicinFig.7(a).Thecorrespondingsizeof
+was 90/0.24 for the given power budget. At the time of design,
+the cascode stage was not fully optimized and the size of
+waschosentobe45/0.24.Forthegiventopology,itisexpected
+to improve the noise figure by 0.1 dB with m. To
+minimize the distributed gate resistance, the MOSFETs weresegmented into 5-
+m-long gate fingers and each of the fingers
+wascontactedatbothends[16].Thespiralinductor wasim-
+plemented using the metal-5 layer and its value was chosen to
+4The threshold voltage is relatively high in the given technology. Further
+process adjustments can potentially reduce the supply voltage as well as the
+power consumption.1000 IEEE JOURNAL OF SOLID-STATE CIRCUITS, VOL. 37, NO. 8, AUGUST 2002
+Fig. 8. Die photo of the LNA.
+Fig. 9. Wire-bonding illustration of the LLP package.
+be 1.1 nH to provide 50 of real part of the input impedance,
+in combination with . The inductor was designed based on
+thecompactmodelpresentedby[17];apatternedgroundshieldwasemployedtoreducethesubstrateparasiticsofthespiralin-
+ductor[18].Sincetherequiredgateinductor
+tocanceloutthe
+imaginary partof theinput impedance was 36nH, whichistoolargetobeintegrated,anexternalinductorwasusedalongwithabondwireinductor.Finally,tocontroltheparasiticinductance
+from
+to ground, the die was mounted on a special leadless
+leadframe package (LLP) which allows direct downbonding tothe large ground plane, as shown in Fig. 9.
+The complete schematic of the device under test (DUT) is
+shown in Fig. 10. The real term of the input impedance of the
+fabricated LNA was 54
+and was adjusted to 50 using an
+off-chip tuner. To maximize accuracy in noise figure measure-ment,theoutput oftheLNA isalso impedancematched
+5using
+another off-chip tuner.
+Fig.11(a)and(b)showsmeasuredthird-orderinputintercept
+point (IIP3) and noise figure as well as the available gain. Themeasured performance of the LNA is summarized in Table I.
+With 3.75 mA of bias current, the LNA achieves about 0.9 dB
+ofnoisefigure,whichisthelowestreportednoisefigurewithaperfect power match for a CMOS LNA, and it adds just 0.3 dBto the
+of the intrinsic MOSFET device. The measured
+noisefigureisalsoquiteclosetotheexpectedvalueanddemon-
+strates that the proposed methodology accurately predicts thenoise performance of custom integrated LNA designs.
+5If the output is not matched, the measured noise figure needs a correction
+that may lead to errors [1].
+Fig. 10. Complete schematic of the LNA, including off-chipelements.
+(a)
+(b)
+Fig. 11. Measured performance of the LNA. (a) IIP3 result. (b) Noise figure
+and gain.
+V. CONCLUSION
+Based on the measured noise parameters of the 0.24- m
+MOSFETandontheresultsderivedfromtwo-portnoisetheory,
+considerations for a integrated LNA design are presented. The
+measured noise parameters can be scaled directly with the de-vice width; device sizing can be utilized for power-constraineddesign. The noise performance of the tuned LNA is primarilycontrolled by the source degeneration inductance, whichGOOet al.: NOISE OPTIMIZATION TECHNIQUE FOR INTEGRATED LOW NOISE AMPLIFIERS 1001
+TABLE I
+MEASURED PERFORMANCE OF AN 800-MH ZLNA
+determines both the power-matching and the noise-matching
+conditions. Therefore, if arbitrary values of source impedance
+are allowed, the optimal LNA design can be obtained by
+adjusting the source inductance. Even if the source impedanceis fixed, the integrated LNA can achieve noise performancenear
+by choosing an appropriate device geometry and
+optimizing the bias conditions. The cascode stage usually
+introduces at least 40% extra noise power to the input stage;thus, its width needs to be optimized.
+Although the demonstrated LNA uses a single-ended archi-
+tecture, future LNA designs will require differential operation
+since further scaling of the device sizes requires smaller values
+of source inductance. Fully integrated inductors with largevalues and high quality factors required for
+are an ongoing
+challenge. The results demonstrate that CMOS can be a goodcandidateforhigh-performanceLNAdesigns,competitivewith
+GaAs and bipolar LNAs.
+A
+CKNOWLEDGMENT
+The authors would like to thank Texas Instruments
+Incorporated for promoting and mentoring this project. Specialthanks go to National Semiconductor for fabricating the chipand accommodating test equipment.
+R
+EFERENCES
+[1] “Fundamentals of RF and microwave noise figure measurements,” Ag-
+ilent Technologies, Palo Alto, CA, Application note 57-1.
+[2] B. A. Floyd, J. Mehta, C. Gamero, and K. K. O, “A 900-MHz 0.8- /22m
+CMOS low-noise amplifier with 1.2-dB noise figure,” in Proc. IEEE
+Custom Integrated Circuits Conf. (CICC) , San Diego, CA, May 1999,
+pp. 661–664.
+[3] G. Gramegna, A. Magazzú, C. Sclafani, M. Paparo, and P. Erratico, “A
+9-mW900-MHzCMOSLNAwith1.05-dBnoisefigure,”in Proc.Eur.
+Solid-StateCircuitsConf.(ESSCIRC) ,Stockholm,Sweden,Sept.2000,
+pp. 112–115.
+[4] P. Leroux, J. Janssens, and M. Steyaert, “A 0.8-dB NF ESD-protected
+9-mW CMOS LNA,” in Proc. Int. Solid-State Circuits Conf. (ISSCC)
+Dig. Tech. Papers , San Francisco, CA, Feb. 2001, pp. 410–411.
+[5] D.K.Shaefferand T. H.Lee,“A1.5-V 1.5-GHzCMOSlow-noiseam-
+plifier,”IEEE J.Solid-State Circuits ,vol. 32,pp. 745–759,May 1997.[6] J.-S. Goo, K.-H. Oh, C.-H. Choi, Z. Yu, T. H. Lee, and R. W. Dutton,
+“Guidelinesforthepower-constraineddesignofaCMOStunedLNA,”
+inProc. Int. Conf. Simulation of Semiconductor Processes and Devices
+(SISPAD) , Seattle, WA, Sept. 2000, pp. 269–272.
+[7] H. Rothe and W. Dahlke, “Theory of noisy fourpoles,” in Proc. Inst.
+Radio Eng. , vol. 44, June 1956, pp. 811–815.
+[8] G. Dambrine, J.-P. Raskin, F. Danneville, D. Vanhoenacker-Janvier,
+J.-P. Colinge, and A. Cappy, “High-frequency four-noise parametersof silicon-on-insulator-based technology MOSFET for the design of
+low-noise RF integrated circuits,” IEEE Trans. Electron Devices , vol.
+46, pp. 1733–1741, Aug. 1999.
+[9] A. van der Ziel, Solid State Physical Electronics , 3rd ed. Englewood
+Cliffs, NJ: Prentice-Hall, 1976, ch. 18.
+[10] T. H. Lee, The Design of CMOS Radio-Frequency Integrated Circuits ,
+1st ed. Cambridge, U.K.: Cambridge Univ.Press, 1998, ch. 11.
+[11] H. A. Haus and R. B. Adler, Circuit Theory of Linear Noisy Net-
+works. New York: Wiley, 1959.
+[12] H.HillbrandandP.H.Russer,“Anefficientmethodforcomputer-aided
+noiseanalysisoflinearamplifiernetworks,” IEEETrans.CircuitsSyst. ,
+vol. 23, pp. 235–238, Apr. 1976.
+[13] J.-S.Goo,H.-T.Ahn,D.J.Ladwig,Z.Yu,T.H.Lee,andR.W.Dutton,
+“Design methodology for power-constrained low-noise RF circuits,” inProc.WorkshopSynthesisandSystemIntegrationofMixedTechnologies
+(SASIMI) , Nara, Japan, Oct. 2001, pp. 394–401.
+[14] Y. Imai, M. Tokumitsu, and A. Minakawa, “Design and performance
+of low-current GaAs MMICs for L-band front-end applications,” IEEE
+Trans. Microwave Theory Tech. , vol. 39, pp. 209–215, Feb. 1991.
+[15] C.E.Biber,M.L.Schmatz,T.Morf,U.Lott,E.Morifuji,andW.Bäch-
+told, “Technology independent degradation of minimum noise figureduetopadparasitics,”in Proc.IEEEMTT-SInt.MicrowaveSymp.Dig. ,
+Baltimore, MD, June 1998, pp. 145–148.
+[16] R. P. Jindal, “Noise associated with distributed resistance of MOSFET
+gatestructuresinintegratedcircuits,” IEEETrans.ElectronDevices ,vol.
+31, pp. 1505–1509, Oct. 1984.
+[17] M.delMarHershenson,S.S.Mohan,S.P.Boyd,andT.H.Lee,“Opti-
+mizationofinductorcircuitsviageometricprogramming,”in Proc.36th
+Design Automation Conf. , New Orleans,LA, June 1999,pp.994–998.
+[18] C. P. Yue and S. S. Wong, “On-chip spiral inductors with patterned
+ground shields for Si-based RF ICs,” IEEE J. Solid-State Circuits , vol.
+33, pp. 743–752, May 1998.
+Jung-Suk Goo (S’97–M’02) was born in Seoul,
+Korea, in 1966. He received the B.S. degree inelectricalengineeringfromYonseiUniversity,Seoul,
+in 1988 and the M.S. and Ph.D. degrees in electrical
+engineeringfromStanfordUniversity,Stanford,CA,
+in 1997 and 2001, respectively.
+From 1988 to 1989, he was with GoldStar
+Semiconductor Company, Korea, involved in
+EPROM and 4M DRAM projects. Subsequently,
+he was with LG Semiconductor Company, Korea,
+until 1995. During this period, he was engaged in
+next-generation DRAM development such as 64M and 256M and also was
+involved in a Flash memory project. His primary research areas were DRAM
+processdevelopment, deviceevaluation,and reliability modeling,inparticular,
+the hot-carrier effects. In 2001, he was briefly with the Strategic Technology
+Group of Advanced Micro Devices, Sunnyvale, CA, working on nanoscale
+MOSFET technology development, and with Atheros Communications, Inc.,
+Sunnyvale,engagedinIEEE802.11aWLANchipsetdevelopment.In2002,he
+rejoined the Strategic Technology Group of Advanced Micro Devices, where
+he is currently a Member of Technical Staff. He has authored and coauthoredmore than 24 journal and conference papers and holds six U.S. patents. His
+current research interests are the design and modeling of CMOS RF circuits
+and nanoscale MOSFET physics.1002 IEEE JOURNAL OF SOLID-STATE CIRCUITS, VOL. 37, NO. 8, AUGUST 2002
+Hee-TaeAhn (S’98–M’02)receivedtheB.S.degree
+in1987fromHankukAviationUniversity,Korea.He
+received the M.S. and Ph.D degrees in electrical en-
+gineering from Arizona State University, Tempe, in
+1995 and 2000, respectively.
+From 1987 to 1993, he was with the Research
+and Development Center of LG Semiconductor
+Company,Korea,wherehedesignedseveralmemory
+ICs.In1995,hejoinedAT&TBellLaboratories,Al-
+lentown, PA,where he was involved in mixed-signal
+integrated-circuit design, and from 1996 to 1998,
+he was with SUN Microsystems, Palo Alto, CA, where he designed CMOS
+phase-locked-loopintegratedcircuits.From2000to2001,hewaswithNational
+Semiconductor, Santa Clara, CA, where he was working on analog IC design
+including frequency synthesizers and voltage-controlled oscillators. Since2001,hehasbeenwithQualcommInc,SanDiego,CA.Heiscurrentlyworking
+on a transceiver chipset design for CDMA technology. His current research
+interests are high-frequency analog IC design for wireless communication
+applications.
+Donald J. Ladwig was born in Okinawa, Japan, on November 11, 1961. He
+graduated from the DeVry Institute of Technology, Irving, TX, in 1986, as an
+Electronic Technician.
+HejoinedTexasInstrumentsIncorporated,Dallas,TX,in1986,andhasbeen
+workinginthemodelingfieldsince1988.Hespecializesinon-wafercharacter-
+ization of
+/83-parameters, high-frequency and low-frequency noise, and dc and
+capacitance for semiconductor components. He is currently involved in model
+parameter extraction.
+Zhiping Yu (SM’90) received the B.S. degree from
+TsinghuaUniversity,Beijing,China,in1967andthe
+M.S. and Ph.D. degrees from Stanford University,
+Stanford, CA, in 1980 and 1985, respectively.
+He is currently a Senior Research Scientist with
+the Department of Electrical Engineering, Stanford
+University, and also holds a full professorship at
+Tsinghua University. His research interests focus
+on IC process, device and circuit simulation, and in
+particular, the numerical techniques and modeling
+of RF and heterostructure devices. He has been
+involved in efforts to develop a simulation package for optoelectronic devices
+and three-dimensional solid modeling for ICs. He is also a Consultant toHewlett-Packard Computer Systems and Technology Lab, Palo Alto, CA,
+developing advanced transport models for subquarter-micrometer CMOS
+technology, including quantum mechanical effects.
+Dr. Yu currently serves as an Associate Editor of the IEEE T
+RANSACTIONS
+ONCOMPUTER -AIDEDDESIGN OF INTEGRATED CIRCUITS AND SYSTEMS.
+Thomas H. Lee (M’87) received the S.B., S.M.,
+and Sc.D. degrees in electrical engineering from the
+Massachusetts Institute of Technology, Cambridge,
+in 1983, 1985, and 1990, respectively.
+He joined Analog Devices, Norwood, MA,
+in 1990, where he was primarily engaged in thedesign of high-speed clock recovery devices. In
+1992, he joined Rambus Inc., Mountain View, CA,
+where he developed high-speed analog circuitry
+for 500-Mbyte/s CMOS DRAMs. He has also con-
+tributed to the development of phase-locked loops
+in the StrongARM, Alpha, and K6/K7 microprocessors. Since 1994, he has
+been an Assistant Professor of Electrical Engineering at Stanford University,
+Stanford, CA, where his research focus has been on gigahertz-speed wireline
+and wireless integrated circuits built in conventional silicon technologies,particularly CMOS. He holds 12 U.S. patents. He is the author of The Design
+of CMOS Radio-Frequency Integrated Circuits (Cambridge, U.K.: Cambridge
+Univ. Press, 1998) and is a coauthor of two additional books on RF circuit
+design.He is also a cofounder of Matrix Semiconductor, Santa Clara, CA.
+Dr. Lee has twice received the Best Paper Award at the IEEE International
+Solid-State Circuits Conference (ISSCC). He was a coauthor of a Best Student
+Paper at ISSCC, and recently won a Packard Foundation Fellowship. He is aDistinguished Lecturer of the IEEE Solid-State Circuits Society, and was re-
+cently named a Distinguished Microwave Lecturer.
+Robert W. Dutton (S’67–M’70–SM’80–F’84)
+received the B.S., M.S., and Ph.D. degrees from the
+University of California, Berkeley, in 1966, 1967,
+and 1970, respectively.
+He is Professor of Electrical Engineering at Stan-
+ford University, Stanford, CA, and Director of Re-
+search in the Center for Integrated Systems. He heldsummer staff positions at Fairchild, Bell Telephone
+Laboratories, Hewlett-Packard, IBM Research, and
+Matsushitain 1967, 1973,1975, 1977, and 1988, re-
+spectively. He has published more than 200 journal
+articles and graduated more than 48 doctorate students. His research interests
+focusonICprocess,device,andcircuittechnologies,especiallytheuseofcom-
+puter-aided design (CAD) and parallel computational methods.
+Dr. Dutton was Editor of the IEEE T
+RANSACTIONS ON COMPUTER -AIDED
+DESIGN OF INTEGRATED CIRCUITS AND SYSTEMSfrom 1984 to 1986. He was
+the winner of the 1987 IEEE J. J. Ebers Award, the 1988 Guggenheim Fellow-
+shiptostudyinJapan,andtheJackA.MortonAwardfor1996.Hewaselected
+to the National Academy of Engineering in 1991.

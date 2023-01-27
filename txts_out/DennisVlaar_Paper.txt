@@ -1,0 +1,478 @@
+Customer sentiment toward the use of cameras at 
+Dutch supermarket self -scan checkouts  
+Dennis S. Vlaar  
+Master Applied AI  
+University of Applied Sciences  
+Amsterdam, Netherlands  
+dennisvlaar@gmail.com  
+Abstract—Self-scan checkouts have increased the speed of 
+the payment process in supermarkets tremendously. The use of 
+cameras and facial recognition could p otentially speed up this 
+process more by facilitating as an age checker for alcohol 
+control. The use of facial recognition in public spaces is a 
+privacy sensitive subject, and the question is if customers are 
+comfortable with the presence of these technolo gies in the 
+supermarket. A survey has been conducted and the results show 
+that a majority of Dutch supermarket customers is not 
+comfortable with these technologies. There is no correlation 
+found between age and sentiment toward these technologies.  
+Keywords —Machine vision, Face -recognition, Customer 
+sentiment  
+I. INTRODUCTION  
+ According to Liftin and Wolfram s elf-scan checkouts have 
+increased the speed of the payment process for supermarket 
+customers tremendously  (Liftin & Wolfram, 2009) . Customer 
+can now scan products with a portable hand -scanner while 
+shopping. The use of facial recognition can speed up this 
+process even more by  facilitating age -verification for when 
+customers buy alcohol. This technology also has the potential 
+of impr oving the quality of age -verification and mitigate false -
+positives. The use of cameras in public spaces, and the use of 
+facial recognition software is a loaded topic and raises 
+concerns regarding privacy.  This research is focused on 
+customer sentiment towa rds the use of cameras at self -scan 
+checkouts in supermarkets.  
+This paper stems from a machine vision project at the 
+University of Applied Sciences.   During this project two ideas 
+where proposed which use facial recognition software at the 
+self-scan checkouts in supermarkets. The first idea consists of 
+using facial recognition software to estimate a customer’s age. 
+Using this technology no image data needs to be saved, the 
+age-estimation will be done real time using a video feed. This 
+first idea raises the first research question:  
+Research question 1:  
+“What is the sentiment of  Dutch supermarket customers 
+toward supermarkets using face recognition for age 
+estimation?”  
+The second idea consists of using facial recognition software 
+to identify a person. This technology requires image data of a 
+person. A person will put his face in a database once, then the 
+age of the customer will be verified manually and will be 
+linked to his biometric face. This second idea raises the second 
+research question:  
+Research question 2:  
+“What is the sentiment of Dutch supermarket customers 
+toward supermarkets saving faces for age verification?”  
+The goal of this research is to get insights in the opinion of the 
+Dutch public toward the use of above mentioned technologies. This will help Dutch supermarkets/retailers to make an 
+informed decision to either implement or not implement th ese 
+technologies . 
+II. RELATED WORK  
+A. Beyond face value: public attitudes to facial 
+recognition technology. (Ada Lovelace institute)  
+Facial recognition technology is now widely employed in 
+several industries in the UK. It has been used at airports since 
+2008 at ePassport border security gates, and Heathrow Airport 
+has ambitions to replace check -in and passport checks with it. 
+The financial services hub Canary Wharf is exploring 
+implementing facial recognition technology throughout its 97 -
+acre property, and central London's Kings Cross shopping and 
+commercial sector has been monitored using CCTV cameras 
+with facial recognition capabilities.  
+The morality of facial recognition technology is a hot topic in 
+British society right now. While reports concerning the use of 
+face recognition  in key London neighborhoods and shopping 
+centers drew regulatory investigation and political censure, 
+police trials of the technology in public locations in London 
+and Wales were met with outcry and legal challenge.  
+In light of this, the Ada Lovelace Inst itute engaged YouGov 
+to conduct the first survey of its kind to ascertain public 
+opinion in the UK about the burgeoning use of face 
+recognition technology in both the public and private sectors. 
+A nationwide representative sample of 4109 persons from the 
+UK are included in the poll. It records the initial reactions of 
+the UK public to a variety of scenarios explaining particular 
+uses of face recognition technology in various fields and for a 
+range of objectives.  
+The report summarizes six key findings from t he survey, the 
+top four findings that are related to the research questions of 
+this paper the most are:  
+1. Although there is a high level of awareness about 
+facial recognition technology, little is actually known 
+about it, especially in terms of the technolog y's 
+limits.  
+2. Nearly half of the population expresses the opinion 
+that individuals should be able to refuse to use or 
+consent to facial recognition technology, indicating 
+that consent is a crucial safety measure for many 
+people.  
+3. The majority of people suppor t facial recognition 
+technology when there is a demonstrable public 
+benefit and appropriate safeguards in place, which 
+justifies greater investment in testing and articulating 
+the potential public benefits of such technologies.  
+4. Further discussion between t he public, business 
+sector, and policymakers is required in order to 
+comprehend and address the public's lack of faith in the private sector's ethical use of face recognition 
+technology.  
+B. Has facial recognition technology been misused? 
+A public perception m odel of facial recognition 
+scenarios.  (Lai, X. & Patrick Rau, P. L. ) 
+In this study, a model of the public's perception of facial 
+recognition technology (FRT) is constructed. This study used 
+a questionnaire with 704 participants to examine people's 
+familiarity with, trust in, and attitudes concerning FRT 
+scenarios. The research then used hierarchical cluster analysis 
+to segment public opinions of several FRT scenarios and 
+looked at how familiarity, trust, and attitude related to each 
+FRT scenario. Fo ur major conclusions were found, the two 
+conclusions that are related to  the research questions of this 
+paper the most are:  
+1. Different FRT scenarios generated different public 
+views, which could be categorized into four groups 
+based on a shared level of fam iliarity, trust, and 
+attitude.  
+2. In each FRT scenario, attitude was primarily 
+influenced by trust, not familiarity, while 
+demographic factors and trust propensity had no 
+discernible influence on public perception.  
+C. Resistance to facial recognition payment in 
+China: The influence of privacy -related factors. ( 
+Liu et al.)   
+China is regarded as a pioneer in cashless payment 
+transactions as a result of the worldwide digital payment trend. 
+Because mobile payment options are so common, 40% of 
+Chinese citiz ens believe they do not need to carry cash when 
+they are on the go. However, since 2019, facial data leaks in 
+China have resulted in an increase in financial market disputes 
+and civil lawsuits, which may cause consumers to delay or 
+even refuse to adopt FRP . 
+This study investigated users' reluctance to accept facial 
+recognition payments within the context of China's innovation 
+resistance and privacy calculus. This research  uses three key 
+components of the users' own privacy perception (privacy 
+concerns, perc eived privacy risk, and privacy control) as well 
+as two essential components of the characteristics and factors 
+related to FRP (perceived benefits and the perceived 
+effectiveness of privacy policy) in order to look into potential 
+relationships between the antecedents and the outcome 
+variable of resistance.  
+A total of 1200 valid observations were gathered, including 
+both individuals who had used face recognition payment 
+systems previously and those who had not.  
+The findings demonstrate that privacy control, privacy risk, 
+and perceived advantages are just a few of the factors in the 
+privacy calculus model that are significantly impacted by how 
+effective a privacy policy is regarded. In that the perceived 
+effectiveness of privacy policies has a positive effect on 
+privacy control while having a negative effect on privacy risk, 
+they agree with a prior study.  
+This study also reveals evidence that the perceived 
+effectiveness of privacy policies has a negative influence on 
+users' resistance to facial recognition tech nology. It is 
+important to note that the perceived effectiveness of privacy 
+policies has a significant impact on all path coefficients of 
+resistance. It suggests that users' reluctance to choose FRP has lessened when the platform's bioinformation privacy p olicy 
+was made public.  
+D. A Study on the influence of customer 
+characteristics on innovation resistance and 
+intention to use in face recognition payment 
+system.  (Zhang  et al.) 
+The findings of this study indicate that consumers' 
+perceptions of risks and their views toward prior goods have 
+a favorable influence on innovation resistance, whereas 
+customers' motivation and self -efficacy have a negative 
+influence. Additionally, research demonstrates that customer 
+resistance to innovation will negatively affect usage  
+intentions.  
+ 
+On the basis of the findings of this study, the following 
+conclusions can be made :  
+First, the study discovered that customer innovation had no 
+discernible influence on innovation resistance during the 
+innovation and diffusion of the face recognition payment 
+system. This is due to the fact that using facial recognition to 
+confirm identity is not a novel use of biometrics. Customers 
+are used to using some physical features for identity 
+verification.  
+Secondly, according to the findings, customers' capacity for 
+risk perception has the biggest influence on innovation 
+resistance. Biometrics is specifically tied to the customer 
+themselves. Customers are concerned about how successfully 
+privacy and personal information can be maintained in the  age 
+of big data because to the vast gathering and utilization of 
+biological data. The ability to employ facial recognition and 
+simple payment for a long time will therefore depend on the 
+formulation of authoritative large data collecting rights, usage 
+rights, and forgetting rights.  
+III. METHODS  
+A. Survey  
+To answer the two research questions, a survey was 
+conducted. The survey consisted of three parts and is shown 
+in Appendix A. The first part contain s demographic  questions 
+and general question on the use of self -checkouts at the 
+supermarket . The second part focused on outlining a scenario 
+related to the first research question, and the third part focused 
+on outlining a scenario related to the second research question. 
+First the scenarios where introduce d, then the participants had 
+to indicate how comfortable they would be in these scenarios. 
+Lastly the participants had to substantiate their answer.   
+B. Reliabilit y 
+The survey was distributed in two ways. An anonymous link 
+was distributed to friends and family of me and a classmate. 
+Also a QR -code was distributed through campus. This has led 
+to more response from people aged under 25. The distribution 
+in age can be seen in figure 1 below.  The distribution of gender 
+can be  seen in figure 2.    
+Figure 1.  Age distribution of survey participants.   
+ 
+Figure 2. Gender distribution of survey participants.  
+C. Validity  
+To ensure the survey measures what it is intended to measure 
+the survey was made  together with a classmate who had a 
+similar research topic. Also, the  survey is peer reviewed by 
+four other classmates who provided feedback.  
+IV. RESULTS  
+This chapter discusses the results of the survey given in 
+Appendix A.  
+A. Results. Sentiment toward face re cognition for 
+age estimation.  
+Scenario 1 : “Supermarkets will be using facial recognition 
+at self -checkouts to estimate a customer’s age. This will only 
+be done when the customer gives consent.”  
+Respondents could rate their comfortability with this scenario  
+on a scale of zero to ten. The results are shown in table 1.  
+ 
+How comfortable are you  with this scenario ? 
+0 1 2 3 4 5 6 7 8 9 10 
+7 11 4 5 4 7 7 9 5 8 4 
+Table 1. Comfortibility of supermarket customers with scenario 1.  
+Table 1 shows that the majority of the respondents are not 
+comfortable with scenario  2. 63.4% of the respondents scores 
+a 6 or lower in comfortability with this scenario. Only 36.6% 
+of the respondents are reporting to feel a 7 or higher in 
+comfortability w ith this scenario.  
+When asked why respondents are not comfortable with this 
+scenario, the answers that were chosen the most are: It is an 
+invasion of my privacy (18.1%), I do not trust them to use the 
+technology ethically (13.7%), it will normalize surveillance 
+(12.6%), it w ill be misused or hacked (9.3%).  
+When the respondents who are comfortable with this scenario 
+were asked why, these were their most answered responses: It 
+will reduce delays (18.5%), It’s convenient (16.3%), it will not 
+affect me personally (16.3%), I trus t them to use the 
+technology ethically (13%).  
+When a test for correlation is done between age and 
+comfortability of scenario 1 the result is an r value of -0.111 with a p -value of 0.365. This means there is no significant 
+correlation between age and comfo rtability of scenario 1.  
+B. Results. Sentiment toward saving faces to 
+database.  
+Scenario 2: “Customers of supermarkets will have the option 
+to get age verification one time. A picture of their fa ce will be 
+taken and saved to a database. The next time a customer 
+doesn’t need manual ID check, but will be verified using face 
+recognition technology.”  
+Again, respondents could rate their comfortability  with this 
+scenario on a scale of zero to ten. The re sults are shown in 
+table 2.  
+ 
+ 
+ 
+Table 2. Comfortability of supermarket customer with scenario 2.  
+Table 2 shows that the majority of the respondents are not 
+comfortable with scenario 2. 70.2% of the respondents scores 
+a 6 or lower in comfortability with this scenario. Only 29.8% 
+of the respondents are reporting to feel a 7 or higher in 
+comfortability with this scenario.  
+When asked why respondent are not comfor table with this 
+scenario, the answers that were given the most are: It is an 
+invasion of my privacy (18.1%), I do not trust them to use the 
+technology ethically (14.3%), it will be misused or hacked 
+(14.3%), it will normalize surveillance (11.2%).  
+The resp ondents who are comfortable with this scenario report 
+the following reasons: It’s convenient (15.2%), it will reduce 
+delays (13.6%), it’s reliable (13.6%), it’s accurate (13.6%), it 
+will not affect me personally (12.1%).   
+When a test for correlation is do ne between age and 
+comfortability of scenario 2 the result is an r value of -0.104 
+with a p -value of 0.444. This means there is no significant 
+correlation between age and comfortability of scenario 2.  
+V. DISCUSSION  
+In this paper the following research questions have been 
+addressed:   
+1. “What is the sentiment of Dutch supermarket 
+customers toward supermarkets using face 
+recognition for age estimation?”  
+2. “What is the sentiment of Dutch supermarket 
+customers toward supermarkets saving faces for age 
+verification?”  
+For the first research question the conclusion can be made that 
+a majority of Dutch supermarket customers would not be 
+comfortable with supermarkets using facial recognition to 
+estimate age. The main reason for people to not feel 
+comfortable  toward the use of this technology are privacy 
+concerns.  
+For the second research question the same conclusion can be 
+made, and the results are more clear in this situation. A 
+majority of Dutch supermarket customers report to have 
+privacy issues with super markets implementing such a 
+technology.  
+There seems to be no correlation in sentiment toward the use 
+of both technologies for age. This means there is no significant 
+How comfortable are you with this scenario?  
+0 1 2 3 4 5 6 7 8 9 10 
+8 11 1 5 3 5 7 8 6 1 2 difference between how comfortable younger people are with 
+the use of these technologies versus older people.  
+Based on the results of this research, I would advice 
+supermarkets to not implement any facial recognition 
+technology in their check -out systems. The survey suggests 
+that the majority of Dutch supermarket customers are not 
+comfortable with the use of facial recognition at self -scan 
+checkouts. Implementation of these technologies will most 
+likely reduce customer experience.  
+SOURCES  
+1. Lai, X. & Patrick Rau, P. L. (2021). Has facial 
+recognition technology been misused? A public 
+perception mo del of facial recognition scenarios. 
+Computers in Human Behavior , 124, 106894. 
+https://doi.org/10.1016/j.chb.2021.106894  
+2. Litfin, T. & Wolfram, G. (2009). New Automated 
+Checkout Systems. Retailing in the 21st Century , 
+189–203. https://doi.org/10.1007/978 -3-540-
+72003 -4_12  
+3. Liu, Y. L., Yan, W. & Hu, B. (2021). Resistance to 
+facial recognition payment in China: The influence 
+of privacy -related factors. Telecommunications 
+Policy , 45(5), 102155. 
+https://doi.org/10.1016/j.telpol.2021.102155  
+4. YouGov. (2019). Beyond f ace value: public 
+attitudes to facial recognition technology. In 
+https://www.adalovelaceinstitute.org/report/beyond
+-face-value -public -attitudes -to-facial -recognition -
+technology/ . Ada Lovelace Institute.  
+5. Zhang, L. L., Zhang, Y. B. & Kim, H. K. (2021). A 
+Study on the Influence of Customer Characteristics 
+on Innovation Resistance and Intention to Use in 
+Face Recognition Payment System. Journal of 
+Advanced Researches and Reports , 1(3), 47 –54. 
+https://doi.org/10.21742/jarr.2021.1.3.07  
+ 
+APPENDIX A 
+General Questions:  
+Q1. How old are you?  
+ 
+Q2. What gender do you identify as?  
+• Male  
+• Female  
+• Nonbinary  
+• Other  
+ 
+Q3. Do you use the self -checkouts at the supermarket?  
+• Yes  
+• No  
+ 
+Q4. If your answer was yes: how often do you use the self -
+checkout?  
+• Not very often  
+• Often  
+• Always  
+ 
+Q5. Do you buy alcohol at the self -checkout in 
+supermarkets?  
+• Yes • No 
+ 
+Q6. If your answer was yes: Do you feel like the staff checks 
+your age often and correctly  
+• Both  
+• Only often  
+• Only correctly  
+• Neither  
+ 
+Situation 1:  
+Supermarkets will be using facial recognition at self -
+checkouts to estimate customers' age. This will only be done 
+when the customer gives consent.  
+ 
+Q7. On a scale of 1 to 10, where 1 is not at all comfortable 
+and 10 is very comfortable, how comfortable are you with 
+supermarkets usi ng facial recognition in this way?  
+ 
+Q8. [Question when Q1 is 6 to 10.] You said that you are 
+comfortable with supermarkets using facial recognition 
+technology in this way, rating your level of comfort as [insert 
+rating from Q1] out of 10. Which of the foll owing are 
+reasons why you are comfortable with this? Please select all 
+that apply  
+• It's convenient  
+• It will reduce delays  
+• I trust them to use the technology ethically  
+• It will encourage good behavior  
+• It's reliable  
+• It's accurate  
+• It's indiscriminate e.g. by rac e and by gender  
+• It will not affect me personally  
+• It enhances existing security systems (e.g CCTV)  
+• I can opt out or consent  
+• It will not be misused or hacked  
+• Other (specify)  
+• Don't know  
+Q9. [Question when Q1 is 1 to 5] You said that you are 
+uncomfortable with  supermarkets using facial recognition 
+technology in this way, rating your level of comfort as [insert 
+rating from Q1] out of 10. Which of the following are 
+reasons why you are uncomfortable with this? Please select 
+all that apply  
+• It's inconvenient  
+• It will increase delays  
+• I do not trust them to use the technology ethically  
+• It will reduce freedom of behavior  
+• It's unreliable  
+• It's inaccurate  
+• It can be used to discriminate e.g. by race or gender  
+• It will affect me personally  
+• It will normalize  surveillance  
+• I can't opt out or consent  
+• It will be misused or hacked  
+• Other (specify)  
+• Don't know  
+ 
+Situation 2:  
+Customers of supermarkets will have the option to get age 
+verification one time. A picture of their face will be taken and saved to a database. T he next time a customer doesn’t 
+need manual ID check, but will be verified using face -
+recognition technology.  
+ 
+Q10. On a scale of 1 to 10, where 1 is not at all comfortable 
+and 10 is very comfortable, how comfortable are you with 
+supermarkets using facial recognition in this way?  
+ 
+Q11. [Question when Q4 is 6 to 10.] You said that you are 
+comfortable with supermarkets using facial recognition 
+technology in this way, rating your level of comfort as [insert 
+rating from Q4] out of 10. Which of the following are  
+reasons why you are comfortable with this? Please select all 
+that apply  
+• It's convenient  
+• It will reduce delays  
+• I trust them to use the technology ethically  
+• It will encourage good behavior  
+• It's reliable  
+• It's accurate  
+• It's indiscriminate e.g. by race and by gender  
+• It will not affect me personally  
+• It enhances existing security systems (e.g CCTV)  
+• I can opt out or consent  • It will not be misused or hacked  
+• Other (specify)  
+• Don't know  
+ 
+Q12. [Question when Q4 is 1 to 5] You said that you are 
+uncomfortable with sup ermarkets using facial recognition 
+technology in this way, rating your level of comfort as [insert 
+rating from Q4] out of 10. Which of the following are 
+reasons why you are uncomfortable with this? Please select 
+all that apply  
+• It's inconvenient  
+• It will inc rease delays  
+• I do not trust them to use the technology ethically  
+• It will reduce freedom of behavior  
+• It's unreliable  
+• It's inaccurate  
+• It can be used to discriminate e.g. by race or gender  
+• It will affect me personally  
+• It will normalize surveillance  
+• I can't op t out or consent  
+• It will be misused or hacked  
+• Other (specify)  
+• Don't know  
+ 
+ 

@@ -1,0 +1,699 @@
+UPDATES ON AGING
+Sensor Monitoring to Measure and Support Daily Functioning
+for Independently Living Older People: A Systematic Review
+and Road Map for Further Development
+Margriet C. Pol, MSc,* Soemitro Poerbodipoero, MSc,* Saskia Robben, MSc,†Joost Daams, MA,‡
+Margo van Hartingsveldt, MSc,* Rien de Vos, PhD,§Sophia E. de Rooij, MD, PhD,k
+Ben Kro ¨se, PhD,†and Bianca M. Buurman, RN, PhDk
+OBJECTIVES: To study sensor monitoring (use of a sen-
+sor network placed in the home environment to observeindividuals’ daily functioning (activities of daily living andinstrumental activities of daily living)) as a method to mea-
+sure and support daily functioning for older people living
+independently at home.
+DESIGN: Systematic review.
+SETTING: Participants’ homes.
+PARTICIPANTS: Community-dwelling individuals aged
+65 and older.
+MEASUREMENTS: A systematic search in PubMed,
+Embase, PsycINFO, INSPEC, and The Cochrane Library
+was performed for articles published between 2000 and
+October 2012. All study designs, studies that described theuse of wireless sensor monitoring to measure or support
+daily functioning for independently living older people,
+studies that included community-dwelling individuals aged65 and older, and studies that focused on daily functioning
+as a primary outcome measure were included.
+RESULTS: Seventeen articles met the inclusion criteria.
+Nine studies used sensor monitoring solely as a method for
+measuring daily functioning and detecting changes in daily
+functioning. These studies focused on the technical investi-gation of the sensor monitoring method used. The other
+studies investigated clinical applications in daily practice.
+The sensor data could enable healthcare professionalsto detect alert conditions and periods of decline and could
+enable earlier intervention, although limited evidence of theeffect of interventions was found in these studies because
+of a lack of high methodological quality.
+CONCLUSION: Studies on the effectiveness of sensor
+monitoring to support people in daily functioning remain
+scarce. A road map for further development is proposed.
+J Am Geriatr Soc 61:2219–2227, 2013.
+Key words: sensor monitoring; community-dwelling
+older persons; daily functioning; systematic review;
+functional status
+The maintenance of daily functioning is important for
+allowing older people to live independently at home.
+Daily functioning can be divided into activities of daily living(ADLs) (e.g., bathing, dressing, grooming, toileting, conti-
+nence, transferring, walking, eating) and instrumental activi-
+ties of daily living (IADLs) (e.g., using the telephone,traveling, shopping, preparing meals, doing housework,
+managing medications, handling money).
+1Many older peo-
+ple have two or more chronic diseases,2and they might expe-
+rience increasing functional limitations that affect their
+ability to perform ADLs and IADLs.3,4The way older people
+perform ADLs and IADLs provides a measurement of theirfunctional status and ability to live independently at home.
+5
+Several methods are used to measure or evaluate
+ADLs and IADLs. These are often limited to measuring
+daily functioning using self-report such as with the modi-ﬁed Katz ADL scale
+1or a more-objective measurement
+method (e.g., the Assessment of Motor and Process
+Skills).6Generally, these assessments are conducted as a
+small series of measurements at a few time points. More
+recently, new technologies, such as sensor monitoring,
+have been developed to measure the daily functioning ofolder people continuously.From the*Research Group of Participation and the Environment,
+Hogeschool van Amsterdam, University of Applied Sciences,†Research
+Group Digital Life, Hogeschool van Amsterdam, University of AppliedSciences,
+‡Medical Library AMC, Academic Medical Center, University of
+Amsterdam,§Department of Clinical Epidemiology and Biostatistics,
+Academic Medical Center, University of Amsterdam, andkSection of
+Geriatric Medicine, Department of Internal Medicine, Academic MedicalCenter, University of Amsterdam, Amsterdam, the Netherlands.
+Address correspondence to Margriet C. Pol, Hogeschool van Amsterdam,
+University of Applied Sciences Amsterdam, Room B1.22, Tafelbergweg
+51, PO Box 2557, 1000 CN Amsterdam, the Netherlands.
+E-mail: m.c.pol@hva.nl
+DOI: 10.1111/jgs.12563
+JAGS 61:2219–2227, 2013
+©2013, Copyright the Authors
+Journal compilation ©2013, The American Geriatrics Society 0002-8614/13/$15.00
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+Sensor monitoring is based on sensor network technol-
+ogies and is used to monitor a person’s behavior and envi-
+ronmental changes.7Sensor monitors can be wearable and
+wireless. Wearable sensors, attached to a person or his orher clothes, are often used to measure such vital signs as
+blood pressure and heart rate;
+8to measure human physical
+movement, such as walking, sitting transitions, and physi-cal exercises; and to monitor rehabilitation progress.
+9
+Wireless sensor networks, which consist of a combination
+of simple sensors installed in ﬁxed locations are placed in
+the home and register in-home movement. The sensor dataare processed in a computer that infers the daily function-
+ing that participants perform in their homes.
+7
+The use of wireless sensor monitoring enables the mea-
+surement of daily functioning and facilitates the early detec-
+tion of changes in functional status by observing a certain
+daily activity pattern.10A daily activity pattern gives
+detailed information about which ADLs and IADLs are per-formed during a regular day and the sequences and varia-
+tions of these activities.
+11The sensor data are usually
+analyzed using data mining and machine-learning techniquesto build activity models and further enable the measure daily
+functioning and daily activity patterns.
+7With data mining
+from wireless sensor data, it is possible to determine mostADLs (e.g., bathing, dressing, toileting, transferring, walking
+and eating) and some IADLs (e.g., using the telephone,
+preparing meals, managing medications, doing housework)performed in the home. It is not possible to measure handling
+money, shopping, and traveling. Speciﬁc algorithms are
+available to detect ADLs and IADLs and to detect uncom-mon patterns and therefore might enable early intervention.
+Although several studies have examined the applica-
+tion and evaluation of sensor monitoring, most have
+focused on the use of wearable sensors and the technicalinvestigation of sensor monitoring or are conducted in lab-
+oratory settings.
+12No systematic review was found in
+the literature focusing on the application and effectivenessof wireless sensor monitoring for older persons living
+independently at home.
+The aim of this systematic review was therefore to
+study the application and effectiveness of sensor monitor-ing to measure and eventually support daily functioning in
+older people living independently at home.
+METHODS
+Data Sources and Study Selection
+In collaboration with a clinical librarian (JD), a systematic
+search was conducted in PubMed, Embase, PsycINFO,
+INSPEC, and The Cochrane Library for articles publishedin English between 2000 and 2012. The searches wereconducted on October 18, 2011, and updated on January
+9, 2012, and October 25, 2012. A customized search strat-
+egy was conducted for each database (Appendix S1).A manual search of references in the selected articles was
+also conducted to identify additional studies.
+Sensor Monitoring Method
+Figure 1 depicts the application process involved in usingsensor monitoring to measure and support ADLs.
+13Theactivity behavior of an ADL or IADL performed by an
+elderly person (Figure 1A) is monitored using a wirelesssensor system installed in the home (Figure 1B). The sen-
+sor network consists of simple binary sensors. Such sensors
+may be passive infrared motion sensors (to detect motionin a speciﬁc area), magnetic contact sensors on doors andcabinets (to measure whether doors are opened or closed),
+and a ﬂush sensor in the toilet (to measure the toilet being
+ﬂushed).
+13An intelligent machine (Figure 1C), which looks
+for ADL, IADL, and daily activity patterns in the data
+(e.g., the sensor system could recognize toileting or bathing
+but also more-complex IADLs such as preparing breakfastand other kitchen activities), analyzes these sensor data.
+A sequence of binary sensor data indicates the activity
+with the help of an ADL recognition algorithm.
+The results of these analyses can automatically trigger
+an alarm (Figure 1D), for example, when no motion is
+detected for a long period of time or if an older person is
+in bed for several days. The automatic generation of areport within a predeﬁned period based on the sensor data
+is also possible (Figure 1E).
+The reports and the alarms can be given to healthcare
+professionals (Figure 1F), who can use them to make
+better-informed decisions or to design interventions to
+support the older person.
+Study Selection
+Two reviewers (MP and SP) ﬁrst independently screenedtitles and abstracts for inclusion and then read the full textof the eligible articles found during this ﬁrst selection.Differences between the two reviewers were resolved by
+consulting a third independent reviewer (BB).
+Empirical studies that described the use of wireless
+sensor monitoring to measure daily functioning or to sup-
+port older people with daily functioning in which study
+subjects included community-dwelling older persons aged65 and older and daily functioning was a primary outcome
+measured in the study were included.
+Studies that focused solely on people diagnosed with
+severe dementia or severe cognitive problems (Mini-MentalState Examination score <16) were excluded.
+AB C
+DE
+F
+Figure 1. Iconic explanation of the proposed use of sensor
+monitoring systems to measure and support activities of daily
+living (ADLs). (A) Elderly person performing ADLs or instru-
+mental ADLs in the home, (B) installed wireless sensor systemin home placed at speciﬁc points in house and programmed todetect movement, (C) intelligent machine for analyzing sensor
+data, (D) alarm, (E) report of the sensor data, (F) healthcare
+professional. For more details, see Methods, Sensor Monitor-ing Method.2220 POL ET AL. DECEMBER 2013–VOL. 61, NO. 12 JAGS
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+Data Extraction and Quality Assessment
+For each included study, data on study characteristics were
+extracted. Data were collected on type of sensor monitor-ing technology, number and type of sensors used, duration
+of sensor monitoring, and aim of sensor monitoring. Data
+were collected on participant demographic and clinical(main diagnoses, comorbidities, functional, and cognitivestatus) characteristics.
+The same reviewers also independently assessed the
+quality of the included studies. Because of the variety ofnonrandomized study designs included in this systematic
+review, the Newcastle-Ottawa Scale
+14was used to evaluate
+the risk of bias in the case controlled studies, the pre –post
+design study, and the mixed method study (Appendix S2).
+Disagreements were discussed; in cases of disagreement, a
+third reviewer was enlisted.
+Data Synthesis and Analysis
+Given the heterogeneity of the reporting and designs of theincluded studies, a descriptive approach was used to sum-marize study characteristics and outcomes. The includedstudies were categorized into those that aimed to measure
+daily functioning and those that aimed to support people
+in their daily functioning. No statistical pooling wasconducted.RESULTS
+Search Result
+The literature search identiﬁed 6,795 articles (Figure 2,
+Appendix S1). After the titles and abstracts were screened,
+6,717 studies were excluded because they did not pertain tosensor monitoring, were discussion papers or editorials onthe topic of sensor monitoring, or did not meet the inclusion
+criteria. In the next phase, 78 full-text articles were
+screened, and 61 of those were excluded, 18 for not meetingthe inclusion criteria on design (review or theoretical study),
+15 for not meeting the criteria for the intervention (only
+wearable sensors), eight for not meeting the inclusion crite-ria for participant age, and 16 for not meeting the criteria
+for the outcome measure (ADL and IADL function was not
+the primary outcome). Four were duplicates. Seventeenstudies were included in this systematic review.
+Quality of the Included Studies
+Appendix S2 shows the results of the quality assessment of
+the three case –control studies and the pre –post design and
+mixed method studies included in this review. Three studieswere considered low quality, and two were considered mod-
+erate quality. The studies had a small sample size or unclear
+inclusion and exclusion criteria or lacked follow-up.
+Records identified through database
+searching (n = 6,788),including
+update searches on January 9, 2012
+and October 25, 2012Screening Included Eligibility IdentificationAdditional records identified
+through other sources
+(n =7)
+Records remaining after duplicates
+were removed
+(n = 6,788 + 7)
+Records screened
+(n = 6,795)
+Full-text articles assessed for
+eligibility
+(n = 78)
+Studies included in the systematic
+review
+(n = 17)Records excluded based on title and
+abstract (n = 6,717), with reasons:
+- not related to sensor
+monitoring
+- were discussion papers or
+editorials on sensor
+monitoring application
+- did not meet one or more
+inclusion criteria
+Full-text articles assessed that were
+excluded, with reasons (n = 61):
+       -  duplicate abstract (n = 4)
+-t h e o r e t i c a l s t u d y o r r e v i e w
+(n = 19)
+-p a r t i c i p a n t s ’ a g e < 6 5 ( n  =  8 )
+- intervention method
+involved only wearable
+sensors (n = 15)
+-A D L w a s n o t a p r i m a r y
+outcome measure (n = 16)
+Figure 2. Flow diagram of search strategy and study selection.JAGS DECEMBER 2013–VOL. 61, NO. 12 A SYSTEMATIC REVIEW OF SENSOR MONITORING 2221
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+Characteristics of the Studies
+Table 1 shows the characteristics of the included studies.
+There were three case –control studies,15–17one mixed-
+methods study,18one longitudinal pilot study,19one
+single-group pre –post design study,20three multiple-case
+studies,8,21,22seven case studies,23–29and one experi-
+ment.30
+The number of people included in the studies varied
+from one to 52. In seven studies, the mean age of the olderparticipants was not speciﬁed. The weighted mean age of
+the participants in the remaining eight studies was 82.6.
+Seven of the studies were conducted in senior houses
+or assisted living settings,
+8,16,17,21,22,24,25and four studies
+were conducted in smart home apartments.23,26,28,30Six
+studies were conducted in an independent living setting inthe community.
+15,18 –20,27,29
+Ten studies did not report or specify clinical data of
+the participants. Four studies included participants withoutany reported diseases (healthy volunteers). Of the studiesthat investigated speciﬁc subgroups of older persons, most
+of the included participants had one or more chronic dis-
+eases. Only two studies provided a formal description ofthe functional or cognitive status of the included partici-
+pants.
+All of the studies focused on ADLs and IADLs as an
+outcome measure. Among the speciﬁc focuses were mea-
+surement of ADLs and IADLs,
+23,28,30measurement of rou-
+tines or daily activity patterns,15,20 –22,24,26 –28,31ADL and
+IADL performance,8,18,20presence of the test person,8,19,28
+(in)activity,8,19,25,31restlessness,8,17,22functional abil-
+ity,16,18,20,22,24,26,28gait speed,8,15,22physiological signs,17
+and safety.8,16,18 –20,22,25
+Characteristics of the Sensor Monitoring Method
+The summary characteristics of the sensor monitoring
+method are described in Table 2. Studies were divided
+according to whether they aimed solely to measure dailyfunctioning
+15,21,23 –26,28 –30and whether they aimed to sup-
+port people in performing their ADLs and IADLs.8,16 –20,22,27
+The studies that aimed solely to measure daily func-
+tioning focused mainly on technological development or
+investigating the artiﬁcial intelligence analysis method
+behind the sensor monitoring system. The studies that alsofocused on supporting people in daily functioning includeda more-detailed focus on the clinical relevance of sensor
+monitoring methods. All studies with a technological view-
+point mentioned some future possibilities for the use ofsensor monitoring in daily clinical practice.
+Three of the identiﬁed studies combined the use of a
+wireless sensor network with wearable sensors
+16,20,30and
+video.8,22,28The most common wireless sensors used were
+passive infrared motion sensors, magnetic contact switches,
+and some other binary sensors, such as pressure, ﬂoat, andtemperature sensors.
+Effectiveness of Sensor Monitoring
+All of the included studies reported positive results for the
+use of the sensor monitoring method. These studies investi-
+gated the models used to analyze the sensor data or tomeasure daily functioning or determine ADL patterns forpeople living alone and to identify changes in their typical
+ADL patterns. The results are presented in Table 2. Most
+of the studies reported potential advantages of the use of
+sensor monitoring to improve healthcare outcomes,although the effects were not studied in randomized clini-
+cal trials, and the studies lacked sufﬁcient power to detect
+changes or effects. Two of the three included case –control
+studies did report better effects of the sensor monitoringmethod, such as the early detection of clinically relevant
+changes, than with the regular care provided to the control
+group.
+15,17One case –control study reported lower esti-
+mated costs of care over a 3-month monitoring period,
+fewer hospital days, and a positive effect of the method on
+professional caregiver efﬁciency,17but all of these studies
+had small sample sizes.
+DISCUSSION
+This systematic review provides a comprehensive overview
+of the use of sensor monitoring to measure and support
+the daily functioning of older people living independentlyat home.
+It found that half of the included studies used sensor
+monitoring solely as a method to measure ADLs andIADLs and to detect changes in daily functioning for a per-son living independently. These studies tended to focus on
+the technical aspects of the sensor monitoring method
+used. The other half of the studies investigated how theuse of sensor monitoring could support people in their
+daily functioning and allow them to live independently at
+home, but most of the studies were small in scale, and evi-dence of the methods’ effectiveness was lacking. The
+included studies demonstrate an important gap between
+the technological development of sensor monitoring, whichis already signiﬁcant, and its application and effectivenessin daily practice. The included studies illustrated that
+healthcare professionals could take advantage of sensor
+monitoring to detect early periods of physical decline morequickly than when traditional means of measuring func-
+tional status are used. This might enable professionals
+to provide early interventions to prevent the declinecaused by falls or immobility, thereby inﬂuencing clinical
+outcomes.
+A road map is proposed to further develop and
+improve the use of sensor monitoring to measure and sup-
+port daily functioning in independently living older people
+and to collect evidence about the applicability and effec-tiveness of sensor monitoring for clinical practice. Thisroad map consists of the following steps.
+●Determining the target population that can beneﬁt from
+sensor monitoring . Because of the strong focus on the
+technical considerations of sensor monitoring, a signiﬁ-cant number of studies did not specify or report impor-
+tant demographic and clinical data of the participants.
+Therefore, it was difﬁcult to study which older peoplemight beneﬁt from sensor monitoring to support theirdaily functioning. Although this review showed that
+older people with one or more chronic diseases and
+those with mild cognitive problems could be a potentialtarget group for sensor monitoring, more-speciﬁc inves-
+tigation into the characteristics of the target population2222 POL ET AL. DECEMBER 2013–VOL. 61, NO. 12 JAGS
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+Table 1. General Characteristics of Included Studies
+Study Study Design Participants, n Age Setting Clinical DataSensor Monitoring
+Method Outcome Measure
+Studies with the aim of measuring daily functioning
+Rashidi (2011)23Experiment2
+case studyn=2 N/S Smart home
+apartmentN/S Passive sensor network ADLs and IADLs (ADLs
+international scale)
+Wang (2009)24Case study n =1 >65 N/S Senior housing N/S Passive sensor network Activity level and
+periodicity of lifestyle
+Alert conditions
+ADL pattern
+Min (2008)30Experiment n =5 N/S Bathroom (lab) Healthy volunteers Static wireless sensors
+and wearable wireless
+sensorsADLs
+Poujaud (2008)25Case study n =1 >65 N/S Smart home
+(senior apartment)Healthy volunteer Passive sensor network ADLs and IADLs
+Amount of ADLs
+ADL pattern
+Virone (2008)26Case study n =1 >65 N/S Smart home N/S Passive sensor network ADL pattern
+Hayes (2008)15Case –control
+studyn=14
+(9 women)89.3/C63.7 Independent living
+setting in the
+communityControl: Healthy
+cognitive volunteers
+Intervention: MMSE,
+clinical dementiarate, years ofeducation, (I)ADL,
+Tin balance, TingaitPassive sensor network Walking speed
+Amount of ADLs
+ADLs and IADLs
+Virone (2008)
+21Multiple
+case studies4n=22
+(15 women)
+case studies: 485 (range 49 –93) Assisted living
+apartmentN/S 7 participants
+were memory careunit residents and
+15 were non-memory
+care residentsPassive sensor network Circadian activity rhythms
+ADLs and IADLs
+Zouba (2010)
+28Case study n =2
+(1 woman)Woman: 64
+Man: 85Smart home Healthy volunteers Passive sensor network
+and video sensorsPresence
+Postures and events
+ADLs
+Yang29Case study n =1 75 Independent living
+setting in the
+communityN/S Passive sensor network ADLs and IADLs
+Rhythm of ADLs
+Studies with the aim of supporting people in daily functioning
+Rantz (2010)8Retrospective
+exploratory
+multiple case
+study3n=16
+(11 women)88.4/C66.2,
+range 70 –96Senior housing Chronic diseases
+(congestive heart
+failure, falls, kidney
+disease, chronicobstructive
+pulmonary disease)Passive sensor network
+and an event-driven video
+sensor networkADLs
+ADL and IADL
+performance
+Restlessness in bedFalls
+Gait speed
+(Continued)JAGS DECEMBER 2013–VOL. 61, NO. 12 A SYSTEMATIC REVIEW OF SENSOR MONITORING 2223
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+Table 1 (Contd.)
+Study Study Design Participants, n Age Setting Clinical DataSensor Monitoring
+Method Outcome Measure
+Skubic (2009)22Retrospective
+multiple case
+studyn=17 >65 N/S Senior housing Chronic diseases N/S Passive sensor network
+and an event-drivenvideo sensor networkADL pattern
+Functional abilityAlert conditions
+Bed restlessness
+FallsGait patterns, gait speed,
+balance, posture
+Brownsell (2008)
+16Controlled trial Intervention group,
+n=24 (12 women)
+Control group, n =28
+(17 women)Intervention: 74 /C610
+Control: 79 /C67Sheltered housing of
+subjects who livedindependentlyN/S Passive sensor network
+and telecareADLs and IADLs
+Fear of fallingHealth-related quality
+of life
+Feeling safe
+Alwan (2007)
+17Case-controlled
+studyIntervention group,
+n=21 (16 women)
+n=21 control groupIntervention: 88 /C66.4,
+range 73 –90
+Control: 88 /C67,
+range 77 –97Assisted living apartment N/S Passive sensor network ADLs
+Restlessness in bed
+Heart and breathing rates
+Cost of medical careEfﬁciency and workloads
+Suzuki (2006)
+27Case study n =1 72 Independent living
+setting in the communityN/S Passive sensor network ADLs and IADLs
+Rhythm of ADLs
+Ohta (2002)19Longitudinal
+studyn=8 81 Independent living
+setting in the communityN/S Passive sensor network In-house movements
+Duration of stays in
+rooms
+Safety, determined bychanges in duration ofstays in rooms
+Reder (2010)
+20Single-group
+pre–post designn=12 and family
+member
+and/or paid caregiver
+(dyads or triads)
+(8 women)>55 N/S Independent living
+setting in the communityN/S only in terms of
+receiving assistancewith (I)IADLsPassive sensor network
+and wearable sensorsPhysical movement
+Performing ADLs andIADLsRegular use of medication
+Use and satisfaction with
+the technologySafety and well-being
+Communication patterns
+Family caregiver burden
+Mahoney (2009)
+18Mixed methods:
+Focus group
+interview
+Intervention
+studyIntervention: n =10 and
+their family member,
+9 staff members
+Focus group: n =13:
+4 family members,
+9 staff members83
+Focus group >65Independent living
+setting in the communitySafety and health
+concerns, cognitive
+impairment, N/SPassive sensor network Elderly adult, family, and
+staff understanding of
+use of wireless sensor
+monitoringMeasures of the elderlyadult emotional, physical
+health, and activity levels
+Passive sensor network; subjects did not need to do anything with the sensor network.
+N/S=Not Speciﬁed; ADLs =Activities of Daily Living; IADLs =Instrumental Activities of Daily Living.2224 POL ET AL. DECEMBER 2013–VOL. 61, NO. 12 JAGS
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+is needed to be of value in clinical practice. Future
+research should include demographic and clinical data.
+●Investigation of the use of sensor monitoring in com-
+munity-dwelling older persons. Early observation of a
+decline in daily functioning enables healthcare profes-
+sionals to provide early interventions or support clinical
+decisions. Potential goals for individuals can includeliving longer independently at home, preventing read-mission to the hospital, and minimizing emergency
+department visits
+8,22It has been suggested that sensor
+monitoring could also be useful to measure and supportthe recovery of older people after hospital admission,
+8
+although evidence pertaining to the effectiveness ofthese possible applications is still lacking. Furtherresearch is needed to investigate and validate these
+applications and their role in inﬂuencing clinical
+outcomes.
+●Guidelines for healthcare professionals regarding the
+use of sensor monitoring. Although all of the included
+studies illustrated promising possibilities for the use of
+the sensor data in clinical practice, none of themfocused on guidelines for healthcare professionals to
+use sensor data with their patients. In a few studies, the
+sensor data were connected over a secure web-basedinterface for use by healthcare professionals. One study
+developed a visualization application (density map) for
+healthcare providers
+24to identify daily activity patterns
+and changes in patterns. This visualization application
+was used in two studies by retrospectively viewing and
+analyzing the data for the periods before and afterhealth events, such as hospitalizations, falls, and emer-gency department visits.
+8,22The focus for future
+research should be developing and testing visualizations
+of sensor data for healthcare professionals for support-ing people in daily functioning and guidelines for
+healthcare professionals regarding the use of the sensor
+data in caring for their patients and advising caregivers.
+●Involvement of the participants, caregivers, and health-
+care professionals in the further development and
+implementation of sensor monitoring. Because sensor
+monitoring is a promising method for supporting olderpeople in their everyday life, research must address the
+needs and expectations of the endusers and healthcare
+professionals.
+32,31Study participants indicated that they
+felt safer having the sensors in their homes and could
+use the sensor data as feedback, enabling themselves to
+change their behaviors in an effort to function indepen-dently at home for as long as possible.
+22Therefore,
+future research should involve individuals and health-
+care professionals to customize the use of sensors to theparticipants’ speciﬁc needs.
+●Conducting large-scale clinical trials. The success of
+sensor monitoring depends on evidence of the method’seffectiveness in achieving its goals. If studies are estab-lished, they should be of a higher methodological qual-
+ity than existing studies and should express clear
+inclusion and exclusion criteria, proper research design,and a power calculation to include a sufﬁcient number
+of people.
+●Study the cost effectiveness of sensor monitoring. It has
+been demonstrated that sensor monitoring provides
+effective care coordination tools that have a positiveTable 2. Characteristics of Measurement and Support Studies
+StudyTechnological
+DevelopmentClinical
+PracticePossibilities
+for
+Clinical
+PracticeWearable
+and
+Passive
+SensorsPassive
+SensorsOnly
+Passive
+Infrared
+SensorsDiverse
+Binary
+SensorsOther
+Speciﬁc
+SensorsNumber of
+Sensors
+UsedDuration of
+MonitoringRecognized
+ADLs and
+Instrumental
+ADLsDetected
+Changes in
+Activity
+Patterns SafetyReduction of
+Hospital
+Days and
+CostsEfﬁciency
+Professionals
+Studies with the aim of measuring daily functioning
+Rashidi (2011)23Yes Yes Yes 48 3 months Yes Yes
+Wang (2009)24Yes Yes Yes Yes N/S 2 –3 years Yes
+Min (2008)30Yes Yes Yes Yes N/S <2 hours Yes
+Poujaud (2008)25Yes Yes Yes Yes N/S 1 year Yes Yes
+Virone (2008)32Yes Yes Yes Yes N/S N/S Yes Yes
+Hayes (2008)15Yes Yes Yes N/S 6 months Yes Yes
+Virone (2008)21Yes Yes Yes Yes Yes N/S 3 months to 1 year Yes Yes
+Zouba (2010)28Yes Yes Yes Yes Yes 25 4 hours Yes Yes
+Yang (2012)29Yes Yes Yes Yes Yes N/S 6 months Yes Yes
+Studies with the aim of supporting people in daily functioning
+Rantz (2010)8Yes Yes Yes Yes Yes Yes N/S 3 years Yes Yes Yes Yes
+Skubic (2009)22Yes Yes Yes Yes N/S 3 months to 3 year Yes Yes Yes Yes
+Brownsell (2008)16Yes Yes Yes Yes Yes N/S 12 months Yes
+Alwan (2007)17Yes Yes Yes Yes N/S 3 months Yes Yes Yes
+Suzuki (2006)27Yes Yes Yes Yes 12 6 months Yes Yes
+Ohta (2002)19Yes Yes Yes N/S 80 months Yes
+Reder (2010)20Yes Yes Yes Yes N/S 3 months Yes Yes
+Mahoney (2009)18Yes Yes Yes Yes N/S 4 –18 months Yes Yes
+ADLs =activities of daily living; N/S =not speciﬁed.JAGS DECEMBER 2013–VOL. 61, NO. 12 A SYSTEMATIC REVIEW OF SENSOR MONITORING 2225
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+effect on professional caregivers’ efﬁciency; reduce care-
+giver workloads; and result in signiﬁcantly fewer hospi-
+tal days, hospital visits, and emergency department
+visits.17,24Possible improved outcomes for healthcare
+professionals include a positive effect on healthcare
+professionals’ efﬁciency and workload,17although these
+results were found in just one study with a small sam-ple size, and the results could not be compared withthose of other studies. Future research should investi-
+gate the cost effectiveness of sensor monitoring.
+CONCLUSION
+The use of sensor monitoring could provide promising
+opportunities in clinical practice by measuring and support-
+ing daily functioning in older persons living independently,
+although clear evidence is still lacking. This systematicreview also showed that the research has focused largely onthe technical aspects of sensor monitoring and less on its
+application in everyday life and clinical practice. Future
+research should focus on facilitating the use of sensor mon-itoring in everyday life and clinical practice. To encourage
+this, a roadmap for future research was proposed that
+includes the participation of the older people themselves.
+ACKNOWLEDGMENTS
+Conﬂict of Interest : None of the authors have any compet-
+ing interests to declare.
+Author Contributions : All authors had full access to all
+of the data in the study and take responsibility for the integ-rity of the data and the accuracy of the data analysis, draft-ing and critical revision of the manuscript. Pol, Buurman,
+de Rooij: study concept and design. Pol, Poerbodipoero,
+Daams: performed search queries. Pol, Poerbodipoero,Buurman: review of articles. Pol, Buurman: drafting of
+manuscript. Robben, de Rooij, Kro ¨se, van Hartingsveldt, de
+Vos: critical revision of manuscript for important intellec-tual content. All authors read and approved the ﬁnal
+manuscript.
+Sponsor’s Role: None.
+REFERENCES
+1. Weinberger M, Samsa GP, Schmader K et al. Comparing proxy and
+patients’ perceptions of patients’ functional status: Results from anoutpatient geriatric clinic. J Am Geriatr Soc 1992;40:585 –588.
+2. Barnett K, Mercer SW, Norbury M et al. Epidemiology of multimorbidity
+and implications for health care, research, and medical education: A
+cross-sectional study. Lancet 2012;380:37 –43.
+3. Gill TM, Allore HG, Gahbauer EA et al. Change in disability after hospi-
+talization or restricted activity in older persons. JAMA 2010;304:1919 –1928.
+4. Pol MC, Buurman BM, de Vos R et al. Patient and proxy rating agree-
+ments on activities of daily living and the instrumental activities of daily
+living of acutely hospitalized older adults. J Am Geriatr Soc 2011;59:
+1554 –1556.
+5. Covinsky KE, Palmer RM, Fortinsky RH et al. Loss of independence in
+activities of daily living in older adults hospitalized with medical illnesses:Increased vulnerability with age. J Am Geriatr Soc 2003;51:451 –458.
+6. Fisher AG. AMPS: Assessment of Motor and Process Skills. Fort Collins,
+CO: Three Star Press, 1999.7. Kasteren T, Englebienne G, Kro ¨se BJA. An activity monitoring system for
+elderly care using generative and discriminative models. Pers UbiquitComput 2010;14:489 –498.
+8. Rantz MJ, Skubic M, Alexander G et al. Improving nurse care coordina-
+tion with technology. Comput Inform Nurs 2010;28:325 –332.
+9. Dobkin BH, Dorsch A. The promise of mHealth: Daily activity monitoring
+and outcome assessments by wearable sensors. Neurorehabil Neural Repair2011;25:788 –798.
+10. Alexander GL, Wakeﬁeld BJ, Rantz M et al. Passive sensor technology
+interface to assess elder activity in independent living. Nurs Res
+2011;60:318 –325.
+11. Polatajko HJ. The study of occupation. In: Christiansen H, Townsend E,
+eds. Introduction to Occupation. The Art and Science of Living, 2nd Ed.Upper Saddle River, NJ: Pearson, 2011, pp 58 –76.
+12. Pollack ME. Intelligent Assistive Technology: The Present and the Future.
+User Modeling 2007. 11th International Conference on User Modeling
+(UM 2007), June 25 –29, 2007, Corfu, Greece, 2007.
+13. Robben S, Englebienne G, Pol M et al. How is grandma doing? Predicting
+functional health status from binary ambient sensor data. AAAI TechnicalReport FS-12 –01 Artiﬁcial Intelligence for Gerontechnology. Washington,
+DC: AAAI, 2012, pp 26 –31.
+14. Wells G, Shea B, O’connell D et al. The Newcastle-Ottawa Scale (NOS)
+for assessing the quality of nonrandomized studies in meta-analysis. 2010
+[on-line]. Available at http://www.ohri.ca/programs/clinical_epidemiology/oxford_web.ppt 2010 Accessed January 26, 2012.
+15. Hayes TL, Abendroth F, Adami A et al. Unobtrusive assessment of activity
+patterns associated with mild cognitive impairment. Alzheimers Dement2008;4:395 –405.
+16. Brownsell S, Blackburn S, Hawley MS. An evaluation of second and third
+generation telecare services in older people’s housing. J Telemed Telecare
+2008;14:8 –12.
+17. Alwan M, Sifferlin EB, Turner B et al. Impact of passive health status mon-
+itoring to care providers and payers in assisted living. Telemed J E Health2007;13:279 –285.
+18. Mahoney DF, Mahoney EL, Liss E. AT EASE: Automated technology for
+elder assessment, safety, and environmental monitoring. Gerontechnology
+2009;8:11 –25.
+19. Ohta S, Nakamoto H, Shinagawa Y et al. A health monitoring system for
+elderly people living alone. J Telemed Telecare 2002;8:151 –156.
+20. Reder S, Ambler G, Philipose M et al. Technology and long-term care
+(TLC): A pilot evaluation of remote monitoring of elders. Gerontechnology
+2010;9:18 –31.
+21. Virone G, Alwan M, Dalal S et al. Behavioral patterns of older-adults in
+assisted living. IEEE Trans Inf Technol Biomed 2008;12:387 –398.
+22. Skubic M, Alexander G, Popescu M et al. A smart home application to
+eldercare: Current status and lessons learned. Technol Health Care2009;17:183 –201.
+23. Rashidi P, Cook DJ, Holder LB et al. Discovering activities to recognize
+and track in a smart environment. IEEE Trans Knowl Data Eng
+2011;23:527
+–539.
+24. Wang S, Skubic M, Zhu Y. Activity density map dis-similarity comparison
+for eldercare monitoring. Conf Proc IEEE Eng Med Biol Soc2009;2009:7232 –7235.
+25. Poujaud J, Noury N, Lundy JE. Identiﬁcation of inactivity behavior in
+smart home. Conf Proc IEEE Eng Med Biol Soc 2008;2008:2075 –2078.
+26. Virone G, Sixsmith A. Monitoring activity patterns and trends of older
+adults. Conf Proc IEEE Eng Med Biol Soc 2008;2008:2071 –2074.
+27. Suzuki R, Ogawa M, Otake S et al. Rhythm of daily living and detection
+of atypical days for elderly people living alone as determined with amonitoring system. J Telemed Telecare 2006;12:208 –214.
+28. Zouba N, Bremond F, Thonnat M et al. A computer system to monitor
+older adults at home: Preliminary results. Gerontechnology
+2009;8:129 –137.
+29. Yang CC, Hsu YL. Remote monitoring and assessment of daily activities in
+the home environment. J Clin Gerontol Geriatr 2012;3:97 –104.
+30. Min CH, Ince NF, Tewﬁk AH. Classiﬁcation of continuously executed
+early morning activities using wearable wireless sensors. Conf Proc IEEE
+Eng Med Biol Soc 2008;2008:5192 –5195.
+31. Demiris G, Oliver DP, Dickey G et al. Findings from a participatory evalu-
+ation of a smart home application for older adults. Technol Health Care2008;16:111 –118.
+32. Ding D, Cooper RA, Pasquina PF et al. Sensor technology for smart
+homes. Maturitas 2011;69:131 –136.2226 POL ET AL. DECEMBER 2013–VOL. 61, NO. 12 JAGS
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License
+SUPPORTING INFORMATION
+Additional Supporting Information may be found in the
+online version of this article:
+Appendix S1. Search strategies per database.
+Appendix S2. Methodological quality of case control
+studies.Please note: Wiley-Blackwell is not responsible for
+the content, accuracy, errors, or functionality of any
+supporting materials supplied by the authors. Any queries
+(other than missing material) should be directed to thecorresponding author for the article.JAGS DECEMBER 2013–VOL. 61, NO. 12 A SYSTEMATIC REVIEW OF SENSOR MONITORING 2227
+ 15325415, 2013, 12, Downloaded from https://agsjournals.onlinelibrary.wiley.com/doi/10.1111/jgs.12563 by Cochrane Netherlands, Wiley Online Library on [23/12/2022]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License

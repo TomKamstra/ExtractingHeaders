@@ -1,0 +1,318 @@
+Phonological variation in spoken word recognition:
+Episodes and abstractions1
+CYNTHIA M. CONNINE and ELENI PINNOW
+The Linguistic Review 23 (2006), 235–245 0167–6318/06/023-0235
+DOI 10.1515/TLR.2006.009 c/circlecopyrtWalter de GruyterAbstract
+Phonological variation in spoken words is a ubiquitous aspect of spontaneous
+speech and presents a challenge for recognition of spoken words. We discuss
+two classes of models, abstract and episodic, that have been proposed for spo-ken word recognition. Abstract theories rely on inference processes and/or un-derspeciﬁed representations to account for spoken word recognition. Episodic
+theories assume a lexical representation that encodes each spoken word event
+with exposure frequency linked to strength of a lexical entry. A model is pro-posed that posits a frequency-driven phonological variant lexical representa-tion. The model assumes that a word may have more than one variant represen-
+tation and that exposure to phonological variant form inﬂuences the strength
+of a given variant representation. Evidence for the proposed model is reviewedfor a number of variants (nasal ﬂaps, schwa deletion and medial ﬂaps).
+1. Introduction
+Spoken language comprehension is among the most complex cognitive abili-
+ties of humans – a transient physical signal that is noisy, incomplete and poten-
+tially ambiguous must be comprehended, typically under non-ideal listeningconditions. One process along this route to comprehension is the mapping ofacoustic-phonetic features extracted from the signal onto a lexical representa-
+tion. The process of word recognition is complicated by the highly variable
+nature of spoken language. Of particular interest here is that the realization of
+1. Preparation of the manuscript was suppor ted by NIH grant R01DC02134. Additional support
+was provided by the Center for Cognitive and Psycholinguistic Science.236 Cynthia M. Connine and Eleni Pinnow
+segments can vary as a function of the surrounding segments via such phono-
+logical processes as assimilation and deletion. The variability that occurs as
+a result of phonological processes presents a particular challenge for listenersin the process of word recognition because phonological processes can resultin large differences among alternative pronunciations. The research reviewed
+here focuses on the mechanisms that underlie a listener’s ability to accommo-
+date phonological variation.
+There are two general classes of spoken word recognition theories: abstract
+and episodic. In abstract models, the speech signal is coded into abstract fea-
+tures which in turn serve to activate abstract lexical representations (see, e.g.,
+Marslen-Wilson and Warren 1994; McClelland and Elman 1986; Norris, Mc-Queen and Cutler 2000; Connine et al. 1997). Of particular importance to the
+present discussion is that the abstractness of the lexical representation is pre-
+sumed to be such that surface details are lost during encoding. This central as-sumption distinguishes abstract models from episodic ones. Central to episodicmodels of lexical representation is the idea that the lexicon consists of traces of
+each heard production of a word (Goldinger 1998). The encoded traces retain
+detailed surface information (cf. Goldinger 1998; Johnson 2005; Pierrehum-bert 2001, 2003). In the sections to follow, we review evidence that, we argue,supports a hybrid model, that is, a model in which a degree of normalization
+takes place, but in which multiple phonological variants of a given word may
+be stored.
+Two strands of research motivate this work: First, research into the effects
+of lexical frequency on language processing (e.g., Luce 1986; Marslen-Wilson
+1993; Balota and Chumbley 1984, 1990; Connine et al. 1990) and pronunci-
+ation variation (e.g., Bybee 2002; Pierrehumbert 2001; Jurafsky et al. 2001;Greenberg 1999; Fosler-Lussier and Morgan 1999; Raymond, Dautricourt andHume 2006; Patterson, LoCasto and Connine 2003; Patterson and Connine
+2001; Crystal and House 2001); and second, research suggesting that hearers
+encode ﬁne details of utterances they hear, including subphonemic detail (e.g.,Mullennix, Pisoni and Martin 1989; Nygaard, Sommers and Pisoni 1994; Mul-lennix et al. 1995; see also Johnson and Mullennix 1997 and chapters therein).
+Taken together, these lines of investigation suggest that word recognition is
+likely to be affected by phonological variation. A number of recent studies havedemonstrated that this is so and have proposed models of word recognition inthe face of phonological variation (e.g., MacLennan, Luce, and Charles-Luce
+2003, and Luce, MacLennan, and Charles-Luce 2003 for the recognition of
+ﬂapped and non-ﬂapped variants of /t/ and /d/; Johnson 2005; Connine 2004).The research reviewed here (primarily from the authors of this review) uti-lizes a conversational corpus in order to establish occurrence frequencies for
+phonological variants. Subsequent work examines the extent to which variant
+frequency predicts performance in behavioral studies. Limitations of variantPhonological variation in spoken word recognition 237
+frequency accounts for processing phonological variation are noted along with
+suggestions for further research.
+2. Representation of phonological variant frequency
+In the following section, the current status of the role of variant frequency as an
+explanatory mechanism for recognition of phonological variants is reviewed.
+For each variant that is discussed, the relevant corpus statistics are describedand are used to predict effects in processing phonological variants.
+2.1. Word-ﬁnal /t, d/-deletion
+Word-ﬁnal stops can be articulated with or without a release burst in American
+English. In an analysis of released/no-release patterning conducted by Crystaland House (1988) a detailed acoustic analysis of a 600 word corpus of read
+speech found that 59 % of the stops were complete (an identiﬁable hold fol-
+lowed by a release). A second important ﬁnding was that the occurrence of therelease patterned with voicing characteristics of the stop: voiced stops in wordﬁnal position include a release less often (18 %) than voiceless stops (42 %).
+The statistical trends for the released/no-release patterning were investigated in
+a phoneme monitoring experiment in which frequency-matched words endingin voiced or voiceless stops were presented with or without their ﬁnal release(Deelman and Connine 2001). Deelman and Connine found that reaction time
+was faster for the release-bearing than for the no-release tokens. This overall
+ﬁnding is consistent with the relative frequency of the release type – more fre-quent forms (release-bearing) are responded to more quickly than less frequentforms (no-release). Of particular interest was whether the weakly probabilis-
+tic released/no-release pattern inﬂuenced word recognition in a more subtle
+way suggested by differences in voicing. The results revealed a complex in-terplay of voicing class and the integrity of the lexically matching informationin the stimulus – word stimuli showed a comparable advantage for a release-
+bearing stimulus in phoneme monitoring reaction time compared to no-release
+words. However, the introduction of a mismatching segment at a word’s onsetto create a pseudo-word revealed a pattern of results that are consistent withthe statistical likelihood of a release. Pseudo-words ending in voiceless seg-
+ments showed faster phoneme monitoring reaction times for the release tokens.
+However, pseudo-words ending in voiced segments showed no advantage forrelease-bearing tokens: tokens with and without a release showed comparablepriming. The complex interaction of voicing class and lexical activation clearly
+argues against a simple inference account for the apparent ease of processing
+no-release words. Rather, the results strongly suggest that the distributional238 Cynthia M. Connine and Eleni Pinnow
+facts concerning the completeness of t he release across voiced and voiceless
+word sets is related to ease of word recognition.
+2.2. Word medial ﬂap
+In contrast to released/no-release variants, some classes of variation show
+strongly dominant variants. One such variant is the American English ﬂap
+(i.e., the ﬂapped variant of coronal stops in post-tonic position as in [ "phôIRI]
+“pretty”). In their corpus analysis, Patterson and Connine (2001) extracted pro-ductions of potentially ﬂapped words from the Switchboard database of Amer-
+ican English (Godfrey, McDaniel and Holliman 1992), a collection of elicited
+telephone conversations between strangers on assigned topics (approximately2,400 two-sided telephone conversations among 543 speakers). Patterson andConnine (2001) found that 96 % of the tokens (N = 2172) consisted of unam-
+biguous, ﬂapped productions with the remaining 4 % distributed across [t] and
+glottal stop productions. The predominance of the ﬂapped production held forall words and for two different dialect regions. The hypothesis that represen-tation of lexical form includes the highly frequent ﬂap was examined using a
+phoneme identiﬁcation task (Connine 2004). Uncontroversially, the speciﬁca-
+tion of the ﬂap as highly frequent was based on its predominance in the cor-pus analysis. Listeners identiﬁed the initial segment ( borp) in word-nonword
+speech continua (e.g., [ "p
+hôIRI]–[ "bôIRI]). Of critical importance was that the
+to-be-identiﬁed segment was embedded in either a ﬂap or a [t] bearing carrier
+word (e.g., [ "phôIRI]-[ "bôIRI]o r[ "phôItI]-[ "bôItI]). The results showed more iden-
+tiﬁcation responses forming a real word (e.g., more presponses) when the to-
+be-identiﬁed segment occurred in the more frequently experienced ﬂap carrier
+compared to when the to-be-identiﬁed segment occurred in the less frequently
+experienced [t] carrier.
+2.3. Schwa deletion
+The data just described demonstrate that a highly frequent variant, the ﬂap,
+is represented but leaves open the question of representation for the very in-frequent form. A more direct examination of the question of multiply repre-sented forms was addressed for a phonological variant with no single domi-
+nant production, schwa deletion in post-tonic position (e.g., [ "hIst@ôI] ‘history’
+→["hIstôI]). A corpus analysis of schwa deletion frequency (Patterson, LoCasto
+and Connine 2003) revealed that words vary dramatically in deletion rates forthree syllable words with a potential medial schwa deletion. The corpus statis-
+tics were based on the Switchboard conversational database and replicated with
+a smaller sample of speech using elicited productions from pairs of speakersPhonological variation in spoken word recognition 239
+re-telling stories (see Patterson et al. 2003 for details). The range of deletion
+rates permitted selection of words with either high deletion rates (greater than
+50 %) and low deletion rates (less than 50 %) in an experiment conducted byConnine, Ranbom and Patterson (2005). Connine et al. presented listeners to-kens from speech continua in which the duration of a schwa was manipulated.
+For example, the medial schwa of [ "hIst@ôI] ‘history’ was systematically short-
+ened in small steps to create a token of [ "hIstôI]. A control condition was created
+by replacing the initial and ﬁnal syllables to create a nonword (e.g., foshtoro ).
+Note that in the nonword control condition, the medial schwa and its surrounds
+were acoustically identical to the word condition. Subjects in the experiment
+were asked to indicate whether a schwa was present or absent for each token.An inﬂuence of deletion rate frequency was revealed in three aspects of the
+data. First, low deletion rate words showed more schwa-present judgments as
+compared with high deletion rate words. Second, control nonword carriers withthe same physical schwa information (and surrounding segments) as their highand low deletion rate word counterparts did not differ. This indicates that the
+deletion rate effect for words was not a consequence of idiosyncratic proper-
+ties of the schwa or its environs. Third, both high and low deletion rate wordsshowed more vowel-present judgments relative to their nonword counterparts,but the difference was larger for the low deletion rate words. Thus, the ten-
+dency to detect a schwa in a word context depended upon the frequency of that
+variant form in speech. This is consistent with the ﬁndings for the medial ﬂap(described above) and provides a more subtle inﬂuence of variant frequency –the lexical effect varied with the frequency of the variant form and is consistent
+with frequency-based variant representations.
+2.4. Nasal ﬂap
+A second word-internal variant that has been investigated is the nasal ﬂap
+(henceforth NT) where a /t/ in a "Vn_V environment can be realized as a nasal
+ﬂap (e.g., the surface form [ "t
+hwEntI] ‘twenty’ can alternate with a surface form
+["thwE˜RI]). Picard (1984) identiﬁed the process of nasal ﬂapping as optional,
+resulting from /t/-deletion followed by ﬂapping of the intervocalic nasal seg-ment. Other linguistic analyses (Vaux 2000) suggest that the coronal stop isthe more active of the two segments in creating nasal ﬂapping. Ranbom and
+Connine (2004) showed in a corpus analysis of the Switchboard database that
+the nasal ﬂap production is dominant, occurring in nearly 82 % of productions.Similar to the schwa deletion statistics, the predominance of the nasal ﬂap formvaried across words with some items more frequently produced with an enun-
+ciated NT. Similar to the previous experiments, the corpus statistics permit-
+ted the selection of stimuli that varied variant frequency ( >50 % or <50 %240 Cynthia M. Connine and Eleni Pinnow
+nasal ﬂap occurrence). The high and low variant frequency stimuli were sub-
+sequently presented to listeners in their enunciated NT and nasal ﬂap forms
+in a series of experiments. In the ﬁrst of this series, a lexical decision exper-iment, the results showed that overall, lexical decisions were faster and moreaccurate for the enunciated NT variant – a ﬁnding clearly inconsistent with the
+overall frequency statistics. However, a more subtle inﬂuence of variant fre-
+quency emerged when responses were considered in terms of presented form(nasal ﬂap or enunciated NT). Responses to nasal ﬂap forms showed a variantfrequency effect – lexical decision reaction times were faster and more accu-
+rate for words that had nasal ﬂaps highly frequently (words with greater than
+50% occurrence as nasal ﬂaps) than for words that had nasal ﬂaps infrequently.No such variant frequency effect was found for the NT productions. These re-
+sults suggest that experienced frequency inﬂuences lexical representation for
+the nasal ﬂap form but not the NT form. The overall advantage for the NTproduction (along with the variant frequency effect for the nasal ﬂap) was alsofound in a repetition cross modal priming experiment. This experiment used
+an additional set of control words, medial consonant cluster words (e.g., whis-
+per), that were presented in their intact form or as a mispronunciation without
+the second medial consonant (e.g., whisser ). If activation of a lexical repre-
+sentation is tolerant of a missing segment, then similar priming effects for the
+nasal ﬂap and the mispronounced consonant-cluster stimuli should be found.
+However, a signiﬁcant priming effect was found for the nasal ﬂap productionsand no priming for the consonant-deleted productions. These results rule outthe possibility that the nasal ﬂap is simply recognized as a best-match for a
+represented NT form (Connine et al. 1997).
+Ranbom and Connine (2004) suggest that the results support the presence of
+two phonological representations: a gradient representation for the nasal ﬂapbased on frequency of occurrence, along with a representation for the enunci-
+ated NT for all words. The advantage for processing the NT form relative to
+the nasal ﬂap (in deﬁance of frequency) and the insensitivity of the NT formto variant frequency is clearly inconsistent with the notion that more frequentvariant forms are more strongly represented. In considering possible explana-
+tions for the lack of a variant frequency effect for NT pronunciations, Ranbom
+and Connine (2004) suggest that there may be more than one route for thelexicalization of phonological forms for spoken word recognition. Speciﬁcally,orthographically consistent forms may achieve a strongly lexicalized represen-
+tation (irrespective of its spoken frequency) via reading. For nasal ﬂaps, the
+suggestion is that an enunciated NT representation is established via an ortho-graphic route while a gradient representation for the nasal ﬂap becomes moreentrenched as the nasal ﬂap production is encountered more often. An inﬂu-
+ence of experience with visual language on spoken word recognition is not
+entirely ad hoc as a similar proposal has been made by researchers in visualPhonological variation in spoken word recognition 241
+word recognition. Cross-talk among orthographic and phonological represen-
+tations has been formalized in some models that assume explicit connections
+between orthographic and phonological representations. One such model, thebimodal interactive activation model, assumes that orthographic representa-tions are automatically activated during auditory word recognition (and vice
+versa, see Grainger and Ferrand 1996) and support for a facilitatory relation-
+ship between modalities has been demonstrated in experiments showing an or-thographic neighbor inﬂuence on processing spoken words (Ziegler, Muneauxand Grainger 2003). Some evidence for cross talk between orthographic and
+phonological representation that is of particular relevance is some recent re-
+search examining the nature of the speech code for words with an infrequentbut orthographically consistent phonological variant. Using a novel paradigm,
+Inhoff, Connine, and Radach (2002; see also Inhoff et al. 2004) had partici-
+pants read sentences in which ﬁxating a target word (e.g., PRETTY) triggeredauditory presentation of the frequent ﬂap, the infrequent [t] form or a similarsounding word (e.g., GRITTY). The similar word resulted in increased post-
+target reading ﬁxations, but the ﬂapped and the [t] versions showed shorter but
+equivalent reading times. The equivalent effects for ﬂapped and [t] variants sug-gests that the orthographic lexicon reﬂects both the experienced spoken wordenvironment and orthography-to-phonology mappings. A parallel inﬂuence of
+orthography in processing spoken words was suggested by Connine (2004) for
+the hyperarticulated ‘t’ version of words such as pretty where processing of
+this form may be facilitated by a phonological representation that developed asa result of exposure to the written form of a word. It is important to note that
+development of a phonological representation via reading does not rule out a
+variant frequency effect, but it requires a wider consideration of frequency inthat input from both domains may dilute a spoken word variant frequency con-tribution. The implication is that predictions based solely on spoken variant
+frequency may be partially disconﬁrmed if an infrequent phonological variant
+is also consistent with the orthography.
+3. Learning phonological variants
+So far, the research reviewed here has supported the claim that lexical orga-
+nization capitalizes on systematicity and frequency in representing phonolog-
+ical variation form. That representation of spoken form utilizes these dimen-
+sions is perhaps not surprising, since systematicity and frequency are proper-ties inherent in other aspects of lexical knowledge. The explicit representationof phonological variants is also consistent with evidence suggesting that in-
+dexical characteristics of voices as well as within-category information about
+speech sounds are encoded by listeners. L isteners can recognize frequent vari-242 Cynthia M. Connine and Eleni Pinnow
+ant forms more effectively than infrequent forms. These results suggest that
+lexical representations effectively evolve to accommodate the experienced lan-
+guage environment. However, what ﬂexibility do listeners have in representinglow frequency forms? Is simple exposure to a low frequency form sufﬁcient torender that form more easily recognizable? A recent set of experiments investi-
+gated precisely this question for infrequently occurring schwa-deleted variants
+for bisyllabic schwa-deleted words (e.g., [b I"li:v] ‘believe’ →["bli :v]). Previous
+research demonstrated that disyllabic schwa-deleted words occur infrequently(less than 11 %) compared to their schwa bearing counterparts (Patterson, Lo-
+Casto and Connine 2003) and that recognition of these forms was slow and in-
+accurate (LoCasto and Connine 2002). Pinnow and Connine (2005) examinedthe inﬂuence of exposure on these difﬁcult to recognize forms by providing
+prior exposure to the stimuli in a training session in which participants were
+presented an auditory version of the schwa-deleted word form along with itscorrectly spelled orthographic form. In the training phase, participants weresimply asked to listen carefully to each vowel-deleted token and read the or-
+thographic form. The inﬂuence of exposure was assessed in a subsequent lexi-
+cal decision experiment – the results showed increased accuracy (correct wordidentiﬁcations) for the single exposure group compared with a control groupthat received no training. An identical pattern of results was found for a train-
+ing/test set of conditions in which the voice used in training differed from the
+voice used in test. Moreover, accuracy rates in the same voice condition did notdiffer from the different voice condition. A second experiment demonstratedthat repeated exposure (four repetitions) of a variant during training increased
+the percentage of ‘word’ responses (relative to the control and similar to the
+single repeat group) but also served to speed the lexical decision response.Clearly, exposure to a low frequency variant is sufﬁcient to strengthen thatform’s lexical representation. The lack of a talker effect is consistent with a
+relatively abstract representation that is immune to idiosyncratic differences
+among speakers. The relatively abstract nature of the information encoded inthe training phase is supported by an additional experiment in which the train-ing and test stimulus sets differed (that is participants heard one set of schwa-
+deleted stimuli in training and performed a lexical decision task on a new set of
+schwa-deleted stimuli in test). Surprisi ngly, the variant learning effect was also
+found for this second group of listeners, that is, exposure to one set of schwa-deleted words served to improve recognition of a new set of words. Even more
+surprising, the transfer and repetition group showed a statistically equivalent
+increase in ‘word’ responses (relative to a control group who performed thelexical decision without any training). These ﬁndings suggest that listeners areable to generalize across the set of learned stimuli and extend this knowledge
+to new words in a given variant class.Phonological variation in spoken word recognition 243
+4. Conclusions
+The preceding review shows that experience with phonological variants serves
+to predict performance in spoken word recognition tasks and that manipula-tions of experienced frequency can increase accuracy in recognizing a givenform. Further, the nature of the information learned from exposure to a set of
+experienced variants can be extracted and applied to novel instances of that
+variant class. The inﬂuence of pre-existing variant frequency along with theeffects of manipulated exposure frequency support a powerful role for experi-ential factors in lexical representation. The ability of listeners to apply learned
+patterns of words to a new set of words also suggest that the learning mecha-
+nism underlying the encoding of word forms is powerful enough to generalizeacross new patterns. The entire set of ﬁndings is consistent with the notion thatexposure to a variant form underlies the development of lexical representations.
+The focus on the nature of the representation shifts the burden for processing
+phonological variants to an experience-based lexicon. However, an adequatemodel of word recognition may require both abstract and episodic representa-tions. Representations along these lines have been suggested in linguistic the-
+ory that encode surface details to distinguish among speakers. Pierrehumbert
+(2003) discusses a distinction between parametric phonetics and abstractionsacross phonetic space. Parametric phonetics e ncodes the acoustic/articulatory
+space that represents individual occurrences of a segment. Abstractions across
+phonetic space represent word forms in the lexicon. There are many questions
+concerning the ways in which surface detail comes to be represented by lis-teners and in what form. Despite these many remaining issues, a focus on lex-icalization of variant forms based on exposure frequency moves the question
+of what special processes or representations underlie recognition of phonolog-
+ical variants to the question of how do lexical representations develop and inwhat form. From this perspective, learning and experience take a front seat inconsidering the structure of the mental lexicon and its role in spoken language
+processing.
+Binghamton University
+State University of New York
+References
+Balota, David and James Chumbley (1984). Are lexical decisions a good measure of lexical ac-
+cess? The role of word-frequency in the neglected decision stage. Journal of Experimental
+Psychology: Human Perception and Performance 10: 340–357.
+— (1990). Where are the effects of frequency in v isual word recognition tasks? Right where we
+said they were! Comment on Monsell, Doyle and Haggard (1989). Journal of Experimental
+Psychology: General 119: 231–237.244 Cynthia M. Connine and Eleni Pinnow
+Bybee, Joan (2002). Word frequency and context of use in the lexical diffusion of phonetically
+conditioned sound change. Language V ariation and Change 14 (3): 261–290.
+Connine, Cynthia (2004). It’s not what you hear, but how often you hear it: On the neglected role
+of phonological variant frequency in auditory word recognition. Psychological Bulletin and
+Review 11: 1084–1089.
+Connine, Cynthia, John Mullenni x, Eva Shernoff, and Jennifer Yelen (1990). Word familiarity
+and frequency in auditory and visual word recognition. Journal of Experimental Psychology:
+Learning, Memory and Cognition 16 (6): 1084–1096.
+Connine, Cynthia, Larissa Ranbom and David Patterson (2005). On the representation of phono-
+logical variant frequency in spoken word recognition. Ms.
+Connine, Cynthia, Titone, Debra, Deelman, Thomas, and Blasko, Dawn (1997). Similarity map-
+ping in spoken word recognition. Journal of Memory and Language 37: 463–480.
+Crystal, Thomas and Arthur House (1988). The duration of American-English stop consonants:
+An overview. Journal of Phonetics 16: 285–294.
+Deelman, Thomas and Cynthia Connine (2001). Mi ssing information in spoken word recognition:
+Non-released stop consonants. Journal of Experimental Psychology: Human Perception and
+Performance 27: 656–663.
+Fosler-Lussier, Eric and Nelson Morgan (1999). Effects of speaking rate and word predictability
+on word pronunciation in conversational speech. Speech Communication 29: 137–158.
+Godfrey, John, Jane McDaniel and Edwar d Holliman (1992). SWITCHBOARD: A telephone
+speech corpus for research and development. In ICASSP Proceedings , 517–520. San Fran-
+cisco.
+Goldinger, Stephen (1998). Echoes of echoes? An episodic theory of lexical access. Psychological
+Review 105: 251–279.
+Grainger, Jonathan and Ludovic Ferrand (1996) . Masked orthographic and phonological priming
+in visual word recognition and naming: Cross-task comparisons. Journal of Memory and Lan-
+guage 35: 623–647.
+Greenberg, Steven (1999). Speaking in shorthand – a syllable-centric perspective for understanding
+pronunciation variation. Speech Communication 29: 159–176.
+Inhoff, Albrecht, Cynthia Connine and Ralph Rad ach (2002). A contingent speech technique in eye
+movement research on reading. Behavior Research Methods, Instruments, and Computers 34:
+471–480.
+Inhoff, Albrecht, Cynthia Connine, Brianna E iter, Ralph Radach, and Dieter Heller (2004). Phono-
+logical representation of words in working memory during sentence reading. Psychonomic
+Bulletin and Review 11: 320–325.
+Johnson, Keith (2005). Massive reduction in conversational American English. Manuscript.Johnson, Keith and John Mullennix (eds.) (1997). Talker V ariability in Speech Processing .S a n
+Diego: Academic Press.
+Jurafsky, Daniel, Alan Bell, Michelle Gregory and William Raymond (2001). Probablistic relations
+between words: Evidence from reduction in lexical production. In Frequency and the Emer-
+gence of Linguistic Structure , Joan Bybee and Paul Hopper (eds.), 229–254. Amsterdam: John
+Benjamins.
+LoCasto, Paul and Cynthia Connine (2002). Rule-governed missing information in spoken word
+recognition: Schwa vowel deletion. Perception and Psychophysics 64: 208–219.
+Luce, Paul (1986). Neighborhoods of words in the mental lexicon. PhD dissertation. Indiana Uni-
+versity, Bloomington, IN.
+Luce, Paul, Connor MacLennan, and Jan Charles-Luce (2003). Abstractness and speciﬁcity in
+spoken word recognition: Indexical and allophoni c variability in long-term repetition priming.
+InRethinking Implicit Memory , J. Bowers and C. Marsolek (eds.), 197–214. Oxford: Oxford
+University Press.
+MacLennan, Connor, Paul Luce and Jan Charles-Luce (2003). Representation of lexical form.
+Journal of Experimental Psycholog y: Learning, Memory and Cognition 29: 539–553.Phonological variation in spoken word recognition 245
+Marslen-Wilson, William (1993). Issues of proces s and representation in spoken language under-
+standing. In Cognitive Models of Speech Processing , G. Altmann and R. Shillcock (eds.),
+187–209. East Sussex, UK: Erlbaum.
+Marslen-Wilson, William and Paul Warren (1994). Lev els of perceptual representation and process
+in lexical access: Words, phonemes, and features. Psychological Review 101: 653–675.
+McClelland, James and Jeffrey Elman (1986). The TRACE model of speech perception. Cognitive
+Psychology 18: 1–86.
+Mullennix, John, Keith Johnson, Meral Topcu-Durgun and Lynn Farnsworth (1995). The percep-
+tual representation of voice gender. Journal of the Acoustical Society of America 98: 3080–
+3095.
+Mullennix, John, David Pisoni an d Christopher Martin (1989). Some effects of talker variability
+on spoken word recognition. Journal of the Acoustical Society of America 85: 365–378.
+Norris, Dennis, James McQueen and Anne Cutler ( 2000). Merging information in speech recogni-
+tion: Feedback is never necessary. Behavioral and Brain Sciences 23: 299–370.
+Nygaard, Lynne, Mitchell Sommers and David Pisoni (1994). Speech perception as a talker-
+contingent process. Psychological Science 5: 42–46.
+Patterson, David and Cynthia Connine (2001). V ariant frequency in ﬂap production: A corpus
+analysis of variant frequency in American English ﬂap production. Phonetica 58: 254–275.
+Patterson, David, Paul LoCasto and Cynthia C onnine (2003). Corpora analyses of frequency of
+schwa deletion in conversational American English. Phonetica 60: 45–69.
+Picard, Marc (1984). English aspiration and ﬂapping revisited. Canadian Journal of Linguistics
+29: 42–57.
+Pierrehumbert, Janet (2001). Exemplar dynamics : Word frequency, lenition, and contrast. In Fre-
+quency Effects and Emergent Grammar , Joan Bybee and Paul Hopper (eds.), 137–157. Ams-
+terdam: John Benjamins.
+— (2003). Probabilistic phonology: Discrimination and robustness. In Probabilistic Linguistics ,
+Rens Bod, Jennifer Hay and Stefanie Jannedy (eds.), 177–228. Cambridge, MA: The MIT
+Press.
+Pinnow, Eleni and Cynthia Connine (2005). Lear ning new phonological variants in spoken word
+recognition: Episodes and abstraction. Paper presented at the Annual Meeting of the Psycho-nomic Society. Toronto, Canada.
+Ranbom, Larissa and Cynthia Connine (2004). On t he role of phonological variant frequency in
+spoken word recognition. Meeting of the Acoustical Society of America, New York City.
+Raymond, William, Robin Dautricourt and Elizabeth Hume (2006). Word-medial /t, d/ deletion
+in spontaneous speech: Modeling the effects o f extra-linguistic, lexical, and phonological
+factors. Language V ariation and Change 18: 55–97.
+Vaux, Bert (2000). Flapping in English. Paper presented at the Linguistic Society of America,
+Chicago, IL.
+Ziegler, Johannes, Mathilde Muneaux and Jonathan Grainger (2003). Neighborhood effects in au-
+ditory word recognition: Phonological co mpetition and orthographic facilitation. Journal of
+Memory and Language 48: 779–793.

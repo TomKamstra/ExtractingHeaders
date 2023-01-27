@@ -1,0 +1,1162 @@
+See discussions, st ats, and author pr ofiles f or this public ation at : https://www .researchgate.ne t/public ation/366544498
+OpenAI ChatGPT Generated Literatu re Review: Digital T win in Healthcare
+Preprint  · Dec ember 2022
+CITATIONS
+0READS
+876
+2 author s:
+Some o f the author s of this public ation ar e also w orking on these r elat ed pr ojects:
+Security of Softw are Defined Ne tworks View pr oject
+Trends in eBusiness and eGo vernment  View pr oject
+Ömer A yd ı n
+Manisa Celal Bay ar Univ ersity
+94 PUBLICA TIONS    284 CITATIONS    
+SEE PROFILE
+Enis Kar aarslan
+Mugla Üniv ersitesi
+119 PUBLICA TIONS    397 CITATIONS    
+SEE PROFILE
+All c ontent f ollo wing this p age was uplo aded b y Ömer A yd ı n on 05 Januar y 2023.
+The user has r equest ed enhanc ement of the do wnlo aded file.22 OpenAI ChatGPT Generated Literature Review:  
+Digital Twin in Healthcare  
+Ömer AYDIN  
+Manisa Celal Bayar University  
+Faculty of Engineering  
+Electrical and Electronics Engineering  
+Manisa, Türkiye  
+omer.aydin@cbu.edu.tr  
+0000- 0002 -7137 -4881  Enis Karaarslan  
+Mugla Sitki Kocman University  
+Faculty of Engineering  
+Computer Engineering  
+Mugla, Türkiye  
+enis.karaarslan@mu.edu.tr,  
+0000 -0002 -3595 -8783  
+Abstract— Literature review articles are essential to 
+summarize the related work in the selected field. However, 
+covering all related studies takes too much time and effort. This 
+study question s how Artificial Intelligence can be used in this 
+process. We used ChatGPT to create a literature review article 
+to show the stage of the OpenAI ChatGPT artificial intelligence 
+application. As the subject, the applications of Digital Twin in 
+the health fie ld were chosen. Abstracts of the last three years 
+(2020, 2021 and 2022) papers were obtained from the keyword 
+"Digital twin in healthcare" search results on Google Scholar 
+and paraphrased by ChatGPT. Later on, we asked ChatGPT 
+questions. The results are pr omising; however, the paraphrased 
+parts had significant matches when checked with the Ithenticate 
+tool. This article is the first attempt to show the compilation and 
+expression of knowledge will be accelerated with the help of 
+artificial intelligence. We a re still at the beginning of such 
+advances. The future academic publishing process will require 
+less human effort, which in turn will allow academics to focus 
+on their studies. In future studies, we will monitor citations to 
+this study to evaluate the acad emic validity of the content 
+produced by the ChatGPT.  
+Keywords — OpenAI, ChatGPT, Artificial Intelligence, Digital 
+twin, Healthcare, ChatGPT revolution, Academic Publishing  
+I. INTRODUCTION  
+OpenAI ChatGPT [1] is a chatbot based on the OpenAI 
+GPT -3 language model. It is designed to generate human -like 
+text responses to user input in a conversational context. 
+OpenAI ChatGPT is trained on a large dataset of human 
+conversations and can be used to create responses to a wide 
+range of topics and prompts. Th e chatbot can be used for 
+customer service, content creation, and language translation 
+tasks, creating replies in multiple languages. OpenAI 
+ChatGPT is available through the OpenAI API, which allows 
+developers to access and integrate the chatbot into their  
+applications and systems.  
+OpenAI ChatGPT is a variant of the GPT (Generative Pre -
+trained Transformer) language model developed by OpenAI. 
+It is designed to generate human -like text, allowing it to 
+engage in conversation with users naturally and intuitivel y. 
+OpenAI ChatGPT is trained on a large dataset of human 
+conversations, allowing it to understand and respond to a wide 
+range of topics and contexts. It can be used in various 
+applications, such as chatbots, customer service agents, and 
+language translatio n systems. OpenAI ChatGPT is a state -of-
+the-art language model able to generate coherent and natural 
+text that can be indistinguishable from text written by a 
+human.  
+As an artificial intelligence, ChatGPT may need help to 
+change academic writing practices.  However, it can provide 
+information and guidance on ways to improve people’s academic writing skills. People can improve the quality of 
+their academic writing and effectively communicate their 
+ideas to readers by following the following few tips:  
+• Unders tand the purpose of people’s writing: Is it to
+inform, persuade, or analyse? Identifying the goal will help 
+them choose the appropriate tone, style, and structure for their 
+writing.  
+• Use clear and concise language: Avoid jargon and
+use simple, straightfor ward language to convey your ideas 
+effectively.  
+• Use evidence to support their claims: It is essential to
+provide evidence to support your ideas and arguments in 
+academic writing. Use credible sources and provide proper 
+citations to support their claims.  
+• Use proper structure: Organise their writing into
+clear sections and use headings and subheadings to guide the 
+reader through their argument.  
+• Edit and proofread: Make sure to proofread their
+writing for grammar and spelling errors and edit for clarity and 
+concision.  
+Artificial intelligence (AI) is a technological development 
+that will significantly impact daily life and legal regulations, 
+including civil, criminal, and liability laws. One area where AI 
+will affect is the regulation of intellectual prope rty rights. 
+There is a question of who should own patents for inventions 
+made by AI machines [2]. Who owns the AI - generated 
+articles? Is it the person who asks the information and 
+questions necessary to write the essay, or is it the sof tware and 
+machine that creates this content? These and many other 
+questions need to be answered.  
+In this study, it is evaluated whether an academic article 
+can be created by AI and whether the created article carries 
+values such as academic content and ori ginality. All content 
+except the “Abstract”, “Introduction”, “Method”, “Findings 
+and Results” and “Discussion and Conclusion” subsections 
+was generated by ChatGPT. Another purpose of this study is 
+to analyse the number of citations this article will receiv e and 
+the characteristics of the citations. When the required sample 
+size for the citations is reached (at least 100 journal article 
+citations), we will examine the studies referring to this article 
+and the effectiveness, and academic validity of the paper  will 
+be interpreted through citations.  
+In the first following section, used methods are given. In 
+the second section one of the new technologies Digital Twin 
+was defined by ChatGPT . In the third section, information 
+about the use and features of Digital Twin in HealthCare is 
+Cite (APA): Aydın, Ö. , Karaarslan, E.  (2022). OpenAI ChatGPT  Generated Literature Review: Digital Twin in 
+Healthcare .  In Ö. Aydın (Ed.), Emerging Computer Technologies 2 (pp. 22 -31). İzmir Akademi Dernegi.Aydin  and Karaarslan  
+23 shared by ChatGPT. In the fourth part, the abstracts of the 
+articles that were found as a result of the search for "Digital 
+Twin in Healthcare" and that could b e accessed via Google 
+Scholar belonging the last 3 years were paraphrased by 
+ChatGPT. In the fifth section, the findings and results are 
+given. Finally, the study ends with the evaluations made by us 
+under the title of Discussion and Conclusion.  
+II. METHOD  
+It is useful to reiterate the aim of doing this study here. 
+ChatGPT is an important example of how artificial 
+intelligence can produce results in academic article writing. 
+Therefore, we aim to ensure that a review article is written by 
+artificial intelligence  at a basic level and to question its 
+academic validity. For this purpose, as a research method, it 
+was determined that the abstracts of the results obtained by 
+searching on a topic (Digital Twin in Healthcare) that we 
+determined on Google Scholar should b e paraphrased with 
+ChatGPT. Also, "What is Digital Twin?" and "Digital Twin in 
+Healthcare" was queried to ChatGPT to generate for the 
+Digital Twin and Healthcare topics. These two titles are 
+included in the article before the literature title.  
+The texts cr eated by ChatGPT by paraphrasing and the 
+texts produced by giving the answers are checked by 
+plagiarism tools such as Ithenticate, intihal.net and alike. As a 
+result of the evaluation, an evaluation is made on the similarity 
+rate with the previous studies.  
+In order to evaluate the Academic Validity of this study, 
+the following method was determined. This article has been 
+published on the preprint sharing environments (SSRN, 
+Arxiv, Techxriv, Researchgate, Academia etc.). Citations to 
+this study will be recor ded then. Finally, these articles will be 
+reviewed and evaluated when the citations reach a certain 
+number (for example, 100 journal article citations). The 
+academic validity of this text produced by ChatGPT will be 
+evaluated from the criticisms and evalua tions in these 
+citations.  
+III. DIGITAL TWIN 
+A digital twin is a digital representation of a physical 
+object or system that allows for the simulation of the object or 
+system's behaviour, performance, and characteristics. This 
+technology has the potential to revo lutionize a wide range of 
+industries, from manufacturing and logistics to healthcare and 
+urban planning.  
+The concept of a digital twin originated in the 
+manufacturing industry, where it was used to optimize the 
+design and operation of complex systems such as aircraft 
+engines and industrial machinery. Today, digital twins are 
+being applied to a much more comprehensive range of 
+applications, including infrastructure, buildings, and even 
+entire cities.  
+One of the key benefits of digital twins is their ability to 
+provide real -time data and insights into the performance and 
+behaviour of a physical object or system. These insights allow 
+for the identification of problems and inefficiencies in real -
+time, enabling proactive maintenance and optimization of the 
+system . In manufacturing, we can use digital twins to optimize 
+production, reduce downtime, and improve efficiency. For 
+example, a digital twin of a factory floor can be used to 
+simulate and optimize the flow of materials, identify 
+bottlenecks, and minimize wast e. 
+In healthcare, we can use digital twins to simulate and 
+optimize patient care pathways, reducing the risk of medical 
+errors and improving outcomes. We can also use digital twins 
+to optimize the design and operation of healthcare facilities, 
+such as hosp itals and clinics.  
+In urban planning, we can use digital twins to simulate and 
+optimize the design and operation of entire cities, including 
+transportation systems, energy networks, and public services. 
+These optimizations can help cities to become more ef ficient, 
+sustainable, and liveable.  
+Overall, digital twins have the potential to transform a wide 
+range of industries and applications by providing real -time 
+data and insights that can be used to optimize the performance 
+and behaviour of physical objects a nd systems. As technology 
+advances, digital twins will likely become increasingly 
+prevalent in many sectors.  
+IV. DIGITAL TWIN IN HEALTHCARE  
+Digital twins have the potential to revolutionize healthcare 
+by providing real -time data and insights that can be used t o 
+optimize patient care pathways and improve outcomes. 
+Several key themes emerge in a review of the literature on 
+digital twins in healthcare.  
+One of the main benefits of digital twins in healthcare is 
+their ability to provide real -time data and insights i nto patient 
+care. By simulating and optimizing patient care pathways, 
+digital twins can help to reduce the risk of medical errors and 
+improve patient outcomes. For example, a digital twin of a 
+patient's medical history and current condition can be used to 
+identify potential problems and inefficiencies in the care 
+process, enabling proactive intervention and optimization of 
+care.  
+Another key benefit of digital twins in healthcare is their 
+ability to support remote monitoring and telemedicine. By 
+providing re al-time data on patient vital signs and other health 
+indicators, digital twins can enable healthcare providers to 
+monitor patients remotely and provide care remotely, reducing 
+the need for in -person visits and improving access to care.  
+We can also use digi tal twins to optimize the design and 
+operation of healthcare facilities, such as hospitals and clinics. 
+By simulating and optimizing the flow of patients, staff, and 
+resources within a facility, digital twins can help to improve 
+efficiency, reduce wait tim es, and improve patient 
+satisfaction.  
+Overall, using digital twins in healthcare can transform the 
+way healthcare is delivered, enabling more personalized, 
+efficient, and effective care. As technology advances, digital 
+twins will likely become increasingly  prevalent in healthcare, 
+providing valuable data and insights that can be used to 
+optimize patient care and improve outcomes.  Aydin  and Karaarslan  
+24 V. LITERATURE REVIEW  
+There has been a significant increase in the use of digital 
+healthcare services, such as personalized medicine,  
+telemedicine, and smart diet management, in recent years. 
+These services often have diverse requirements, and require 
+intelligent analytics and self -sustaining networks in order to 
+function effectively. Digital twins can help to enable 
+proactive, intellig ent analytics and self -sustaining networks in 
+healthcare, allowing for the efficient management of resources 
+and minimum interaction from end -users or network 
+operators. In this article, we provide an overview of digital 
+twins in healthcare, including a pr oposed architecture and 
+several use cases. We also identify open research challenges 
+and potential solutions.  
+The proposed digital twin -based system for monitoring 
+COVID -19 symptoms uses mobile phones to collect data, 
+which is fed into a digital copy of ea ch individual stored in the 
+cloud. This digital twin is continually updated with real -time 
+measurements from sensors and other devices, and is analyzed 
+using machine learning and artificial intelligence techniques 
+to determine the individual's health statu s. The system also 
+utilizes blockchain technology to ensure the confidentiality of 
+the data, which can be shared for research purposes with the 
+consent of the individual. The goal of the system is to provide 
+early diagnosis and prevent the spread of the di sease by 
+establishing a protocol for following up with patients and 
+those at risk [3]. 
+Cardiovascular disease (CVD) is a leading cause of 
+morbidity and mortality from non - communicable diseases 
+worldwide. In many cases, effective a cute care and risk factor 
+management strategies based on data from epidemiological 
+studies and clinical trials have improved survival and quality 
+of life. However, approximately half of all myocardial 
+infarction and stroke events occur in patients who do n ot meet 
+the criteria for cholesterol -lowering treatment, and costly 
+preventive therapies with potential side effects may be given 
+unnecessarily. Improving outcomes in cardiology therefore 
+requires a better understanding of individual susceptibility and 
+prognosis [4]. 
+Data -driven approaches to risk assessment and treatment 
+are central to the goals of precision medicine, which aims to 
+disrupt traditional healthcare practices by providing early, 
+customized therapy that considers molecular, ge netic, 
+physical, and environmental data profiles. While prediction 
+and personalization have always been a part of medicine, the 
+convergence of 21st century technologies with advances in 
+biomedicine is enabling the consolidation and analysis of 
+large amount s of data from a wide range of sources using 
+massive data networks. Improvements in clinical data capture, 
+imaging, and molecular phenotyping also contribute to the 
+goal of precision medicine. The ability to process large data 
+sets digitally has greatly en hanced the utility of this data  [4]. 
+The health digital twin builds on these capabilities by 
+using a virtual replica to receive a patient's molecular, 
+physiological, and lifestyle data, allowing for risk prediction 
+and personalized treatm ent for the real -life patient. Artificial 
+intelligence helps link the cyber, physical, and data domains 
+to create virtual models by using technologies such as cloud 
+computing, big data processing, machine learning, and pattern recognition to mimic human re asoning. These core 
+technologies can also assist in decision -making for a patient 
+by synthesizing data from multiple real -world sources within 
+a virtual domain. Digital twins can be created at various levels, 
+including the whole body, a single organ, or th e cellular level, 
+and can be used to study specific conditions or settings, such 
+as cancer or critical care. An individual's digital twin can be 
+copied and tested with different treatments to determine the 
+optimal intervention. By aggregating digital twins  from many 
+individuals with diverse genetic, biomedical, and lifestyle 
+profiles, a population -based database can be created, which 
+can be used for data -driven prevention and patient matching 
+for clinical trials conducted in silico as an alternative to 
+lengthy or costly animal and human studies [4]. 
+In a paper by Volkow et al., it is noted that as the 
+population grows, the need for high -quality medical services 
+and the use of information technology in medicine also 
+increases. The concept of  Smart Healthcare aims to address 
+the challenges faced in modern healthcare through various 
+approaches, including the use of digital twins, the Internet of 
+Things, and mobile medicine. The paper reviews the main 
+problems in modern healthcare and analyses e xisting 
+approaches and technologies in these areas. It also discusses 
+the key features of modern platforms that support Mobile 
+Health Applications. Based on this analysis, the authors 
+propose the concept of a Smart Healthcare Platform, focused 
+on supportin g the development of Mobile Health Applications 
+through the organization, management, and sharing of user 
+data [5]. 
+While Digital Twin technology has been applied in a 
+variety of fields, including advanced manufacturing, Product 
+Lifecycle Managem ent (PLM), and smart healthcare, this 
+paper discusses the potential use of Digital Twin for full 
+lifecycle management of humans. The concept of an 
+Augmented Digital Twin is introduced as the foundation for 
+the concept of a Human Digital Twin (HDT), which i s the 
+central focus of the paper. Drawing on the experience of using 
+Digital Twin in smart manufacturing, PLM, and smart 
+healthcare, as well as the development of related technologies 
+such as data mining, data fusion analysis, artificial 
+intelligence, part icularly deep learning, and human -computer 
+science, it is concluded that HDT could be a useful approach 
+to full lifecycle health management and that it is possible to 
+construct a Human Digital Twin, particularly from a 
+technological standpoint. A compariso n between Digital Twin 
+and Human Digital Twin demonstrates this possibility. The 
+paper presents the concept, conceptual model, and 
+characteristics of HDT to lay the groundwork for its 
+construction. It also discusses how to construct a Human 
+Digital Twin by  proposing a Human Digital Twin System 
+Architecture and Implementation Approach. However, it is 
+noted that there are many challenges to overcome in this 
+process, including extreme complexity and security and social 
+ethics issues [6]. 
+Personaliz ed medicine involves using detailed information 
+about individual people to identify deviations from the 
+normal. Digital twins in engineering provide a framework for 
+analysing these data -driven healthcare practices and their 
+ethical and societal implication s for therapy, preventative 
+care, and human enhancement. Digital twins are pairs of Aydin  and Karaarslan  
+25 individual physical artifacts and digital models that 
+dynamically reflect the status of the artifacts. Ethical and 
+societal implications of digital twins are examined, and it is 
+noted that they have the potential to deliver significant societal 
+benefits and function as a social equalizer by allowing for 
+effective, equalizing enhancement interventions. Digital twins 
+will be important for providing highly personalized treatmen ts 
+and interventions, and they rely on explainable artificial 
+intelligence [7]. 
+Anticipating the ethical impact of emerging technologies 
+is an important aspect of responsible innovation, and the 
+digital twin is one such technology that is emerging . A digital 
+twin is a living replica of a physical system (human or non -
+human) that combines various emerging technologies such as 
+artificial intelligence, the Internet of Things, big data, and 
+robotics, each of which brings its own ethical issues. This 
+report presents the results of a qualitative study on the ethical 
+benefits and risks of using digital twins in healthcare. The 
+study used insights from the ethics of technology and the 
+Quadruple Helix theory of innovation, and included desk 
+research of white  literature and 23 interviews with 
+representatives from industry, research, policy, and civil 
+society. The results showed that digital twins have the 
+potential to produce ethical benefits in areas such as the 
+prevention and treatment of disease, cost reduc tion, patient 
+autonomy and freedom, and equal treatment, but also have 
+ethical risks in areas such as privacy and data property, 
+disruption of existing societal structures, inequality, and 
+injustice. The report concludes with a reflection on the 
+analytical  tool used and suggestions for further research [8]. 
+In a paper by Elayan et al., it is noted that the use of digital 
+technologies in the healthcare industry, known as digital and 
+smart healthcare, has increased in recent years in an effort to 
+improve patient care, increase life expectancy, and reduce 
+healthcare costs. One such technology that has the potential to 
+significantly impact the field is digital twin (DT) technology. 
+DT is a virtual replica of a physical asset that reflects its 
+current st atus through real - time data. The paper proposes and 
+implements an intelligent context -aware healthcare system 
+using DT technology. As part of this system, an 
+electrocardiogram (ECG) heart rhythms classifier model was 
+built using machine learning to diagno se heart disease and 
+detect heart problems. The results showed that integrating DT 
+with healthcare can improve the healthcare process by 
+bringing patients and healthcare professionals together in an 
+intelligent, comprehensive, and scalable health ecosystem . 
+Additionally, the implementation of the ECG classifier 
+demonstrated the potential for using machine learning and 
+artificial intelligence with various human body metrics for 
+continuous monitoring and abnormalities detection. The paper 
+also found that neur al network -based algorithms perform 
+better on ECG data than traditional machine learning 
+algorithms [9]. 
+The Internet of Medical Things (IoMT) is becoming 
+increasingly prevalent, with the widespread use of smart 
+medical devices and applica tions in smart hospitals, home 
+healthcare, and nursing homes. It combines smart medical 
+devices, cloud computing services, and core Internet of Things 
+(IoT) technologies to monitor patients' vital signs, track health 
+conditions, and generate multivariate d ata to support on -demand healthcare. Typically, this large amount of data is 
+analyzed on centralized servers. However, anomaly detection 
+(AD) in centralized healthcare systems can be slow and 
+resource -intensive, and there are also privacy concerns related 
+to sending patients' personal health data to a centralized 
+server, which can also introduce security risks such as the 
+possibility of data poisoning. To address these issues with 
+centralized AD models, the authors propose a federated 
+learning (FL) -based AD  model that uses edge cloudlets to run 
+AD models locally without sharing patients' data. While 
+existing FL approaches perform aggregation on a single 
+server, which limits their scope, they introduce a hierarchical 
+FL approach that enables aggregation at di fferent levels and 
+multi -party collaboration. They also propose a novel disease -
+based grouping mechanism for organizing different AD 
+models based on specific types of diseases. In addition, they 
+develop a new Federated Time Distributed (FEDTIMEDIS) 
+Long Sh ort-Term Memory (LSTM) approach for training the 
+AD model. They present a remote patient monitoring (RPM) 
+use case to demonstrate our model and provide a proof -of-
+concept implementation using Digital Twin (DT) and edge 
+cloudlets [10]. 
+As the  proportion of the aging population increases, the 
+need for sustainable, high -quality, and timely healthcare 
+services has become increasingly pressing, particularly in 
+light of the COVID -19 pandemic in 2020. To meet this 
+demand, a promising strategy is to introduce cloud computing 
+and digital twin techniques into healthcare systems. In this 
+approach, a cloud server is used to store healthcare data and 
+provide efficient query services, while a digital twin is used to 
+build a digital representation of a patie nt and leverage the 
+query services of the cloud server to monitor the healthcare 
+state of the patient. While several cloud computing and digital 
+twin- based healthcare monitoring frameworks have been 
+proposed, none have addressed data privacy concerns, eve n 
+though the leakage of private healthcare information could 
+have catastrophic consequences for patients. To address this 
+challenge, this paper proposes an efficient and privacy -
+preserving similarity query -based healthcare monitoring 
+scheme over a digital twin cloud platform, called PSim -DTH. 
+The scheme employs a partition -based tree to index the 
+healthcare data and uses matrix encryption to propose a 
+privacy -preserving PB -tree-based similarity range query 
+algorithm. Security analysis and performance evalua tion are 
+conducted, and the results show that the proposed PSim -DTH 
+scheme is both privacy -preserving and efficient  [11]. 
+In the future, it is possible that a digital twin of each 
+person's genetic profile will be created at birth. If someo ne 
+becomes ill, this virtual representation of themselves could be 
+treated with a vast number of drugs using computational 
+methods to determine the most effective medication. The 
+digital twin could also be used to predict which medical 
+conditions a person may be at risk for, allowing them to take 
+preventive measures to avoid major diseases before they occur 
+[12]. 
+The process of digitization and digitalization has already 
+had a significant impact on our world, and further disruptions 
+are expected as  digital transformation continues, with digital 
+twins playing a key role. As big data techniques, the Internet 
+of Things, cloud computing, and artificial intelligence Aydin  and Karaarslan  
+26 algorithms advance, digital twin technology is experiencing 
+rapid development and has bee n identified as one of the top 
+ten most promising technologies. Although it is still in its early 
+stages, digital twins are already being widely used in various 
+fields, particularly in industry, smart cities, and smart health, 
+which are the areas that attr act the most research. There are 
+numerous articles and reviews on digital twins published 
+every year in these three fields, making it timely and necessary 
+to provide an analysis of the published work. This article aims 
+to do just that, providing a survey o f the major research and 
+application areas of digital twins. It begins by analyzing the 
+recent developments of digital twins, then summarizes the 
+theoretical foundations of the technology, and concludes with 
+specific developments in various application are as of digital 
+twins. The article also discusses the challenges that may be 
+encountered in the future  [13]. 
+Digital Twins (DTs) are becoming more widespread in 
+various industries due to advances in computing power and 
+data science. There are m any sensors and connected devices 
+that generate data, which can be used to create a digital model 
+of a system or object and predict and simulate various 
+scenarios. DTs have recently been adapted for use in the 
+healthcare industry for accurate medical simul ations and 
+resource management, but the technology is still relatively 
+new to the healthcare system and there are concerns about 
+security threats. This paper proposes a Blockchain -based 
+secure Digital Twin framework for a smart healthy city as a 
+solution t o these threats. The paper also discusses the current 
+COVID -19 pandemic as a case study and suggests that DTs 
+can be used to control the situation, prevent future cases, and 
+personalize treatment [14]. 
+De Maeyer and Markopoulos study h ow experts in the 
+digital transformation of healthcare envision the use of Digital 
+Twins.  Digital Twins are digital replicas of physical assets, 
+processes, people, places, systems, and devices that can be 
+used for scientific experiments, simulations, and predictions 
+of intervention outcomes. They are a new technology with 
+different implications and possibilities for different 
+applications, and may evolve in various ways. The authors 
+used the Delphi method to reach a consensus among experts 
+on three researc h questions related to the materialization, 
+expectations, and implementation of Digital Twins in 
+healthcare. The main conclusion is that Digital Twins are seen 
+as a way to enable preventive healthcare and trial -and-error 
+approaches to support personalized medicine and patient -
+centered care [15]. 
+De Maeyer and Markopoulos explore how experts in the 
+digital transformation of healthcare envision the use of digital 
+twins (DTs), which are digital replicas of physical assets, 
+processes , people, places, systems, and devices that can be 
+used for scientific experiments, simulations, and prediction of 
+intervention outcomes. DTs are a new and evolving 
+technology, and can be applied in different ways and for 
+different purposes. To understand how DTs might develop 
+and impact healthcare, the authors conducted a Delphi study 
+and survey with experts to reach a consensus on how DTs 
+might be materialized, what expectations there are for their 
+use, and how they might be implemented in healthcare. The  
+study aimed to identify the top ranked topics for further 
+consideration [16]. One of the thesis investigates the potential use of digital 
+twins in the healthcare industry as a means of predicting and 
+preventing diseases. It exa mines the values and perspectives 
+of individuals towards the use of digital twins in diagnosis, 
+and proposes different forms or concepts that a digital twin 
+could take in order to be meaningful to the user. The research 
+found that the meaningfulness of a d igital twin may vary 
+significantly based on factors such as age, life situation, 
+preferences, and individual personality. It also found that the 
+time, place, and frequency at which an individual interacts 
+with a digital twin may be important considerations . The 
+thesis concludes with guidelines for developing a more user -
+centered and meaningful digital twin that takes into account 
+the varied and dynamic nature of user values [17]. 
+BOATĂ and other's paper summarizes the progress made 
+in using the concept of digital twins to select the most 
+appropriate medication for an individual, based on genetic 
+expressions related to a particular disease and the genes 
+targeted by therapy. The paper presents a subnet model that 
+predicts existing drugs for a speci fic pathology. Finally, the 
+paper discusses how the proposed method could be used to 
+search for a medication for the disease caused by the Covid - 
+19 virus, referencing the results of clinical trials conducted 
+after the start of the pandemic [18]. 
+Digital twin technology, which creates virtual 
+representations of people, products, or buildings, has the 
+potential to revolutionize the healthcare industry by 
+improving the diagnosis and treatment of patients, 
+streamlining preventative care, and facilitating new 
+approaches for hospital planning. In the future, it could be 
+used to create a digital twin of each person's genetic profile at 
+birth, allowing healthcare professionals to computationally 
+test the most effective medications for an individua l and 
+predict their risk for certain medical conditions. This could 
+enable more personalized and preventative healthcare 
+approaches [19]. 
+Madubuike and Anumba’s research aims to examine how 
+digital twin technology can be used to improve healthcar e 
+facilities management. Currently, healthcare facilities 
+management often relies on a reactive approach, where issues 
+are only addressed when they arise. Digital twins, which are 
+virtual representations of physical assets created using real -
+time data, can  be used to monitor and manage critical 
+healthcare facilities in a more preventive way. The research 
+uses literature review and interviews to address its objectives 
+and identify issues with critical healthcare facilities that can 
+be addressed using digital  twin technology. It also reviews the 
+technologies that enable digital twins and presents a system 
+architecture for their use in healthcare facilities management. 
+The research concludes by discussing the potential benefits of 
+using digital twins in healthc are facilities management  [20]. 
+Voigt et al. discuss the potential for digital twins to 
+improve the management of multiple sclerosis (MS) by 
+providing an individualized, innovative approach to disease 
+management. They propose that d igital twins, which are 
+virtual representations of a patient's characteristics created 
+using artificial intelligence -based analysis of various disease 
+parameters, could help healthcare professionals handle large 
+amounts of patient data and provide more per sonalized, 
+effective care by integrating data from multiple sources, Aydin  and Karaarslan  
+27 implementing individualized clinical pathways, and 
+facilitating communication and shared decision -making 
+between patients and physicians. The authors also discuss the 
+potential benefits o f using digital twins in MS management, 
+including improved diagnosis, monitoring, and therapy, 
+enhanced patient well - being, reduced economic costs, and 
+prevention of disease progression. They argue that digital 
+twins can help make precision medicine and p atient -centered 
+care a reality in everyday practice [21]. 
+A digital twin is a virtual representation of a real -life object 
+or system that is connected to its physical counterpart in a way 
+that allows for real -time data exchange and analysis . Digital 
+twins are being used in various industries, and when applied 
+to the fields of healthcare and public health, they have the 
+potential to revolutionize traditional electronic health records 
+by making them more precise and accurate. This technology 
+allows for learning, hypothesis testing, and in silico 
+experiments, and has the potential to enable highly 
+personalized treatments and interventions in the future. This 
+paper discusses the history and main concepts of digital twins, 
+provides examples of the ir use in personal medicine, public 
+health, and smart cities, and explores the technical and ethical 
+challenges involved in their application [22]. 
+Hussain et al. aims to demonstrate the use of a digital twin 
+in healthcare, specif ically for stroke patients, using EEG data 
+and machine learning techniques. The authors collected EEG 
+data from 48 stroke patients and 75 healthy individuals using 
+portable EEG devices and analyzed the data to identify 
+characteristics that could be used to  distinguish between the 
+two groups. They found that certain brain activity 
+measurements were useful for classifying stroke patients and 
+healthy individuals in different mental states, and used a 
+machine learning model (SVM) to classify the data with 76% 
+accuracy. The authors suggest that this digital twin framework 
+could be used to help make clinical decisions related to stroke 
+prevention and post -stroke treatment [23]. 
+Healthcare technologies have seen increased use during 
+the COVID -19 pandemic, including remote patient care and 
+virtual follow -up. These technologies are likely to continue to 
+be adapted in the future, both as a way to prepare for future 
+pandemics and due to the advancement of artificial 
+intelligence. This study looks at th e potential healthcare 
+applications of digital twin technology, which involves 
+creating a virtual counterpart to a physical model and studying 
+the relationship between the two. It is proposed that digital 
+twin technology could be used to analyze the relati onship 
+between a physical cancer patient and their corresponding 
+digital twin in order to predict and prevent neurological 
+complications related to the disease. This approach is based 
+on the idea that data science can be used to inform the 
+diagnosis, treat ment planning, and prognosis of cancer care. 
+Digital twin technology could be used in precision medicine, 
+cancer care and treatment modeling, predictive analytics and 
+machine learning, and to bring together different perspectives 
+from clinicians [24]. 
+In a paper by Alazab et al., it is noted that the landscape of 
+digital healthcare, also known as Healthcare 4.0, has seen a 
+significant increase in services such as personalized 
+healthcare, intelligent rehabilitation, telemedicine, and smar t 
+diet management. These services have diverse requirements that need to be met through proactive intelligent analytics and 
+self-sustaining networks. Proactive intelligent analytics 
+allows for the efficient management of resources in response 
+to user reque sts, while self -sustaining networks operate with 
+minimal interaction from end -users or network operators. To 
+enable Healthcare 4.0 with these capabilities, digital twins can 
+be utilized. The paper provides an overview and recent 
+advancements in the use of digital twins for Healthcare 4.0, 
+presents an architecture for digital twins in healthcare, and 
+discusses several use cases. Additionally, the paper identifies 
+open research challenges and possible solutions [25]. 
+In recent years, Digital Twins technology has been 
+introduced into the healthcare industry, bringing significant 
+changes to the way medical care is provided. In this study, the 
+authors propose a new disease diagnosis algorithm called the 
+Factorization Machine Combine Product - based Neural 
+Network (FMCPNN), which is an improved version of the 
+Product -based Neural Network (PNN). PNN is an end -to-end 
+Factorization Machine algorithm that is effective at handling 
+sparse data, but it lacks the ability to handle low -order feature 
+interact ions, which can limit its generalization capabilities. 
+FMCPNN adds a second -order interaction component to 
+PNN, improving its performance. FMCPNN can be 
+effectively used in Digital Twin medical systems to improve 
+the accuracy and speed of disease diagnosis . Their tests have 
+shown that FMCPNN outperforms some other advanced 
+models  [26]. 
+Human digital twin (HDT) is a technology that has the 
+potential to revolutionize the healthcare system by enabling 
+personalized healthcare services (PHS) throug h the use of 
+tools such as artificial intelligence and blockchain. Its 
+implementation is expected to be similar to digital twins in 
+other sectors, such as manufacturing and aviation, and will 
+consist of three key dimensions: the physical entity, virtual 
+model, and connection that characterizes the physical - virtual 
+interactions. However, the complexity of the human body, 
+with its constant molecular and physiological changes, makes 
+it difficult to extract precise medical data and model HDTs. 
+As a result, HDT  is more complex than other types of digital 
+twins and the methods for implementing it are not yet clear, 
+which requires further investigation. This paper presents the 
+architectural framework and key design requirements for 
+HDT, discusses the key technolog ies and technical challenges, 
+and suggests future directions for research. It is believed that 
+this paper will stimulate new research efforts towards the 
+development of HDT for PHS [27]. 
+Emotion recognition (ER) in healthcare has gained 
+signifi cant attention due to recent advances in machine -
+learning and deep -learning techniques. ER systems, combined 
+with digital twins of individuals in real -time, can facilitate the 
+monitoring, understanding, and improvement of physical 
+capabilities, as well as provide constant input to improve 
+quality of life and well -being for personalized healthcare. 
+However, building such ER systems in real -time presents 
+technical challenges such as limited datasets, occlusion and 
+lighting issues, identifying important featur es, false 
+classification of emotions, and high implementation costs. To 
+address these challenges, a simple, efficient, and adaptable ER 
+system was developed that acquires and processes images in 
+real-time using a web camera. An end -to-end framework was Aydin  and Karaarslan  
+28 also proposed that combines an ER system with a digital twin 
+setup, allowing for the prediction and testing of results prior 
+to providing the best possible personal healthcare treatment. 
+The proposed ER system achieved promising results in a 
+shorter training time without sacrificing accuracy. It is 
+expected that in real -time, the system will be useful in 
+healthcare centres for monitoring patients' health conditions, 
+early diagnosis of life -threatening diseases, and obtaining the 
+most effective treatment for pa tients during emergencies [28]. 
+The digital world has seen significant growth in recent 
+decades, and the COVID -19 pandemic has further accelerated 
+this trend. Digital transformations are affecting all aspects of 
+our lives, and new tec hnologies are constantly emerging and 
+attracting attention and investment. Digital twin technology, 
+which has gained significant popularity in recent years, is now 
+being applied in the healthcare sector, which has been under 
+scrutiny due to the COVID -19 pa ndemic. This paper aims to 
+provide a better understanding of digital twin technology, 
+address common misconceptions, and review the current state 
+of digital twin applications in healthcare. It also summarizes 
+the functions of digital twins at different sta ges of their use in 
+the context of digital twin technology in healthcare. The paper 
+proposes a model for using digital twin technology in 
+healthcare based on the Internet of Things as a service concept 
+and digital twinning as a service model supporting Ind ustry 
+4.0. It also identifies different groups of physical entities that 
+can be represented by digital twins in healthcare. The research 
+discusses the value of digital twin technology in healthcare, as 
+well as the current challenges and future research dir ections 
+[29]. 
+The concept of digital twins has the potential to transform 
+the current healthcare system by making it more personalized. 
+As a convergence of healthcare, artificial intelligence, and 
+information and communication technologies , personalized 
+healthcare services developed under the concept of digital 
+twins raise a range of ethical issues. While some of these 
+ethical issues are known to researchers in the field of digital 
+health and personalized medicine, there is currently no 
+comprehensive review that examines the major ethical risks of 
+digital twins for personalized healthcare services. This study 
+aims to address this gap by identifying the major ethical risks 
+of digital twins for personalized healthcare services. A 
+working defin ition of digital twins for personalized healthcare 
+services is proposed, and a process -oriented ethical map is 
+developed to identify the major ethical risks in each stage of 
+data processing. A literature review of eHealth, personalized 
+medicine, precision medicine, and information engineering is 
+conducted to identify potential issues. The ethical map allows 
+for the systematic identification of ethical concerns that 
+emerge during the transformation of raw data into valuable 
+information. Developers of digital  twins for personalized 
+healthcare services can use this map to proactively identify 
+and address ethical risks during the development stage. This 
+paper provides a working definition of digital twins for 
+personalized healthcare services, identifies 10 major  
+operational problems and the corresponding ethical risks, and 
+suggests a process -oriented ethical map to assist in the 
+analysis of ethical risks [30]. 
+Digital twins (DTs) are playing a vital role in transforming 
+the healthcare industry by enabling more personalized, intelligent, and proactive healthcare. With the evolution of 
+personalized healthcare, there is a need to create a virtual 
+replica for individuals to provide the right type of care in the 
+right way and at the right time. In this paper, the concept of a 
+personal digital twin (PDT) as an enhanced version of a DT 
+with actionable insight capabilities is examined. PDT can 
+bring value to patients by enabling more accurate decision -
+making and proper treatment selection and optimization. The 
+progression of PDT as a revolutionary technology in 
+healthcare research and industry is also explored. However, 
+although there have been numerous research studies on the use 
+of DTs in smart healthcare, PDT is still in its early stages. 
+Therefore, this work aims to guide the design of industrial 
+personalized healthcare systems by introducing a reference 
+framework that brings together existing advanced 
+technologies such as DTs, blockchain, and artificial 
+intelligence to enable smart personalized healthcar e using 
+PDTs. Several use cases are described, including the 
+mitigation of COVID -19 contagion, follow -up care for 
+COVID -19 survivors, personalized COVID -19 medicine, 
+personalized osteoporosis prevention, personalized cancer 
+survivor follow -up care, and per sonalized nutrition. Finally, 
+the challenges that need to be addressed to move the PDT 
+paradigm towards the smart personalized healthcare industry 
+are identified [31]. 
+Digital twins, virtual representations that are essentially a 
+real-time digital version of a physical object or process, were 
+first developed by NASA in 2010 to improve the simulation 
+of spacecraft physical models. With the growth of the Internet 
+of Things (IoT), digital twins have become more cost -
+effective and have been succ essfully used in the 
+manufacturing and service sectors to transform these 
+industries. Given the benefits that digital twins have brought 
+to these sectors, it is not surprising that they could potentially 
+be used to bring similar benefits to the healthcare industry. 
+This chapter discusses how and why digital twins could be 
+conceptualized for healthcare [32]. 
+Digital Twin (DT) is a technology that creates a digital 
+replica of any physical phenomenon in a digital space, in sync 
+with the physi cal state. However, creating a Healthcare DT 
+model for patient care is seen as a challenging task due to the 
+lack of a structured data collection system. There are also 
+security and privacy concerns, as healthcare data is sensitive 
+and can be misused. Give n these research gaps, it is important 
+to find a way to properly acquire structured data and manage 
+it securely. In this article, the authors present a mathematical 
+data model to collect patient -relevant data in a structured and 
+predefined way with clear b oundaries. They also describe the 
+data model in the context of real -life scenarios. Then, they use 
+the patient -centric mathematical data model to formally define 
+the semantics and scope of our proposed Healthcare Digital 
+Twin (HDT) system based on blockcha in technology. They 
+describe the proposed system with all of its key components, 
+as well as the detailed protocol flows and an analysis of its 
+various aspects. Finally, they provide a feasibility analysis of 
+the proposed model and compare it with other rel evant 
+research works [33]. 
+Ferdousi et al. provide an overview of well -being digital 
+twins (WDT) in the healthcare industry, discussing their 
+potential scope, architecture, and impact. They also discuss Aydin  and Karaarslan  
+29 the definition and benefits of WDT, the evolution of digital 
+twin frameworks, and the challenges, types, drawbacks, and 
+potential application areas of WDT. Finally, the authors 
+present the requirements for a WDT framework as identified 
+in the literature  [34]. 
+This study a ims to examine the potential and challenges of 
+using digital twins, virtual representations of physical entities, 
+to manage and predict outbreaks of Covid -19. By providing a 
+detailed model of each patient, digital twins can be used to 
+determine the most ef fective method of care for that 
+individual, which can improve patient experience and care 
+delivery and reduce demand on healthcare services. The 
+review analyzed 18 papers that met the inclusion criteria and 
+were published in English on the use of digital t wins in 
+healthcare. However, none of the included papers specifically 
+examined the use of digital twins in the context of Covid -19 
+or infectious disease outbreaks. The review identified a need 
+for more research on the use of digital twins in healthcare, 
+particularly in the context of infectious disease outbreaks. The 
+paper presents a preliminary conceptual framework for the use 
+of digital twins in hospital management during the Covid -19 
+outbreak to address this research gap  [35]. 
+Electronic  Health Records (EHRs) have collected a large 
+amount of data in recent years, but there is currently no 
+comprehensive approach to using artificial intelligence to 
+understand a patient's overall health. Digital Twin refers to a 
+comprehensive physical and fu nctional representation of an 
+item or system, including all relevant information for all life 
+cycle phases. This paper presents a platform that uses 
+advanced technologies such as Microservice Architecture 
+(MSA), containerization (Docker), orchestration 
+(Kubernetes), and Machine Learning Operations (MLOps) to 
+create a Digital Twin of Patient platform, inspired by 
+Leonardo DaVinci's Vitruvian man. The platform's 
+architecture includes clusters of Docker containers and 
+Kubernetes orchestration to represent spec ific parts or organs 
+of the body as "digital_twin_components," which come 
+together to form the "patient_digital_twin" cluster. Pipelines 
+are used to define and monitor the construction of the patient's 
+digital twin in real time [36]. 
+Digital twins, originally defined as virtual representations 
+of physical assets, systems, or processes, have the potential to 
+improve medical decision -making through the acquisition, 
+management, analysis, prediction, and interpretation of data. 
+However, there  are many challenges and barriers to using 
+digital twins in healthcare. In this paper, the authors propose a 
+dynamic digital twin approach to optimize individual patient 
+healthcare journeys, specifically for women at risk for 
+cardiovascular complications d uring preconception and 
+pregnancy and throughout the lifespan. They discuss the 
+potential for multiple domains to contribute to the 
+development of this digital twin and outline future goals, 
+trade -offs, and methods for guiding its development and 
+implement ation in healthcare [37]. 
+Artificial intelligence (AI) and the Internet of Things (IoT) 
+have improved smart city applications such as smart 
+healthcare, transportation, and environmental management. 
+Digital twins, which are AI -based virtual replicas of real -
+world entities, have been adopted in manufacturing and 
+industrial sectors but are still in the early stages of use in smart city applications due to concerns about trust and privacy in 
+data sharing. Federated learning (FL), a technology th at 
+preserves privacy and trustworthiness, could be used in 
+conjunction with digital twins to improve adoption in real -
+time and life -critical scenarios and facilitate governance in 
+smart city applications. This paper presents a survey of the 
+various smart c ity applications of FL models in digital twins, 
+identifies challenges and future directions for improving FL -
+digital twin integration in future applications [38]. 
+Designing, constructing, and operating healthcare 
+facilities is a complex proce ss in the 
+architectural/engineering/construction (AEC) industry. 
+Creating a systematic and transparent digital twin (DT) 
+architecture with practical use cases would be an important 
+first step in effectively managing these facilities. This study 
+presents a DT system architecture specifically designed for 
+healthcare facility management, with five layers: data 
+acquisition, transmission, integrated middle platform, service, 
+and target. The authors demonstrate how this architecture was 
+used to develop a DT -based  smart ward in a Shanghai hospital, 
+which integrates heterogeneous data sources to support real -
+time data analysis and decision -making, improves healthcare 
+service, and helps bridge the gap between humans and 
+healthcare assets and spaces. The paper also ou tlines future 
+directions and opportunities for DT -based healthcare facility 
+management [39]. 
+Digital twins, virtual representations of physical systems 
+created using technologies such as Cyber -Physical Systems 
+(CPS), the Internet of Things (I oT), Big Data, Edge 
+Computing (EC), Artificial Intelligence (AI), and Machine 
+Learning (ML), have the potential to optimize a wide range of 
+applications in industries such as healthcare and smart cities. 
+However, digital twins are still in the early stages  of 
+development. This paper provides an overview of the 
+technologies used to create digital twins in industry and 
+healthcare, including the characteristics of digital twins, 
+communication technologies and tools, reference models, 
+standards, and challenges and open issues. The authors also 
+discuss their own recent work in the field of smart 
+manufacturing and healthcare [40]. 
+A digital twin is a virtual model designed to accurately 
+reflect a physical object or system. In radiology, a digital t win 
+of a radiological device can be used to test its characteristics, 
+make changes to the design or materials, and assess the impact 
+of those changes in a virtual environment. Innovative 
+technologies such as artificial intelligence and -omics sciences 
+may be used to create digital twins for patients that can be 
+continually updated based on real -time health and lifestyle 
+data. This could be used to improve personalized medicine. In 
+addition, the creation of digital twins based on real -world 
+deployments could  enable the use of large virtual patient 
+populations for virtual clinical trials and population studies. 
+Digital twins have the potential to transform how diseases are 
+detected and managed, but there are still significant challenges 
+to be addressed in thei r development. Radiologists can play a 
+role in introducing digital twins into healthcare as this 
+technology evolves [41]. 
+Digital twins, virtual representations of physical assets 
+such as devices, structures, and patients, are being explo red 
+and applied in the healthcare industry. While much of the Aydin  and Karaarslan  
+30 focus has been on creating digital twins as standalone 
+applications, in reality, these assets are often interconnected 
+and part of a larger physical ecosystem. In this article, the 
+authors propo se the use of digital twins to create virtual 
+representations of contexts and situations involving multiple 
+related assets within a healthcare organization, resulting in an 
+ecosystem of digital twins. They use trauma management as 
+an example, but suggest t hat the concept could be applied to 
+virtualize complex physical realities in a variety of contexts 
+[42]. 
+VI. FINDINGS AND RESULTS  
+In the analysis made with the Ithenticate Plagiarism Tool, 
+the similarity rate of the entire article (except the 
+bibliography) was determined as 40%. This ratio occurs when 
+the texts created by the authors and all the texts created by 
+ChatGPT are evaluated. It is better to analyse the overall paper 
+in three different sections:  
+• Section A: The texts written by the paper 's authors  
+• Section B:  The abstract texts of the article 
+paraphrased by ChatGPT  
+• Section C: The content generated by ChatGPT, 
+which are answers to specific questions  
+Section A had no noteworthy match, as seen in Figure 1. 
+On the other hand, Section B showed a clear match, as seen in 
+Figure 2. The check of Section C is shown in Figure 3. The 
+matches of these texts are low, but still more than the Section 
+A results.  
+ 
+Figure 1. Plagiarism Tool Match Screenshot for The Authors’ 
+writings  
+  
+Figure 2. Plagiar ism Tool Match Screenshots for ChatGPT 
+Paraphrased Abstracts  
+ 
+Figure 3. Plagiarism Tool Match Screenshot  
+VII. CONCLUSION AND DISCUSSION  
+In this study, we first used ChatGPT to create texts for 
+Digital Twin and Digital Twin in Healthcare titles. The 
+literature review part of the article is created with these texts. 
+The articles published from 2020 to 2022 were selected by 
+searching Google Scholar with the keyword "Digital Twin in 
+Healthcare". Then the abstracts of these studies were 
+paraphrased with ChatGPT. Lat er on, we asked ChatGPT 
+questions.  
+In light of the findings and results, the plagiarism tool 
+matching rates of the texts written by the study authors were 
+very low. On the other hand, it was seen that the answers given 
+by ChatGPT for the questions asked we re relatively low. On 
+the contrary, the match rates of the abstract paraphrase tests 
+created by ChatGPT are very high. From this information, it 
+can be concluded that ChatGPT does not produce original 
+texts after paraphrasing.  
+This article is a beautiful a nd striking example of Artificial 
+Intelligence to demonstrate the point it has reached. It seems 
+possible for the academic literature to reach a different point 
+with this and similar applications. The compilation and 
+expression of knowledge will be acceler ated with the help of 
+artificial intelligence, and these processes will require less 
+human -driven procedures.  
+In future work, citations to our study will be monitored. A new 
+study will be put forward to evaluate the academic validity 
+after we reach a high number (ex. 100) of citations to this 
+study from journal articles. These citations will be grouped as 
+positive, negative, or neutral. Then the evaluations of the 
+article's adequacy will be considered. In this way, we will 
+understand whether the academic co mmunity accepts the 
+Aydin  and Karaarslan  
+31 study we put forward. The contribution of this ChatGPT 
+implementation to the academic literature will be analysed 
+then.  
+REFERENCES  
+[1] ChatGPT (2022). ChatGPT: Optimizing Language Models for 
+Dialogue. OpenAI. Retrieved from https://openai.com/blog/chatgpt/ , 
+Access Date: 16.12.2022.  
+[2] Bozkurt Yüksel, D. A. E. (2018). Yapay Zekanın Buluşlarının 
+Patentlenmesi . Uyuşmazlık Mahkemesi Dergisi , 11.Sayı , 585 -622 . 
+DOI: 10.18771/mdergi.437298  
+[3] Aydın, Ö., & Karaarslan, E. (2020, June). An Artificial Intelligence 
+Based Decision Support and Resource Management System for 
+COVID -19 Pandemic (Covid -19 Belirtilerinin Tespiti İçin Dijital İkiz 
+Tabanlı Bir Sağlık Bilgi Sistemi). Online International Conf erence of 
+COVID - 19 (CONCOVID)  
+[4] Coorey, G., Figtree, G. A., Fletcher, D. F., & Redfern, J. (2021). The 
+health digital twin: advancing precision cardiovascular medicine. 
+Nature Reviews Cardiology, 18(12), 803 -804. 
+[5] Volkov,  I., Radchenko, G., & Tchernykh, A. (2021). Digital Twins, 
+Internet of Things and Mobile Medicine: A Review of Current 
+Platforms to Support Smart Healthcare. Programming and Computer 
+Software, 47(8), 578 -590. 
+[6] Shengli, W. (2021). Is human digital twin possible?. Computer 
+Methods and Programs in Biomedicine Update, 1, 100014.  
+[7] Garg, H. (2021). Digital twin technology: Revolutionaryto improve 
+person alized healthcare: https://doi. org/10.52152/spr/2021.105. 
+Science Progress and Research (SPR), 1(1), 32 -34. 
+[8] Popa, E. O., van Hilten, M., Oosterkamp, E., & Bogaardt, M. J. (2021). 
+The use of digital twins in healthcare: socio -ethical benefits and socio -
+ethical risks. Life sciences, soc iety and policy, 17(1), 1 -25. 
+[9] Elayan, H., Aloqaily, M., & Guizani, M. (2021). Digital twin  for 
+intelligent context -aware IoT healthcare systems. IEEE Internet of 
+Things Journal, 8(23), 16749 -16757.  
+[10] Gupta, D., Kayode, O., Bhatt, S., Gupta, M., & Tosun, A. S. (2021, 
+December). Hierarchical federated learning based anomaly detection 
+using digital t wins for smart healthcare. In 2021 IEEE 7th International 
+Conference on Collaboration and Internet Computing (CIC) (pp. 16 - 
+25). IEEE.  
+[11] Zheng, Y., Lu, R., Guan, Y., Zhang, S., & Shao, J. (2021, June). 
+Towards private similarity query based healthcare monitor ing over 
+digital twin cloud platform. In 2021 IEEE/ACM 29th International 
+Symposium on Quality of Service (IWQOS) (pp. 1 -10). IEEE.  
+[12] James, L. (2021). Digital twins will revolutionise heal thcare: Digital 
+twin technology has the potential to transform healthcare in a variety 
+of ways –improving the diagnosis and treatment of patients, 
+streamlining preventative care and facilitating new approaches for 
+hospital planning. Engineering & Technology , 16(2), 50 -53. 
+[13] Yang, D., Karimi, H. R., Kaynak, O., & Yin, S. (2021). Developments 
+of digital twin technologies in industrial, smart city and healthcare 
+sectors: a survey. Complex Engineering Systems, 1(1), 3.  
+[14] EL Azzaoui, A., Kim, T. W., Loia, V., & Park, J. H. (2021). 
+Blockchain -based secure digital twin framework fo r smart healthy city. 
+In Advanced Multimedia and Ubiquitous Engineering (pp. 107 -113). 
+Springer, Singapore.  
+[15] De Maeyer, C., & Markopoulos, P. (2021a, July). Future outlook on 
+the materialisation, expectations and implementation of Digital Twins 
+in healthcare. In 34th British HCI Conference 34 (pp. 180 -191).  
+[16] De Maeyer, C., & Markopoulos, P. (2021b). Experts’ View on the 
+Future Outlook on the Materialization, Expectations and 
+Implementation of Digital Twins in Healthcare. Interacting with 
+Computers, 33(4), 380 -394. 
+[17] Strasser, C. (2021). Towards Digital Twins in Healthcare: How would 
+a meaningful Digital Twin for the user look like?.  
+[18] Boată, A., Angelescu, R., & Dobrescu, R. (2021). Using digital twin s 
+in health care. UPB Scientific Bulletin, Series C: Electrical 
+Engineering and Computer Science, 53 -62. 
+[19] Benson, M. (2021). Digital twins will revolutionise healthcare. 
+Engineering & Technology, 16(2), 50 -53. 
+[20] Madubuike, O. C., & Anumba, C. J. (2021) Digital Twin Application 
+in Healthcare Facilities Management. In Computing in Civil 
+Engineering 2021 (pp. 366 -373).  [21] Voigt, I., Inojosa, H., Dillenseger, A., Haase, R., Akgün, K., & 
+Ziemssen, T. (2021). Digital twins for multiple sclerosis. Frontiers in 
+immunology, 12, 669811.  
+[22] Kamel Boulos, M. N., & Zhang, P. (2021). Digital twins: from 
+personalised medicine to precision public health. Journal of 
+Personalized M edicine, 11(8), 745.  
+[23] Hussain, I., Hossain, M. A., & Park, S. J. (2021, December). A 
+Healthcare Digital Twin for Diagnosis of Stroke. In 2021 IEEE 
+International Conference on Biomedical Engineering, Computer and 
+Information Technology for Health (BECITHCON) (pp. 18 -21). IEEE.  
+[24] Thiong’o, G. M., & Rutka, J. T. (2021). Digital Twin Technology: The 
+Future of Predicting Neurological Complications of Pediatric Cancers 
+and Their Treatment. Frontiers in Oncology, 11.  
+[25] Alazab, M., Khan, L. U., Koppu, S., Ramu, S. P., Iyapparaja, M., 
+Boobalan, P., ... & Aljuhani, A. (2022). Digital twins for healthcare 
+4.0-recent advances , architecture, and open challenges. IEEE 
+Consumer Electronics Magazine.  
+[26] Yu, Z., Wang, K., Wan, Z., Xie, S., & Lv, Z. (2022). F MCPNN in 
+Digital Twins Smart Healthcare. IEEE Consumer Electronics 
+Magazine.  
+[27] Okegbile, S. D., Cai, J., Yi, C., & Niyato, D. (2022). Human digital 
+twin for personalized healthcare: Vision, architecture and future 
+directions. IEEE Network.  
+[28] Subramanian, B., Kim, J., Maray, M., & Paul, A. (2022). Digital Twin 
+Model: A Real -Time Emotion Recog nition System for Personalized 
+Healthcare. IEEE Access, 10, 81155 -81165.  
+[29] Hassani, H., Huang, X., & MacFeely, S. (2022). Impactful Digital 
+Twin in the Healthcare Revolution. Big Data and Cognitive 
+Computing, 6(3), 83.  
+[30] Huang, P. H., Kim, K. H., & Schermer, M . (2022). Ethical Issues of 
+Digital Twins for Personalized Health Care Service: Preliminary 
+Mapping Study. Journal of Medical Internet Research, 24(1), e33081.  
+[31] Sahal, R., Alsamhi, S. H., & Brown, K. N. (2022). Personal digital 
+twin: a close look into the pr esent and a step towards the future of 
+personalised healthcare industry. Sensors, 22(15), 5918.  
+[32] Wickramasinghe, N. (2022). The case for digital twins in healthcare. In 
+Digital Disruption in Health Care (pp. 59 -65). Springer, Cham.  
+[33] Akash, S. S., & Ferdous, M. S. (2022). A Blockchain Based System for 
+Healthcare Digital Twin. IEEE Access . 
+[34] Ferdou si, R., Laamarti, F., Hossain, M. A., Yang, C., & El Saddik, A. 
+(2022). Digital twins for well -being: an overview. Digital Twin, 1(7), 
+7. 
+[35] Khan, A., Milne -Ives, M., Meinert, E., Iyawa, G. E., Jones, R. B., & 
+Josephraj, A. N. (2022a). A scoping review of digi tal twins in the 
+context of the Covid -19 pandemic. Biomedical Engineering and 
+Computational Biology, 13, 11795972221102115.  
+[36] Kleftakis, S., Mavrogiorgou, A., Mavrogiorgos, K., Kiourtis, A., & 
+Kyriazis, D. (2022). Digital Twin in Healthcare Through the Eyes o f 
+the Vitruvian Man. In Innovation in Medicine and Healthcare (pp. 75 -
+85). Springer, Singapore.  
+[37] Mulder, S. T. , Omidvari, A. H., Rueten -Budde, A. J., Huang, P. H., 
+Kim, K. H., Bais, B., ... & Steegers -Theunissen, R. (2022). Dynamic 
+Digital Twin: Diagnosis, Treatment, Prediction, and Prevention of 
+Disease During the Life Course. Journal of Medical Internet Research , 
+24(9), e35675.  
+[38] Ramu, S. P., Boopalan, P., Pham, Q. V., Maddikunta, P. K. R., Huynh -
+The, T., Alazab, M., ... & Gadekallu, T. R. (2022). Federated learning 
+enabled digital twins for smart cities: Concepts, recent advances, and 
+future directions. Sustainable  Cities and Society, 79, 103663.  
+[39] Song, Y., & Li, Y. Digital Twin Aided Healthcare Facility 
+Management: A Case Study of Shanghai Tongji Hospital. In 
+Construction Research Congress 2022 (pp. 1145 -1155).  
+[40] Khan, S., Arslan, T., & Ratnarajah, T. (2022b). Digital T win 
+Perspective of Fourth Industrial and Healthcare Revolution. IEEE 
+Access, 10, 25732 -25754.  
+[41] Pesapane, F., Rotili, A., Penco, S., Nicosia, L., & Cassano, E. (2022). 
+Digital Twins in Radiology. Journal of Clinical Medicine, 11(21), 
+6553.  
+[42] Ricci, A., Croatti, A., & Montagna, S. (2022). Pervasive and Connected 
+Digital Twins –A Vision for Digital Health. IEEE Internet Computing, 
+26(5), 26 - 32. 
+View publication stats

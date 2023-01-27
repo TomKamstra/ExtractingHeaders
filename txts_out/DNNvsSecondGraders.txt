@@ -1,0 +1,2095 @@
+Are Deep Neural Networks SMARTer than Second Graders?
+Anoop Cherian1Kuan-Chuan Peng1Suhas Lohit1Kevin Smith2Joshua B. Tenenbaum2
+1Mitsubishi Electric Research Labs (MERL), Cambridge, MA
+2Massachusetts Institute of Technology (MIT), Cambridge, MA
+Abstract
+Recent times have witnessed an increasing number of ap-
+plications of deep neural networks towards solving tasks
+that require superior cognitive abilities, e.g., playing Go,
+generating art, question answering (such as ChatGPT), etc.
+Such a dramatic progress raises the question: how general-
+izable are neural networks in solving problems that demand
+broad skills? To answer this question, we propose SMART:
+aSimple Multimodal Algorithmic Reasoning Task and the
+associated SMART-101 dataset, for evaluating the abstrac-
+tion, deduction, and generalization abilities of neural net-
+works in solving visuo-linguistic puzzles designed speciﬁ-
+cally for children in the 6–8 age group. Our dataset con-
+sists of 101 unique puzzles; each puzzle comprises a picture
+and a question, and their solution needs a mix of several
+elementary skills, including arithmetic, algebra, and spa-
+tial reasoning, among others. To scale our dataset towards
+training deep neural networks, we programmatically gener-
+ate entirely new instances for each puzzle, while retaining
+their solution algorithm. To benchmark the performance on
+the SMART-101 dataset, we propose a vision and language
+meta-learning model using varied state-of-the-art backbone
+networks. Our experiments reveal that while powerful deep
+models offer reasonable performances on puzzles that they
+are trained on, they are not better than random accuracy
+when analyzed for generalization. We also evaluate the
+recent ChatGPT large language model on a subset of our
+dataset and ﬁnd that while ChatGPT produces convincing
+reasoning abilities, the answers are often incorrect.
+1. Introduction
+“An attempt will be made to ﬁnd how to make
+machines use language, form abstractions and
+concepts, solve kinds of problems now reserved for
+humans, and improve themselves. ”
+The Dartmouth Summer Project on AI, 1956
+Deep learning powered AI systems have been increas-
+ing in their data modeling abilities at an ever more vigor
+Question: Bird Bobbie jumps on a fence from the post on the left
+end to the other end. Each jump takes him 4 seconds. He makes 4
+jumps ahead and then 1 jump back. Then he again makes 4 jumps
+ahead and 1 jump back, and so on. In how many seconds can
+Bobbie get from one end to the other end?
+Answer Options: A: 64 B: 48 C: 56 D: 68 E: 72
+Figure 1. An example puzzle instance from our SMART-101
+dataset generated using our programmatic augmentation method.
+Solving this puzzle needs various skills such as counting the num-
+ber of posts, spatially locating Bobbie , and using the details in the
+question to derive an algorithm for the solution. At a foundational
+level, a reasoning agent needs to recognize abstracted objects such
+as posts, and identify the bird. The answer is shown below.2
+in the recent times, with compelling applications emerg-
+ing frequently, many of which may even challenge well-
+trained humans. A few notable such feats include but are
+not limited to game playing ( e.g., AlphaGo [57]), language-
+guided image generation ( e.g., the recent DALLE-2 [51]
+and ImageGen [53]), creative story writing ( e.g., using
+GPT-3 [10]), solving university level math problems [16],
+algorithmic inference [19], and general-purpose question
+answering/dialog ( e.g., ChatGPT1). Such impressive per-
+formances have prompted an introspection into the foun-
+dation of what constitutes artiﬁcial intelligence and de-
+riving novel tasks that could challenge deep models fur-
+ther [12, 35, 42, 52].
+While deep neural networks offer compelling perfor-
+mances on specialized tasks on which they are trained on, (i)
+how well do they model abstract data, attend on key entities,
+and transfer knowledge to solve new problems? (ii) how
+ﬂuid are they in acquiring new skills? and (iii) how effec-
+tive are they in the use of language for visual reasoning? We
+1https://openai.com/blog/chatgpt/
+2The answer to the puzzle in Figure 1 is: C.
+1arXiv:2212.09993v2  [cs.AI]  5 Jan 2023task ourselves to understand and seek a way to answer these
+questions for state-of-the-art (SOTA) vision and language
+deep learning models. An approach that has been taken
+several times in the past is to design specialized datasets
+that can measure the cognitive abilities of well-trained neu-
+ral networks. For example, in CLEVR [33], a diagnostic
+dataset is proposed that comprises visuo-linguistic spatial
+reasoning problems. The abstraction abilities of neural net-
+works have been explored towards solving types of Bon-
+gard problems [32, 45] and human IQ puzzles (e.g., Ravens
+progressive matrices) have been extended to evaluate neu-
+ral reasoning abilities [8,9,30,46,60,61,64,67]. However,
+while the puzzles in these prior works are often seemingly
+diverse, they are often conﬁned to a common setting and
+may need only specialized skill sets, bringing in inductive
+biases that could be exploited by well-crafted deep learn-
+ing models, thereby solving such puzzles with near perfect
+accuracy [56, 60].
+In this paper, we take a look back at the foundations
+of intelligence, by asking the question: Are state-of-the-
+art deep neural networks capable of emulating the thinking
+process of even young children? To gain insights into an-
+swering this question, we introduce the Simple Multimodal
+Algorithmic Reasoning Task (SMART) – a visuo-linguistic
+task and the associated SMART-101 dataset built from 101
+distinct children’s puzzles. As this is the ﬁrst step in this di-
+rection, we keep the puzzles simple – to ensure this, we took
+the puzzles from the Math Kangaroo USA Olympiad [4]
+with puzzle sets designed for children in the age group of
+6–8. Each puzzle in our dataset has a picture describing the
+problem setup and an associated natural language question.
+To solve the puzzle, one needs to use the question to gather
+details from the picture and infer a simple mathematical al-
+gorithm that leads to a solution to be matched against mul-
+tiple answer options. In Figure 1, we illustrate the task with
+an example puzzle from our dataset. Unlike prior datasets
+with similar goals, each of the 101 puzzles in our dataset is
+different and needs a broad range of elementary mathemat-
+ical skills for their solutions, including skills in algebra, ba-
+sic arithmetic, geometry, ordering, as well as foundational
+skills to interpret abstract images, and execute counting,
+spatial reasoning, pattern matching, and occlusion reason-
+ing. To the best of our knowledge, this is the ﬁrst dataset
+that offers such a richly diverse set of visuo-linguistic puz-
+zles in an open setting, with a psychometric control on their
+difﬁculty levels against human performance.3
+To build a large scale dataset from the 101 puzzles (for
+training deep models), we propose to augment each puzzle
+programmatically, i.e., we implement computer programs
+that replicate each puzzle into new instances, where each
+instance is distinct in its puzzle picture, as well as using new
+3This is derived from the assumption that the puzzles are professionally
+designed with a particular audience in mind.question structures, answer choices, and solutions. Such a
+major overhaul of the puzzles, we believe, would demand
+a reasoning method to learn the algorithmic skills to solve
+them. Using this approach, we created 2000 instances for
+each puzzle; SMART-101 thus having nearly 200K puzzle
+instances.
+To benchmark performances on the SMART-101 dataset,
+we propose an end-to-end meta-learning based neural net-
+work [20], where we use a SOTA pre-trained image encoder
+backbone ( e.g., ResNets/Transformers) to embed the pic-
+ture part of the puzzles, and a strong language model ( e.g.,
+word embeddings/GPT-2) to model the questions. As each
+puzzle can have a different range for their answers ( e.g., se-
+lection from a few choices, sequential answers, etc.), we
+propose to treat each puzzle as a separate task, with task-
+speciﬁc neural heads and training objectives, while a com-
+mon vision-language backbone is learned on all the puzzles.
+We provide experiments under various evaluation set-
+tings, analyzing the ability of our model for: (i) in-
+distribution generalization, when training and testing data
+are from the same distributions of puzzle instances, and
+out-of-distribution generalization, when training and testing
+data are from: (ii) distinct answer distributions, or (iii) dif-
+ferent puzzles. We ﬁnd that our model performs poorly on
+the tasks (i) and (ii), while failing entirely on (iii), suggest-
+ing that solving our dataset would demand novel research
+directions into neural abstractions and algorithmic reason-
+ing. We also evaluate the recently introduced ChatGPT
+model on a subset of our puzzles that do not need the visual
+stream for solving them. While, ChatGPT demonstrates
+human-like reasoning abilities and better out-of-distribution
+generalization, we ﬁnd that the overall performances are
+poor.
+We list the key contributions of this paper below.
+1. With the goal of making progress towards improving
+the visuo-linguistic algorithmic reasoning abilities of
+neural networks, we introduce a novel task, SMART
+and the associated large scale SMART-101 dataset.
+2. We propose a programmatic augmentation strategy for
+replicating abstract puzzles.
+3. We design a baseline meta-solver neural architecture
+for solving the puzzles in our task.
+4. We present experiments using our approach in various
+algorithmic generalization settings, bringing out key
+insights on the performance of SOTA neural networks
+on this task. We also compare our performances to
+human scores, as well as to those produced by recent
+externally-trained large language models.
+2. Related works
+To set the stage, we brieﬂy review below a few prior
+methods and datasets proposed towards understanding the
+reasoning abilities of deep neural networks.
+2Dataset Involve language Dataset size Task nature
+Bongard-LOGO [45] 7 12K few-shot concepts, abstract shape reasoning
+Bongard-HOI [32] 7 53K few-shot concepts, human-object interaction
+ARC [12] 7 800 generate image based on abstract rules
+Machine Number Sense [66] 7 280K solving arithmetic problems
+RA VEN [64] 7 70K ﬁnding next image in sequence
+Image riddles [5] 3(ﬁxed question) 3333 ﬁnding common linguistic descriptions
+VLQA [54] 3(variable questions) 9267 spatio-temporal reasoning, info lookup, mathematical, logical, causality, analogy, etc.
+PororoQA [34] 3(variable questions) 8913 reason from cartoon videos about action, person, abstract, detail, location, etc.
+CLEVR [33] 3(variable questions) 100K exist, count, query attributes, compare integers/attribute
+SMART-101 (ours) 3(variable questions) 200K 8 predominant algorithmic skills and their compositions (see Figure 2)
+Table 1. Comparison of our SMART-101 dataset with existing datasets related to visual reasoning.
+Solving IQ puzzles via creating computer programs has
+been a dream since the early days of exploration into
+AI [27, 40, 41]; Evan’s ANALOGY [18] and Hofstader’s
+CopyCat, among others [29] are famous tasks in this di-
+rection. With the resurgence of deep learning, there have
+been several attempts at re-considering such puzzles, with
+varied success. In Table 1, we brieﬂy review such tasks
+and datasets (see Małki ´nski and Ma ´ndziuk [39] for an in-
+depth survey). While, the goal of these works have been
+towards capturing human cognition through machine learn-
+ing models, their tasks are often specialized and when pro-
+vided enough data, the neural networks apparently leverage
+shortcomings in the dataset towards achieving very high ac-
+curacy [27, 60, 65], defaulting the original goals.
+Neuro-symbolic learning and program synthesis ap-
+proaches consider solving complex tasks via decomposing
+a scene into entities and synthesizing computer programs
+that operate on these entities; thereby plausibly emulat-
+ing human reasoning. The DreamCoder approach [17] for
+program synthesis to draw curves, solving Bongard prob-
+lems using program induction [59], solving Raven’s ma-
+trices using neuro-symbolic methods [28], and Bongard
+LOGO [45] are a few recent and successful approaches to-
+wards neuro-algorithmic reasoning, however, their general-
+ization to tasks beyond their domains is often unexplored.
+Visual and language tasks for understanding and reasoning
+on natural images [6, 7, 31, 33, 48] have been very success-
+ful using deep neural networks, lately [38, 48, 58]. Similar
+to such tasks, our goal in SMART-101 is to jointly interpret
+vision and language modalities for solving various reason-
+ing problems. However, differently to such approaches, our
+visual stream comprises not necessarily natural images, in-
+stead are mostly sketches without textures; thereby avoiding
+the unexpected and implicit inductive biases.
+Understanding children’s cognition for solving a variety
+of age-appropriate problems has been intensively studied
+over the years [13, 22, 35] via studying their ability to form
+abstract, hierarchical representations of the world, acquire
+language and develop a theory of mind [21]. A particu-
+larly useful and common approach to understanding chil-dren’s cognitive abilities, albeit imperfectly, is to present
+them with puzzles such as those in IQ tests [36, 44, 62]. To
+the best of our knowledge, it is the ﬁrst time that a dataset
+has been built in this direction, that can allow exploration of
+generalized reasoning abilities at a level of children’s cogni-
+tion, and that can be potentially useful not only in computer
+vision, but also for studying a breadth of abilities spanning
+psychology, neuroscience, and cognitive science.
+3. Proposed approach
+In this section, we detail our task, the associated dataset,
+and our baseline framework.
+3.1. Task and the SMART-101 dataset
+As alluded to above, our goal is to understand the abil-
+ities and shortcomings of SOTA deep models for visuo-
+linguistic reasoning. With this goal in mind, we propose
+the Simple Multimodal Algorithmic Reasoning Task and
+the SMART-101 dataset, consisting of visuo-linguistic puz-
+zles in a multiple-choice answer selection setting.
+Each puzzle in SMART-101 consists of an image I, a
+natural language question Q, and a set of ﬁve multiple
+choice answersA, and the task is to have an AI model f,
+parameterized by , that can provide the correct answer ato
+a given problem tuple (I;Q;A),i.e.,
+f(I;Q)!a2A: (1)
+To learn the parameters of the model f, we use the dataset
+R=f1;2;;Kgconsisting of a set of K= 101
+distinct puzzles. We call each aroot puzzle . To train
+deep learning models, we need large datasets, and to this
+end, we recreate each root puzzle to a set of novel puz-
+zle instances. That is, for each 2R , we createP=
+p
+1;p
+2;;p
+n	
+, wherepdenotes a new instance of
+root puzzle. Thus, our full dataset D=[2RP.
+To choose the root puzzles, one may consider a variety
+of sources, e.g., puzzle books, IQ tests, online resources,
+etc. In this work, we choose them from the Math Kangaroo
+(MK) USA Olympiad [4], which is an annually held mathe-
+matical competition for children from ﬁrst to twelfth grade.
+3For this paper, we selected problems designed for children
+of ages 6–8 typically in the ﬁrst to second grade. We se-
+lected the puzzles from MK due to their high quality con-
+tent, the diversity of skills needed for solving the puzzles,
+and their careful control and categorization of their hard-
+ness levels. Further, MK also provides us with the statistics
+of how well the participants performed, allowing a compar-
+ison between machine performance and its correlation with
+humans ( e.g. do they fail on similar problems?). Table 2
+shows some example root puzzles from our SMART-101.
+3.2. Programmatic puzzle augmentation
+In this subsection, we detail our approach to replicate a
+root puzzle into its diverse instances; potentially expand-
+ing the dataset to a size that is large enough for adequately
+training deep neural networks. While, one may resort to
+standard data augmentation methods (such as cropping, ro-
+tations, etc.) to produce data from the root puzzles, such
+an approach may be unsuitable, because: (i) such opera-
+tions may make the problem invalid, e.g., ﬂipping an image
+to augment it might make a question on the orientation of
+an object incorrect, and (ii) such augmentations might not
+change the puzzle content much, e.g., rotating an image of
+a circle. A different direction is perhaps to create more puz-
+zles via human help, e.g., Amazon Turkers. However, this
+will need specialized creative skills that could be difﬁcult to
+obtain and can be expensive.
+To circumvent the above issues, we propose to program-
+matically augment the puzzles via cloning a root puzzle us-
+ing a computer program and randomly changing the pro-
+gram settings to diversify the puzzles. Speciﬁcally, as our
+goal is for a reasoning method to learn an “ algorithm ” to
+solve a puzzle (rather than using only the perception mod-
+ules), we randomly change the visual, lingual, and con-
+textual puzzle attributes using content from a variety of
+domains, thereby bringing in signiﬁcant diversity in each
+recreated puzzle instance. To accomplish this, elements of
+the new puzzle images are sampled from varied sources,
+e.g., the Icons-50 dataset [26], random internet cliparts,
+etc., while spatial organization, colors, textures, shapes, and
+other puzzle parameters are all randomly-sampled from ap-
+propriate sets. While, this approach seems straightforward,
+it needs to be noted that for replicating each root puzzle,
+sometimes special expertise is needed to produce suitable
+images, the associated questions, and produce answers that
+are correct. To illustrate this intricacy, in Table 2, we il-
+lustrate three puzzles and their augmentations using our ap-
+proach. Below, we provide details of their augmentation
+programs. See Appendix for more examples.
+Table 2 Row 1. We ﬁrst randomly sample two different
+types of shapes s1ands2from a shape set, with random
+spatial locations and sizes. Optionally, we also include dis-
+tractors. Second, we randomly sample the ﬂower instances
+(a)(b)Figure 2. Analysis of the various statistics of problems in the
+SMART-101 dataset. (a) shows the distribution of problems
+among the eight classes of predominant math skills needed to solve
+them. In (b), we plot the composition of various skills that are po-
+tentially needed to solve a problem.
+from the Icons-50 dataset [26] and paste them to the im-
+ages such that the boundaries of s1ands2do not intersect
+with those of the icons. Third, we randomly sample the re-
+lationship associated with s1ands2fromfinside, outsideg
+to create the question and compute the answer.
+Table 2 Row 2. For a problem setting with ncircles (and
+roads), the replication of this puzzle amounts to ﬁnding an
+X=X11;X12
+X21;X22
+, whereX11=X22andX12=X21with
+Xij’s beingnninteger matrices under the constraint that
+their rows and columns sum to k(the number of houses in
+the puzzle). This problem can be cast as an integer pro-
+gramming problem and solved using the GLPK toolkit [2]
+for random puzzle attributes.
+Table 2 Row 3. We sample the number of nodes Nfrom
+[4;Nmax], and sample random graphs with number of edges
+inh
+N;N(N 1)
+2i
+. We use the NetworkX Python package
+[3, 23] for rendering random graphs, post which we ran-
+domly sample source and target nodes to generate a ques-
+tion. Next, we ﬁnd all simple paths between the vertices,
+compute their lengths, and choose one target path, in the
+generated question and the right answer.
+3.3. Details of the dataset
+We categorize the 101 root puzzles in the SMART-101
+dataset into eight different classes based on the type of ba-
+sic skill needed to solve them, namely (i) variants of count-
+ing ( e.g., counting lines, basic shapes, or object instances
+from say the Icons-50 dataset [26]), (ii) basic arithmetic
+(e.g., simple multiplication), (iii) logical reasoning ( e.g.,Is
+X taller than Y but shorter than Z? ), (iv) algebra ( e.g.,Is the
+sum of the sides of a cube X? ), (v) spatial reasoning ( e.g.,
+Is X behind Y? ), (vi) pattern ﬁnding ( e.g.,If the pattern in
+X is repeated, which point will it pass through? ), (vii) path
+ﬁnding ( e.g.,which option needs to be blocked so that X will
+not reach Y in a maze? ), and (viii) measurement ( e.g.,each
+grid cell is 1 cm, how long is X? ). In Figure 2, we show the
+distribution of puzzles in SMART-101 across these classes.
+4(a) MK’s root puzzle (b) our generated instance #1 (c) our generated instance #2 (d) our generated instance #3
+Question : A bee collected pollen from all
+the ﬂowers inside the rectangle but outside
+the triangle. From how many ﬂowers did the
+bee collect pollen? Options : A: 9, B: 10, C:
+13, D: 17, E: 20Question : We want to pick up all the ﬂow-
+ers that are inside the rectangle and inside
+the circle simultaneously. How many ﬂow-
+ers should we pick up? Options : A: 5, B: 6,
+C: 2, D: 1, E: 3Question : We want to pick up all the ﬂow-
+ers that are inside the circle but outside the
+rectangle simultaneously. How many ﬂow-
+ers should we pick up? Options : A: 7, B:
+14, C: 15, D: 9, E: 11Question : All the ﬂowers that are outside
+both the circle and triangle simultaneously
+are picked up. The number of ﬂowers which
+are picked up is: Options : A: 27, B: 24, C:
+26, D: 29, E: 23
+Question : A village with 12 houses has
+four straight roads and four circular roads.
+The map shows 11 of the houses. On each
+straight road there are 3 houses. On each cir-
+cular road, there are also 3 houses. Where on
+the map should the 12th house be put? Op-
+tions : A, B, C, D, EQuestion : A town with 6 houses has 3
+straight pathways and 3 circular pathways.
+The image shows 5 of the houses. On each
+straight pathway there are 2 houses. On each
+circular pathway, there are also 2 houses.
+Which location on the image should the 6th
+house be built? Options : A, B, C, D, EQuestion : A small town with 12 huts has 4
+straight lanes and 4 circular lanes. The map
+depicts 11 of the huts. On each straight lane
+there are 3 huts. On each circular lane, there
+are also 3 huts. Which location on the map
+should the 12th hut be put? Options : A, B,
+C, D, EQuestion : A community with 30 condos has
+6 straight paths and 6 circular paths. The pic-
+ture illustrates 29 of the condos. On each
+straight path there are 5 condos. On each
+circular path, there are also 5 condos. Which
+place on the picture should the 30th condo
+be added? Options : A, B, C, D, E
+Question : In one jump, Jake jumps from one
+circle to the neighboring circle along a line,
+as shown in the picture. He cannot jump into
+any circle more than once. He starts at circle
+S and needs to make exactly 4 jumps to get
+to circle F. In how many different ways can
+Jake do this? Options : A: 3, B: 4, C: 5, D:
+6, E: 7Question : In one jump, Pamela jumps from
+one circle to the neighboring circle along a
+line, as shown in the picture. She cannot
+jump into any circle more than once. She
+starts at circle 2 and needs to make exactly 4
+jumps to get to circle 0. In how many differ-
+ent ways can she do this? Options : A: 6, B:
+11, C: 2, D: 10, E: 0Question : In one jump, Louis jumps from
+one circle to the neighboring circle along a
+line, as shown in the picture. He cannot jump
+into any circle more than once. He starts at
+circle 4 and needs to make exactly 2 jumps to
+get to circle 1. In how many different ways
+can Louis do this? Options : A: 3, B: 2, C: 0,
+D: 1, E: 6Question : In one jump, Chris jumps from
+one circle to the neighboring circle along a
+line, as shown in the picture. He cannot jump
+into any circle more than once. He starts at
+circle 1 and needs to make exactly 7 jumps to
+get to circle 6. In how many different ways
+can Chris do this? Options : A: 10, B: 8, C:
+7, D: 2, E: 1
+Table 2. Examples of the root puzzles (left) from the Math Kangaroo Olympiad [4] and our generated puzzle instances, belonging to
+categories: counting (top), logic (middle), and path tracing (bottom). The answer is marked in red. See supplement for more examples.
+As one can see from the sample puzzles provided in Ta-
+ble 2, it is not just the above skills that one needs to solve
+them, but their solution demands a composition of the above
+skills. For example, to solve the puzzle in the ﬁrst row of
+Table 2, one needs to recognize the pattern for the similar
+ﬂowers, spatially reason whether each ﬂower is within or
+outside a given shape, and count the ﬂowers. The class dis-
+tribution in Figure 2(a) characterizes the basic skill needed
+(e.g., counting) to solve this problem, and might not provide
+a full diversity. Thus, in Figure 2(b), we provide a more
+comprehensive analysis of the various compositions of the
+skills needed to solve the of problems in SMART-101. As isclear from this pie chart, each puzzle in our dataset demands
+a multitude of skills, that speaks about the complexity of the
+task, and the challenge it offers.
+Question Augmentation. To create new questions for the
+puzzle instances, we follow a combination of three different
+strategies: (i) for puzzle questions with numbers, we replace
+them with new numbers randomly sampled from a range,
+(ii) replace the sentence structure with manually-generated
+templates, and (iii) use slotted words in the template, where
+the words in the slots are sampled from potential synonyms,
+while ensuring the question is grammatically correct, sensi-
+ble, and captures the original goal of the puzzle.
+5Puzzle Image
+Puzzle QuestionImage Encoder Backbone
+Tokenizer & Text Encoder Backbone+
+Shared backbones Shared text MLP Puzzle-specific MLPsShared MLP 
+Prediction headsAnswer SelectorOptions……Answer
+Figure 3. An illustration of our learning and reasoning model.
+4. SMART-101 reasoning model
+Each puzzle in SMART-101 has distinct problem charac-
+teristics and diverse ranges for their answers ( e.g., numeric,
+alphabets, sequences, and words); thus, using a single loss
+function for all puzzles may be sub-optimal. A natural way
+to incorporate such a puzzle speciﬁc learning while also
+learning a single neural network for the entire dataset is to
+consider a meta-learning architecture, pictorially described
+in Figure 3. Mathematically, let gand`be the image
+backbone and the language backbone (combined with an
+RNN to aggregate the word embeddings) shared across all
+the puzzles inDrespectively, where andcapture their
+parameters. As distinct root puzzle images have speciﬁc
+characteristics for the solution (e.g., some of the images
+have their answer options embedded within the image), we
+found it useful to have a puzzle-speciﬁc image head. To this
+end, we attach a small (2-layered) multi-layer perceptron
+(MLP), denoted h
+, to the output of the image backbone,
+whereh
+is speciﬁc to each root puzzle and has its own
+parameters. Using these modules, our neural prediction
+model for puzzle is:
+f
+(I;Q) := pred
+(fuse((h
+(g(I)) +`(Q)));(2)
+where fusedenotes a shared MLP to fuse the image and
+language embeddings and pred
+is a puzzle-speciﬁc pre-
+diction head that maps a given puzzle tuple to the domain
+of the puzzle answers (with its own parameters). For exam-
+ple, a puzzle answer may be a sequence, for which pred
+
+would be a recurrent neural network, while for another puz-
+zle, the response could be an integer in 1–100, for which
+pred
+could be an MLP classiﬁer with 100 softmax out-
+puts. We abstractly represent the union of all parameters in
+the various modules by .
+To train Eq. (2), we minimize the following objective:
+min
+ERE(I;Q;a )Ploss 
+f
+(I;Q) a
+;(3)where  =[2Rfgandlossis a puzzle-speciﬁc loss
+that is activated based on the root puzzle for an instance
+(I;Q;a )in a given batch. Recall that ais the correct an-
+swer. Here, losscould be (i) a softmax cross-entropy loss,
+or (ii) an`1regression loss. See Appendix B.2 for details.
+At inference, we select the answer from the options as:
+^a= arg max
+2Asim 
+f
+(I;Q);
+; (4)
+where simcharacterizes the similarity of a predicted an-
+swer from the options in the multiple choice answer set A,
+andsimis speciﬁc to the problem (e.g., euclidean dis-
+tance for numerals or edit distance for string answers).
+5. Experiments
+In this section, we detail the experimental protocol to
+evaluate the algorithms for solving SMART-101 puzzles.
+5.1. Data splits
+We propose four different data splits that evaluate varied
+generalization properties of an algorithm designed to solve
+SMART-101. For the below splits, we assume the puzzles
+are ordered 1101 and the instances for each puzzle are or-
+dered 1n, wherenis typically 2000. The splits are:
+(i)Instance Split (IS) that evaluates the in-distribution per-
+formance of the model. For IS, we split all the instances
+for a root puzzle into 80-5-15 (%) splits for training, vali-
+dation, and testing, respectively in that order. (ii) Answer
+Split (AS) that evaluates the generalization of a model to
+answers that the model has not seen during training. To this
+end, we compute the distribution of all answers ( ain Eq. 3)
+across instances of a root puzzle, ﬁnd the median answer,
+and remove all instances that have this median answer from
+the training set; a part of this training set is used for valida-
+tion, and only the instances with the median answer is used
+during testing. The goal of this split is to understand if a
+model can generalize to answers that it has never seen dur-
+ing training. (iii) Puzzle Split (PS), with the goal to eval-
+uate (zero shot or) extreme generalization to solve puzzles
+guided by the image and the provided question. In this set-
+ting, we split the root puzzles into 80-5-16 split for training,
+validation, and testing, respectively. We use only the train-
+ing set for learning the model, the performance of which is
+evaluated on the testing set which consists of puzzles that
+the model has never seen before (as a zero-shot solver). (iv)
+As the PS split is perhaps too far-fetched, we also include
+aFew-shot Split (FS) in which, during training, the model
+usesm(= 10) instances of all root puzzles which belong to
+the validation or test set in the PS split. We select mto be
+much less than the number of instances used in the IS split
+(which ism= 1600 ).
+65.2. Evaluation
+We use two metrics to evaluate the predicted answers:
+(i) the option selection accuracy Oaccthat measures the av-
+erage frequency with which the correct option is selected
+by a model and (ii) the solution accuracy Saccthat com-
+putes the average frequency with which the correct solution
+is produced by a model. For example, for the root puzzle
+in Table 2 Row 1, let us say a model produced an answer 8.
+Since 8 is not in the option set, the closest option 9 will be
+selected, i.e., the correct option will be selected even if the
+wrong answer is produced. In this case, its Oacc=1 while its
+Sacc=0. We also report the average weighted relative pre-
+diction error E`1, which is the average `1distance between
+a predicted answer and the ground truth answer, each puzzle
+error weighted by the cardinality of its answer range.
+5.3. Backbone models
+We evaluate popular pretrained image, language, and
+vision-and-language backbones using the reasoning archi-
+tecture in Figure 3. Please see the supplement for details of
+preprocessing the data and training these models.
+Image Backbones. We consider three groups of models:
+(i) ResNets, (ii) Transformers, and (iii) contrastively pre-
+trained models. For (i), we use ResNet-50 and ResNet-
+18 [25], the former has been shown to be useful for
+sketch-based reasoning [43], while the latter is used to
+verify if deeper models overﬁt. For (ii) we use sev-
+eral variants, including Vision-Transformers (ViT) [15],
+Swin-Transformers [37] (Swin T and Swin B) and Cross-
+Transformers [63]. While we ﬁne-tune ViT and Swin mod-
+els from their ImageNet pre-trained models (available in Py-
+Torch), we train Cross-Transformers from scratch on our
+dataset. For self-supervised pre-trained models, we use
+SimSiam [11] based on ResNet-50 and Masked Autoen-
+coders [24]. Unless otherwise speciﬁed, we use ResNet-50
+as our image backbone.
+Language Backbones. As alluded to above, we use ei-
+ther a learned feature embedding for encoding the ques-
+tions or SOTA embedding model and its associated toker-
+izer. We consider 3 text embedding models: (i) GPT-2 [50],
+(ii) BERT [14], and (iii) GloVe [47].
+Vision-and-Language Models. We also consider multi-
+modal pre-trained models that are speciﬁcally trained for
+aligning vision with language. In this setting, we consider
+the recent CLIP [49] and FLA V A [58]. We use these models
+only as feature extractors in our setup.
+5.4. Experimental Results
+In Table 3, we present our results using our proposed
+models and various backbones on both SaccandOaccmet-
+rics, and on all our puzzle categories. To gain insights into
+the performances, we also report two baseline performances
+Figure 4. Performance against increasing training set size. Left:
+IS split and right: PS split with few-shot instances.
+that do not involve any learning, namely: (i) greedy , that se-
+lects the most frequent answer from the training set, and (ii)
+uniform , that randomly samples an answer. Table 3 shows
+thatOaccfor all the baseline methods is nearly 20%, sug-
+gesting that our answer options are uniformly distributed
+among the ﬁve multiple-choice options.
+Performance on diverse image backbones: For these
+experiments, we use the learned word embeddings using
+our dictionary. Surprisingly, we ﬁnd that ResNet mod-
+els (18 and 50 or SimSiam/ResNet-50) perform signiﬁ-
+cantly better than all Transformers (Table 3) on our dataset.
+To ensure this is not an implementation artifact, we re-
+peat our experiments either via training the models from
+scratch (Cross-Transformers) or using varied architectures
+(Swin B, Swin T, and ViT 16). These models offer varied
+amounts of global and local self-attention for reasoning. Ta-
+ble 3 shows that most Transformer variants we compare to
+do relatively well on the a rithmetic class (40% onSacc
+for ViT,34% for Swin T,etc.), while they perform the
+least on tasks that need path tracing, which is not so unex-
+pected, given self-attention can perhaps easily learn basic
+arithmetic skills such as addition, however solving a path
+tracing puzzle may be extremely challenging if the image
+is tokenized as in a Vision Transformer. We ﬁnd that the
+trends we see on Transformers also carry on to vision-and-
+language models (FLA V A and CLIP), both performing sub-
+par. We also ﬁnd that self-supervised models such as Sim-
+Siam when used only as a feature extractor, while better
+than random by +5%, however when ﬁne-tuned matches up
+to the performances similar to ResNet-50, suggesting that
+these models by themselves are not sufﬁciently useful for
+solving the puzzles in our task.
+Performance on language backbones: Here, we use the
+ResNet-18 image backbone, however changed only the
+word embedding model. We ﬁnd that a richer word model
+does improve (albeit slightly) the performance, e.g., GPT-2
+and GloVe, improving the average performance from 34%
+to36% with beneﬁts in almost all categories, especially
+inalgebra andarithmetic (GPT-2); for the latter, we see an
+impressive 10% gain.
+Ablation studies: Next, we explore the necessity of vari-
+7Category Count Arithmetic Logic Path Trace Algebra Measure Spatial Pattern Finding Average
+Greedy (baseline) 21.7/22.6 8.97/21.5 18.5/21.0 22.7/21.2 10.2/21.1 12.8/21.1 22.3/21.3 20.6/21.3 17.3/21.6
+Uniform (baseline) 9.41/20.0 3.65/20.0 7.91/20.0 11.1/20.0 5.01/20.0 3.63/20.0 15.5/20.0 16.7/20.0 8.41/20.0
+SimSiam 44.9/56.1 35.1/43.5 45.7/50.8 25.0/26.6 23.4/35.1 64.7/73.5 55.0/57.2 42.8/49.1 39.5/47.0
+MAE 25.4/36.7 34.2/43.2 21.6/31.5 16.4/16.7 20.0/33.3 32.0/39.7 28.2/32.9 18.6/26.6 24.5/33.0
+SimSiam (no ﬁne-tune) 23.1/35.2 36.7/43.7 19.8/28.0 17.1/17.4 18.1/32.2 26.8/34.5 27.2/32.1 20.0/27.7 23.5/31.9
+Swin T Transformer 23.1/35.1 33.7/41.0 20.3/28.8 16.7/18.6 17.7/29.5 26.3/34.3 24.5/29.1 17.5/26.5 22.5/30.8
+Swin B Transformer 22.0/34.0 29.4/36.5 17.7/26.1 16.7/17.0 17.1/30.2 25.0/34.2 26.2/30.7 21.5/29.6 21.6/29.9
+Cross-Transformer 20.5/30.4 6.3/15.3 15.5/22.9 15.1/15.6 8.7/23.9 10.7/18.2 21.7/24.7 19.0/27.3 14.7/22.8
+ViT-16 25.6/36.4 39.7/47.1 21.2/30.8 15.5/16.3 20.1/33.8 39.4/40.8 29.0/33.0 20.3/29.6 25.9/33.5
+ResNet-50 46.6/57.8 38.0/45.9 43.2/50.1 24.6/26.4 23.3/ 35.1 56.9/ 67.4 57.9/58.6 44.8 /51.0 39.8/47.5
+ResNet-18 43.0/53.8 20.2/29.3 38.7/46.7 25.2/27.3 17.0/28.7 48.7/59.1 56.3/57.3 44.5/ 51.1 34.3/42.3
+GPT-2/ResNet-18 42.0/52.5 31.5/39.7 39.0/46.0 24.5/26.4 20.2/31.8 48.9/56.7 55.8/56.7 44.5/50.8 36.0/43.5
+GloVe/ResNet-18 44.7/55.1 24.5/34.0 38.6/45.4 23.9/27.0 18.2/30.6 50.9/59.7 57.2/58.1 44.1/49.8 35.8/43.4
+BERT/ResNet-18 36.3/47.3 15.2/23.3 37.4/44.3 21.3/23.0 18.5/33.1 38.4/41.2 43.4/44.7 37.5/45.2 29.2/36.8
+CLIP 22.7/34.2 17.5/26.6 16.3/25.0 15.2/16.4 9.9/24.4 25.5/34.0 27.1/31.0 20.2/29.0 18.7/27.5
+FLA V A 18.1/28.6 9.2/18.9 16.3/24.2 14.2/14.6 10.7/26.1 23.1/32.2 20.6/24.0 20.0/29.5 15.7/24.3
+Table 3. Category-wise puzzle performances on baselines, training a model for each category, and training a single model for the full
+dataset, using the standard split. Each entry shows the Sacc=Oacc(%; higher is better).
+Method Sacc"Oacc"
+Single image (SIH) + single answer head (SAH) 31.4 39.1
+SIH + SAH + image only (no question) 21.9 30.2
+SIH + SAH + question only (no vision) 26.1 34.9
+Puzzle-speciﬁc image heads (PIH) + SAH 33.7 40.9
+PIH + puzzle-speciﬁc answer heads 34.3 42.3
+Table 4. Ablation studies using the ResNet-18 model, the IS data
+split, and a classiﬁer objective.
+ous modules in our model (Figure 3). Table 4 shows the
+ablation study on the need for puzzle-speciﬁc image heads
+and answer-heads. As expected, when adding the puzzle
+speciﬁc heads, the performance improves. We also ablate
+on the need for using the image or the question. Our re-
+sults show that both modalities are essential for our model
+to answer correctly. For the single answer head, the out-
+put dimensionality of the prediction model is chosen as the
+maximum value of an answer in any puzzle instance.
+How many training images to use? In Figure 4 (left), we
+analyze the sensitivity of the models for increasing training
+size by varying training sizes from 100 to 1600 instances
+per puzzle and training the backbones on the entire puzzle
+set. The plot shows that more training data is useful with
+Saccincreasing almost quadratically with data size when
+using a classiﬁcation loss (perhaps because of better gradi-
+ents against the regression loss).
+Analysis of Generalization: A fundamental goal of this
+paper is to understand the generalization abilities of SOTA
+deep models towards unseen data. Using the various data
+splits we deﬁned in this section, Table 6 furnishes these re-
+sults using our best performing ResNet-50 backbone and
+learned word embeddings under the classiﬁcation and re-
+gression settings, showing that while our method works rea-sonably well on the IS split (as seen from an analysis in the
+above sections), the classiﬁcation model fails entirely on the
+AS split (nearly 0%) on Sacc. This is unsurprising as on the
+AS split, the deep model is masked from seeing a partic-
+ular answer, which is used only during testing. However,
+Table 6 also shows that a model trained with the regres-
+sion loss is able to interpolate the seen answers, leading to
+anSaccof17:6%. When exploring extreme generalization
+using the PS split, both the loss models are found to fail en-
+tirely, with the classiﬁcation model perhaps selecting a ran-
+dom answer ( Oacc20%), while the regression model pro-
+ducing answers that are perhaps outside the range of valid
+answersE`11.7. To ameliorate the demand for extreme
+generalization, we also explore a few-shot setting where the
+model is shown minstances of a puzzle during training that
+is otherwise hidden in the PS split. Even for an m= 10 ,
+Table 6 shows that the performance improves dramatically
+by nearly 10% ( Saccgoes from 0.76% in PS to 13.2% in
+FS in the regression setting), suggesting that the model has
+perhaps learned several useful embeddings, and can learn
+new skills quickly. We analyze this facet of fewshot learn-
+ing more thoroughly in Figure 4 (right) where we see slow,
+but increasing gains with more fewshot examples.
+How do our analysis compare to human performance?
+In Figure 5, we plot the performance of our models (on a
+subset of our puzzles) against that of children of grades 1
+and 2 who participated in the Math Kangaroo competition
+(2020–2021). Interestingly, we ﬁnd that while our model
+performs poorly in many of the puzzles, such as 61, 73 (al-
+gebra), 62 (path ﬁnding), 63 (logic), 66 (spatial), and 95
+(math), it performs nearly 100% accurately on puzzles 64
+(math), 67 (logic), 93 (spatial), 94, 99 (counting), slightly
+better than humans. Overall, we see the model performs
+reasonably well on counting, math, spatial reasoning, and
+8puzzle ID 7 9 30 38 47 71 88 89 90 91 93 mean
+Category AL S AM AM AM AM AM C AL L M
+ChatGPT [1] 70.0 10.0 0.0 20.0 0.0 40.0 70.0 10.0 30.0 60.0 90.0 36.4
+IS split 98.0 14.0 100.0 64.6 93.7 56.7 21.3 55.7 51.3 26.3 34.0 55.9
+PS split NA NA NA NA NA NA NA NA NA 25.5 NA 25.5
+Human NA NA NA NA NA 60.4 NA NA NA NA NA 60.4
+Table 5. The performance of ChatGPT [1] (in Oacc(%); out of 10 trials per puzzle) on the 11 puzzles which do not require the information
+from the image to solve. Note that IS split uses our best performing ResNet-50 based model, and is trained on the puzzles. For the PS split
+and the human performance comparisons, we show only the puzzles that overlap with those used for ChatGPT evaluation (see Appendix G).
+Method ResNet-50 + Learned Embeddings
+Split Objective Sacc"Oacc"E`1#
+IS Classiﬁcation 39.8 47.5 0.139
+IS Regression 19.3 31.9 0.144
+AS Classiﬁcation 0.20 14.5 0.268
+AS Regression 17.6 27.9 0.186
+PS Classiﬁcation 11.8 19.2 0.300
+PS Regression 0.76 12.2 1.707
+FS Classiﬁcation 14.1 21.6 0.284
+FS Regression 13.2 23.9 0.316
+Table 6. Performances using the ResNet-50 model and various
+data splits (in %).
+Figure 5. Performance of our trained ResNet-50 model against
+children of grade 1 and grade 2 from MK 2020 and MK2021.
+pattern matching, however struggles on logic, algebra, mea-
+suring. See Appendix C.2 for details.
+How well does ChatGPT perform on SMART-101?
+We also evaluate the out-of-generalization performance of
+ChatGPT [1] – a recent popular large language model, on
+11 puzzles in the SMART-101 dataset which do not re-
+quire the information from the image to solve. Speciﬁcally,
+we test the following root puzzles from the Math Kanga-
+roo USA [4]: puzzles 7, 9, 30, 38, 47, 71, 88, 89, 90, 91,
+and 93. For each puzzle, we provide the text of the puzzle
+and the options as input to ChatGPT, and use its response
+(i.e., selection of the option) for evaluation. As the Chat-
+GPT response varies on each attempt, we repeat each input
+10 times, and compute the average accuracy among all the
+trails. In Appendix G, we provide the inputs and two se-
+lected outputs from the ChatGPT web interface. Table 5
+summarizes the performance of ChatGPT in Oaccon the11 puzzles from SMART-101. From the table, we ﬁnd that
+ChatGPT fails in nearly 65% of the time. From the Chat-
+GPT responses provided in Appendix G, its reasoning abil-
+ities appear very similar to those of children, however we
+ﬁnd that the ﬁnal answers are often inaccurate; suggesting a
+gap in its reliability and semantic reasoning abilities.
+6. Conclusions
+To conclude, we started by asking the question: are deep
+neural networks SMARTer than second graders? Our anal-
+ysis on SMART-101 using our proposed model shows that
+while with sufﬁcient training data, the SOTA deep learning
+models can potentially learn a few of the basic algorithmic
+reasoning skills of second graders, such as spatial reason-
+ing, measurement, etc., they signiﬁcantly underperform in
+other skills such as algebra or path tracing. Further, SOTA
+models fail entirely on out-of-domain problem generaliza-
+tion. While, the recent ChatGPT model demonstrates sig-
+niﬁcant generalization abilities, it still appears to struggle
+with long-range multi-step reasoning. This is surprising to
+some extent, as ChatGPT is known to produce high-quality
+essays and score well in high-school SAT problems. That
+being said, our analysis also shows that training with a few
+examples from new problems, our model can quickly learn
+new skills. To summarize, the answer to our overarching
+question is clearly no, and there appears to be a signiﬁcant
+gap to improve AI architectures and we believe our pro-
+posed task and dataset offer a solid step in that direction.
+We will be making our SMART-101 dataset and our
+baseline implementations publicly available.
+Acknowledgements
+We thank Joanna Matthiesen (CEO of Math Kangaroo
+USA) for providing us the human performance statistics and
+permission to use the puzzle images from the Math Kanga-
+roo USA Olympiad. Authors would like to thank Tim K.
+Marks, Mike Jones, and Moitreya Chatterjee for valuable
+discussions and feedback.
+9Appendix
+A. Limitations and future extensions
+Our SMART-101 dataset consists of only 101 puzzles
+taken from nearly 10 years of Math Kangaroo USA compe-
+titions. While these puzzles cover a diverse set problem
+types, the number of puzzles for each skill set may not
+be evenly distributed; this could bring bias in the model
+training. Further, our skill set categorization (into count-
+ing, measurement, etc.) while useful to organize our results
+for a systematic analysis, may be an overestimate as many
+of the puzzles need compositional and foundational image
+understanding skills for the solution. Another direction to
+improve the dataset would be to use richer large language
+models for diversifying the questions associated with the
+puzzles. A further solid direction is to extend this dataset
+via incrementally increasing their complexity and skill sets
+via incorporating puzzles from higher grades.
+B. Implementation details and preprocessing
+B.1. Training setup
+For ease of implementation and benchmarking, we use
+the same training settings for all our (backbone) models.
+Speciﬁcally, we use a batch size of 64, and train/ﬁne-tune
+the models using the Adam optimizer with a learning rate of
+0.001. The maximum question length is set to 110 tokens.
+Some of the vision-and-language models (such as CLIP and
+BERT) have a maximum token limit of 77, to which we trim
+the corresponding questions accordingly so that no impor-
+tant information relevant to the puzzles are removed.
+We use a 2-layer MLP (with ReLU activations) for our
+(puzzle and instance) heads with an output dimensional-
+ity of the image and language MLPs set to 128. The lan-
+guage features from the MLP are aggregated using a single
+layer GRU. For the sequential prediction head (for generat-
+ing sequential answers), we use another single layer GRU.
+When using a single prediction classiﬁer head for all the
+puzzles, we use a maximum output dimensionality of 256
+(for the softmax function), which is the maximum of the
+correct answer values that we can have across all puzzles.
+All the models are trained for 100 epochs or until their per-
+formances saturate.
+B.2. Training losses
+As the images across root puzzles may be signiﬁcantly
+different and need varied image analysis skills, we use a
+puzzle-speciﬁc image head as shown in Figure 3. The mod-
+els are trained end-to-end using a loss computed either us-
+ing: (i) a softmax cross-entropy loss or (ii) an `1regres-
+sion loss or (iii) softmax cross-entropy loss between the pre-
+dicted and ground truth answers for the entities in a sequen-
+tial answer. For (i), we use the output dimensionality as thediscrete ranges of the answers in the training set (e.g., if the
+maximum value of aover all instances of a puzzle is , then
+we useas the size of the output), and use cross-entropy
+loss on it. Note that the output dimensionality varies from
+puzzle-to-puzzle and some puzzles use GRU to produce se-
+quential answers. For (ii), we use an `1loss between the
+correct answer and the predicted scalar real value, and in
+this case we use a single scalar output as the model predic-
+tion (or a sequence of scalars for sequential outputs).
+B.3. Preprocessing
+Each image in SMART-101 has a resolution of 1024
+1024 . For the type of backbone used for training (e.g.
+Transformers, ResNets, etc.), we apply the recommended
+image normalization (e.g., mean subtraction and such) that
+comes along with the respective pre-trained model (e.g., Py-
+Torch models on the hub provides such pre-processing steps
+as part of their models). For the question embedding stream,
+we tokenize the words either using a tokenizer that comes
+with a pre-trained model (e.g., CLIP [50] or FLA V A [58])
+or use embeddings based on a dictionary constructed across
+all the puzzle instances in our dataset. After ﬁltering for
+less frequent words (using a frequency threshold of 3), our
+language model uses a vocabulary of size 7194 words. To
+train the models, we convert all the options into integers,
+e.g., using the ordinals for alphabets.
+B.4. Data splits
+For the instance-split (IS), we used 80% of the 2000 in-
+stances per root puzzle for training the models, 5% for val-
+idation, and 15% for the test. For answer-split (AS), we
+selected the median answer from the answer distribution of
+the instances, and used this answer only during test. Thus,
+it is not exactly possible to delineate how many instances
+will be used for every root puzzle in this case. However, we
+found that the total number of instances used during test is
+similar to the number used in IS split. For the puzzle and
+few-shot splits (PS and FS), we split the 101 root puzzles
+to 80, 5, 16 for train, validation, and test. We used the fol-
+lowing root puzzles in the test set: [17, 25, 21, 77, 87, 75,
+52, 43, 12, 67, 45, 48, 74, 37, 56], which corresponds to
+the following number of root puzzles in each skill category:
+[spatial3, measure2, count3, algebra1, arith-
+metic1, logic2, path trace2, and pattern ﬁnding 
+1].
+C. Human Performance: Details and Analysis
+In this section, we provide additional details on the Math
+Kangaroo USA Olympiad, additional experiments on hu-
+man performances, and Pearson’s correlation analysis on
+how well human performance matches to AI.
+10C.1. Details of Math Kangaroo USA Competition
+Math Kangaroo USA is an annual mathematical
+olympiad4held across all the states in the USA and targeted
+at students from grades 1–12. As per the statistics, more
+than 30,000 students participated in the year 2022 of this
+olympiad.
+Exam Structure: The MK competition is typically for 75
+minutes and consists of 24 questions, with questions 1–8 are
+weighted 3 points and considered “easy” by the question
+designers and mainly constitute one-step or need a single
+skill to solve them; Questions 9–16 are 4 points and more
+difﬁcult, needing two or three steps; 17–24: most difﬁcult,
+multi-step questions. For our root puzzles, we only consid-
+ered puzzles in the range 1–16.
+Puzzle Selection: To create our puzzle set, we selected root
+puzzles from MK-2012–2021. While most puzzles have a
+picture and a question, some of the images are not necessary
+for solving the puzzle and thus offers a distraction or help
+in answering them. A few puzzles do not have an image
+instead has only the question. For such puzzles, we use a
+blank white image as a placeholder when training the neural
+networks. Further, nearly half of the puzzles have text or
+options within the image, which needs to be spotted and
+inferred to select the correct answer. Figure 6 shows these
+statistics. In this ﬁgure, we also show the key skills and
+the compositional skill sets (repeated from Figure 2). See
+Table 11 for examples of problems that need inference on
+text inside a puzzle image.
+Puzzle Instance Generation: As alluded to in the main pa-
+per, generating the instances for each root puzzle needs var-
+ied programming and mathematical skills to write the soft-
+ware. We used Python for implementing the code to repli-
+cate the puzzles, and predominantly used either Opencv
+toolbox5or the PyPlot package6for rendering the instances.
+Each root puzzle took from 15 minutes to 3-4 days to pro-
+gram. After the generation, each puzzle was reviewed for
+their quality, correctness, and adherence to the difﬁculty
+levels as expected in the original MK puzzle. Given our
+written programs are generic, we could easily change the
+program arguments and create instances that are of arbi-
+trary difﬁculty levels, e.g., for a puzzle that uses 33image
+grids, we could extend the program logic for any grid size
+ofnn, while also changing the puzzle context, attributes,
+colors, etc., as well as introduce distractor entities.
+In addition to the root puzzles taken from MK, we have
+4https://mathkangaroo.org/mks/
+5https://docs.opencv.org/4.x/d6/d00/tutorial_
+py_root.html
+6https : / / matplotlib . org / stable / tutorials /
+introductory/pyplot.htmlalso included a few variants of our own puzzles (e.g., puzzle
+101), and a puzzles where we have changed the problem
+objective (e.g., puzzle 100 for which the original MK puzzle
+does not need to use the image for solving it, but we made
+it mandatory to use the image by introducing a dependent
+object within the question, solving for which visuo-spatial
+reasoning on the image is necessary). Note that none of
+these changes affect the key logic or complexity of these
+puzzles.
+For the SMART-101 dataset, we created 2000 instances
+for each root puzzle, which is typically split into 80:05:15
+for training, validation, and test. Note that we could techni-
+cally produce more instances and we plan to extend the size
+and the number of root puzzles in future revisions.
+C.2. Analysis against human performance
+Expanding on the human performance analysis provided
+in the main paper, we provide more details here. The human
+study was conducted using the data provided to us by the
+organizers of MK, and included performance statistics from
+MK2020 and MK2021. As described above, we use only
+some puzzles (of appropriate difﬁculty level) in SMART-
+101, and thus we evaluated the deep learning performance
+only on those. The MK statistic provided to us includes the
+number of participant responses received for each puzzle
+and how many of them were correct, which is then used to
+compute the correct response rate, which is called accuracy
+in our bar plots, provided below.
+As for the deep learning performance, we used our best
+performing deep model trained using the instance-split (IS).
+Are our comparisons fair? Note that in contrast to stu-
+dents taking the MK test, who have never seen the exact
+puzzles they are solving, the deep learning method is trained
+on nearly 1600 instances of the root puzzles; while this may
+be treated as an unfair comparison, note that without this
+training, deep methods fail entirely (nearly 0% on PS split).
+Further, we apply the deep method on nearly 400 test in-
+stances to aggregate their performances, as against one test
+example given to the participant in MK. While, these dif-
+ferences could be characterized as not precisely measuring
+the human-machine performances, note that our overarch-
+ing question is to see if an AI model can have the skill
+set that children have, even when the AI model has been
+trained on instances of the puzzles solving which explic-
+itly demands learning such skills, and provide a plausible
+upper-bound on the performance against humans.
+Analysis of human performances: In Figure 7, we com-
+pare the human performance against our best-performing
+AI model. As can be seen from the bar-plots, our AI model
+demonstrates better results on 6 out of 23 problems we
+considered. Among single-step puzzles (Figure 7b), the
+AI model is better than humans on ﬁve and on one for
+two/three-step (difﬁcult) puzzles (Figure 7c). On one puz-
+11(a)
+ (b)
+ (c)
+ (d)
+Figure 6. Statistical analysis of various properties of the SMART-101 dataset. In (a), we plot the distribution of primary algoritmic skills
+needed to solve the puzzles and (b) plots the various multi-step reasoning skills needed. In (c), we plot the distribution of puzzles that need
+both image and question reasoning, those needing to understand only question for the solution, and those needing only images. In (d), we
+plot the distribution of root puzzles that have text within images, and the method needs to recognize and associate this text to select the
+answer (e.g., Examples 2 and 3 in Table 2).
+zle, viz. puzzle 97 in Figure 7c, the AI model fails entirely
+(0% accuracy). This is perhaps unexpected, given this is a
+sequential puzzle and needs to solve a cryptography prob-
+lem (see the ﬁnal problem in Table 11 below). In general,
+we found that the deep model struggles for solving sequen-
+tial puzzles which need all the items in the sequence to
+match exactly with the ground truth. In Figure 7b, puzzles
+such as 61, 73 (algebra), 62 (path ﬁnding), 63 (logic), 66
+(spatial), and 95 (math), the model performs very poorly as
+well. However, on 64 (math), 67 (logic), 93 (spatial), 94, 99
+(counting), it performs nearly 100%. On the difﬁcult puz-
+zles (Figure 7c), the model performs well on 68 (math), 98,
+99 (algebra), 100 (logic). In Figure 7d, we provide a skill
+set based categorization of the performances. Overall, we
+see the model performs reasonably well on counting, math,
+spatial reasoning, and pattern matching, however struggles
+on logic, algebra, measuring. Note that we only had a sin-
+gle puzzle for the measure category, and did not have any
+for the path ﬁnding category in the root puzzle sets we used
+from MK2020 and MK2021.
+Pearson Correlation Analysis: Additionally, we compute
+the Pearson correlation coefﬁcient between MK grade 1 and
+grade 2 participant performances, given by the Correct Re-
+sponse Rate (CRR), and the performance we obtained using
+the best performing deep model using the instance-split. We
+do this for the puzzles by both combining puzzles of both
+difﬁculty levels – one-step puzzles and two/three-step puz-
+zles – together as well as separately. The results are shown
+in Table 7. We observe that the correlations between human
+performance and both OaccandSaccperformance, while
+slightly on the lower side, appear to be positively corre-
+lated with the model performance. Interestingly, the corre-
+lation is higher for one-step puzzles (nearly 0.4) and lower
+for two/three step puzzles (around 0.1-0.2). We ﬁnd that
+grade 2 participants achieve mean CRRs of 78:39% overall,
+82:41% for one-step puzzles, and 71:68% for two/three-steppuzzles. The corresponding results for Grade 1 students are
+73:92%,77:94%, and 67:22%, respectively. We see similar
+trends when using the best performing deep model on the
+IS split which yields Saccof38:10%,40:51% and34:07%
+respectively.
+D. Additional Experiments and Results
+D.1. Detailed results on data splits
+In Table 8, we provide category-wise results on the vari-
+ous data splits, such as the IS, AS, PS, and FS splits. While,
+the PS split performances (that look for extreme generaliza-
+tion on puzzles that the model has not seen during training)
+are near zero, the AS and FS splits show reasonable accura-
+cies. Interestingly, we ﬁnd that the performance when using
+the regression loss is not signiﬁcantly affected between IS
+and AS splits (rows 5 and 6 in Table 8), which we believe
+is reasonable given the AS split needs interpolation of the
+predictions for answers unseen during training. For the FS
+split, it appears that its performance on the arithmetic and
+algebra categories are superior to IS split on both classi-
+ﬁer and regression settings. Note that the FS experiments
+used only 10 samples from the respective root puzzles dur-
+ing training. On the classiﬁcation loss setting, while the
+category-wise performance is more or less similar to PS
+split, FS split gains performance on the regression setting
+with path-tracing and pattern ﬁnding performances improv-
+ing to nearly 7% from 0% in PS split, and the overall per-
+formance of FS split improving to 13.2% against PS split
+(0.763%) suggesting that even a little (fewshot) data can
+make the models learn skills quickly.
+D.2. Analysis across neural architectures
+In Figure 10, we plot the performance ( Sacc) for all root
+puzzles using the IS split. Our goal is to understand if there
+are complementary behaviors that the various models learn
+12Oacc Sacc
+Overall One-step Two/Three-step Overall One-step Two/Three-step
+Grade 1 CRR 0.22 0.40 0.06 0.35 0.41 0.22
+Grade 2 CRR 0.27 0.42 0.19 0.39 0.43 0.30
+Table 7. Pearson correlation coefﬁcients between Grade 1 and Grade 2 Correct Response Rate (CRR) and OaccandSaccfor all puzzles in
+Fig. 7a (Overall), one-step puzzles listed in Fig. 7b and two/three-step puzzles listed in Fig. 7c
+(a) Overall
+ (b) One-step puzzles
+(c) Two-three step puzzles
+ (d) Average performance over skill set.
+Figure 7. Comparison of ResNet-50 (IS split) performance against that of participants (grades 1–2) in the MK competition held in 2020
+and 2021. For (d), we have not included root puzzles needing skills such as ’path ﬁnding’, as they were absent from the subset of puzzles
+we selected for SMART-101 from that particular year of MK.
+when using diverse learning architectures. To this end, we
+selected to compare our (i) best performing ResNet-50 with
+learned language embeddings, (ii) ResNet-50 with learned
+embeddings, but using a regression loss and trained for the
+AS split, (iii) ResNet-18 model using GPT language fea-
+tures, and (iv) a Swin Transformer model using the learned
+embeddings. As can be seen from the bar plots in Figure 10,
+the performances using learned embeddings and GPT are
+very similar across all puzzles, except for some minor drop
+in a few categories for GPT (e.g., puzzle ids 1, 8, 22, etc.).
+However, the performances of ResNet-50 on IS and AS
+splits look entirely different, and the latter being inferior,
+perhaps because it is trained using a regression loss. On
+some puzzles (e.g., 60, 87, 89, 98) the performance appears
+better than for the latter, however it fails entirely on graph
+puzzles such as 48 or arithmetic (64), that brings the overall
+performance down. As for the Swin Transformer, we ﬁnd
+that the overall trend in performances are lower compared
+to using ResNet-50, although there are strong positive per-
+formances on a few puzzles such as 22 (measure), 30, 64,
+99 (arithmetic).D.3. Analysis on performance upper-bound
+Instead of training a model on all the root puzzles to learn
+a common backbone, what if we trained the backbone on
+each of the 8 puzzle categories? This will allow us to under-
+stand if it is easier to learn individual skills than broad range
+of skills with one model. In Table 9, we show detailed re-
+sults on this analysis, where we trained a ResNet-18 model
+for each puzzle category using the learned language em-
+beddings. Our results suggest that there is an improvement
+of nearly 4% against a single ResNet-18 model, they are
+not substantially different when comparing the categories.
+This, we believe is perhaps because the training data for
+each category is limited and results in quick overﬁtting.
+D.4. Analysis of compositional skills
+Does the model ﬁnd learning composite skills harder
+than individual skills? Note that our categorization of com-
+posite skills is different from the one/two/three step reason-
+ing delineated in MK. To explain this better, consider root
+puzzle 3 shown in Table 10. To solve this puzzle, the ba-
+sic skill needed is to count the number of cherries on the
+pie, however that by itself does not get one to solve the puz-
+zle. One also needs arithmetic skills to divide the number
+13Row Split cls./reg. Count Arithmetic Logic Path Trace Algebra Measure Spatial Pattern Finding Average
+1 Instance (IS) cls. 46.6/57.8 38.0/44.9 43.2/50.1 24.6/25.3 23.3/35.1 56.9/56.8 57.9/58.6 44.8/51.0 39.8/47.4
+2 Answer (AS) cls. 2.2/23.8 1.4/7.7 0.0/18.1 0.0/2.3 0.5/19.2 0.0/24.4 0.0/10.3 0.0/12.3 0.287/14.5
+3 Puzzle (PS) cls. 1.0/2.0 0.7/2.0 0.0/0.5 2.9/3.6 0.1/0.1 2.9/3.6 4.2/5.4 9.1/16.1 11.8/19.2
+4 Fewshot (FS) cls. 1.1/2.2 0.5/1.6 1.1/1.2 4.0/4.7 0.4/0.5 1.0/3.5 7.0/7.5 8.5/14.8 14.1/21.6
+5 IS reg. 23.4/38.8 22.7/39.9 13.3/25.2 13.0/14.3 14.8/33.7 21.2/35.1 23.9/30.6 20.6/30.8 19.3/31.8
+6 AS reg. 12.5/35.9 15.1/33.8 21.8/32.4 9.8/10.7 10.4/30.6 3.2/22.7 18.5/25.4 23.1/29.4 17.6/27.8
+7 PS reg. 0.1/2.1 0.0/1.6 0.4/0.9 0.0/2.3 0.4/1.4 0.0/2.4 0.0/3.0 0.0/0.3 0.763/12.2
+8 FS reg. 0.7/3.2 0.9/2.2 0.0/0.8 7.6/8.5 0.5/0.9 2.5/3.2 1.6/3.6 6.7/12.9 13.2/23.9
+Table 8. Category-wise puzzle performances on various data splits for classiﬁcation or regression settings using ResNet-50. We used 10
+puzzles for the fewshot split. Each entry shows the Sacc=Oacc(%; higher is better).
+Model Count Arithmetic Logic Path Trace Algebra Measure Spatial Pattern Finding Average
+Single ResNet-18 43.0/53.8 20.2/28.9 38.7/46.7 25.2/26.0 17.0/28.7 48.7/48.5 56.3/57.3 44.5/51.1 34.3/41.3
+Speciﬁc ResNet-18 46.9/57.5 22.9/31.3 38.6/45.1 25.9/26.9 21.0/31.0 45.7/44.9 58.7/59.3 47.1 /52.8 38.3/43.6
+Table 9. Comparison when training models on each category.
+of cherries by the number of pieces a child receives, and
+thus one needs both counting and arithmetic skills for solv-
+ing this puzzle. Take for example, puzzle 2. This puzzle
+is again a counting puzzle, and goes into the category of
+counting . For this puzzle, one only needs the skill to count.
+However, the skill to count is perhaps more involved than
+the counting that was used in puzzle 3 because for puzzle
+2 one needs to identify the three pointed stars and count
+them. Thus, a lower skill set of counting does not necessar-
+ily mean that a model that performs poor on a singleton skill
+need to perform poor on a composite skill set involving that
+basic skill.
+Figure 8. Distribution of performances across top-performing
+compositional skill categories.
+To answer the above question, Figure 8 plots the distribu-
+tion of performances on the IS split for varied compositions
+of skills as characterized in Figure 2 in the main paper us-
+ing our best performing ResNet-50 model. We show only
+the top-performing categories (14 out of the 41 composite
+skills). As is clear from the ﬁgure, it looks like while solv-
+ing puzzles belonging to some of the basic skill set cate-
+gories ( e.g., counting) is challenging, the networks appear
+to do well on puzzles that need several skills. This suggests
+that the puzzles in SMART-101 are such that just having
+good basic skills need not mean it performs well on com-
+posite skills and great performance on composite skills doesnot necessarily suggest a good performance on basic skills
+– a holistic approach that can showcases good performance
+on both basic and composite skills sets is important.
+(a) Puzzle # 5 (C)
+ (b) Puzzle # 7 (AL)
+(c) Puzzle # 36 (L)
+ (d) Puzzle # 48 (PF)
+Figure 9. Heatmaps showing the spatial regions being activated
+when solving the puzzles. We show heatmaps on instances where
+the correct answer is produced by our method. The maps are gen-
+erated using the ResNet-50 model trained using the IS split. We
+also show the class of the puzzles.
+E. Heatmaps using Guided-GradCAM
+In Figure 9, we show the heatmaps of ResNet-50 acti-
+vations when producing the correct answers to the respec-
+tive puzzle instances. We use guided GradCAM [55] using
+features from the last convolutional layer (layer 7, conv3).
+14(a) ResNet-50 + Learned Embeddings, IS split, and Classiﬁer (avg. Sacc=39.7%
+(b) ResNet-50 and Learned Embeddings, AS split, and Regression (avg. Sacc=19.3%).
+(c) ResNet-18 + GPT, IS split and Classiﬁer (avg. Sacc=36.2%).
+(d) Swin T Transformer + Learned Embeddings, IS split, and Classiﬁer (avg. Sacc=22.5%).
+Figure 10. We compare the Saccaccuracy on the instances within every root puzzle (test set) between our best performing (ResNet-
+50+Learned Embeddings) model (a) against a few selected variants such as (b) using regression loss, (c) GPT language embeddings, and
+(d) using a Transformer (Swin t) instead of ResNet.
+Puzzle #2 (C) Puzzle #3 (C+AM) Puzzle # 36 (C+S+AL+L) Puzzle # 73 (C+AL+S)
+Question :In the picture, there are
+stars with 5 points, stars with 6
+points, and stars with 7 points. How
+many stars that have only 5 points
+are there?Question : The entire pie seen in
+the picture is divided among sev-
+eral children. Each child receives a
+piece of pie with three cherries on
+top. How many children are there?Question : A man’s hens lay white
+eggs and brown eggs. He puts
+eggs in the box shown in the ﬁgure.
+Two brown eggs cannot touch each
+other. At most, how many brown
+eggs can he put in the box?Question : A number is written on
+each petal of two ﬂowers. One petal
+is hidden. The sums of the num-
+bers on the two ﬂowers are equal.
+What number is written on the hid-
+den petal?
+Table 10. We show four root puzzles and their composite classes. C: counting, AM: arithmetic, AL: algebra, L: logic, and S: spatial
+reasoning. Also compare the performances of the above puzzles to those in Figure 10.
+The red regions show the region of highest activations. On
+qualitative analysis, we see that the regions of high tempera-
+ture are perhaps relevant when human’s solve the respective
+puzzle. However precise interpretation of these heatmaps
+is difﬁcult as one needs to use the attended regions within
+algorithms that also use cues from language models. This
+is further complicated via the fusion of language and imagefeatures. A more explainable visualization of the solution
+trace of a model could be an interesting future work.
+F. More examples from SMART-101
+Table 11 shows more example puzzles in the SMART-
+101 dataset including the root puzzles from the Math Kan-
+garoo USA [4] and our generated instances.
+15(a) MK’s root puzzle (b) our generated instance #1 (c) our generated instance #2 (d) our generated instance #3
+Question : There are coins on the board. We
+want to have 2 coins in each column and 2
+coins in each row. How many coins need to
+be removed? Options : A: 0, B: 1, C: 2, D:
+3, E: 4Question : We want to have 1 blade in each
+column and 1 blade in each row on the board.
+The number of blades which need to be re-
+moved is: Options : A: 0, B: 3, C: 7, D: 5, E:
+6Question : There are locks on the board. We
+want to have 2 locks in each column and 2
+locks in each row. How many locks do we
+need to add? Options : A: 7, B: 9, C: 8, D: 6,
+E: 5Question : There are books on the board. We
+want to have 1 book in each column and 1
+book in each row. The number of books we
+need to remove is: Options : A: 3, B: 7, C: 0,
+D: 6, E: 5
+Question : Seven sticks lie on top of each
+other. Stick 2/6 is at the bottom/top. Which
+stick is in the middle? Options : A: 1, B: 3,
+C: 4, D: 5, E: 7Question : The sticks lie on top of each other.
+Stick 6/3 is at the bottom/top. Which stick is
+in the middle? Options : A: 5, B: 7, C: 2, D:
+1, E: 4Question : The sticks lie on top of each other.
+Stick 7/4 is at the bottom/top. Which stick is
+in the middle? Options : A: 6, B: 1, C: 2, D:
+5, E: 3Question : The sticks are placed on top of
+each other. Stick 1/5 is at the bottom/top.
+Which stick is in the middle? Options : A: 3,
+B: 2, C: 4, D: 7, E: 6
+Question : What should you put in the square
+to get a correct diagram? Options : A: -38,
+B: /8, C: -45, D: x6, E: /6Question : What operation should you put
+in the square to get a correct diagram? Op-
+tions : A: -7, B: /7, C: /4, D: /1, E: /9Question : What should you put in the square
+to get a correct diagram? Options : A: -6, B:
++4, C: +9, D: /6, E: x5Question : What operation should be put in
+the square to get a correct diagram? Op-
+tions : A: /1, B: +6, C: -5, D: -3, E: x7
+Question : Four identical pieces of paper are
+placed as shown. Michael wants to punch
+a hole that goes through all four pieces. At
+which point should Michael punch the hole?
+Options : A, B, C, D, EQuestion : Eight identical pieces of sheets
+are kept as shown in the picture. Bridget
+have to to drill a hole that goes through all
+eight pieces. What point should she drill the
+hole? Options : A, B, C, D, EQuestion : There are seven equivalent parts
+of paper arranged as displayed. Daniel wants
+to punch a hole that passes through all seven
+parts. At which location must Daniel punch
+the hole? Options : A, B, C, D, EQuestion : Eight exactly same pieces of pa-
+per are ﬁxed as shown. Nathan needs to
+punch a hole that passes through all eight
+pieces. What position must he punch the
+hole? Options : A, B, C, D, E
+Question : Tom encodes words using the
+board shown. For example, the word PIZZA
+has the code A2 A4 C1 C1 B2. What word
+did Tom encode as B3 B2 C4 D2? Options :
+A: MAZE, B: MASK, C: MILK, D: MATE,
+E: MATHQuestion : Jasmine encrypts words as the
+matrix demonstrated. For example, the word
+UNION is encrypyed as ZO G7 A0 UW G7.
+What word did Jasmine encrypt 97 UO U0
+UK G0? Options : A: EARLY, B: TURVY ,
+C: LORRE, D: CLATS, E: YEEHAQuestion : Anthony captures words apply-
+ing the matrix presented. For an illustra-
+tion, the word OMIT is captured as DJ 26
+K6 KS. What word did Anthony capture DO
+DJ 0J DS? Options : A: YOIT, B: ACTU, C:
+LORD, D: XLNT, E: BAHOQuestion : Michelle encodes words adopting
+the grid depicted. For an example, the word
+CDS is encoded as VW V9 1W. What word
+did Michelle encode 19 1W S9? Options :
+A: JST, B: SRI, C: ARF, D: OYE, E: URU
+Table 11. More examples of the template puzzles from Math Kangaroo USA [4] and our generated puzzle instances from the our dataset.
+16Figure 11. The answer distributions of the ChatGPT [1] for the 11
+puzzles in Table 5.
+G. Comparisons to ChatGPT
+We further evaluate the performance of the recently pro-
+posed ChatGPT [1] large language model on 11 puzzles in
+the SMART-101 dataset which do not need puzzle images
+for the solution. Speciﬁcally, we test the following root puz-
+zles: puzzles 7, 9, 30, 38, 47, 71, 88, 89, 90, 91, and 93
+(provided below). For these puzzles, the input to ChatGPT
+are the questions and the answer options, with the instruc-
+tion to solve the puzzle and select the correct option (see
+below). For each puzzle, we repeated the interaction with
+ChatGPT 10 times. Each trial is performed independently
+without giving any feedback to the ChatGPT such that it
+cannot know from us whether its answer in the previous
+trial is correct or not. We mark the correct answer to each
+puzzle in red for the readers only, not for the ChatGPT. For
+each trial, we also mark the correct and incorrect answer
+from the ChatGPT in red and blue, respectively, regardless
+of whether the reasoning process of the ChatGPT is correct
+or not. Table 5 summarizes the performance of the Chat-
+GPT inOacc, and Figure 11 shows the answer distributions
+of the ChatGPT for the 11 puzzles in Table 5. Our analysis
+suggests that while many of the raw responses from Chat-
+GPT seem plausible and convincing, there appears to be a
+gap in its reasoning path towards the correct solution. We
+also ﬁnd that the answers for each puzzle that ChatGPT pro-
+duces are not stochastic, instead it is convincingly selecting
+the wrong answers ( e.g., Figure 11 where many of the op-
+tion selections are predominantly of a single color for all the
+puzzles). Below, we provide the 2 selected responses from
+ChatGPT for each puzzle (out of our 10 trials) for all the
+eleven questions from SMART-101 that we evaluated on.
+Puzzle #7 : (ChatGPT answers correctly in 7 out of 10 trials)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:In the country of jewelries, you can trade three sapphires for
+one ruby. For one sapphire, you can get two ﬂowers. How
+many ﬂowers can you get for two rubies?
+Options:
+A: 6, B: 8, C: 10, D: 12, E: 14
+ChatGPT response trial #1 : (correct answer)
+To get two rubies, we need to trade six sapphires. For one
+sapphire, we can get two ﬂowers. Therefore, for six sap-
+phires we can get 6 * 2 = <<6*2=12>>12 ﬂowers.
+Therefore, the correct answer is D: 12.
+ChatGPT response trial #2 : (wrong answer)
+To ﬁnd the number of ﬂowers that you can get for two ru-
+bies, we need to ﬁrst ﬁnd the number of sapphires you can
+get for two rubies. Since you can trade three sapphires for
+one ruby, you can trade two rubies for 21
+3=2
+3sapphires.
+For one sapphire, you can get two ﬂowers, so for2
+3sap-
+phires, you can get2
+32 =4
+3ﬂowers. To ﬁnd the number
+of ﬂowers you can get for two rubies, we must multiply the
+number of ﬂowers you can get for2
+3sapphires by 3 to ac-
+count for the three sapphires you need to trade for one ruby.
+This means that you can get 34
+3=(C)10ﬂowers for two
+rubies.
+Puzzle #9 : (ChatGPT answers correctly in 1 out of 10 trials)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+Brian and William are standing in line. Brian knows that
+there are 7 people in front of him. William knows that there
+is a total of 11 people in the line. If Brian is just in front
+of William, how many of the people in the line are behind
+William?
+Options:
+A: 2, B: 3, C: 4, D: 5, E: 6
+ChatGPT response trial #1 : (wrong answer)
+The correct answer is (B) 3.
+To answer this question, we need to do some logical rea-
+soning. We know that there are 7 people in front of Brian,
+and William is just in front of Brian, so there are a total of 8
+people in front of William. We also know that there are 11
+people in the line, so that means that there are 11 - 8 = 3
+people behind William.
+ChatGPT response trial #9 : (correct answer)
+Since Brian knows that there are 7 people in front of him,
+we know that he is the 8th person in line. If William is be-
+hind Brian and Brian is the 8th person in line, then William
+is the 9th person in line. William knows that there is a to-
+tal of 11 people in line, so we can subtract the 9 people
+that William knows are in front of him from the total num-
+ber of people in line to ﬁnd the number of people behind
+him. Thus, there are 11-9 = <<11-9=2>>2 people behind
+William. Therefore, the correct answer is (A)2.
+17Puzzle #30 : (ChatGPT answers correctly in 0 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+In a box, there are three boxes, and each one of these boxes
+countains three smaller boxes. How many boxes are there
+in total?
+Options:
+A: 9, B: 10, C: 12, D: 13, E: 15
+ChatGPT response trial #1 : (wrong answer)
+The correct answer is A: 9.
+The question states that there is a box that contains three
+smaller boxes. Each of these smaller boxes contains three
+even smaller boxes. This means that there are a total of 3 x
+3 =<<3*3=9>>9 boxes in the entire set. Therefore, the
+correct answer is A: 9.
+ChatGPT response trial #9 : (wrong answer)
+There are three boxes in the ﬁrst box, each containing three
+smaller boxes. So, there are 33 = <<33=9>>9 boxes in
+the ﬁrst box. In the second box, there are three smaller
+boxes, each containing three smaller boxes. So, there are 33
+=<<33=9>>9 boxes in the second box. In the third box,
+there are three smaller boxes, each containing three smaller
+boxes. So, there are 33 = <<33=9>>9 boxes in the third
+box. In total, there are 9+9+9 = <<9+9+9=27>>27 boxes.
+Therefore, the correct answer is 27, which corresponds to
+option E.
+Puzzle #38 : (ChatGPT answers correctly in 2 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+There are twelve rooms in a building and each room has two
+windows and one light. Last evening, eighteen windows
+were lit. In how many rooms was the light off?
+Options:
+A: 2, B: 3, C: 4, D: 5, E: 6
+ChatGPT response trial #1 : (wrong answer)
+The correct answer is C: 4.
+To ﬁnd the number of rooms where the light was off, we
+need to ﬁnd the total number of rooms that were lit and then
+subtract that number from the total number of rooms in the
+building. Since each room has two windows and we know
+that 18 windows were lit, then there were 18=2 = 9 rooms
+that were lit. Since there are 12 rooms in total, then there
+were 12 - 9 = 4rooms where the light was off. Therefore,
+the correct answer is (C) 4.
+ChatGPT response trial #4 : (correct answer)
+There are twelve rooms and each room has two windows
+and one light. This means there are a total of 122 = 24windows in the building and 12lights. If eighteen windows
+were lit, then 24 18 = 6 windows were off. Since each
+room has two windows, then 6=2 = 3 rooms had their lights
+off. Therefore, the correct answer is (B)3.
+Puzzle #47 : (ChatGPT answers correctly in 0 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+Vera invited 13 guests to her birthday party. She had 2 piz-
+zas, and each of them was cut into 8 slices. Each person at
+the party ate one slice of pizza. How many slices of pizza
+were left over?
+Options:
+A: 5, B: 4, C: 3, D: 2, E: 1
+ChatGPT response trial #1 : (wrong answer)
+The correct answer is A: 5.
+There were 2 pizzas and each of them was cut into 8
+slices, so there were 2 x 8 = <<2*8=16>>16 slices of
+pizza. Vera invited 13 guests to her party, and each person
+ate one slice of pizza, so 13 people ate 13 slices of pizza.
+Therefore, there were 16 - 13 = <<16-13=3>>3 slices of
+pizza left over. However, the question asks how many slices
+were left over after all guests had eaten, so we need to ac-
+count for the fact that each person ate one slice of pizza.
+This means that there were 3 + 13 = <<3+13=16>>16
+slices of pizza in total, and each person ate one slice, so
+there were 16 - 13 = <<16-13=3>>3 slices left over.
+Therefore, the correct answer is A: 5.
+ChatGPT response trial #10 : (wrong answer)
+Vera had 2 pizzas and each of them was cut into 8 slices, so
+she had a total of 2 * 8 = <<28=16>>16 slices of pizza.
+She invited 13 people to the party and each person ate 1 slice
+of pizza, so they ate a total of 13 * 1 = <<131=13>>13
+slices of pizza. Therefore, there were 16 - 13 = <<16-
+13=3>>3 slices of pizza left over. Thus, the answer is
+(C)3.
+Puzzle #71 : (ChatGPT answers correctly in 4 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+Two identical trains, each with 31 cars, are traveling in op-
+posite directions. When car number 19 of one train is op-
+posite car number 19 of the other, which car is opposite car
+number 12?
+Options:
+A: 7, B: 12, C: 21, D: 26, E: 31
+ChatGPT response trial #1 : (wrong answer)
+A: 7
+The car number 19 of one train is opposite car number
+1819 of the other. The cars are numbered starting from 1 at
+the front of each train, so car number 19 is 19 cars from
+the front of each train. There are 31 cars in each train, so
+19 cars from the front of each train is also 12 cars from the
+back of each train.
+Therefore, when car number 19 of one train is opposite
+car number 19 of the other, car number 12 of one train is
+opposite car number 12 of the other. In other words, car
+number 12 is opposite car number 12. Thus, the correct
+answer is A: 7.
+Note: To check that our reasoning is correct, we can also
+reason as follows: when car number 19 of one train is oppo-
+site car number 19 of the other, the ﬁrst 19 cars of one train
+are opposite the last 19 cars of the other train. Car number
+12 is 7 cars from the front of one train, so it is opposite car
+number 7 of the other train. Thus, the correct answer is A:
+7.
+ChatGPT response trial #3 : (correct answer)
+First, let’s represent the trains with the numbers 1 to 31. The
+ﬁrst train will be labeled with a 1and the second train will
+be labeled with a 2. For example, the trains will look like
+this:
+Train 1: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+20 21 22 23 24 25 26 27 28 29 30 31 Train 2: 31 30 29 28
+27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8
+7 6 5 4 3 2 1
+Next, let’s ﬁnd the car that is opposite car 19. The trains
+are traveling in opposite directions, so the car that is oppo-
+site car 19 on Train 1 is car 19 on Train 2.
+Next, let’s ﬁnd the car that is opposite car 12 on Train 1.
+We notice that if we move back 12cars on Train 1, we get
+to car 7. Similarly, if we move forward 12cars on Train 2,
+we get to car 21. Therefore, the car that is opposite car 12
+on Train 1 is car (D)26on Train 2.
+Puzzle #88 : (ChatGPT answers correctly in 7 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+1 ice cream cone costs 1 dollar. There is a sale so you can
+buy 6 ice cream cones for 5 dollars. How many ice cream
+cones at most can you buy with 36 dollars?
+Options:
+A: 36, B: 30, C: 42, D: 43, E: 45
+ChatGPT response trial #1 : (correct answer)
+The correct answer is (D)43
+To ﬁnd the number of ice cream cones at most that you
+can buy with 36 dollars, we need to ﬁnd the largest number
+of ice cream cones that is a multiple of 6 and is less than or
+equal to 36. To do this, we divide 36 by 6, which gives us 6
+with a remainder of 0. Therefore, we can buy 6 sets of 6 ice
+cream cones, which is a total of 66 = 36 ice cream cones.However, since the question asks for the maximum number
+of ice cream cones that can be bought, we need to add one
+more ice cream cone to the total, which is 36+1 = (D)43
+ice cream cones.
+ChatGPT response trial #2 : (wrong answer)
+To ﬁnd the maximum number of ice cream cones you can
+buy with 36 dollars, we need to ﬁnd the greatest multiple of
+6 that is less than or equal to 36. The multiple of 6 closest
+to 36 is 36, but it is greater than 36, so we need to go to
+the next multiple of 6 below 36, which is 30. Therefore, the
+answer is (B) 30.
+Puzzle #88 : (ChatGPT answers correctly in 7 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+1 ice cream cone costs 1 dollar. There is a sale so you can
+buy 6 ice cream cones for 5 dollars. How many ice cream
+cones at most can you buy with 36 dollars?
+Options:
+A: 36, B: 30, C: 42, D: 43, E: 45
+ChatGPT response trial #1 : (correct answer)
+The correct answer is (D)43
+To ﬁnd the number of ice cream cones at most that you
+can buy with 36 dollars, we need to ﬁnd the largest number
+of ice cream cones that is a multiple of 6 and is less than or
+equal to 36. To do this, we divide 36 by 6, which gives us 6
+with a remainder of 0. Therefore, we can buy 6 sets of 6 ice
+cream cones, which is a total of 66 = 36 ice cream cones.
+However, since the question asks for the maximum number
+of ice cream cones that can be bought, we need to add one
+more ice cream cone to the total, which is 36+1 = (D)43
+ice cream cones.
+ChatGPT response trial #2 : (wrong answer)
+To ﬁnd the maximum number of ice cream cones you can
+buy with 36 dollars, we need to ﬁnd the greatest multiple of
+6 that is less than or equal to 36. The multiple of 6 closest
+to 36 is 36, but it is greater than 36, so we need to go to
+the next multiple of 6 below 36, which is 30. Therefore, the
+answer is (B) 30.
+Puzzle #89 : (ChatGPT answers correctly in 1 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+How many different numbers greater than 10 and smaller
+than 25 with all different digits can we make by using the
+digits 2, 0, 1, and 8?
+Options:
+A: 4, B: 5, C: 6, D: 7, E: 8
+19ChatGPT response trial #1 : (wrong answer)
+There are two possibilities: either the number has the form
+2xyzor20yz. We will count the number of possibilities in
+each case.
+For the ﬁrst case, 2xyz can be any number of the form
+2xyzsuch that 10<2xyz < 25. This means xyz > 5and
+xyz < 125. There are 5possible values for xyz, namely
+6;7;8;9;10. Because the digits must be different, we can
+choosex;y; andzfrom the remaining digits, which means
+we can have 3choices forx,2choices fory, and 1choice
+forz. Thus, there are 5321 = 30 numbers of the form
+2xyz.
+For the second case, 20yzcan be any number of the form
+20yzsuch that 10<20yz < 25. This means yz >5
+2
+andyz <125
+2. There are 3possible values for yz, namely
+3;4;5. Because the digits must be different, we can choose
+yandzfrom the remaining digits, which means we can
+have 2choices for yand1choice forz. Thus, there are
+321 = 6 numbers of the form 20yz.
+Therefore, there are a total of 30 + 6 = (E)8numbers
+greater than 10 and smaller than 25 with all different digits
+that we can make by using the digits 2, 0, 1, and 8.
+ChatGPT response trial #10 : (correct answer)
+We can use the PIE principle (permutation, inclusion-
+exclusion) to solve this problem.
+First, we count the total number of permutations of the
+digits 2, 0, 1, and 8. There are 4 digits, so the total number
+of permutations is 4! = 24 .
+Next, we need to subtract the numbers that have a re-
+peated digit. For example, 10, 20, 21, 28, and 80 are not
+valid because they have a repeated digit. We can use the
+inclusion-exclusion principle to count the number of num-
+bers with repeated digits.
+First, we count the number of numbers with exactly one
+repeated digit. For example, 110, 101, 181, and 118 are
+valid because they have exactly one repeated digit. There
+are 4 choices for the repeated digit and 3 choices for the
+non-repeated digits, so there are 43 = 12 numbers with
+exactly one repeated digit.
+Next, we count the number of numbers with exactly two
+repeated digits. For example, 100, 110, and 101 are valid
+because they have exactly two repeated digits. There are 4
+choices for the ﬁrst repeated digit, 3 choices for the second
+repeated digit, and 1 choice for the non-repeated digit, so
+there are 431 = 12 numbers with exactly two repeated
+digits.
+Next, we count the number of numbers with exactly three
+repeated digits. For example, 100 is valid because it has
+exactly three repeated digits. There are 4 choices for the
+repeated digit, so there are 4numbers with exactly three
+repeated digits.
+Finally, we count the number of numbers with exactly
+four repeated digits. For example, 1000 is valid because ithas exactly four repeated digits. There is only 1 choice for
+the repeated digit, so there is only 1 number with exactly
+four repeated digits.
+Using the inclusion-exclusion principle, the number of
+numbers with repeated digits is 12 + 12 + 4 + 1 = 29 .
+Therefore, the number of numbers greater than 10 and
+smaller than 25 with all different digits is 24 29 = (A)4.
+Puzzle #90 : (ChatGPT answers correctly in 3 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+A pirate has two chests. There are 10 coins in the chest on
+the left and the other chest is empty. Starting tomorrow, the
+pirate will put 1 coin in the chest on the left and 2 coins in
+the chest on the right every day. In how many days will the
+two chests have the same number of coins?
+Options:
+A: 5, B: 8, C: 10, D: 12, E: never
+ChatGPT response trial #1 : (wrong answer)
+The chest on the left has 10 coins and the chest on the right
+has 0 coins. Every day, the pirate will put 1 coin in the chest
+on the left and 2 coins in the chest on the right. Therefore,
+the number of coins in the chest on the right will be increas-
+ing by 2 every day while the number of coins in the chest on
+the left will be decreasing by 1 every day. This means that
+the number of coins in the two chests will be the same when
+the chest on the right has 10 coins and the chest on the left
+has 0 coins.
+To ﬁnd the number of days it will take for the two chests
+to have the same number of coins, we need to ﬁnd the num-
+ber of days it will take for the chest on the right to have 10
+coins. Since the chest on the right starts with 0 coins and
+the pirate puts 2 coins in it every day, it will take 5 days for
+the chest on the right to have 10 coins (0 + 2 + 2 + 2 + 2 +
+2 = 10). Therefore, the answer is (A)5.
+The reasoning process is as follows:
+1. We start with the chest on the left having 10 coins and
+the chest on the right having 0 coins.
+2. Every day, the pirate puts 1 coin in the chest on the left
+and 2 coins in the chest on the right.
+3. This means that the number of coins in the chest on the
+right will be increasing by 2 every day while the num-
+ber of coins in the chest on the left will be decreasing
+by 1 every day.
+4. The number of coins in the two chests will be the same
+when the chest on the right has 10 coins and the chest
+on the left has 0 coins.
+205. To ﬁnd the number of days it will take for the two
+chests to have the same number of coins, we need to
+ﬁnd the number of days it will take for the chest on the
+right to have 10 coins.
+6. Since the chest on the right starts with 0 coins and the
+pirate puts 2 coins in it every day, it will take 5 days
+for the chest on the right to have 10 coins.
+7. Therefore, the answer is (A)5.
+ChatGPT response trial #2 : (wrong answer)
+LetLandRbe the number of coins in the left and right
+chests, respectively, and let dbe the number of days since
+the pirate started putting coins in the chests. Then we have
+the following system of equations: Ld+1=Ld 1,Rd+1=
+Rd+ 2We can solve these equations to ﬁnd LdandRdin
+terms ofd:Ld= 10 d,Rd= 2dNow we need to ﬁnd the
+ﬁrst daydsuch thatLd=Rd. Solving this equation, we
+ﬁnd thatd=(B)8.
+Puzzle #91 : (ChatGPT answers correctly in 6 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+Alice has 3 white, 2 black, and 2 gray pieces of paper. She
+cuts every non-black piece of paper in half. Then she cuts
+every non-white piece of paper in half. How many pieces
+of paper will she have?
+Options:
+A: 14, B: 16, C: 17, D: 18, E: 20
+ChatGPT response trial #1 : (correct answer)
+The correct answer is (D)18.
+Since Alice has 3 white pieces of paper, she does not cut
+any of them in half. She therefore starts with 3 white pieces.
+After she cuts every non-black piece of paper in half, she
+has 2 black pieces and 3 white pieces. Notice that the 2 gray
+pieces are cut in half, so she now has 2 additional pieces of
+paper that are gray.
+After she cuts every non-white piece of paper in half,
+she has 3 white pieces and 2 black pieces. Since the 2 gray
+pieces of paper are not white, they are cut in half, so she
+now has 2 additional pieces of paper that are gray.
+Thus, Alice has a total of 3 white pieces + 2 black pieces
++ 4 gray pieces = 18pieces of paper.
+ChatGPT response trial #3 : (wrong answer)
+First, Alice cuts the white, gray, and black pieces of paper
+in half. This means that she now has 3 white, 1 black, and 1
+gray pieces of paper.
+Next, she cuts the white and gray pieces of paper in half,
+which means that she now has 6 white and 2 gray pieces of
+paper.Therefore, Alice has a total of 6+1+2 = (C)17pieces
+of paper.
+Puzzle #93 : (ChatGPT answers correctly in 9 out of 10 tri-
+als)
+Input to ChatGPT :
+Please read the following question, select the correct answer
+from one of the options, and provide the reasoning process.
+Question:
+The road from Anna’s house to Mary’s house is 16 km long.
+The road from Mary’s house to John’s house is 20 km long
+and the road from the crossroad to Mary’s house is 9 km
+long. How long is the road from Anna’s house to John’s
+house?
+Options:
+A: 7 km, B: 9 km, C: 11 km, D: 16 km, E: 18 km
+ChatGPT response trial #1 : (wrong answer)
+The correct answer is D: 16 km.
+To ﬁnd the distance from Anna’s house to John’s house,
+we can add the distances from Anna’s house to the cross-
+road and from the crossroad to John’s house. Since the dis-
+tance from Anna’s house to the crossroad is the same as the
+distance from the crossroad to Mary’s house (9 km), the dis-
+tance from Anna’s house to John’s house is equal to 9 km +
+20 km = 29 km. However, we must remember that the road
+from Anna’s house to Mary’s house is also 16 km long, so
+the road from Anna’s house to John’s house must be at most
+16 km long. Therefore, the correct answer is D: 16 km.
+ChatGPT response trial #2 : (correct answer)
+To ﬁnd the length of the road from Anna’s house to John’s
+house, we need to add the lengths of the roads from Anna’s
+house to Mary’s house and from Mary’s house to John’s
+house. Since the road from Anna’s house to Mary’s house
+is 16 km long and the road from Mary’s house to John’s
+house is 20 km long, the road from Anna’s house to John’s
+house is 16 km + 20 km = <<16+20=36>>36 km.
+Therefore, the correct answer is (E)18km.
+References
+[1] ChatGPT. https://chat.openai.com/chat . 9, 17
+[2] GLPK toolkit. https://www.gnu.org/software/
+glpk/ . 4
+[3] NetworkX Python package. https://networkx.org/ .
+4
+[4] Math Kangaroo USA, NFP Inc.
+https://mathkangaroo.org/mks/, 2012–2022. 2, 3, 5, 9,
+15, 16
+[5] Somak Aditya, Yezhou Yang, Chitta Baral, and Yiannis Aloi-
+monos. Combining knowledge and reasoning through prob-
+abilistic soft logic for image puzzle solving. In Uncertainty
+in artiﬁcial intelligence , 2018. 3
+[6] Jacob Andreas, Marcus Rohrbach, Trevor Darrell, and Dan
+Klein. Neural module networks. In Proceedings of the
+IEEE conference on computer vision and pattern recogni-
+tion, pages 39–48, 2016. 3
+21[7] Stanislaw Antol, Aishwarya Agrawal, Jiasen Lu, Margaret
+Mitchell, Dhruv Batra, C Lawrence Zitnick, and Devi Parikh.
+Vqa: Visual question answering. In Proceedings of the IEEE
+international conference on computer vision , pages 2425–
+2433, 2015. 3
+[8] David G.T. Barrett, Felix Hill, Adam Santoro, Ari S. Mor-
+cos, and Timothy Lillicrap. Measuring abstract reasoning in
+neural networks. In International Conference on Machine
+Learning , 2018. 2
+[9] Yaniv Benny, Niv Pekar, and Lior Wolf. Scale-localized
+abstract reasoning. In Proceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition , pages
+12557–12565, 2021. 2
+[10] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Sub-
+biah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakan-
+tan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Lan-
+guage models are few-shot learners. Advances in neural in-
+formation processing systems , 33:1877–1901, 2020. 1
+[11] Xinlei Chen and Kaiming He. Exploring simple siamese rep-
+resentation learning. In Proceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition , pages
+15750–15758, 2021. 7
+[12] Franc ¸ois Chollet. On the measure of intelligence. arXiv
+preprint arXiv:1911.01547 , 2019. 1, 3
+[13] Claire Cook, Noah D Goodman, and Laura E Schulz. Where
+science starts: Spontaneous experiments in preschoolers’ ex-
+ploratory play. Cognition , 120(3):341–349, 2011. 3
+[14] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina
+Toutanova. Bert: Pre-training of deep bidirectional
+transformers for language understanding. arXiv preprint
+arXiv:1810.04805 , 2018. 7
+[15] Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov,
+Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner,
+Mostafa Dehghani, Matthias Minderer, Georg Heigold, Syl-
+vain Gelly, et al. An image is worth 16x16 words: Trans-
+formers for image recognition at scale. arXiv preprint
+arXiv:2010.11929 , 2020. 7
+[16] Iddo Drori, Sarah Zhang, Reece Shuttleworth, Leonard Tang,
+Albert Lu, Elizabeth Ke, Kevin Liu, Linda Chen, Sunny
+Tran, Newman Cheng, et al. A neural network solves, ex-
+plains, and generates university math problems by program
+synthesis and few-shot learning at human level. Proceedings
+of the National Academy of Sciences , 119(32):e2123433119,
+2022. 1
+[17] Kevin Ellis, Catherine Wong, Maxwell Nye, Mathias
+Sable-Meyer, Luc Cary, Lucas Morales, Luke Hewitt, Ar-
+mando Solar-Lezama, and Joshua B Tenenbaum. Dream-
+coder: Growing generalizable, interpretable knowledge with
+wake-sleep bayesian program learning. arXiv preprint
+arXiv:2006.08381 , 2020. 3
+[18] Thomas G Evans. A program for the solution of a class
+of geometric-analogy intelligence-test questions . Air Force
+Cambridge Research Laboratories, Ofﬁce of Aerospace Re-
+search, 1964. 3
+[19] Alhussein Fawzi, Matej Balog, Aja Huang, Thomas Hubert,
+Bernardino Romera-Paredes, Mohammadamin Barekatain,
+Alexander Novikov, Francisco J R Ruiz, Julian Schrittwieser,Grzegorz Swirszcz, et al. Discovering faster matrix multi-
+plication algorithms with reinforcement learning. Nature ,
+610(7930):47–53, 2022. 1
+[20] Chelsea Finn, Pieter Abbeel, and Sergey Levine. Model-
+agnostic meta-learning for fast adaptation of deep networks.
+InInternational conference on machine learning , pages
+1126–1135. PMLR, 2017. 2
+[21] Alison Gopnik, Clark Glymour, David M Sobel, Laura E
+Schulz, Tamar Kushnir, and David Danks. A theory of causal
+learning in children: causal maps and bayes nets. Psycholog-
+ical review , 111(1):3, 2004. 3
+[22] Hyowon Gweon, Joshua B Tenenbaum, and Laura E Schulz.
+Infants consider both the sample and the sampling process
+in inductive generalization. Proceedings of the National
+Academy of Sciences , 107(20):9066–9071, 2010. 3
+[23] Aric A. Hagberg, Daniel A. Schult, and Pieter J. Swart. Ex-
+ploring network structure, dynamics, and function using net-
+workx. In Ga ¨el Varoquaux, Travis Vaught, and Jarrod Mill-
+man, editors, Proceedings of the 7th Python in Science Con-
+ference , pages 11 – 15, Pasadena, CA USA, 2008. 4
+[24] Kaiming He, Xinlei Chen, Saining Xie, Yanghao Li, Piotr
+Doll´ar, and Ross Girshick. Masked autoencoders are scalable
+vision learners. In Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition , pages 16000–
+16009, 2022. 7
+[25] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+Deep residual learning for image recognition. arXiv preprint
+arXiv:1512.03385 , 2015. 7
+[26] Dan Hendrycks and Thomas G Dietterich. Benchmarking
+neural network robustness to common corruptions and sur-
+face variations. arXiv preprint arXiv:1807.01697 , 2018. 4
+[27] Jos ´e Hern ´andez-Orallo, Fernando Mart ´ınez-Plumed, Ute
+Schmid, Michael Siebers, and David L Dowe. Computer
+models solving intelligence test problems: Progress and im-
+plications. Artiﬁcial Intelligence , 230:74–107, 2016. 3
+[28] Michael Hersche, Mustafa Zeqiri, Luca Benini, Abu Sebas-
+tian, and Abbas Rahimi. A neuro-vector-symbolic architec-
+ture for solving raven’s progressive matrices. arXiv preprint
+arXiv:2203.04571 , 2022. 3
+[29] Douglas R Hofstadter. Fluid concepts and creative analo-
+gies: Computer models of the fundamental mechanisms of
+thought. Basic books, 1995. 3
+[30] Sheng Hu, Yuqing Ma, Xianglong Liu, Yanlu Wei, and Shi-
+hao Bai. Stratiﬁed rule-aware network for abstract visual rea-
+soning. In AAAI Conference on Artiﬁcial Intelligence , vol-
+ume 35, 2021. 2
+[31] Drew Hudson and Christopher D Manning. Learning by ab-
+straction: The neural state machine. Advances in Neural In-
+formation Processing Systems , 32, 2019. 3
+[32] Huaizu Jiang, Xiaojian Ma, Weili Nie, Zhiding Yu, Yuke
+Zhu, and Anima Anandkumar. Bongard-HOI: Benchmark-
+ing few-shot visual reasoning for human-object interactions.
+InProceedings of the IEEE/CVF Conference on Computer
+Vision and Pattern Recognition , 2022. 2, 3
+[33] Justin Johnson, Bharath Hariharan, Laurens Van
+Der Maaten, Li Fei-Fei, C Lawrence Zitnick, and Ross
+Girshick. CLEVR: A diagnostic dataset for compositional
+22language and elementary visual reasoning. In Proceedings
+of the IEEE conference on computer vision and pattern
+recognition , pages 2901–2910, 2017. 2, 3
+[34] Kyung-Min Kim, Min-Oh Heo, Seong-Ho Choi, and
+Byoung-Tak Zhang. DeepStory: Video story QA by deep
+embedded memory networks. In Proceedings of the 26th
+International Joint Conference on Artiﬁcial Intelligence (IJ-
+CAI) , pages 2016–2022, 2017. 3
+[35] Brenden M Lake, Tomer D Ullman, Joshua B Tenenbaum,
+and Samuel J Gershman. Building machines that learn and
+think like people. Behavioral and brain sciences , 40, 2017.
+1, 3
+[36] Richard Lehrer and Leona Schauble. Supporting inquiry
+about the foundations of evolutionary thinking in the elemen-
+tary grades. 2012. 3
+[37] Ze Liu, Yutong Lin, Yue Cao, Han Hu, Yixuan Wei, Zheng
+Zhang, Stephen Lin, and Baining Guo. Swin Transformer:
+Hierarchical vision transformer using shifted windows. In
+Proceedings of the IEEE international conference on com-
+puter vision , pages 10012–10022, 2021. 7
+[38] Jiasen Lu, Dhruv Batra, Devi Parikh, and Stefan Lee. Vilbert:
+Pretraining task-agnostic visiolinguistic representations for
+vision-and-language tasks. Advances in neural information
+processing systems , 32, 2019. 3
+[39] Mikołaj Małki ´nski and Jacek Ma ´ndziuk. A review of emerg-
+ing research directions in abstract visual reasoning. arXiv
+preprint arXiv:2202.10284 , 2022. 3
+[40] Marvin Minsky. Steps toward artiﬁcial intelligence. Pro-
+ceedings of the IRE , 49(1):8–30, 1961. 3
+[41] Marvin Minsky. Society of mind . Simon and Schuster, 1988.
+3
+[42] Melanie Mitchell. Abstraction and analogy-making in arti-
+ﬁcial intelligence. Annals of the New York Academy of Sci-
+ences , 1505(1):79–101, 2021. 1
+[43] Javier Morales, Nils Murrugarra-Llerena, and Jose M Saave-
+dra. Leveraging unlabeled data for sketch-based understand-
+ing. In Proceedings of the IEEE/CVF Conference on Com-
+puter Vision and Pattern Recognition , pages 5153–5162,
+2022. 7
+[44] Lauren J Myers and Lynn S Liben. Graphic symbols as “the
+mind on paper”: Links between children’s interpretive the-
+ory of mind and symbol understanding. Child Development ,
+83(1):186–202, 2012. 3
+[45] Weili Nie, Zhiding Yu, Lei Mao, Ankit B Patel, Yuke
+Zhu, and Anima Anandkumar. Bongard-LOGO: A new
+benchmark for human-level concept learning and reason-
+ing. Advances in Neural Information Processing Systems ,
+33:16468–16480, 2020. 2, 3
+[46] Niv Pekar, Yaniv Benny, and Lior Wolf. Generating correct
+answers for progressive matrices intelligence tests. In Ad-
+vances in Neural Information Processing Systems , 2020. 2
+[47] Jeffrey Pennington, Richard Socher, and Christopher D.
+Manning. GloVe: Global vectors for word representa-
+tion. In Empirical Methods in Natural Language Processing
+(EMNLP) , pages 1532–1543, 2014. 7
+[48] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,Amanda Askell, Pamela Mishkin, Jack Clark, et al. Learn-
+ing transferable visual models from natural language super-
+vision. In International Conference on Machine Learning ,
+pages 8748–8763. PMLR, 2021. 3
+[49] Alec Radford, Jong Wook Kim, Chris Hallacy, Aditya
+Ramesh, Gabriel Goh, Sandhini Agarwal, Girish Sastry,
+Amanda Askell, Pamela Mishkin, Jack Clark, Gretchen
+Krueger, and Ilya Sutskever. Learning transferable visual
+models from natural language supervision. In International
+Conference on Machine Learning (ICML) , 2021. 7
+[50] Alec Radford, Jeff Wu, Rewon Child, David Luan, Dario
+Amodei, and Ilya Sutskever. Language models are unsuper-
+vised multitask learners. OpenAI Blog , 2019. 7, 10
+[51] Aditya Ramesh, Prafulla Dhariwal, Alex Nichol, Casey Chu,
+and Mark Chen. Hierarchical text-conditional image gen-
+eration with clip latents. arXiv preprint arXiv:2204.06125 ,
+2022. 1
+[52] Joshua S Rule, Joshua B Tenenbaum, and Steven T Pianta-
+dosi. The child as hacker. Trends in cognitive sciences ,
+24(11):900–915, 2020. 1
+[53] Chitwan Saharia, William Chan, Saurabh Saxena, Lala
+Li, Jay Whang, Emily Denton, Seyed Kamyar Seyed
+Ghasemipour, Burcu Karagol Ayan, S Sara Mahdavi,
+Rapha Gontijo Lopes, et al. Photorealistic text-to-image
+diffusion models with deep language understanding. arXiv
+preprint arXiv:2205.11487 , 2022. 1
+[54] Shailaja Keyur Sampat, Yezhou Yang, and Chitta Baral.
+Visuo-linguistic question answering (VLQA) challenge. In
+Findings of the Association for Computational Linguistics:
+EMNLP , pages 4606–4616, 2020. 3
+[55] Ramprasaath R Selvaraju, Abhishek Das, Ramakrishna
+Vedantam, Michael Cogswell, Devi Parikh, and Dhruv Ba-
+tra. Grad-cam: Why did you say that? arXiv preprint
+arXiv:1611.07450 , 2016. 14
+[56] Jiaxin Shi, Hanwang Zhang, and Juanzi Li. Explainable and
+explicit visual reasoning over scene graphs. In Proceedings
+of the IEEE/CVF Conference on Computer Vision and Pat-
+tern Recognition , pages 8376–8384, 2019. 2
+[57] David Silver, Aja Huang, Chris J Maddison, Arthur Guez,
+Laurent Sifre, George Van Den Driessche, Julian Schrit-
+twieser, Ioannis Antonoglou, Veda Panneershelvam, Marc
+Lanctot, et al. Mastering the game of go with deep neural
+networks and tree search. nature , 529(7587):484–489, 2016.
+1
+[58] Amanpreet Singh, Ronghang Hu, Vedanuj Goswami, Guil-
+laume Couairon, Wojciech Galuba, Marcus Rohrbach, and
+Douwe Kiela. Flava: A foundational language and vision
+alignment model. In Proceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition , pages
+15638–15650, 2022. 3, 7, 10
+[59] Atharv Sonwane, Sharad Chitlangia, Tirtharaj Dash,
+Lovekesh Vig, Gautam Shroff, and Ashwin Srinivasan. Us-
+ing program synthesis and inductive logic programming to
+solve bongard problems. arXiv preprint arXiv:2110.09947 ,
+2021. 3
+[60] Steven Spratley, Krista Ehinger, and Tim Miller. A closer
+look at generalisation in RA VEN. In European Conference
+on Computer Vision , 2020. 2, 3
+23[61] Damien Teney, Peng Wang, Jiewei Cao, Lingqiao Liu, Chun-
+hua Shen, and Anton van den Hengel. V-PROM: A bench-
+mark for visual reasoning using visual progressive matrices.
+InAAAI Conference on Artiﬁcial Intelligence , volume 34,
+2020. 2
+[62] Lara M Triona and David Klahr. A new framework for under-
+standing how young children create external representations
+for puzzles and problems. In Notational Knowledge , pages
+159–178. Brill, 2007. 3
+[63] Wenxiao Wang, Lu Yao, Long Chen, Binbin Lin, Deng Cai,
+Xiaofei He, and Wei Liu. CrossFormer: A versatile vision
+transformer hinging on cross-scale attention. In Interna-
+tional Conference on Learning Representations, ICLR , 2022.
+7
+[64] Chi Zhang, Feng Gao, Baoxiong Jia, Yixin Zhu, and Song-
+Chun Zhu. RA VEN: A dataset for relational and analogi-
+cal visual reasoning. In Proceedings of the IEEE/CVF Con-
+ference on Computer Vision and Pattern Recognition , pages
+5317–5327, 2019. 2, 3
+[65] Dongxiang Zhang, Lei Wang, Luming Zhang, Bing Tian Dai,
+and Heng Tao Shen. The gap of semantic parsing: A survey
+on automatic math word problem solvers. IEEE transactions
+on pattern analysis and machine intelligence , 42(9):2287–
+2305, 2019. 3
+[66] Wenhe Zhang, Chi Zhang, Yixin Zhu, and Song-Chun Zhu.
+Machine number sense: A dataset of visual arithmetic prob-
+lems for abstract and relational reasoning. In Proceedings of
+the AAAI Conference on Artiﬁcial Intelligence , volume 34,
+pages 1332–1340, 2020. 3
+[67] Tao Zhuo, Qiang Huang, and Mohan Kankanhalli. Unsu-
+pervised abstract reasoning for raven’s problem matrices. In
+IEEE Transactions on Image Processing , 2021. 2
+24

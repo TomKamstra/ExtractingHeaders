@@ -1,0 +1,360 @@
+Cross-Lingual Transfer Learning for
+Complex Word Identiﬁcation
+George-Eduard Zaharia
+Computer Science Department
+University Politehnica of Bucharest
+Bucharest, Romania
+george.zaharia0806@stud.acs.upb.roDumitru-Clementin Cercel
+Computer Science Department
+University Politehnica of Bucharest
+Bucharest, Romania
+dumitru.cercel@upb.roMihai Dascalu
+Computer Science Department
+University Politehnica of Bucharest
+Bucharest, Romania
+mihai.dascalu@upb.ro
+Abstract —Complex Word Identiﬁcation (CWI) is a task cen-
+tered on detecting hard-to-understand words, or groups of words,
+in texts from different areas of expertise. The purpose of CWIis to highlight problematic structures that non-native speakerswould usually ﬁnd difﬁcult to understand. Our approach useszero-shot, one-shot, and few-shot learning techniques, alongsidestate-of-the-art solutions for Natural Language Processing (NLP)tasks (i.e., Transformers). Our aim is to provide evidence thatthe proposed models can learn the characteristics of complexwords in a multilingual environment by relying on the CWIshared task 2018 dataset available for four different languages(i.e., English, German, Spanish, and also French). Our approachsurpasses state-of-the-art cross-lingual results in terms of macroF1-score on English (0.774), German (0.782), and Spanish (0.734)languages, for the zero-shot learning scenario. At the same time,our model also outperforms the state-of-the-art monolingualresult for German (0.795 macro F1-score).
+Index Terms—Complex Word Identiﬁcation, Transformer,
+Cross-Lingual Transfer Learning
+I. I NTRODUCTION
+Texts represent the main source of knowledge for our
+society. However, they can be written in various manners,
+thus creating a barrier between the readers and the ideas theyintend to convey. Therefore, document comprehension is themain challenge users have to overcome, by understanding themeaning behind troublesome words and becoming familiarwith them. Complex Word Identiﬁcation (CWI) is a taskthat intends to identify hard-to-understand tokens, highlightingthem for further clariﬁcation and assisting users to graspingthe contents of the document.
+Motivation. Each culture includes exclusive ideas, available
+only for the ones who can pass the obstacle of language [1].However, properly understanding language can prove to be adifﬁcult task. By identifying complex words, users can makeconsistent steps towards adapting to the culture and accessingthe knowledge it has to offer. As an example, entries like”mayoritariamente” (eng. ”mostly”) or ”gobernatura” (eng.”governance”) in the Spanish environment can create under-standing problems for non-native Spanish speakers [2], thusrequiring users to familiarize themselves with these particularterms.
+Challenges. The identiﬁcation task becomes increasingly
+more difﬁcult, as proper complex word identiﬁcation is notguaranteed. For example, if we use human identiﬁcationtechniques, language learners may consider a new word tobe complex, while others might not share the same opinionby relying on their prior knowledge in that language. There-fore, universal annotation techniques are required, such that aground truth can be established and the same set of words isconsidered complex in any context.
+Proposed Approach. We consider state-of-the-art solutions,
+namely multilingual Transformer-based approaches, to addressthe CWI challenge. First, we apply a zero-shot learningapproach. This was performed by training Recurrent NeuralNetworks (RNNs) [3] and Transformer-based [4] models ona source language corpus, followed by validating and testingon a corpus from a target language, different from the sourcelanguage. A second experiment consists of a one-shot learningapproach that considers training on each of the three languages(i.e., English, German, Spanish), but only keeping one entryfrom the target language, and validating and testing on English,German, Spanish, and French, respectively.
+In addition, we performed few-shot learning experiments by
+validating and testing on a language, and training on the others,but with the addition of a small number of training entries fromthe target language. The model learns sample structures fromthe language and, in general, performs better when applied onmultiple entries. Furthermore, this training process can helpthe model adapt to situations in which the number of traininginputs is scarce. The dataset provided by the CWI Shared Task2018 [2] was used to perform all experiments.
+This paper is structured as follows. The second section de-
+scribes related work and its impact on the CWI task. The thirdsection describes the corpus and outlines our method basedon multilingual embeddings and Transformer-based models,together with the corresponding experimental setup. The fourthsection details the results, alongside a discussion and an erroranalysis. The ﬁfth section concludes the paper and outlinesthe main ideas, together with potential extensions.
+II. R
+ELATED WORK
+Complex word identiﬁcation was explored in various other
+studies and underlying approaches can be split into two maincategories: monolingual and cross-lingual.
+Monolingual CWI. The ﬁrst category implies the usage
+of the same language for training, testing, and validation
+3842020 IEEE 32nd International Conference on Tools with Artificial Intelligence (ICTAI)
+2375-0197/20/$31.00 ©2020 IEEE
+DOI 10.1109/ICTAI50040.2020.00067
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. processes using a supervised approach. Sheang [5] proposed a
+solution based on Convolutional Neural Networks [6] trainedon both word embeddings and handcrafted features. The authorused pretrained GloVe word embeddings [7] for represent-ing words from each of the three languages in the dataset.Furthermore, the author engineered a series of morphologicalfeatures to obtain additional insights into the structure ofthe entries, features like the number of vowels, word length,and Tf-Idf. At the same time, the author considered a se-ries of linguistic features, alongside morphological ones, byidentifying syntactic dependencies between words. However,the presence of these features together with language-speciﬁcword embeddings implies a complex training and evaluationprocess, performed on each language separately and withdifferent conﬁguration setups.
+Cross-lingual CWI. Cross-lingual transfer has been suc-
+cessfully used in various NLP tasks, for example: machinetranslation [8], named entity recognition [9], verb sense dis-ambiguation [10], dependency parsing [11], coreference reso-lution [12], event detection [13], sentence summarization [14],document retrieval [15], irony detection [16], dialogue systems[17], domain-speciﬁc tweet classiﬁcation [18], as well abusivelanguage identiﬁcation [19].
+In addition, cross-lingual approaches were employed in
+few works on the CWI task. For example, Finnimore etal. [20] extracted cross-lingual features for each consideredlanguage (i.e. English, German, Spanish, and French). Theyconcluded that the best features for cross-lingual approachesare represented by the number of syllables, number of tokens,and number of punctuation marks. However, performing thisprocess can prove to be costly, as it requires re-running themodel for each additional language in which the user intendsto perform complex word identiﬁcation.
+Another approach for cross-lingual CWI employs traditional
+classiﬁcation algorithms, such as K-Nearest Neighbors (kNN),Random Forests (RF), or Support Vector Machines (SVMs)[21]. Alongside these algorithms, the authors introduced differ-ent sets of language-independent features, ranging from lengthand frequency, to syntactic features.
+Bingel and Bjerva [22] presented both a multi-task learning
+architecture and an ensemble voting approach, by using feed-forward neural networks and random-forest classiﬁers. Good-ing and Kochmar [23] proposed a sequence labeling approachfor CWI. They used 300-dimensional word embeddings forencoding the input words, and fed this input to a Bidirec-tional Long Short-Term Memory (BiLSTM) [24] network thatconsidered both word and character-level representations. Theauthors imposed a probability threshold of 0.5 for classifyinga word as complex and applied the same rules for phrase-levelclassiﬁcation. The authors used an English dataset based onnews articles written with different levels of professionalism.Their approach underlines the effectiveness of sequence label-ing models which considerably surpassed prior methods by amargin of up to 3.6% in terms of macro F1-score.
+Zampieri et al. [25] developed ensemble classiﬁers to iden-
+tify complex words. They used two approaches for classiﬁca-tion, namely Plurality V oting [26] and Oracle [27]. Based onmultiple subsystems, the authors concluded that the latter ap-proach performed well when integrating the top three methodsparticipating in the SemEval CWI 2016 competition [28].
+A different approach to CWI was taken by Thomas et al.
+[29] who considered simplifying the entire document lexicon,thus making the text more accessible for non-native speakers.The authors introduced different algorithms for reducing thelexicon size, by combining disambiguation and lexical reduc-tion steps.
+In contrast to the previous approaches, we developed a sys-
+tem based on state-of-the-art NLP solutions (i.e., Transform-ers), that can efﬁciently adapt to a large number of languages,without prior setup or feature engineering. The Transformermulti-lingual models are pretrained on a large number oflanguages, with various word representations already mappedinto the same space. Unlike previous work, our models areuniversal, can be easily extended to other languages, and canbe used for transfer learning.
+III. M
+ETHOD
+We consider two main multi-lingual approaches for CWI:
+a) RNN-based solutions, alongside multilingual word embed-dings, and b) multilingual Transformers specialized in tokenclassiﬁcation. Our aim is to infer cross-lingual features ofcomplex words by training or ﬁne-tuning on a labelled corpuscontaining different languages, followed by the identiﬁcationof complex words on a newly encountered language. Pre-processing is minimal and considered only the removal ofunknown characters, as well as extra spaces from the dataset.
+A. Corpus
+Our analysis uses the dataset provided by the CWI Shared
+Task 2018 [2], which contains entries in four languages,
+namely: English, German, Spanish, and French. The En-glish section of the dataset contains articles written atthree proﬁciency levels: professional (news), non-professional(WikiNews), and Wikipedia articles. The German and theSpanish sections contain only one category of entries, takenfrom Wikipedia pages. Quantitatively, the English sectioncontains 27,299 entries for training and 3,328 for validation.In contrast, the German section offers only 6,151 trainingelements and 795 for validation. At the same time, the Spanishsection provides 13,750 training entries and 1,622 validationentries. We note that there are no training and validation entriesfor the French language.
+As expected, the number of complex words is lower when
+compared to the number of non-complex words. Table I showsthe distribution of complex words in the dataset. While theSpanish and English sections contain a relatively large amountof complex or non-complex words, the vocabulary correspond-ing to the German section is considerably smaller, with only17,462 words. The small number of German entries is causedby the general focus on English and Spanish, languages witha greater number of speakers when compared to German
+1.
+1https://www.visualcapitalist.com/100-most-spoken-languages/
+385
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. Additionally, the test dataset also contains French entries, with
+a total of 4,507 words.
+TABLE I
+DISTRIBUTION OF COMPLEX WORDS FOR EACH SECTION OF THE CWI
+SHARED TASK 2018 DATASET .
+Language Complex Words Non-complex Words
+English 14,100 59,944
+German 3,478 13,984
+Spanish 9,852 28,777
+French 867 3,640
+B. Multilingual Word Embeddings
+Our ﬁrst experiment consists of using a common embedding
+for all four languages. We selected pretrained FastText [30]embedding for English, German, Spanish and French. How-ever, these embedding spaces are not aligned one with another.Thus, we mapped them into a merged space by using FacebookMUSE [31], a tool that receives as inputs two embedding ﬁlesand a target vector space, and maps them into the same space.The mapping process consists of learning a rotation matrixW, that intends to align the two distributions by using anadversarial learning technique. The matrix Wis then reﬁned by
+using Procrustes transformations because the initial alignmentis rough. The transformation consists of setting frequent wordsaligned in the previous step to anchor points, followed byminimizing an energy function between the anchor points.Finally, an expansion is performed using the matrix Wand
+a distance metric for the space containing a high densityof words, such that the distance between unrelated words isincreased.
+The tool requires a parallel corpus between the languages.
+The corpus can be created by selecting the desired ground-truth bilingual dictionaries available on the Facebook MUSErepository
+2. The mapping was performed in two steps, as
+follows. First, we mapped the English and German vectors byusing an English-German parallel corpus. Second, we addedthe Spanish embeddings, by further using an English-Spanishparallel corpus. The obtained embeddings are then fed intoa BiLSTM [24] network, alongside a TimeDistributed layer
+3.
+The experiments were performed in different scenarios: a) azero-shot approach that required training on combinations ofall the available languages, excepting the target language; b)a one-shot approach that introduces the target language (oneentry) into the training corpus; and c) a few-shot approach,introducing 100 target language entries in the training dataset.
+C. Multilingual BERT
+Multilingual BERT (mBERT) [32] is a pretrained Trans-
+former architecture trained on over 100 languages, which we
+selected for multi-lingual token classiﬁcation. The efﬁciency ofrepresentations generated by the model needs to be maximized
+2https://github.com/facebookresearch/MUSE
+3https://keras.io/api/layers/recurrent layers/time distributed/because we performed our experiments in a multilingual en-vironment. Fortunately, mBERT offers the possibility of split-ting its representations into two categories, language-neutralcomponents and language-speciﬁc components, thus sharingcertain features between the languages of interest. mBERT wasﬁne-tuned for the CWI task by using the previously mentionedzero-shot and one-shot learning approaches.
+D. XLM-RoBERTa
+XLM-RoBERTa [33] is also a multilingual model built
+with the Masked Language Model objective, that should have
+an advantage over mBERT because it was pretrained oneven more multilingual data (approximately 2.5 TB of rawtext data). The model obtains state-of-the-art results for theGLUE benchmark tasks [34], while performing extremelywell on Named Entity Recognition and Cross-lingual NaturalLanguage Inference tasks [33].
+E. Other BERT-based Monolingual Models
+Alongside mBERT, we decided to experiment with models
+extensively pretrained on each one of our target languages,
+alternatives that have shown better performance than the multi-lingual models in other NLP tasks. Thus, we used new modelsfor the German, Spanish and French languages, namely: Ger-man BERT
+4, Spanish BERT (BETO) [35], and French BERT
+(CamemBERT) [36]. Our goal was to increase performanceby speciﬁcally focusing on a certain language, instead of over100 languages (as the case of mBERT).
+F . Implementation Details
+Six experiments were conducted: a) embeddings aligned
+with MUSE fed to a BiLSTM network, b) mBERT token clas-
+siﬁcation, c) XLM-RoBERTa token classiﬁcation, d) GermanBERT token classiﬁcation, e) BETO token classiﬁcation, andf) CamemBERT token classiﬁcation. Each experiment is alsodivided into sub-experiments that considered the usage of eachlanguage individually, as well as all possible combinations oflanguages in the training set. The four languages (i.e. English,German, Spanish, and French) were considered, by turn,for validation and testing. The BiLSTM-based solution wastrained for 5 epochs, while the others (i.e, the Transformer-based solutions) were trained for 4 epochs. We concludedthat this setup offers the best results considering that all oursolutions start overﬁtting after 5 and 4 epochs, respectively.Table II presents the hyperparameters used for training themodels during the experiments.
+TABLE II
+EXPERIMENTAL HYPERPARAMETERS .
+Hyperparameter MUSE + BiLSTM Transformer
+Optimizer RMSprop [37] AdamW [38]
+Learning rate 5e-5 2e-5
+Weight decay - 0.01
+Adam epsilon - 1e-8
+4https://deepset.ai/german-bert
+386
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. TABLE III
+THE MACRO F1- SCORES OF DIFFERENT MODELS ON BOTH V ALIDATION AND TEST DATASETS .
+ModelTrain Dev Test
+EN DE ES EN-W EN-WN EN-N DE ES EN-W EN-WN EN-N DE ES FR
+MUSE + BiLSTM/check .606 .582 .577 .622 .609 .592 .587 .579 .625 .640 .524
+/check .487 .602 .491 .479 .474 .498 .500 .498 .483 .513 .494
+/check .610 .611 .599 .638 .635 .603 .590 .592 .602 .638 .546
+/check/check .598 .582 .571 .628 .618 .585 .588 .577 .774 .641 .516
+/check /check .603 .577 .569 .627 .619 .598 .580 .576 .626 .763 .513
+/check/check .590 .586 .609 .637 .623 .589 .595 .579 .688 .704 .519
+/check/check/check .604 .578 .570 .626 .620 .587 .581 .577 .774 .751 .512
+mBERT/check .760 .790 .734 .727 .756 .768 .746 .721 .731 .734 .653
+/check .728 .746 .670 .806 .744 .736 .696 .630 .778 .697 .691
+/check .747 .763 .703 .768 .733 .744 .702 .710 .755 .735 .671
+/check/check .750 .787 .733 .784 .758 .766 .753 .729 .766 .730 .658
+/check /check .756 .788 .751 .737 .730 .764 .754 .721 .739 .746 .649
+/check/check .736 .759 .683 .783 .734 .741 .709 .677 .746 .737 .671
+/check/check/check .755 .789 .739 .782 .740 .766 .752 .730 .752 .735 .684
+XLM-RoBERTa/check .793 .846 .780 .757 .711 .808 .811 .808 .770 .728 .647
+/check .717 .697 .695 .790 .710 .716 .701 .670 .795 .702 .702
+/check .749 .753 .717 .777 .730 .760 .720 .730 .770 .756 .701
+/check/check .795 .833 .808 .801 .720 .806 .811 .808 .801 .725 .674
+/check /check .795 .823 .791 .789 .739 .785 .801 .808 .782 .746 .688
+/check/check .750 .751 .711 .809 .744 .774 .708 .731 .802 .737 .666
+/check/check/check .800 .817 .780 .794 .748 .798 .811 .807 .534 .741 .688
+German BERT/check - - - .712 - - - - .736 - -
+/check - - - .775 - - - - .762 - -
+/check - - - .627 - - - - .650 - -
+/check/check - - - .771 - - - - .770 - -
+/check /check - - - .701 - - - - .717 - -
+/check/check - - - .777 - - - - .764 - -
+/check/check/check - - - .771 - - - - .775 - -
+BETO/check - - - - .603 - - - - .656 -
+/check - - - - .525 - - - - .580 -
+/check - - - - .733 - - - - .731 -
+/check/check - - - - .652 - - - - .649 -
+/check /check - - - - .728 - - - - .738 -
+/check/check - - - - .730 - - - - .731 -
+/check/check/check - - - - .720 - - - - .733 -
+CamemBERT/check - - - - - - - - - - .563
+/check - - - - - - - - - - .442
+/check - - - - - - - - - - .604
+/check/check - - - - - - - - - - .592
+/check /check - - - - - - - - - - .670
+/check/check - - - - - - - - - - .669
+/check/check/check - - - - - - - - - - .683
+*We considered: EN-W = English-Wikipedia; EN-WN = English-WikiNews; EN-N = English-News; DE = German; ES = Spanish; FR = French.
+IV . R ESULTS
+Table III contains the macro F1-scores obtained on the
+CWI validation and test datasets for each experiment and for
+each combination of training languages. Table III containsmonolingual and zero-shot learning experiments. The bestresults for the zero-shot approach are marked in bold, whilethe best results for the monolingual approach are underlined.
+A. Zero-Shot Transfer Evaluation
+The best results on both validation and test datasets for
+the zero-shot learning strategy are obtained using the XLM-
+RoBERTa model, with a single exception represented by thevalidation dataset on German. With a considerable marginwhen compared to its counterparts, XLM-RoBERTa ﬁne-tuned on English and Spanish manages to obtain a macroF1-score of 0.782 on the German test dataset, compared to0.626 (MUSE+BiLSTM), 0.739 (mBERT), and 0.717 (GermanBERT). The results are similar for the Spanish and Englishtest datasets (Wikipedia, WikiNews, News) having macro F1-values of 0.702 and 0.774, 0.720, and 0.731, respectively. Theincreased performance of XLM-RoBERTa can be attributedto the larger corpus it was pretrained on, a clear advantageover other BERT-based solutions. However, if we look at theother BERT-based monolingual models (i.e. German BERT,
+387
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. TABLE IV
+RESULTS ON THE TEST DATASET USING ONE -SHOT AND FEW -SHOT LEARNING .
+ModelTrain Macro F1-score (one-shot) Macro F1-score (few-shot)
+EN DE ES EN-W EN-WN EN-N DE ES EN-W EN-WN EN-N DE ES
+mBERT/check - - - .732 .723 - - - .727 .738
+/check .730 .684 .654 - .712 .730 .688 .671 - .709
+/check .741 .711 .700 .743 - .742 .691 .690 .740 -
+/check/check - - - - .730 - - - - .719
+/check /check - - - .741 - - - - .768 -
+/check/check .751 .697 .678 - - .741 .697 .663 - -
+XLM-RoBERTa/check - - - .769 .732 - - - .760 .730
+/check .734 .688 .643 - .693 .735 .691 .695 - .703
+/check .761 .731 .714 .779 - .761 .733 .726 .766 -
+/check/check - - - - .724 - - - - .722
+/check /check - - - .783 - - - - .765 -
+/check/check .756 .723 .679 - - .755 .703 .716 - -
+German BERT/check - - - .699 - - - - .736 -
+/check - - - .649 - - - - .676 -
+/check /check - - - .734 - - - - .689 -
+BETO/check - - - - .650 - - - - .686
+/check - - - - .603 - - - - .545
+/check/check - - - - .693 - - - - .680
+/checkimplies the usage of the entire dataset corresponding to that language. Additionally, we randomly selected 1 (for one-shot learning) or 100
+(for few-shot learning) training entries from the language corresponding to the result for that line.
+BETO, and CamemBERT), we can see that their performance
+is surpassed by both mBERT and XLM-RoBERTa. Thesemodels are pretrained on a main language, and ﬁne-tuningthem on different languages can lead to poorer results, asseen in Table III. For example, the difference in performance(macro F1) between XLM-RoBERTa and BETO is of 6.8% onthe Spanish validation dataset, a signiﬁcant discrepancy for aCWI task.
+B. One-Shot Transfer Evaluation
+Furthermore, the best values for the one-shot learning ap-
+proach are marked with bold in Table IV, where we considered
+only one training entry corresponding to the language of theresult. We can observe that, again, the XLM-RoBERTa modeloffers the best performance. For example, XLM-RoBERTaobtains a macro F1-score of 0.731 on the WikiNews dataset,compared to 0.711 for mBERT. Moreover, the large differenceis maintained for the German language as well, with a resultof 0.783 versus 0.743. However, the scores for the Spanishlanguage are closer, with a value around 0.730 for bothmodels.C. Few-Shot Transfer Evaluation
+Next, we included a small number of train entries (i.e., 100)
+from the same language as the test dataset because we intendedto further improve the scores obtained by the Transformer-based solution using the zero-shot learning scenario. Usingthis approach, the model can infer characteristics of the targetlanguage and may perform better when identifying complexwords on a wide range of different test entries.
+Table IV contains the results obtained in the few-shot learn-
+ing experiments. Unexpectedly, the models perform slightlyworse. This phenomenon can be attributed to the models’incapacity to grasp the main language characteristics, as wellas the representations of a complex word, given a smallnumber of training entries.
+To conclude, our solution manages to outperform state-of-
+the-art alternatives on ﬁve out of six cross-lingual entries,the only exception being the French language (see Table V).Furthermore, our solution manages to surpass state-of-the-artresults for German in the monolingual setup, even though itwas created for cross-lingual experiments.
+TABLE V
+CROSS -LINGUAL AND MONOLINGUAL STATE -OF-THE-ART RESULT COMPARISON WITH OUR PERFORMANCE ON THE TEST DATASET .
+EN-W EN-WN EN-N DE ES FR
+Cross-lingual SotA [20] .652 .638 .659 .734 .726 .758
+Our best solution, zero-shot learning .774 .720 .731 .782 .734 .702
+Our best solution, few-shot learning .761 .733 .726 .766 .730 -
+Monolingual SotA [5] .811 .840 .874 .759 .797 -
+Our best monolingual solution .808 .811 .808 .795 .756 -
+388
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. D. Error Analysis
+Most misclassiﬁcations occurred in the English News test
+dataset, where our models yielded a maximum F1-macro score
+of 0.733 by using a few-shot learning approach with XLM-RoBERTa. The high number of wrongly categorized tokenscan be attributed to the complexity of the dataset, writtenin a more formal manner, adequate for news articles. Thiscomplexity implies the presence of more sophisticated words(e.g., ”underwriter”) that are not present in the training dataset,thus causing the model to wrongly classify them. In addition,the dataset contains news with series of location names (e.g.”Londonderry”) or composed notions (e.g. ”better-optimized”,”android-running”, ”java-related”) that, once again, are notincluded in the training set.
+At the same time, another aspect that inﬂuences the classi-
+ﬁcation performance is represented by the annotators’ subjec-tivity. In certain circumstances, words may not be consideredcomplex (e.g. ”with”, ”connection”, ”been”) in the trainingset, while they are marked as complex in the test dataset.Similar situations also occur in the English Wikipedia, EnglishWikiNews, German and Spanish datasets, with a series oftokens that either are not present in the training dataset, orhave different labels between them.
+V. C
+ONCLUSIONS AND FUTURE WORK
+Complex Word Indentiﬁcation is a challenging task, even
+when using state-of-the-art Transformer-based solutions. Inthis work, we introduce an approach that improves the previousresults on the cross-lingual and monolingual CWI shared task2018 by using multilingual and language-speciﬁc Transformermodels, multilingual word embeddings (non-Transformer),and different ﬁne-tuning techniques. Fine-tuning a model ondata from two different languages creates the opportunity ofgrasping features that empower it to better recognize complexwords in certain contexts, even in a different language. Inaddition, zero-shot, one-shot, and few-shot learning strategiesprovide good results, surpassing strong baselines [20] andproposing an alternative to help non-native speakers to prop-erly understand the difﬁcult aspects of a certain language.
+For future work, we intend to improve our results on the
+monolingual tasks by integrating additional models, such asXLNet [39] and techniques like adversarial training [40] andmulti-task learning [41]. Furthermore, we intend to experi-ment with other pretraining techniques speciﬁc to Transformermodels, such that the results for French can beneﬁt from cross-lingual transfer learning.
+A
+CKNOWLEDGMENTS
+This work was supported by the Operational Programme
+Human Capital of the Ministry of European Funds through theFinancial Agreement 51675/09.07.2019, SMIS code 125125.
+R
+EFERENCES
+[1] J. Liu and F. G. Fang, “Perceptions, awareness and perceived effects of
+home culture on intercultural communication: Perspectives of university
+students in china,” System, vol. 67, pp. 25–37, 2017.[2] S. M. Yimam, C. Biemann, S. Malmasi, G. Paetzold, L. Specia,
+S.ˇStajner, A. Tack, and M. Zampieri, “A report on the complex word
+identiﬁcation shared task 2018,” in Proceedings of the Thirteenth Work-
+shop on Innovative Use of NLP for Building Educational Applications,pp. 66–78, 2018.
+[3] A. Sherstinsky, “Fundamentals of recurrent neural network (rnn) and
+long short-term memory (lstm) network,” Physica D: Nonlinear Phe-
+nomena, vol. 404, p. 132306, Mar 2020.
+[4] A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez,
+Ł. Kaiser, and I. Polosukhin, “Attention is all you need,” in Advances
+in neural information processing systems, pp. 5998–6008, 2017.
+[5] K. C. Sheang, “Multilingual complex word identiﬁcation: Convolutional
+neural networks with morphological and linguistic features,” in Proceed-
+ings of the Student Research Workshop Associated with RANLP 2019,pp. 83–89, 2019.
+[6] K. O’Shea and R. Nash, “An introduction to convolutional neural
+networks,” ArXiv e-prints, 11 2015.
+[7] J. Pennington, R. Socher, and C. Manning, “GloVe: Global vectors
+for word representation,” in Proceedings of the 2014 Conference on
+Empirical Methods in Natural Language Processing (EMNLP), (Doha,Qatar), pp. 1532–1543, Association for Computational Linguistics, Oct.2014.
+[8] Y . Kim, Y . Gao, and H. Ney, “Effective cross-lingual transfer of neural
+machine translation models without shared vocabularies,” in Proceedings
+of the 57th Annual Meeting of the Association for ComputationalLinguistics, pp. 1246–1257, 2019.
+[9] Z. Liu, G. I. Winata, P. Xu, and P. Fung, “Coach: A coarse-to-ﬁne ap-
+proach for cross-domain slot ﬁlling,” arXiv preprint arXiv:2004.11727,
+2020.
+[10] S. Gella, D. Elliott, and F. Keller, “Cross-lingual visual verb sense
+disambiguation,” in Proceedings of the 2019 Conference of the North
+American Chapter of the Association for Computational Linguistics:Human Language Technologies, Volume 1 (Long and Short Papers),pp. 1998–2004, 2019.
+[11] W. Ahmad, Z. Zhang, X. Ma, E. Hovy, K.-W. Chang, and N. Peng,
+“On difﬁculties of cross-lingual transfer with order differences: A casestudy on dependency parsing,” in Proceedings of the 2019 Conference
+of the North American Chapter of the Association for ComputationalLinguistics: Human Language Technologies, Volume 1 (Long and ShortPapers), pp. 2440–2452, 2019.
+[12] G. Urbizu, A. Soraluze, and O. Arregi, “Deep cross-lingual coreference
+resolution for less-resourced languages: The case of basque,” in Proceed-
+ings of the Second Workshop on Computational Models of Reference,Anaphora and Coreference, pp. 35–41, 2019.
+[13] V . D. Lai, F. Dernoncourt, and T. H. Nguyen, “Extensively matching
+for few-shot learning event detection,” arXiv preprint arXiv:2006.10093,
+2020.
+[14] X. Duan, M. Yin, M. Zhang, B. Chen, and W. Luo, “Zero-shot cross-
+lingual abstractive sentence summarization through teaching generationand attention,” in Proceedings of the 57th Annual Meeting of the
+Association for Computational Linguistics, pp. 3162–3172, 2019.
+[15] R. Zhang, C. Westerﬁeld, S. Shim, G. Bingham, A. R. Fabbri, W. Hu,
+N. Verma, and D. Radev, “Improving low-resource cross-lingual doc-ument retrieval by reranking with deep bilingual representations,” inProceedings of the 57th Annual Meeting of the Association for Compu-tational Linguistics, pp. 3173–3179, 2019.
+[16] B. Ghanem, J. Karoui, F. Benamara, P. Rosso, and V . Moriceau,
+“Irony detection in a multilingual context,” in European Conference on
+Information Retrieval, pp. 141–149, Springer, 2020.
+[17] S. Schuster, S. Gupta, R. Shah, and M. Lewis, “Cross-lingual transfer
+learning for multilingual task oriented dialog,” in Proceedings of the
+2019 Conference of the North American Chapter of the Association forComputational Linguistics: Human Language Technologies, Volume 1(Long and Short Papers), pp. 3795–3805, 2019.
+[18] J. R. Chowdhury, C. Caragea, and D. Caragea, “Cross-lingual disaster-
+related multi-label tweet classiﬁcation with manifold mixup,” in Pro-
+ceedings of the 58th Annual Meeting of the Association for Computa-tional Linguistics: Student Research Workshop, pp. 292–298, 2020.
+[19] E. W. Pamungkas and V . Patti, “Cross-domain and cross-lingual abu-
+sive language detection: A hybrid approach with deep learning and amultilingual lexicon,” in Proceedings of the 57th Annual Meeting of the
+Association for Computational Linguistics: Student Research Workshop ,
+pp. 363–370, 2019.
+389
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. [20] P. Finnimore, E. Fritzsch, D. King, A. Sneyd, A. U. Rehman, F. Alva-
+Manchego, and A. Vlachos, “Strong baselines for complex word
+identiﬁcation across multiple languages,” in Proceedings of the 2019
+Conference of the North American Chapter of the Association forComputational Linguistics: Human Language Technologies, Volume 1(Long and Short Papers), pp. 970–977, 2019.
+[21] S. M. Yimam, S. ˇStajner, M. Riedl, and C. Biemann, “Multilingual and
+cross-lingual complex word identiﬁcation,” in Proceedings of the Inter-
+national Conference Recent Advances in Natural Language Processing,RANLP 2017, (Varna, Bulgaria), pp. 813–822, INCOMA Ltd., Sept.2017.
+[22] J. Bingel and J. Bjerva, “Cross-lingual complex word identiﬁcation
+with multitask learning,” in Proceedings of the Thirteenth Workshop
+on Innovative Use of NLP for Building Educational Applications,(New Orleans, Louisiana), pp. 166–174, Association for ComputationalLinguistics, June 2018.
+[23] S. Gooding and E. Kochmar, “Complex word identiﬁcation as a sequence
+labelling task,” in Proceedings of the 57th Annual Meeting of the
+Association for Computational Linguistics, pp. 1148–1153, 2019.
+[24] S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural
+computation, vol. 9, no. 8, pp. 1735–1780, 1997.
+[25] M. Zampieri, S. Malmasi, G. Paetzold, and L. Specia, “Complex word
+identiﬁcation: Challenges in data annotation and system performance,”inProceedings of the 4th Workshop on Natural Language Processing
+Techniques for Educational Applications (NLPTEA 2017) , pp. 59–63,
+2017.
+[26] R. Polikar, “Ensemble based systems in decision making,” IEEE Circuits
+and systems magazine, vol. 6, no. 3, pp. 21–45, 2006.
+[27] L. I. Kuncheva, J. C. Bezdek, and R. P. Duin, “Decision templates
+for multiple classiﬁer fusion: an experimental comparison,” Pattern
+recognition, vol. 34, no. 2, pp. 299–314, 2001.
+[28] G. Paetzold and L. Specia, “Semeval 2016 task 11: Complex word
+identiﬁcation,” in Proceedings of the 10th International Workshop on
+Semantic Evaluation (SemEval-2016), pp. 560–569, 2016.
+[29] S. R. Thomas and S. Anderson, “Wordnet-based lexical simpliﬁcation
+of a document.,” in KONVENS, pp. 80–88, 2012.[30] P. Bojanowski, E. Grave, A. Joulin, and T. Mikolov, “Enriching word
+vectors with subword information,” Transactions of the Association for
+Computational Linguistics, vol. 5, pp. 135–146, 2017.
+[31] A. Conneau, G. Lample, M. Ranzato, L. Denoyer, and H. J ´egou, “Word
+translation without parallel data,” arXiv preprint arXiv:1710.04087,
+2017.
+[32] T. Pires, E. Schlinger, and D. Garrette, “How multilingual is multilingual
+bert?,” in Proceedings of the 57th Annual Meeting of the Association
+for Computational Linguistics, pp. 4996–5001, 2019.
+[33] A. Conneau, K. Khandelwal, N. Goyal, V . Chaudhary, G. Wenzek,
+F. Guzm ´an, E. Grave, M. Ott, L. Zettlemoyer, and V . Stoyanov, “Unsu-
+pervised cross-lingual representation learning at scale,” arXiv preprint
+arXiv:1911.02116, 2019.
+[34] A. Wang, A. Singh, J. Michael, F. Hill, O. Levy, and S. Bowman,
+“Glue: A multi-task benchmark and analysis platform for natural lan-guage understanding,” in Proceedings of the 2018 EMNLP Workshop
+BlackboxNLP: Analyzing and Interpreting Neural Networks for NLP,pp. 353–355, 2018.
+[35] J. Ca ˜nete, G. Chaperon, R. Fuentes, J.-H. Ho, H. Kang, and J. P ´erez,
+“Spanish pre-trained bert model and evaluation data,” in Practical ML
+for Developing Countries Workshop@ ICLR 2020, 2020.
+[36] L. Martin, B. Muller, P. J. O. Su ´arez, Y . Dupont, L. Romary, ´E.V .
+de la Clergerie, D. Seddah, and B. Sagot, “Camembert: a tasty frenchlanguage model,” arXiv preprint arXiv:1911.03894, 2019.
+[37] S. Ruder, “An overview of gradient descent optimization algorithms,”
+arXiv preprint arXiv:1609.04747, 2016.
+[38] D. P. Kingma and J. Ba, “Adam: A method for stochastic optimization,”
+arXiv preprint arXiv:1412.6980, 2014.
+[39] Z. Yang, Z. Dai, Y . Yang, J. Carbonell, R. R. Salakhutdinov, and
+Q. V . Le, “Xlnet: Generalized autoregressive pretraining for languageunderstanding,” in Advances in neural information processing systems,
+pp. 5753–5763, 2019.
+[40] C. Zhu, Y . Cheng, Z. Gan, S. Sun, T. Goldstein, and J. Liu, “Freelb:
+Enhanced adversarial training for natural language understanding,” inInternational Conference on Learning Representations, 2019.
+[41] R. Caruana, “Multitask learning,” Machine learning, vol. 28, no. 1,
+pp. 41–75, 1997.
+390
+Authorized licensed use limited to: Rutgers University. Downloaded on May 19,2021 at 06:53:02 UTC from IEEE Xplore.  Restrictions apply. 

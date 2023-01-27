@@ -1,0 +1,160 @@
+A Multi-modal Eliza Using Natural Language
+Processing and Emotion Recognition
+Siska Fitrianie, Pascal Wiggers, and Leon J.M. Rothkrantz
+Data and Knowledge Systems
+Delft University of Technology
+Mekelweg 4, 2628 CD Delft, The Netherlands
+p.wiggers@its.tudelft.nl
+l.j.m.rothkrantz@its.tudelft.nl
+Abstract. In the human machine interaction domain adaptive life-like agents
+are becoming a popular interface. In order to provide a natural conversation such
+agents should be able to display emotion and to recognize the user’s emotions. This
+paper describes a computer model for a multi-modal communication system based
+on the famous Eliza question-answering system. A human user can communicatewith the developed system using typed natural language. The system will replywith text-prompts and appropriate facial-expressions.
+1 Introduction
+Recently, there has been a lot of interest in adaptive life-like agents in the area of
+human-computer interaction. Examples include the German Smartkom project [1] andthe CSLR reading tutor [2]. The advantages of such systems are obvious, they offera much more natural conversation with a machine than traditional user interfaces takinghuman face-to-face communication as their source of inspiration. This is especiallythe case when interaction through multiple modalities including speech and pointing issupported. However, in human-to-human communication emotions play an importantrole. As indicated by Mehrebian [3] about 55 percent of the emotional meaning ofa message is communicated through the non-verbal channel, which includes gestures,postures and facial expressions. Thus, in order to offer a natural interface software agentsshould also show the proper non-verbal reactions, like facial expressions. On the inputside this requires of course recognition of the user’s emotions.
+In this paper we describe the design and implementation of a multi-modal question-
+answering system based on the famous Eliza program [4], which simulates a psychoan-alyst who talks to a client using natural language. Our system recognizes emotion fromnatural language. It will show a facial expression for each sentence typed by the user.Subsequently, it will give a natural language reply together with an appropriate facialexpression to convey emotional content.
+2 System Architecture
+The overall system architecture is based on the idea of message passing on a blackboard,
+as is illustrated in Fig. 1. All processing modules act as independent experts by taking
+V . Matouˇ sek and P. Mautner (Eds.): TSD 2003, LNAI 2807, pp. 394–399, 2003.
+c/circlecopyrtSpringer-Verlag Berlin Heidelberg 2003A Multi-modal Eliza Using Natural Language Processing and Emotion Recognition 395
+their input from and writing their output back to the blackboard. This ensures a ﬂexible
+data-controlled architecture where modules may be executed in parallel. Modules caneasily be added or changed, which also opens up the possibility of adding more modalitiesto the system. The input to the system is a user’s text string and the results are the replysentences and facial displays. The processing modules in the system can be subdividedinto two layers, the ﬁrst layer consists of modules for natural language processing andthe second layer performs emotional recognition in order to construct facial displays.
+The next two sections will describe these layers in more detail.
+Blackboard system
+Input
+stringEmotive Lexicon
+Dictionary
+Reply with
+facial displayFacial
+Expression
+Dictionary
+Facial
+SelectionIntensities
+Analysis
+(Thermometer)Facial Display Construction Layers - FDC Layers
+First reaction
+facial displayEmotive Lexicon
+Dictionary ParserUser Affective State Analysis
+Emotive Labeled Memory
+Structure ExtractionConcern of the Other
+AnalysisCognitive Reasoning
+Based System's GSPAffective Attributing AnalysisAffective Knowledge Bases
+Natural Language Processing Layers - NLP LayersParserLexical
+Analysis
+Words/
+Phrases List
+Conversation
+HistoryPattern Rules List
+(system's memory structure)User Personal
+DatabaseSystem' GSP
+DatabaseWrap
+ProcessPragmatic AnalysisUser Preference
+AnalysisCognitive Reasoning
+Based System's GSP
+ Syntactic - Sematic AnalysisAnaphoric
+analysisTopic
+MaintenanceRepetition
+RecognitionPattern
+Matching
+Fig. 1. System architecture.
+3 Natural Language Processing
+The natural language processing layer analyses a user’s input string in order to construct
+a reply sentence. First, the P arser subdivides the string in a list of words. This list is the
+input to the Lexical Analysis Module , which checks the spelling, replaces abbreviations,
+slang words and codes with full words and uses a thesaurus to replace certain words bytheir synonyms to reduce the amount of variation subsequent modules have to deal with.
+The syntactic-semantic analyzer performs shallow parsing by matching the input
+words with predeﬁned patterns (that may contain wildcards) and composes a reply fromthe keywords found using reassemble rules attached to these patterns. For a given promptthe longest matching pattern containing the smallest number of wild cards is chosen.Preceding the pattern matching step the module performs a number of actions to ensurea more natural conversation. Anaphoric analysis guarantees that the system respondsconsistently on prompts by referring to the preceding conversation content. Repetitionrecognition makes sure that the dialog never gets into a loop and the system tries to staywithin the current topic of conversation. The rules used are written in an extended-XMLscript speciﬁcation called AIML (Artiﬁcial Intelligence Markup Language), deﬁned by
+Wallace [5].396 S. Fitrianie, P . Wiggers, and L.J.M. Rothkrantz
+The ﬁnal natural language module is the Pragmatic Analysis , which checks the re-
+ply composed by the previous module against the user preferences that are collectedduring the conversation and against the goals, states and preferences of the system. Asthe system simulates a psychoanalyst its main goal is to keep the conversation going.By distinguishing a dialog state as a certain dialog act like a question, statement, ac-knowledgment, or pause, the system determines which intermediate goal to pursue, forexample answering a question, asking a user for explanation or reﬂecting a feeling. Ifa reply does not comply with the system goals it is rejected and the syntactic-semanticmodule is invoked again to formulate a new reply.
+4 Emotion Recognition
+How many and what kind of emotional expressions are to be used poses a non-trivialquestion. In this work we adopted the twenty-four categories of emotions deﬁned byOrtany, Clore and Colling (OCC’s theory [6, 7]). They are based on grouping humanemotions by their eliciting conditions events, the consequences of their action, and theselections of computational implementation. Since classiﬁcations of some emotion elic-iting factors are in a gray area, in this research, we add one emotion type: uncertainty.However, for emotion recognition our current prototype uses only the 7 universal emo-tions deﬁned by Ekman [9]. These are shown in Table 1, together with the correspondingOCC emotions.
+T able 1. Emotions.
+Universal OCC theory
+Neutrality Normal
+Happiness Joy, Happy-for, Gloating, Satisfaction, Relief, Pride, Admiration, Liking,
+Gratitude, Gratiﬁcation
+Sadness Distress, Resentment, Sorry-for, Disappointment, Shame, Remorse
+Disgust Disliking, Hate
+Surprise Hope
+Fear Fear, Fears-conﬁrmed
+Anger Reproach, Anger
+Uncertainty Uncertainty
+4.1 Emotion Eliciting Factor Extraction
+To extract emotion eliciting factors from the text prompts in the conversation both of
+the parsed user’s string input and the systems reply sentence a shallow word matchingparser, called Emotive Lexicon Look-up P arser , is used that utilizes a lexicon of words
+having ’emotional content’ for each of the seven universal emotions. In total a list of247 words was used compiled from three sets of emotional words described by [10–12].For each of these words a natural number intensity value is given. To get the overallA Multi-modal Eliza Using Natural Language Processing and Emotion Recognition 397
+emotional content of the string a thermometer is deﬁned for each of the seven emotions.
+When an emotionally rich word is found the thermometers are updated by:
+Ti(t)=Ti(t−1)+Ii.s
+∀j/negationslash=i·Tj(t)=Tj(t−1)−distance [j, i](1)
+Where, iis the active emotion type, sis a summation factor; Iis the emotion intensity
+and jranges over all universal emotions deﬁned in Table 1. The distance between two
+emotions follows from the work of Hendrix and Ruttkay [13] who deﬁned the distancevalues shown in Table 2.
+T able 2. Distance values between emotions.
+Happiness Surprise Anger Disgust Sadness
+Happiness 0 3.195 2.637 1.926 2.554
+Surprise 0 3.436 2.298 2.084
+Anger 0 1.506 1.645
+Disgust 0 1.040
+Sadness 0
+Each of the memory structures, that is a pattern and the corresponding rules, used by
+the syntactic-semantic modules is labeled with one or more emotion types in the Emotive
+Labeled Memory Structure Extraction . We achieved this by adding two additional tags
+in the AIML scheme. The <affect> tag that labels the user’s affective situation and
+the<concern> tag that labels the system’s reaction situation. Inside those two new
+tags, we deﬁne four emotive situation types: positive, negative, joking and normal/any.
+Whether a certain goal, found during pragmatic analysis is appealing inﬂuences the
+system’s affective state. As do the preferences deﬁned for the system. The Goal-Based
+Emotion Reasoning also stores the user’s personal data during conversation, e.g. name,
+birthday, favorite things and so on.
+To determine the system’s affective state two knowledge bases are used. One to
+determine the system’s reaction affective state as stimulus response to the user’s inputstring and on to determine the system’s reaction affective state as the result of thecognitive process of the conversation content to convey its reply sentence. We have
+deﬁned a set of so-called preference rules that specify the emotion recognition processof the system. Every rule in the set deﬁnes conditions of emotion eliciting factors andthe affective thermometers to activate the rule and a preference that is expressed uponactivation. The result from each knowledge-based system is one of twenty-four OCC’stheory emotion types with addition of two emotion types: normal and uncertainty.
+Fig. 2 shows two example preference rules. The ﬁrst rule is a stimulus response
+preference rule for the reaction of joy. In this case the system will answer any questionsfrom the user joyfully, because she enjoys the situation and she met the goal: making theuser feel happy. The second rule is part of the cognitive process knowledge base. Herethe system does not like the user making a joke while it feels sad.398 S. Fitrianie, P. Wiggers, and L.J.M. Rothkrantz
+ IF (user is happy) AND (user asks question) AND (systems reply is sad) AND 
+(situation type of user is not negative) AND (highest thermo is happy) THEN 
+reaction is joy. 
+IF (user is sad) AND (systems reply is sad) AND (situation type of user is 
+joking) AND (situation type of the system is negative) AND (maximum affective 
+thermo is sad) THEN reply is resentment 
+Fig. 2. Preference rules.
+4.2 Facial Display Selection
+For the activation of an emotion, [6, 8] proposed the use of threshold values by counting
+all associated elicitation factors, excitatory (positive) and inhibitory (negative), fromother emotions. They used an activation level range [0,m a x ]where max is an integer
+value determined empirically. All emotions are always active, but their intensity mustexceed a threshold level before they are expressed externally. The activation process iscontrolled by a knowledge-based system that synthesizes and generates cognitive-relatedemotions in the system. To determine the intensity of the systems emotions as a reactionto the user’s string input and the dialog content we deﬁne six affective thermometersclassiﬁed by six Ekman’s universal emotion types (neutrality is not considered here) aswe did for the user emotions in the emotive lexicon. If an emotion is active, the systemcalculates all of thermometers T
+iaccording to equation (1) given in the previous section.
+The thermometer having the highest value is chosen as the systems emotion and
+depending on the intensity a facial display is chosen. Currently, the mapping from emo-
+tions to facial expressions is one-to-one where the emotions correspond to the 24 OCC
+emotions, uncertainty or neutrality.
+5 Implementation and Future Work
+Currently a web-based client server prototype of the model has been implemented forexperimental purposes. The server provides the blackboard architecture, implemented inJESS, which is accessible over TCP/IP by the client application. Currently, the emotivelexicon contains: 48 lexemes for happiness, 170 lexemes for sadness, 34 lexemes forsurprise, 33 lexemes for fear, 93 lexemes for disgust, and 69 lexemes for anger. Thisprototype has 1953 categories in its list of pattern rules. Its affective knowledge basecontains 77 preference rules of stimulus response and 151 preference rules for the systemsaffective state. We can add new rules to these databases and knowledge bases while theserver is still running.
+The next step will be to extend the system with a speech interface instead of the typed
+text interface currently used. The emotions can then be extracted by shallow parsing fromthe spoken words and be combined with emotions deduced from prosodic cues to get amore accurate indication. Furthermore, the static facial displays used in the prototypewill be replaced by a 3D animated talking face that is currently under development withinour group [14].A Multi-modal Eliza Using Natural Language Processing and Emotion Recognition 399
+References
+1. Wahlster, W., Reithinger, N., Blocher, A.: SmartKom: Multimodal Communication with
+a Life-Like Character, Proceedings of Eurospeech 2001, Aalborg Denmark, 2001
+2. Ma, J., Yan, J., Cole, R.: CU Animate Tools for Enabling Conversations with Animated
+Characters, Proceeding of ICSLP 2002, Denver, CO USA, September 2002.
+3. King, Donnel: Nonverbal communication, http://www2.pstcc.cc.tn.us/ dking, 1997.4. Weizenbaum, J.: ELIZA - A Computer Program for the Study of Natural Language Commu-
+nication between Man and Machine, Communication of the ACM 9(1): p36-p45, 1966.
+5. Wallace, Richard: Alicebot, http://www.Alicebot.org, 1995.6. Bazzan, Bordini: A Framework for the Simulation of Agents with Emotions, Report on Ex-
+periments with the Iterated Prisoner’s Dilemma, AGENT’01, Communication of ACM, p292-
+p299, Canada, 2001.
+7. Elliott, Siegle: V ariables Inﬂuencing the Intensity of Simulated Affective States, In AAAI
+Technical Report for Spring Symposium on Reasoning about Mental States: Formal Theories
+and Applications, 58-67, American Association for Artiﬁcial Intelligence, 1993.
+8. Elliott: Using the Affective Reasoner to Support Social Simulations, In Proceeding of the
+13th International Joint Conference on Artiﬁcial Intelligence, 194-200, Chambery, 1993.
+9. Ekman, Friesen: Unmasking the Face, Prentice Hall, New Jersey, USA, 1975.
+10. Davitz: the language of emotions, New Y ork, Academic Press, 1969.11. Frijda, N.H: The emotions, Cambridge University Press, Cambridge.12. Fehr, B., Russel, J.A: Concept of emotion viewed from a prototype pespective, In journal of
+experimental psychology, 113, 464-486.
+13. Hendix, Ruttkay: Exploring the Space of Emotional Faces of Subjects without Acting Expe-
+rience, ACM Computing Classiﬁcation System: H.5.2, I.5.3, J.4, 1998.
+14. Wojdel, A., Rothkrantz, L.J.M.: A text based talking face, in proceedings of TSD 2000.
